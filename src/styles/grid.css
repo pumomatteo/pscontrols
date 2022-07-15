@@ -1,0 +1,528 @@
+/*#region grid properties, Body*/
+
+.vrGrid, .vrRepeater {
+    border-spacing: 0;
+}
+
+.vrGridContainer .p-grid {
+    width: Calc(100% - 0.5px) !important;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.vrGridContainer .p-grid th {
+    border-top: solid 2px #51B3E1 !important;
+    background-color: #e3f1fa !important;
+}
+
+.vrGridContainer .p-grid th, .vrGridContainer .p-grid td {
+    border: 1px solid #dddddd;
+    border-top: none;
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: normal;
+    height: 24px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border-right: solid 1px #FFF !important;
+}
+
+.vrGridContainer .grid_Header th, .vrGridContainer .grid_Filters td {
+    border-bottom-color: transparent !important;
+}
+
+.vrGridContainer .p-grid th, .vrGridContainer .p-grid td:first-child {
+    border-left: none !important;
+}
+
+.vrGridContainer .p-grid-filters td:first-child, .vrGridContainer .p-grid-filters td[style*="none"]+td {
+    border-left: none !important;
+}
+
+.vrGridContainer .p-grid-container {
+    position: relative;
+}
+
+.vrGridContainer tr.p-grid-body td {
+    font-weight: normal;
+    font-size: 13px;
+}
+
+.vrGridContainer .grid_singleLinegridRow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.vrGridContainer .grid_multilinegridRow {
+    word-break: break-all;
+}
+
+.vrGridContainer .grid_Body {
+    width: Calc(100% - 2px);
+    overflow-y: auto;
+    border-top: none;
+    border: solid 1px #d9d9d9;
+}
+
+.vrGridContainer .p-grid.alternateRowsColor tr.p-grid-body:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.vrGridContainer .p-grid-hover tr.p-grid-body:hover {
+    background-color: #F0F0F0;
+}
+
+.vrGridContainer .grid_labelhover:hover {
+    text-decoration: underline !important;
+}
+
+.vrGridContainer .grid_divgridDisabled {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888888;
+    font-size: 25px;
+}
+
+.vrGridContainer .grid_divgridDisabled>span {
+    background-color: #FFF;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    border: solid;
+}
+
+.vrContainer .grid_divTableDisabled {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888888;
+    font-size: 25px;
+}
+
+.vrContainer .grid_divTableDisabled>span {
+    background-color: #FFF;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    border: solid;
+}
+
+/*#endregion*/
+
+/*#region Header*/
+
+.vrGridContainer .p-grid .grid_headerTh {
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 14px;
+}
+
+.vrGridContainer .p-grid .grid_headerThContent {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    flex-wrap: wrap;
+    color: #000;
+}
+
+.vrGridContainer tr.p-grid-headerColumn th {
+    font-weight: normal;
+    font-size: 13px;
+    position: relative;
+}
+
+.vrGridContainer .grid_Header {
+    width: Calc(100% - 2px);
+    border-left: solid 1px#d9d9d9;
+    border-right: solid 1px#d9d9d9;
+}
+
+.vrGridContainer .grid_fitHeaderSpace {
+    position: absolute;
+    display: none;
+    width: 18px;
+    background-color: #e3f1fa;
+    height: 32px;
+    border-top: solid 1px #f3f3f3;
+    border-left: solid 1px #FFF;
+    border-top: solid 2px #51B3E1 !important;
+}
+
+/*#endregion*/
+
+/*#region Filters*/
+
+.vrGridContainer .p-grid-filters {
+    background-color: #f3f3f3;
+    padding: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-bottom: solid 1px #d9d9d9;
+    height: 27px;
+}
+
+.vrGridContainer .grid_Filters {
+    width: Calc(100% - 2px);
+    border-left: solid 1px#d9d9d9;
+    border-right: solid 1px#d9d9d9;
+}
+
+.vrGridContainer .grid_fitFilterSpace {
+    position: absolute;
+    display: none;
+    width: 17px;
+    height: 32px;
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    background-color: #f3f3f3;
+}
+
+.vrGridContainer .p-grid-filters .vrButton {
+    background: none;
+    border: none;
+}
+
+.vrGridContainer .p-grid-filters .vrTextBox {
+    border-bottom: solid 1px transparent !important;
+}
+
+/*#endregion*/
+
+/*#region Footer*/
+
+.vrGridContainer .p-grid-footer {
+    background-color: #f3f3f3;
+    padding: 5px;
+    padding-top: 0px;
+    padding-bottom: 3px;
+    border-bottom: solid 1px #d9d9d9;
+    height: 29px;
+    border-right: solid 1px #d9d9d9;
+    border-left: solid 1px #d9d9d9;
+    width: calc(100% - 12px);
+    display: inline-flex;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.vrGridContainer .p-grid-totalElements {
+    font-weight: 500;
+    font-size: 13px;
+    margin-top: 7px;
+    right: 10px;
+    position: absolute;
+}
+
+.vrGridContainer .p-grid-pagination {
+    background-color: #ccc;
+    padding: 1px;
+    top: 3px;
+    border-radius: 5px;
+    position: relative;
+    margin-right: 5px;
+    height: 25px;
+}
+
+.vrGridContainer .p-grid-pagination button {
+    border-radius: 0px;
+    min-width: 30px !important;
+    border: none;
+    border-left: solid 1px #d9d9d9;
+    font-size: 14px;
+    height: 25px;
+}
+
+.vrGridContainer .p-grid-pageSelected {
+    background-color: #51B3E1 !important;
+    color: #FFF;
+}
+
+.vrGridContainer .p-grid-pageSelected:hover {
+    color: #FFF !important;
+}
+
+/*#endregion*/
+
+/*#region Totals*/
+
+.vrGridContainer .p-grid-totals {
+    background-color: #f3f3f3;
+    border-bottom: solid 1px #d9d9d9;
+}
+
+.vrGridContainer tr.p-grid-totals td {
+    font-weight: 500;
+    font-size: 13px;
+    height: 19px;
+    white-space: nowrap;
+}
+
+.vrGridContainer .grid_Totals {
+    width: Calc(100% - 2px);
+    border-left: solid 1px#d9d9d9;
+    border-right: solid 1px#d9d9d9;
+}
+
+.vrGridContainer .grid_fitTotalsSpace {
+    position: absolute;
+    display: none;
+    width: 17px;
+    height: 24px;
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    background-color: #f3f3f3;
+}
+
+/*#endregion*/
+
+/*#region Checkboxes*/
+
+.vrGridContainer .vrCheckBox.indeterminateVrCheckbox:after {
+    content: "\25A0";
+    font-size: 23px;
+    color: #ccc;
+    height: 10px;
+    position: absolute;
+    top: -8px;
+    left: -1px;
+}
+
+.vrGridContainer .p-grid .vr-checkboxColumn-label:before, .vrGridContainer .p-grid .vr-checkboxColumn-label:after, .vrGridContainer .p-grid .vr-checkboxColumnHeader-label:before, .vrGridContainer .p-grid .vr-checkboxColumnHeader-label:after {
+    width: 19px !important;
+    height: 19px !important;
+}
+
+.vrGridContainer .p-grid .vr-checkboxColumnHeader-label:before {
+    background-color: #FFF;
+}
+
+.vrGridContainer .p-grid .vr-checkboxColumnHeader-label.indeterminateVrCheckbox:before {
+    content: "\25A0";
+    font-size: 30px;
+    color: #CCC;
+    height: 10px;
+    position: absolute;
+    top: -11px;
+    left: 0px;
+}
+
+.vrGridContainer .vrGridTdCheckboxColumn {
+    text-overflow: unset !important;
+}
+
+.vrGridContainer .p-grid .vrCheckBox:checked+.vr-checkboxColumnHeader-label:before {
+    border: solid 1px #FFF !important;
+}
+
+.vrGridContainer .grid_multilinegridRow .vrCheckBox:disabled:checked+.vrCheckBoxLabel:before, .vrGridContainer .grid_singleLinegridRow .vrCheckBox:disabled:checked+.vrCheckBoxLabel:before {
+    background: #51B3E1 !important;
+}
+
+.vrGridContainer .grid_multilinegridRow .vrCheckBox:disabled+.vrCheckBoxLabel:after, .vrGridContainer .grid_singleLinegridRow .vrCheckBox:disabled+.vrCheckBoxLabel:after {
+    color: #FFF !important;
+}
+
+.vrGridContainer .vrCheckBox {
+    margin: 0px;
+    margin-top: 2px;
+}
+
+.vrGridContainer .grid_trChckGroupBy {
+    margin-right: 5px !important;
+}
+
+/*#endregion*/
+
+/*#region Toolbar*/
+
+.vrGridContainer .grid_divToolbar {
+    background-color: #f3f3f3;
+    padding: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: solid 1px #d9d9d9;
+    border-bottom: none;
+    height: 27px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.vrGridContainer .grid_divToolbar .buttonSpanContainerClass {
+    top: 0px;
+}
+
+.vrGridContainer .grid_divToolbar .buttonBadgeClass {
+    right: 0px !important;
+}
+
+.vrGridContainer .grid-separator {
+    padding: 0px !important;
+    user-select: none;
+    cursor: default !important;
+    min-width: unset !important;
+}
+
+.vrGridContainer .grid-toolbarItemsContainer {
+    margin-right: 5px;
+}
+
+.vrGridContainer .grid-toolbarItems label {
+    margin-top: -3px;
+}
+
+.vrGridContainer .grid-toolbarItems span {
+    margin-top: 0px;
+    margin-left: 0px;
+}
+
+.vrGridContainer .grid-toolbarItems span.vrComboBoxSelectedValues {
+    margin-top: 2px !important;
+    margin-left: -9px !important;
+}
+
+.grid-toolbarItems.grid-buttonGroup .buttonGroupItemText {
+    margin-top: 3px;
+}
+
+.grid-toolbarItems.grid-checkBox {
+    margin-top: 0px;
+}
+
+/*#endregion*/
+
+/*#region Button*/
+
+.vrGridContainer button.vrButton.grid-button {
+    width: Calc(100% - 5px);
+}
+
+/*#endregion*/
+
+/*#region grid actions (Show/Hide & GroupBy)*/
+
+.vrGridContainer .grid_divActionColumn {
+    height: 32px;
+    border-bottom: solid 1px #dedede;
+    display: flex;
+    align-items: flex-end;
+    cursor: pointer;
+}
+
+/*#endregion*/
+
+/*#region Filtering*/
+
+.vrGridContainer .p-grid .vr-checkboxFilter-label:before, .vrGridContainer .p-grid .vr-checkboxFilter-label:after {
+    width: 21px !important;
+    height: 21px !important;
+    margin-left: -3px;
+    margin-top: -1px;
+}
+
+.vrGridContainer .p-grid .vr-checkboxFilter-label:before {
+    background-color: #CCC;
+}
+
+.vrGridContainer .p-grid .vr-checkboxFilter-label.indeterminateVrCheckbox:before {
+    content: "\25A0";
+    font-size: 30px;
+    color: #CCC;
+    height: 10px;
+    position: absolute;
+    top: -11px;
+    left: 0px;
+}
+
+.vrGridContainer .p-grid .vrCheckBox:checked+.vr-checkboxFilter-label:before {
+    border: solid 1px #d9d9d9 !important;
+}
+
+/*#endregion*/
+
+/*#region Drag&Drop*/
+
+.vrGridContainer .grid_dragging {
+    background: #CCC !important;
+    color: #000 !important;
+    border-color: #000 !important;
+    z-index: 99999999999 !important;
+}
+
+.vrGridContainer .p-grid th.grid_tdDraggedOn {
+    border-left: solid 5px coral !important
+}
+
+/*#endregion*/
+
+/*#region GroupBy*/
+
+.vrGridContainer td.grid_tdGroupByCollapse {
+    cursor: pointer;
+}
+
+.vrGridContainer i.grid_tdGroupByCollapse {
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.vrGridContainer .grid_trChckGroupBy+label {
+    height: 18px;
+    width: 18px;
+    margin-top: 2px;
+    margin-right: 5px;
+}
+
+.vrGridContainer .grid_trChckGroupBy+label:before {
+    height: 19px;
+    width: 19px;
+    margin-top: 0px;
+    margin-left: 1px;
+}
+
+.vrGridContainer .grid_trChckGroupBy+label:after {
+    height: 19px;
+    width: 19px;
+}
+
+.vrGridContainer .p-grid .grid_trGroupBy .vrCheckBoxLabel.indeterminateVrCheckbox:before {
+    content: "\25A0";
+    font-size: 30px;
+    color: #CCC;
+    height: 10px;
+    position: absolute;
+    top: -11px;
+    left: 0px;
+}
+
+.vrGridContainer .p-grid-totalsGroup td {
+    background-color: #f3f3f3 !important;
+    font-weight: 500 !important;
+}
+
+.vrGridContainer .grid_divGroupByName {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/*#endregion*/

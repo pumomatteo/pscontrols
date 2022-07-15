@@ -1,0 +1,149 @@
+.vrNotifier {
+	z-index: 9999999;
+	padding: 8px 15px 8px 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+.vrNotifierArrow {
+	display: none;
+	position: absolute;
+	z-index: 99999999;
+	width: 0;
+	height: 0;
+}
+
+/*#region Notifier Area Top*/
+
+.vrNotifierAreaTopCenter {
+	position: fixed;
+	top: 0px;
+	left: 50%;
+	z-index: 9999999999999999999;
+}
+
+.vrNotifierAreaTopCenter>.vrNotifierContainer {
+	left: -50%;
+}
+
+.vrNotifierAreaTopRight {
+	position: fixed;
+	top: 0px;
+	right: 20px;
+	z-index: 9999999999999999999;
+}
+
+.vrNotifierAreaTopLeft {
+	position: fixed;
+	top: 0px;
+	left: 20px;
+	z-index: 9999999999999999999;
+}
+
+/*#endregion */
+
+/*#region Notifier Area Bottom*/
+
+.vrNotifierAreaBottomCenter {
+	position: fixed;
+	bottom: 0px;
+	left: 50%;
+	z-index: 9999999999999999999;
+}
+
+.vrNotifierAreaBottomCenter>.vrNotifierContainer {
+	left: -50%;
+}
+
+.vrNotifierAreaBottomRight {
+	position: fixed;
+	bottom: 0px;
+	right: 20px;
+	z-index: 9999999999999999999;
+}
+
+.vrNotifierAreaBottomLeft {
+	position: fixed;
+	bottom: 0px;
+	left: 20px;
+	z-index: 9999999999999999999;
+}
+
+/*#endregion */
+
+/*#region Notifier Area Left*/
+
+.vrNotifierAreaLeftMiddle {
+	position: fixed;
+	left: 20px;
+	top: 50%;
+	z-index: 9999999999999999999;
+}
+
+.vrNotifierAreaLeftMiddle>.vrNotifierContainer {
+	top: -50%;
+}
+
+.vrNotifierAreaLeftTop {
+	position: fixed;
+	top: 0px;
+	left: 20px;
+	z-index: 9999999999999999999;
+}
+
+.vrNotifierAreaLeftBottom {
+	position: fixed;
+	bottom: 0px;
+	left: 20px;
+	z-index: 9999999999999999999;
+}
+
+/*#endregion */
+
+/*#region Notifier Area Right*/
+
+.vrNotifierAreaRightMiddle {
+	position: fixed;
+	right: 20px;
+	top: 50%;
+	z-index: 9999999999999999999;
+}
+
+.vrNotifierAreaRightMiddle>.vrNotifierContainer {
+	top: -50%;
+}
+
+.vrNotifierAreaRightTop {
+	position: fixed;
+	top: 0px;
+	right: 20px;
+	z-index: 9999999999999999999;
+}
+
+.vrNotifierAreaRightBottom {
+	position: fixed;
+	bottom: 0px;
+	right: 20px;
+	z-index: 9999999999999999999;
+}
+
+/*#endregion */
+
+/*#region Notifier Area Middle*/
+
+.vrNotifierAreaMiddleScreen {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	z-index: 9999999999999999999;
+}
+
+.vrNotifierAreaMiddleScreen>.vrNotifierContainer {
+	top: -50%;
+	left: -50%;
+}
+
+/*#endregion */

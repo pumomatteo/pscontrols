@@ -1,0 +1,76 @@
+.vrButton {
+    border-radius: 4px;
+    border: solid 1px #d9d9d9;
+    height: 27px;
+    background-color: #FFF;
+    font-size: 14px;
+    cursor: pointer;
+    box-sizing: border-box !important;
+    /* overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; */
+}
+
+.vrButton[disabled='disabled'] {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.vrButtonContainer {
+    vertical-align: top;
+}
+
+.vrButtonBadgeClass {
+    cursor: pointer;
+    font-size: 11px;
+    border-radius: 7px;
+    font-weight: 500;
+    width: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    display: inline-block;
+    text-align: center;
+    top: -4px;
+    right: -6px;
+    position: absolute;
+    z-index: 1;
+}
+
+.vrButtonSpanText {
+    top: -1px;
+    position: relative;
+}
+
+/*#region Mode*/
+
+.vrButton.vrButtonDefaultMode {
+    background-color: #FFF;
+    color: #000;
+}
+
+.vrButton.vrButtonPrimaryMode {
+    background-color: #51B3E1;
+    color: #FFF;
+}
+
+.vrButton.vrButtonDeleteMode {
+    background-color: #f44336;
+    color: #FFF;
+}
+
+.vrButton.vrButtonExcelMode {
+    background-color: #008000;
+    color: #FFF;
+}
+
+.vrButton.vrButtonPrintMode {
+    background-color: coral;
+    color: #FFF;
+}
+
+.vrButton.vrButtonWarningMode {
+    background-color: #b4c324;
+    color: #FFF;
+}
+
+/*#endregion*/

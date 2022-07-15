@@ -1,0 +1,253 @@
+.vrSchedulerDivToolbar {
+	width: Calc(100% - 10px);
+	padding: 3px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-top: solid 2px #51b3e1;
+	background-color: #e3f1fa;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+.vrSchedulerDivHeader {
+	width: 100%;
+	background-color: #f0f0f0;
+	border-bottom: solid 1px #CCCC;
+}
+
+.vrSchedulerDivHeader th {
+	font-size: 13px;
+	font-weight: normal !important;
+	white-space: nowrap;
+	overflow: hidden;
+	background-color: #F0f0f0;
+	height: 20px;
+	border-right: solid 1px #ccc;
+}
+
+.vrSchedulerDivHeader tr:nth-child(2) th {
+	border-top: solid 1px #CCC;
+}
+
+.vrSchedulerDivContent th {
+	background-color: #F0f0f0;
+	font-weight: 500;
+	font-size: 15px;
+	border-right: solid 1px #ccc;
+	cursor: default;
+}
+
+.vrSchedulerDivContent td {
+	border-right: solid 1px #CCC;
+	height: 30px;
+	background-color: #FFF;
+}
+
+.vrSchedulerDivContent tr td:hover {
+	background-color: #F0F0F0 !important;
+}
+
+.vrSchedulerDivContent {
+	overflow-y: auto;
+	position: relative;
+	overflow-x: hidden;
+}
+
+.vrSchedulerAppointment {
+	line-height: 14px;
+	overflow: hidden;
+	position: absolute;
+	border: solid 1px #CCC;
+	font-size: 12px;
+	z-index: 20;
+	cursor: default;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-color: #51B3E1;
+	color: #000;
+	border-radius: 4px;
+}
+
+.vrSchedulerAvailability {
+	position: absolute;
+	z-index: 0;
+	opacity: 0.6;
+}
+
+.vrSchedulerThInterval {
+	width: 60px;
+}
+
+.vrSchedulerThTime {
+	width: 60px;
+}
+
+.vrSchedulerThInterval .vrComboBoxSelectedValues {
+	height: 17px;
+	background-color: #f0f0f0;
+	margin-top: -2px;
+	text-align: center;
+	padding-left: 3px;
+	padding-right: 3px;
+	width: Calc(100% + 6px);
+}
+
+.vrSchedulerThInterval .vrDivPickerIconComboBoxDropDown {
+	background-color: #f0f0f0;
+	right: 0px;
+	height: 17px;
+}
+
+.vrSchedulerThInterval .vrComboBox {
+	border: none;
+	background-color: #f0f0f0;
+	padding-left: 0px;
+	padding-right: 3px;
+	height: 17px;
+}
+
+.vrSchedulerAppointmentMoving {
+	cursor: move;
+	opacity: 0.5;
+	z-index: 25;
+}
+
+.vrSchedulerDayResource, .vrSchedulerWeekDay {
+	cursor: pointer;
+}
+
+.vrSchedulerNowLine {
+	position: absolute;
+	background-color: red;
+	height: 1px;
+}
+
+.vrSchedulerNowLine i {
+	color: red;
+	top: -6px;
+	left: -5px;
+	position: absolute;
+}
+
+.vrSchedulerSwitchGroupByDateResource input:checked+.vrSwitchSlider:before {
+	bottom: 2px;
+}
+
+@-webkit-keyframes bounce {
+	0%, 20%, 50%, 80%, 100% {
+		-webkit-transform: translateY(0);
+	}
+
+	40% {
+		-webkit-transform: translateY(-10px);
+	}
+
+	60% {
+		-webkit-transform: translateY(-5px);
+	}
+}
+
+@keyframes bounce {
+	0%, 20%, 50%, 80%, 100% {
+		transform: translateY(0);
+	}
+
+	40% {
+		transform: translateY(-10px);
+	}
+
+	60% {
+		transform: translateY(-5px);
+	}
+}
+
+.vrSchedulerAppointmentBounce {
+	-webkit-animation-name: bounce;
+	animation-name: bounce;
+}
+
+.vrSchedulerAppointmentAnimated {
+	background-repeat: no-repeat;
+	background-position: left top;
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+.vrMultiSchedulerTimeslotIntervalDuration {
+	min-width: 62px;
+	display: flex;
+	border-top: solid 1px #CCC;
+}
+
+.vrMultiSchedulerTimeslotIntervalDuration .vrComboBoxSelectedValues {
+	padding-left: 3px;
+	background-color: #f0f0f0;
+}
+
+.vrMultiSchedulerTimeslotIntervalDuration .vrDivPickerIconComboBoxDropDown {
+	top: 3px;
+	right: 2px;
+	background-color: #f0f0f0;
+	height: 17px;
+}
+
+.vrSchedulerDivSaturation {
+	width: Calc(100% - 10px);
+	border-radius: 15px;
+	text-align: left;
+	border: solid 1px #CCC;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-left: 3px;
+	display: none;
+}
+
+.vrSchedulerDivSaturation .vrSchedulerSpanSaturation {
+	display: inline-block;
+	height: 6px;
+	border-radius: 15px;
+}
+
+.vrSchedulerSaturationPercentage {
+	font-weight: 600;
+}
+
+.borderTopSolid {
+	border-top: solid 1px #ccc;
+}
+
+.borderTopDotted {
+	border-top: dotted 1px #CCC;
+}
+
+
+.borderBottomSolid {
+	border-bottom: solid 1px #ccc;
+}
+
+.borderRightSolid {
+	border-right: solid 1px #797979;
+}
+
+.vrSchedulerDivResize {
+	position: absolute;
+	display: none;
+	bottom: 2px;
+	left: Calc(50% - 13px);
+	width: 26px;
+	cursor: col-resize;
+	user-select: none;
+	height: 5px;
+}
+
+.vrSchedulerDivResizeInside {
+	background-color: #000;
+	height: 2px;
+	width: 100%;
+	margin-top: 3px;
+}

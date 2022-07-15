@@ -1,0 +1,61 @@
+.vrRadioButtonLabelContainer {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.vrRadioButtonLabelContainer input {
+    opacity: 0;
+    cursor: pointer;
+}
+
+.vrRadioButtonCheckMark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #fafafa;
+    border: 1px solid #d9d9d9;
+    border-radius: 50%;
+}
+
+.vrRadioButtonLabelContainer:hover input~.vrRadioButtonCheckMark {
+    background-color: #eee;
+}
+
+.vrRadioButtonLabelContainer input:checked~.vrRadioButtonCheckMark {
+    background-color: #fafafa;
+}
+
+.vrRadioButtonCheckMark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.vrRadioButtonLabelContainer input:checked~.vrRadioButtonCheckMark:after {
+    display: block;
+}
+
+.vrRadioButtonLabelContainer .vrRadioButtonCheckMark:after {
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #51B3E1;
+}
+
+.vrRadioButtonLabel {
+    position: relative;
+    top: -2px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.vrRadioButtonContainer.vrRadioButtonListDisabled .vrRadioButtonCheckMark {
+    opacity: 0.5;
+}

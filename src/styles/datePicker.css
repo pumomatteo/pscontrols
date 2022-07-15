@@ -1,0 +1,105 @@
+.vrDatePicker {
+    height: 23px;
+    font-size: 14px;
+    border: solid 1px #d9d9d9;
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top: solid 1px transparent;
+    border-left: solid 1px transparent;
+    border-right: solid 1px transparent;
+    border-bottom-left-radius: 0px;
+}
+
+.vrDivPickerIcon {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    width: 24px;
+    height: 25px;
+    background-color: #e4e7eb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: solid 1px #d9d9d9;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    cursor: pointer;
+}
+
+.vrDivPickerDateTimeIcon {
+    position: absolute;
+    right: 26px;
+    top: 1px;
+    width: 24px;
+    height: 25px;
+    background-color: #e4e7eb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: solid 1px #d9d9d9;
+    cursor: pointer;
+}
+
+.vrDivPickerIconDisable {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.vrDivPickerPopup {
+    border: solid 1px #d9d9d9;
+    position: absolute;
+    border-radius: 4px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    padding: 5px;
+    padding-top: 0px;
+    background-color: #FFF;
+    z-index: 9999999999;
+}
+
+.vrDivPickerPopup_Header {
+    border-bottom: solid 1px #d9d9d9;
+    padding-top: 0px;
+    padding-bottom: 2px;
+    display: flex;
+}
+
+table.vrDatePickerPopup_table button:hover {
+    background-color: #F0F0F0;
+}
+
+.vrDivPickerPopup.timePickerPopup {
+    width: 80px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.vrDivPickerPopup.timePickerPopup .vrLabelContainer:hover {
+    background-color: #F0F0F0;
+}
+
+table.vrDatePickerPopup_table td {
+    border: none !important;
+}
+
+.vrDatePickerNavigationLabel:hover {
+    background-color: #F0F0F0;
+}
+
+.vrDatePickerNavigationLabel {
+    padding-top: 5px;
+    padding-bottom: 1px;
+    margin-top: 2px;
+    height: 22px;
+    margin-bottom: 0px !important;
+    user-select: none;
+}
+
+.vrDatePickerPopup_table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.vrDatePickerError {
+    border: solid 1px red;
+}

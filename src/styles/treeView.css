@@ -1,0 +1,283 @@
+.vrTreeViewUl {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: inline-block;
+	width: 100%;
+	position: relative;
+}
+
+.vrTreeView>.vrTreeViewUl:first-child .vrTreeViewLi:first-child:before {
+	top: 11px;
+	height: Calc(100% - 12px);
+}
+
+.vrTreeViewLi {
+	padding-left: 20px;
+	position: relative;
+	overflow: hidden;
+}
+
+.vrTreeViewLiLink::before {
+	content: "";
+	height: Calc(100% - 1px);
+	position: absolute;
+	top: 0;
+	left: 10px;
+	border-left: 1px dotted #7b7b7b;
+}
+
+.vrTreeViewLiLink:last-child::before {
+	height: 14px;
+}
+
+.vrTreeViewLiLink.vrTreeViewLiFirstChild:last-child::before {
+	height: 0px;
+}
+
+.vrTreeViewLiFirstChild::before {
+	top: 14px;
+}
+
+.vrTreeViewLiLink::after {
+	content: "";
+	position: absolute;
+	border-top: 1px dotted #7b7b7b;
+	top: 13px;
+	width: 12px;
+	height: 0;
+	left: 11px;
+}
+
+.vrTreeViewLi>div:first-child {
+	white-space: nowrap;
+}
+
+.vrTreeViewFlat .vrTreeViewLi {
+	padding-left: 5px;
+}
+
+.vrTreeViewFlat .vrTreeViewLi:before, .vrTreeViewFlat .vrTreeViewLi:after {
+	content: unset;
+}
+
+.vrTreeViewDivIconExpand {
+	display: inline-flex;
+	align-items: center;
+	position: absolute;
+	width: 10px;
+	padding-left: 10px;
+	cursor: pointer;
+	z-index: 1;
+}
+
+.vrTreeViewDivIconExpand.caret-right {
+	left: -3px;
+}
+
+.vrTreeViewDivIconExpand.caret-right i:before {
+	background-color: #FFF;
+}
+
+.vrTreeViewDivIconExpand.caret-down {
+	left: -4px;
+}
+
+.vrTreeViewDivIconExpand.caret-down i:before {
+	background-color: #FFF;
+}
+
+.vrTreeViewSelectedComboValue .vrTreeViewDivItemContainer:hover {
+	background-color: #51B3E1 !important;
+}
+
+.vrTreeViewDivItemContainer {
+	white-space: nowrap;
+	display: flex;
+}
+
+.vrTreeViewDivItemContainer.hover {
+	background-color: #F0F0F0 !important;
+}
+
+.vrTreeViewItemText:hover {
+	background-color: #F0F0F0 !important;
+}
+
+.vrTreeViewSelectedComboValue {
+	background-color: #51B3E1 !important;
+	color: #FFF;
+}
+
+.vrTreeViewSelectedComboValue:hover, .vrTreeViewSelectedComboValue .vrTreeViewItemText:hover {
+	background-color: #51B3E1 !important;
+}
+
+.vrTreeViewItemTextContainer {
+	display: inline-flex;
+	align-items: center;
+}
+
+.vrTreeViewItemText {
+	user-select: none;
+	cursor: pointer;
+	width: Calc(100% - 10px);
+	font-size: 14px;
+	padding-left: 5px;
+	padding-right: 5px;
+	display: inline-flex;
+	height: 100%;
+	align-items: center;
+}
+
+.vrTreeViewItemText.vrTreeViewItemTextCheckbox {
+	top: -7px;
+	position: relative;
+}
+
+.vrTreeViewDivItemContainer .indeterminateVrCheckbox::after {
+	font-size: 23px !important;
+	top: -8px !important;
+	left: -1px !important;
+}
+
+.vrTreeViewContextMenu {
+	border: solid 1px #ccc;
+	position: absolute;
+	border-radius: 4px;
+	box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
+	padding: 5px;
+	display: none;
+	overflow-y: auto;
+	z-index: 9999999;
+	background-color: #fff;
+	height: fit-content;
+	min-width: 150px;
+}
+
+.vrTreeViewContextMenuItem {
+	padding-bottom: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	cursor: pointer;
+}
+
+.vrTreeViewContextMenuItem:hover {
+	background-color: #F0F0F0 !important;
+}
+
+.vrTreeViewBackground {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	background-color: #CCC;
+	opacity: 0.5;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	display: none;
+}
+
+.vrTreeViewDragOver {
+	background-color: #F0F0F0;
+	border: 1px dotted #666;
+}
+
+.vrTreeViewDragStart {
+	opacity: 0.4;
+}
+
+.vrTreeViewSpanSum {
+	position: absolute;
+	right: 10px;
+	height: 23px;
+	top: -2px;
+}
+
+.vrTreeViewSpanSumSeparator {
+	display: inline-block;
+	position: absolute;
+	background-color: #000;
+	width: 1px;
+	top: 0px;
+	right: 140px;
+	height: 100%;
+	z-index: 9;
+}
+
+.vrTreeViewColumn {
+	border-left: solid 1px #FFF;
+	background-color: #e3f1fa;
+	color: #000;
+	display: flex;
+}
+
+.vrTreeViewColumnItem {
+	border-left: solid 1px #CCC;
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: 14px;
+}
+
+.vrTreeView_divTitle {
+	border-top: solid 2px #51b3e1;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+/*#region Toolbar*/
+
+.vrTreeViewContainer .treeView_divToolbar {
+	background-color: #f3f3f3;
+	padding: 5px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	border: solid 1px #d9d9d9;
+	border-bottom: none;
+	height: 27px;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+.vrTreeViewContainer .treeView_divToolbar .buttonSpanContainerClass {
+	top: 0px;
+}
+
+.vrTreeViewContainer .treeView_divToolbar .buttonBadgeClass {
+	right: 0px !important;
+}
+
+.vrTreeViewContainer .treeView-separator {
+	padding: 0px !important;
+	user-select: none;
+	cursor: default !important;
+	min-width: unset !important;
+}
+
+.vrTreeViewContainer .treeView-toolbarItemsContainer {
+	margin-right: 5px;
+}
+
+.vrTreeViewContainer .treeView-toolbarItems label {
+	margin-top: -3px;
+}
+
+.vrTreeViewContainer .treeView-toolbarItems span {
+	margin-top: 0px;
+	margin-left: 0px;
+}
+
+.vrTreeViewContainer .treeView-toolbarItems span.vrComboBoxSelectedValues {
+	margin-top: 2px !important;
+	margin-left: -9px !important;
+}
+
+.vrTreeViewContainer .treeView-toolbarItems.treeView-buttonGroup .buttonGroupItemText {
+	margin-top: 3px;
+}
+
+.vrTreeViewContainer .treeView-toolbarItems.treeView-checkBox {
+	margin-top: 0px;
+}
+
+/*#endregion*/

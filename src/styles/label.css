@@ -1,0 +1,26 @@
+.vrLabel {
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.vrLabel[disabled='disabled'] {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.vrLabel.labelhover:hover {
+    text-decoration: underline !important;
+}
+
+/*#region Mode */
+
+.vrLabelPrimaryMode {
+    color: #25A0DA;
+}
+
+.vrLabelErrorMode {
+    color: red;
+}
+
+/*#endregion*/

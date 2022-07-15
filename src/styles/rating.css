@@ -1,0 +1,26 @@
+.vrRating {
+    border: none;
+    float: left;
+}
+
+.vrRating>input {
+    display: none;
+    cursor: pointer;
+}
+
+.vrRating>label:before {
+    margin: 2px;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+}
+
+.vrRating>.vrRatingHalf:before {
+    content: "\f089";
+    position: absolute;
+}
+
+.vrRating>label {
+    float: right;
+    cursor: pointer;
+}

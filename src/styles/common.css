@@ -1,0 +1,40 @@
+.vrControlsContainer {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    /* vertical-align: top; */
+}
+
+.vrControlsContainer input, .vrControlsContainer label {
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+input, button, textarea, ul, li, div, span, i, table, tr, td, label {
+    outline: none !important;
+}
+
+.vrControlsPopupOpeningDownSide {
+    top: 100%;
+    bottom: inherit;
+}
+
+.vrControlsPopupOpeningUpSide {
+    bottom: 100%;
+    top: inherit;
+}
+
+/* ************ Hover ************ */
+
+.vrButton:hover, .vrButton.hoverClass, .vrButtonGroup .buttonGroupItem:hover, .vrTextArea.vrTextBox:hover, .vrDivPickerIconSplitButton:hover, .vrDivPickerIconSplitButton.hoverClass, .vrDivPickerIconSplitButtonFlat:hover, .vrDivPickerIconSplitButtonFlat.hoverClass, .vrCheckBox:hover, .vrColorPicker:hover, .vrEditorContainer .tox-tinymce:hover, .vrRadioButtonContainer .vrRadioButtonCheckMark:hover, .vrSearchBarContainer:hover, .vrUploadDropArea:hover {
+    border-color: #b6b6b6 !important;
+}
+
+.vrComboBoxFilter:hover, .vrComboBox:hover, .vrComboBox.hoverClass {
+    border-color: #d9d9d9 !important;
+}
+
+.vrDatePicker:hover, .vrTextBox:hover {
+    border-color: #d9d9d9 !important;
+}
+
+/* ************ End hover ************ */

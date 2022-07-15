@@ -1,0 +1,200 @@
+.vrTextArea {
+    height: 23px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.vrTextBox {
+    border: solid 1px #d9d9d9;
+}
+
+.vrComboBoxFilter {
+    height: 23px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.vrTextBox:not(.vrTextArea):not(.vrComboBoxFilter) {
+    height: 23px;
+    font-size: 14px;
+    border-radius: 4px;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-bottom: solid 1px #d9d9d9;
+    border-width: 1px;
+    border-style: solid;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.errorInput {
+    border-color: red;
+}
+
+.vrControlsContainer input.errorInput:focus {
+    border: solid 1px red !important;
+}
+
+.vrTextBox::placeholder {
+    color: #B8B8B8;
+}
+
+.vrTextBox.vrTextBoxError {
+    border-left-width: 4px !important;
+    border-color: #FF5050 !important;
+}
+
+.vrTextBoxErrorIcon {
+    position: absolute;
+    cursor: pointer;
+    color: #ff5050;
+    right: 7px;
+    top: 30px;
+}
+
+.vrTextBox.noViewablePassword {
+    -webkit-text-security: disc;
+}
+
+/*#region Error tooltip*/
+
+.vrTextBoxErrorIcon .vrTextBoxErrorTooltip {
+    visibility: hidden;
+}
+
+.vrTextBoxErrorIcon:hover .vrTextBoxErrorTooltipRight {
+    visibility: visible;
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    width: max-content;
+    background-color: #FF5050;
+    color: #FFF;
+    padding: 5px;
+    border-radius: 10px;
+    top: -5px;
+    left: 170%;
+}
+
+.vrTextBoxErrorIcon:hover .vrTextBoxErrorTooltipRight:after {
+    content: " ";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #FF5050 transparent transparent;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+}
+
+.vrTextBoxErrorIcon:hover .vrTextBoxErrorTooltipBottom {
+    visibility: visible;
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    width: max-content;
+    background-color: #ff5050;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    top: 100%;
+    margin-top: 14px;
+}
+
+.vrTextBoxErrorIcon:hover .vrTextBoxErrorTooltipBottom:after {
+    content: " ";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #ff5050 transparent;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+}
+
+/*#endregion*/
+
+/*#region Error overlay*/
+
+.vrTextBoxErrorOverlay.vrTextBoxErrorOverlayRight {
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    width: max-content;
+    background-color: #ff5050;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    top: 0px;
+    left: 101%;
+}
+
+.vrTextBoxErrorOverlay.vrTextBoxErrorOverlayRight:after {
+    content: " ";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #ff5050 transparent transparent;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+}
+
+.vrTextBoxErrorOverlay.vrTextBoxErrorOverlayBottom {
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    width: max-content;
+    background-color: #ff5050;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    top: 100%;
+    left: 50%;
+    margin-top: 7px;
+}
+
+.vrTextBoxErrorOverlay.vrTextBoxErrorOverlayBottom:after {
+    content: " ";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #ff5050 transparent;
+    left: 50%;
+    bottom: 100%;
+    margin-top: -5px;
+    margin-left: -5px;
+}
+
+/*#endregion*/
+
+/*#region Error solid*/
+
+.vrTextBoxErrorSolid.vrTextBoxErrorSolidBottom {
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    width: max-content;
+    background-color: #ff5050;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    top: 100%;
+    left: 50%;
+    margin-top: 7px;
+}
+
+.vrTextBoxErrorSolid.vrTextBoxErrorSolidBottom:after {
+    content: " ";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #ff5050 transparent;
+    left: 50%;
+    bottom: 100%;
+    margin-top: -5px;
+    margin-left: -5px;
+}
+
+/*#endregion*/

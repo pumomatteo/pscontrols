@@ -1,0 +1,59 @@
+.vrPdfViewerCanvasContainer {
+	width: Calc(100% - 6px);
+	height: Calc(100% - 25px);
+	overflow-y: auto;
+	overflow-x: auto;
+	background-color: #e8e8e8;
+	text-align: center;
+	border: solid 3px #e8e8e8;
+}
+
+.vrPdfViewerDivToolbar {
+	width: Calc(100% - 10px);
+	background-color: #e8e8e8;
+	padding: 5px;
+	padding-bottom: 6px;
+	display: flex;
+	justify-content: space-between;
+	border-bottom: solid 1px #CCC;
+}
+
+.vrPdfViewerDivToolbar>span {
+	display: inline-flex;
+}
+
+.vrPdfViewer_divTextLayer {
+	position: absolute;
+	left: 0px;
+	top: 51px;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	opacity: 0.2;
+	line-height: 1.0;
+}
+
+.vrPdfViewer_divTextLayer>div, .vrPdfViewer_divTextLayer>span {
+	color: transparent;
+	position: absolute;
+	white-space: pre;
+	cursor: text;
+	transform-origin: 0% 0%;
+	line-height: 1.2;
+}
+
+.vrPdfViewer_divCanvasTextContainer {
+	position: relative;
+}
+
+.vrPdfViewerCanvasContainer .vrPdfViewer_divCanvasTextContainer:nth-child(1)>canvas {
+	border-top: solid 25px #e8e8e8 !important;
+}
+
+.vrPdfViewerCanvasContainer .vrPdfViewer_divCanvasTextContainer:last-child>canvas {
+	border-bottom: solid 25px #e8e8e8 !important;
+}
+
+.vrPdfViewerCanvasContainer .vrPdfViewer_divCanvasTextContainer:nth-child(1)>.vrPdfViewer_divTextLayer {
+	top: 26px;
+}

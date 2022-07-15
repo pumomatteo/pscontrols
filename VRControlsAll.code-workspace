@@ -1,0 +1,57 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"svn.delete.ignoredRulesForDeletedFiles": [
+			"dist",
+			"dist\\definitions\\managers",
+			"dist\\definitions\\ui\\common.d.ts",
+			"dist\\definitions\\ui\\controls\\alert.d.ts",
+			"dist\\definitions\\ui\\controls\\autoCompleteBox.d.ts",
+			"dist\\definitions\\ui\\controls\\button.d.ts",
+			"dist\\definitions\\ui\\controls\\buttonGroup.d.ts",
+			"dist\\definitions\\ui\\controls\\calendar.d.ts",
+			"dist\\definitions\\ui\\controls\\chart.d.ts",
+			"dist\\definitions\\ui\\controls\\checkbox.d.ts",
+			"dist\\definitions\\ui\\controls\\checkboxList.d.ts",
+			"dist\\definitions\\ui\\controls",
+			"dist\\definitions\\ui\\vr.d.ts",
+			"dist\\definitions\\ui\\controls\\colorPicker.d.ts",
+			"dist\\definitions\\ui\\controls\\comboBox.d.ts",
+			"dist\\definitions\\ui\\controls\\confirm.d.ts",
+			"dist\\definitions\\ui\\controls\\datePicker.d.ts",
+			"dist\\definitions\\ui\\controls\\dialog.d.ts",
+			"dist\\definitions\\ui\\controls\\div.d.ts",
+			"dist\\definitions\\ui\\controls\\editor.d.ts",
+			"dist\\definitions\\ui\\controls\\grid.d.ts",
+			"dist\\definitions\\ui\\controls\\groupBox.d.ts",
+			"dist\\definitions\\ui\\controls\\icon.d.ts",
+			"dist\\definitions\\ui\\controls\\image.d.ts",
+			"dist\\definitions\\ui\\controls\\label.d.ts",
+			"dist\\definitions\\ui\\controls\\maps.d.ts",
+			"dist\\definitions\\ui\\controls\\multiScheduler.d.ts",
+			"dist\\definitions\\ui\\controls\\notifier.d.ts",
+			"dist\\definitions\\ui\\controls\\painter.d.ts",
+			"dist\\definitions\\ui\\controls\\paypalButton.d.ts",
+			"dist\\definitions\\ui\\controls\\pdfViewer.d.ts",
+			"dist\\definitions\\ui\\controls\\prompt.d.ts",
+			"dist\\definitions\\ui\\controls\\qrCode.d.ts",
+			"dist\\definitions\\ui\\controls\\radioButton.d.ts",
+			"dist\\definitions",
+			"dist\\documentation\\classes\\AjaxCallSettings.html",
+			"dist\\documentation\\classes\\Alert.html",
+			"dist\\documentation\\classes\\AlertOptions.html",
+			"dist\\documentation\\classes\\AreaChart.html",
+			"dist\\documentation\\classes\\AttributeSettings.html",
+			"dist\\documentation\\classes\\AutoCompleteBox.html",
+			"dist\\documentation\\classes\\AutoCompleteBoxBlurEvent.html",
+			"dist\\documentation\\classes\\AutoCompleteBoxComboSettings.html",
+			"dist\\documentation\\classes\\AutoCompleteBoxEvent.html",
+			"dist\\documentation\\classes\\AutoCompleteBoxFocusEvent.html",
+			"dist\\documentation\\classes\\AutoCompleteBoxItem.html"
+		]
+	}
+}

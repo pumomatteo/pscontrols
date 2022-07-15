@@ -1,0 +1,83 @@
+.vrSwitchLabel {
+    position: relative;
+    display: inline-block;
+    width: 37px;
+    height: 20px;
+}
+
+.vrSwitchLabel input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.vrSwitchSlider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e5e5e5;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.vrSwitchSlider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 4px;
+    bottom: 3px;
+    background-color: #fff;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.vrSwitchSlider {
+    background-color: #51B3E1;
+}
+
+input:focus+.vrSwitchSlider {
+    box-shadow: 0 0 1px #51B3E1;
+}
+
+input:checked+.vrSwitchSlider:before {
+    -webkit-transform: translateX(15px);
+    -ms-transform: translateX(15px);
+    transform: translateX(15px);
+}
+
+.vrSwitchLabelOff {
+    font-size: 14px;
+    margin-right: 5px;
+    border-bottom: solid 2px #51B3E1;
+    cursor: pointer;
+    user-select: none;
+}
+
+.vrSwitchLabelOn {
+    font-size: 14px;
+    margin-left: 5px;
+    border-bottom: solid 2px transparent;
+    cursor: pointer;
+    user-select: none;
+}
+
+.vrSwitchContainer {
+    height: 27px;
+}
+
+.vrSwitch {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+}
+
+.vrSwitchLabelDisabled {
+    opacity: 0.5;
+    cursor: default;
+}

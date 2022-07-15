@@ -1,0 +1,117 @@
+.vrCheckBox {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fafafa;
+    border: 1px solid #d9d9d9;
+    padding: 9px;
+    border-radius: 3px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.vrCheckBox:checked {
+    background-color: #51B3E1;
+    border: 1px solid #d9d9d9;
+}
+
+.vrCheckBox:checked:after {
+    content: '\2713';
+    font-size: 17px;
+    position: absolute;
+    top: -3px;
+    left: 2px;
+    font-weight: bold;
+    color: #FFF;
+}
+
+.vrCheckBox.indeterminateVrCheckbox:after {
+    content: "\25A0";
+    font-size: 30px;
+    color: #CCC;
+    height: 10px;
+    position: absolute;
+    top: -11px;
+    left: 0px;
+}
+
+.vrCheckBoxLabel {
+    cursor: pointer;
+}
+
+/*#region Error*/
+
+.vrCheckBoxErrorIcon {
+    position: absolute;
+    cursor: pointer;
+    color: #ff5050;
+    right: -20px;
+    top: 5px;
+}
+
+.vrCheckBox.vrCheckBoxError {
+    border-color: #FF5050;
+    border-left-width: 4px;
+}
+
+/*#endregion*/
+
+/*#region Error tooltip*/
+
+.vrCheckBoxErrorIcon .vrCheckBoxErrorTooltip {
+    visibility: hidden;
+    display: none;
+}
+
+.vrCheckBoxErrorIcon:hover .vrCheckBoxErrorTooltipRight {
+    visibility: visible;
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    width: max-content;
+    background-color: #FF5050;
+    color: #FFF;
+    padding: 5px;
+    border-radius: 10px;
+    top: -5px;
+    left: 170%;
+}
+
+.vrCheckBoxErrorIcon:hover .vrCheckBoxErrorTooltipRight:after {
+    content: " ";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #FF5050 transparent transparent;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+}
+
+.vrCheckBoxErrorIcon:hover .vrCheckBoxErrorTooltipBottom {
+    visibility: visible;
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    width: max-content;
+    background-color: #ff5050;
+    color: #fff;
+    padding: 5px;
+    border-radius: 10px;
+    top: 100%;
+    margin-top: 14px;
+}
+
+.vrCheckBoxErrorIcon:hover .vrCheckBoxErrorTooltipBottom:after {
+    content: " ";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #ff5050 transparent;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+}
+
+/*#endregion*/

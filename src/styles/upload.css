@@ -1,0 +1,130 @@
+.vrUpload {
+	max-height: 40px;
+}
+
+.vrUploadContainer {
+	flex-direction: column;
+}
+
+.vrUploadDropArea {
+	padding: 3px;
+	background-color: #f8f9fa;
+	border: solid 1px #d9d9d9;
+	border-radius: 4px;
+}
+
+.vrUploadDropArea.highlight {
+	box-shadow: rgb(37 160 218) 0px 0px 5px;
+}
+
+.vrUploadInput {
+	border: 1px solid #d9d9d9;
+	display: inline-block;
+	padding: 3px 10px;
+	cursor: pointer;
+	background-color: #e4e7eb;
+	border-radius: 5px;
+	padding-top: 2px;
+	padding-bottom: 4px;
+}
+
+.vrUploadBtnIcon {
+	margin-right: 5px;
+	top: 0px;
+	position: relative;
+}
+
+.vrUploadDivFileList {
+	border: solid 1px #d9d9d9;
+	border-bottom: none;
+	border-top: none;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 100%;
+	border-radius: 4px;
+}
+
+.vrUploadFileIcon {
+	font-size: 28px !important;
+	margin-right: 5px;
+	margin-top: 4px;
+}
+
+.vrUploadDivFile {
+	display: flex;
+	border-top: solid 1px #d9d9d9;
+	border-bottom: solid 1px #d9d9d9;
+	position: relative;
+	padding-left: 5px;
+	padding-right: 5px;
+	height: 35px;
+	width: Calc(100% - 10px);
+}
+
+.vrUploadDivFilePercentage {
+	position: absolute;
+	right: 21px;
+	top: 5px;
+}
+
+.vrUploadFileDescription {
+	margin-top: -2px;
+}
+
+.vrUploadFilePercentage {
+	margin-right: 3px;
+}
+
+.vrUploadLblUnderFileName {
+	font-size: 11px;
+	display: block;
+	margin-top: 0px;
+}
+
+.vrUploadFileSpinner {
+	font-size: 11px !important;
+}
+
+.vrUploadProgressBar {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border: none;
+	background-color: #f3f3f3;
+	height: 4px;
+	width: 100%;
+	top: -14px;
+	position: relative;
+	border: none;
+	box-sizing: unset;
+	vertical-align: unset;
+}
+
+.vrUploadProgressBar[value]::-webkit-progress-bar {
+	background-color: #f3f3f3;
+	border-radius: 9px;
+}
+
+.vrUploadProgressBar[value]::-webkit-progress-value {
+	background: -webkit-linear-gradient(-45deg, transparent, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(left, #51B3E1, #e3f1fa);
+	background-size: 25px 4px, 1000% 100%, 100% 100%;
+	-webkit-animation: animate-stripes 5s linear infinite;
+	animation: animate-stripes 5s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+	100% {
+		background-position: -100px 0px;
+	}
+}
+
+@keyframes animate-stripes {
+	100% {
+		background-position: -100px 0px;
+	}
+}
+
+.vrUploadProgressBar[value]::-moz-progress-bar {
+	background: -webkit-linear-gradient(-45deg, transparent, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(left, #51B3E1, #e3f1fa);
+	background-size: 25px 14px, 1000% 100%, 100% 100%;
+}

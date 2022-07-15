@@ -1,0 +1,31 @@
+.vrEditorContainer .tox-statusbar__branding {
+    display: none;
+}
+
+.vrEditorContainer .tox .tox-menu, .tox-tinymce-aux {
+    z-index: 999999999999999999999999 !important;
+}
+
+.vrEditorContainer .tox .tox-tbtn--bespoke .tox-tbtn__select-label {
+    width: auto !important;
+}
+
+.vrEditorContainer .tox-tinymce {
+    border: solid 1px #d9d9d9 !important;
+    border-radius: 4px !important;
+}
+
+.vrEditorDragDrop {
+    background-color: #CCC;
+    opacity: 0.5;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    color: black;
+    justify-content: center;
+    align-items: center;
+    font-size: 27px;
+}
