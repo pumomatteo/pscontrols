@@ -1,5 +1,5 @@
 # pscontrols
-A suite of Javascript controls
+A suite of Javascript UI Controls
 
 
 ## License Information
