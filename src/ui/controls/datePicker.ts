@@ -964,7 +964,7 @@ export class DatePicker extends VrControl
         let options = this.getOptions();
         let element = (this.element() as HTMLInputElement);
 
-        let dateOptions: any = {};
+        let dateOptions: Intl.DateTimeFormatOptions = {};
         switch (options.format)
         {
             case DateFormatEnum.ShortDate:

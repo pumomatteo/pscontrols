@@ -1,5 +1,5 @@
 //#region Import
-import { LabelOptions, Label } from "./controls/label";  
+import { LabelOptions, Label } from "./controls/label";
 import { UtilityManager } from "../managers/utilityManager";
 import { DeviceManager } from "../managers/deviceManager";
 import { TextBoxOptions, TextBox, TextBoxNumeric, TextBoxPercentage, TextBoxCurrency, TextBoxPassword, TextBoxMultiline } from "./controls/textbox";
@@ -5614,7 +5614,10 @@ export enum DateModeEnum
 {
 	Date,
 	DateTime,
-	Time
+	Time,
+	LongDate = 3,
+	LongDateTime = 4,
+	LongWeekDate = 5
 }
 
 export enum DateDepthEnum
@@ -5732,6 +5735,7 @@ declare global
 	interface Date
 	{
 		vrToItalyString(mode?: DateModeEnum, showSeconds?: boolean): string;
+		vrFormatString(options: Intl.DateTimeFormatOptions, language?: string[]): string;
 		vrToLongDateString(): string;
 		vrAddYears(years: number): Date;
 		vrAddMonths(months: number): Date;
@@ -5899,26 +5903,92 @@ Date.vrToWebApiDateTime = function (date: Date)
 
 Date.prototype.vrToItalyString = function (mode?: DateModeEnum, showSeconds = false): string
 {
-	let yyyy: number = this.getFullYear();
-	let mm: number = this.getMonth() + 1;
-	let dd: number = this.getDate();
-	let hh: number = this.getHours();
-	let MM: number = this.getMinutes();
-	let ss: number = this.getSeconds();
+	let dateOptions: Intl.DateTimeFormatOptions = {};
+	switch (mode)
+	{
+		case DateModeEnum.Date:
+			{
+				dateOptions = {
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					hour12: false
+				}
+			}
+			break;
+		case DateModeEnum.LongWeekDate:
+			{
+				dateOptions = {
+					weekday: 'long',
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					hour12: false
+				}
+			}
+			break;
+		case DateModeEnum.LongDate:
+			{
+				dateOptions = {
+					weekday: 'long',
+					year: 'numeric',
+					month: 'long',
+					day: '2-digit',
+					hour12: false
+				}
+			}
+			break;
+		case DateModeEnum.DateTime:
+			{
+				dateOptions = {
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					hour: "2-digit",
+					minute: "2-digit",
+					hour12: false
+				}
 
-	let dateString = [(dd > 9 ? '' : '0') + dd, (mm > 9 ? '' : '0') + mm, yyyy].join('/');
-	let timeString: string = [(hh > 9 ? '' : '0') + hh, (MM > 9 ? '' : '0') + MM].join(':');
-	if (showSeconds)
-		timeString += ":" + (ss > 9 ? '' : '0') + ss;
+				if (showSeconds)
+					dateOptions.second = "2-digit";
+			}
+			break;
+		case DateModeEnum.LongDateTime:
+			{
+				dateOptions = {
+					weekday: 'long',
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					hour: "2-digit",
+					minute: "2-digit",
+					hour12: false
+				}
 
-	if (mode == null) mode = DateModeEnum.Date;
-	if (mode == DateModeEnum.Date)
-		dateString = dateString;
-	else if (mode == DateModeEnum.DateTime)
-		dateString = dateString + " " + timeString;
-	else if (mode == DateModeEnum.Time)
-		dateString = timeString;
+				if (showSeconds)
+					dateOptions.second = "2-digit";
+			}
+			break;
+		case DateModeEnum.Time:
+			{
+				dateOptions = {
+					hour: "2-digit",
+					minute: "2-digit",
+					hour12: false
+				}
 
+				if (showSeconds)
+					dateOptions.second = "2-digit";
+			}
+			break;
+	}
+	return this.vrFormatString(dateOptions, ["it"]);
+}
+
+Date.prototype.vrFormatString = function (options: Intl.DateTimeFormatOptions, language?: string[]): string
+{
+	let dateFormatter = new Intl.DateTimeFormat((language == null) ? navigator.language : language, options);
+	let dateString = dateFormatter.format(this).vrCapitalize();
 	return dateString;
 }
 

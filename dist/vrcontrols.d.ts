@@ -7433,7 +7433,10 @@ export enum DateModeEnum
 {
     Date = 0,
     DateTime = 1,
-    Time = 2
+    Time = 2,
+    LongDate = 3,
+    LongDateTime = 4,
+    LongWeekDate = 5
 }
 export enum DateDepthEnum
 {

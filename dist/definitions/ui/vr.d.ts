@@ -3571,7 +3571,10 @@ export declare enum WebApiModeEnum {
 export declare enum DateModeEnum {
     Date = 0,
     DateTime = 1,
-    Time = 2
+    Time = 2,
+    LongDate = 3,
+    LongDateTime = 4,
+    LongWeekDate = 5
 }
 export declare enum DateDepthEnum {
     Day = 0,
@@ -3655,6 +3658,7 @@ declare global {
     }
     interface Date {
         vrToItalyString(mode?: DateModeEnum, showSeconds?: boolean): string;
+        vrFormatString(options: Intl.DateTimeFormatOptions, language?: string[]): string;
         vrToLongDateString(): string;
         vrAddYears(years: number): Date;
         vrAddMonths(months: number): Date;
