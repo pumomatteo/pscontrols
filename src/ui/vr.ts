@@ -1,5 +1,5 @@
 //#region Import
-import { LabelOptions, Label } from "./controls/label";
+import { LabelOptions, Label } from "./controls/label";  
 import { UtilityManager } from "../managers/utilityManager";
 import { DeviceManager } from "../managers/deviceManager";
 import { TextBoxOptions, TextBox, TextBoxNumeric, TextBoxPercentage, TextBoxCurrency, TextBoxPassword, TextBoxMultiline } from "./controls/textbox";
