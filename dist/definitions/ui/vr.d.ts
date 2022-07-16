@@ -3658,7 +3658,7 @@ declare global {
     }
     interface Date {
         vrToItalyString(mode?: DateModeEnum, showSeconds?: boolean): string;
-        vrFormatString(options: Intl.DateTimeFormatOptions, language?: string[]): string;
+        vrFormatString(options: Intl.DateTimeFormatOptions, language?: string[] | string): string;
         vrToLongDateString(): string;
         vrAddYears(years: number): Date;
         vrAddMonths(months: number): Date;

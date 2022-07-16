@@ -5735,7 +5735,7 @@ declare global
 	interface Date
 	{
 		vrToItalyString(mode?: DateModeEnum, showSeconds?: boolean): string;
-		vrFormatString(options: Intl.DateTimeFormatOptions, language?: string[]): string;
+		vrFormatString(options: Intl.DateTimeFormatOptions, language?: string[] | string): string;
 		vrToLongDateString(): string;
 		vrAddYears(years: number): Date;
 		vrAddMonths(months: number): Date;
@@ -5982,10 +5982,10 @@ Date.prototype.vrToItalyString = function (mode?: DateModeEnum, showSeconds = fa
 			}
 			break;
 	}
-	return this.vrFormatString(dateOptions, ["it"]);
+	return this.vrFormatString(dateOptions, "it");
 }
 
-Date.prototype.vrFormatString = function (options: Intl.DateTimeFormatOptions, language?: string[]): string
+Date.prototype.vrFormatString = function (options: Intl.DateTimeFormatOptions, language?: string[] | string): string
 {
 	let dateFormatter = new Intl.DateTimeFormat((language == null) ? navigator.language : language, options);
 	let dateString = dateFormatter.format(this).vrCapitalize();

@@ -62,6 +62,7 @@ export class SplitButton extends VrControl
                 tooltip: options.tooltip,
                 enable: options.enable,
                 width: width,
+                tabIndex: options.tabIndex,
                 css: "border-top-right-radius: 0px; border-bottom-right-radius: 0px;" + ((options.onClick != null) ? "background-color: #f8f8f8;" : ""),
                 onClick: (e) => 
                 {
@@ -239,6 +240,7 @@ export class SplitButton extends VrControl
                 css: "width: 100%; text-align: left; border: none;" + item.css,
                 cssContainer: item.cssContainer + ";" + ((options.separator) ? "border-bottom: solid 1px #dedede;" : ""),
                 class: item.class,
+                tabIndex: options.tabIndex,
                 onClick: (e) => 
                 {
                     this.close();
