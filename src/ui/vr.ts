@@ -1564,6 +1564,7 @@ export enum IconClassSolid
 	//#region G
 	Gear = "fa-solid fa-gear",
 	Gears = "fa-solid fa-gears",
+	Globe = "fa-solid fa-globe",
 	//#endregion
 
 	//#region H
@@ -1968,6 +1969,7 @@ export enum IconClassLight
 	//#region G
 	Gear = "fa-light fa-gear",
 	Gears = "fa-light fa-gears",
+	Globe = "fa-light fa-globe",
 	//#endregion
 
 	//#region H
@@ -2373,6 +2375,7 @@ export enum IconClassRegular
 	//#region G
 	Gear = "fa-regular fa-gear",
 	Gears = "fa-regular fa-gears",
+	Globe = "fa-regular fa-globe",
 	//#endregion
 
 	//#region H
@@ -2778,6 +2781,7 @@ export enum IconClassDuotone
 	//#region G
 	Gear = "fa-duotone fa-gear",
 	Gears = "fa-duotone fa-gears",
+	Globe = "fa-duotone fa-globe",
 	//#endregion
 
 	//#region H
@@ -3183,6 +3187,7 @@ export enum IconClassThin
 	//#region G
 	Gear = "fa-thin fa-gear",
 	Gears = "fa-thin fa-gears",
+	Globe = "fa-thin fa-globe",
 	//#endregion
 
 	//#region H

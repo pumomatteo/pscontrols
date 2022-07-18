@@ -13,6 +13,7 @@ export declare class UploadOptions extends VrControlOptions {
     confirmToRemoveFile?: boolean;
     canRemoveFile?: boolean;
     validation?: UploadValidation;
+    async?: boolean;
     onProgress?: (e: UploadProgressEvent) => void;
     onError?: (e: UploadErrorEvent) => void;
     onValidationError?: (e: UploadValidationErrorEvent) => void;

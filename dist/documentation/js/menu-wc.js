@@ -906,6 +906,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/OnPaypalRenderedEvent.html" data-type="entity-link" >OnPaypalRenderedEvent</a>
                             </li>
                             <li class="link">
+                                <a href="classes/OnWindowOpenEvent.html" data-type="entity-link" >OnWindowOpenEvent</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/PaddingSettings.html" data-type="entity-link" >PaddingSettings</a>
                             </li>
                             <li class="link">

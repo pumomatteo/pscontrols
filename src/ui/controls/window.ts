@@ -44,7 +44,10 @@ export class Window extends VrControl
     private _divHeader: HTMLElement;
     private _divFooter: HTMLElement;
     private _callbackFooterItems?: CallBackFooterItem[] | null;
-    private _closeCallback?: Function;
+    private _openCloseCallback?: Function;
+    private _additionalCloseCallbacks?: Function[];
+    private _additionalOpenCallbacks?: Function[];
+    private _additionalContentLoadedCallbacks: Function[];
     private _background: HTMLElement;
     private _iframe: HTMLIFrameElement | null;
     private _animateAutosize: boolean;
@@ -105,6 +108,9 @@ export class Window extends VrControl
 
         super(element, options, ControlTypeEnum.Window);
         puma(this.container()).hide();
+        this._additionalCloseCallbacks = [];
+        this._additionalOpenCallbacks = [];
+        this._additionalContentLoadedCallbacks = [];
 
         if (options.id != null)
             puma(this.element()).attr("id", options.id);
@@ -260,8 +266,8 @@ export class Window extends VrControl
             {
                 if (this._background == null)
                     this._background = puma("<div class='vrWindowBackground' id='vrWindowBackground_" + this.element().id + "'></div>").vrAppendToPuma(this.container().parentElement)[0];
-                
-                    if (options.closeable)
+
+                if (options.closeable)
                     puma(this._background).click(() => this.close());
 
                 puma(this._background).css("z-index", (maxZindexWindow + 1));
@@ -269,7 +275,7 @@ export class Window extends VrControl
             //#endregion
 
             if (closeCallBack != null)
-                this._closeCallback = closeCallBack;
+                this._openCloseCallback = closeCallBack;            
 
             if (options.onOpen != null)
             {
@@ -277,6 +283,9 @@ export class Window extends VrControl
                 openEvent.sender = this;
                 options.onOpen(openEvent);
             }
+
+            for (let openCallback of this._additionalOpenCallbacks!)
+                openCallback();
         });
         return promise;
     }
@@ -313,8 +322,11 @@ export class Window extends VrControl
                 callback();
         }
 
-        if (this._closeCallback != null)
-            this._closeCallback();
+        if (this._openCloseCallback != null)
+            this._openCloseCallback();
+
+        for (let closeCallback of this._additionalCloseCallbacks!)
+            closeCallback();
 
         if (triggerEvents)
         {
@@ -329,7 +341,23 @@ export class Window extends VrControl
 
     remove()
     {
-        
+        puma(this.container()).remove();
+        puma(this._background).remove();
+    }
+
+    addCloseCallbacks(...callback: Function[])
+    {
+        this._additionalCloseCallbacks!.push(...callback);
+    }
+
+    addOpenCallbacks(...callback: Function[])
+    {
+        this._additionalOpenCallbacks!.push(...callback);
+    }
+
+    addContentLoadedCallbacks(...callback: Function[])
+    {
+        this._additionalContentLoadedCallbacks!.push(...callback);
     }
 
     closeIconVisible(state?: boolean)
@@ -500,7 +528,7 @@ export class Window extends VrControl
         this.position(left, top);
     }
 
-    position(left?: number | string | null, top?: number | string | null, right?: number | string | null, bottom?: number | string | null): void
+    position(left?: number | string | null, top?: number | string | null, right?: number | string | null, bottom?: number | string | null)
     {
         let leftPosition = "";
         if (left != null)
@@ -535,7 +563,10 @@ export class Window extends VrControl
             if (typeof (bottom) == "number")
                 bottomPosition = "bottom: " + bottom + "px;";
         }
+
         this.container().style.cssText += leftPosition + topPosition + rightPosition + bottomPosition;
+        let position = $(this.container()).position();
+        return { left: position.left, top: position.top };
     }
 
     footerItem<T extends VrControl>(value: string | number)
@@ -859,8 +890,11 @@ export class Window extends VrControl
         {
             let onLoadEvent = new WindowContentLoadEvent();
             onLoadEvent.sender = this;
-            options.onContentLoaded(onLoadEvent);
+            options.onContentLoaded(onLoadEvent); 
         }
+
+        for (let contentLoaded of this._additionalContentLoadedCallbacks!)
+            contentLoaded();
     }
     //#endregion
 
@@ -1003,7 +1037,7 @@ class WindowFooterItemClickEvent extends WindowEvent
 {
 }
 
-class WindowOpenEvent extends WindowEvent
+export class WindowOpenEvent extends WindowEvent
 {
 }
 

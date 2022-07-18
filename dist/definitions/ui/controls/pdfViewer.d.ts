@@ -1,5 +1,6 @@
 import { PdfViewerToolbarAreaEnum, PdfViewerToolbarSettings, PdfViewerToolbarItem } from "../vr";
 import { VrControlOptions, VrControl } from "../common";
+import { Window, WindowOpenEvent } from "../controls/window";
 export declare class PdfViewerOptions extends VrControlOptions {
     content?: string;
     base64?: boolean;
@@ -26,7 +27,7 @@ export declare class PdfViewer extends VrControl {
     toolbarCenterArea(): any;
     toolbarRightArea(): any;
     toolbarArea(area: PdfViewerToolbarAreaEnum): any;
-    content(content?: string): void;
+    content(content?: string): Promise<unknown>;
     private internalRender;
     page(page?: number): number;
     fileName(name?: string): string | undefined;
@@ -35,7 +36,9 @@ export declare class PdfViewer extends VrControl {
     getData(): Promise<string>;
     open(content?: string): void;
     close(): void;
+    window(): Window;
     windowTitle(title: string): void;
+    windowCloseCallback(callback: Function): void;
     getOptions(): PdfViewerOptions;
     private canvasContainer;
 }
@@ -45,6 +48,7 @@ declare class PdfViewerWindowSettings {
     height?: number;
     title?: string;
     closeable?: boolean;
+    onOpen?(e: WindowOpenEvent): void;
 }
 declare class OnContentRenderedEvent {
     sender: PdfViewer;

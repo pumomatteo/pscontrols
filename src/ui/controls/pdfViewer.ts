@@ -1,7 +1,7 @@
 import { ControlTypeEnum, createWindow, puma, IconClassLight, IconClass, div, createButton, span, createTextBox, createLabel, TextModeEnum, PdfViewerToolbarAreaEnum, PdfViewerToolbarSettings, ToolbarItemOnClickEvent, PdfViewerToolbarItem, notify, notifyError } from "../vr";
 import { VrControlOptions, VrControl, AttributeSettings } from "../common";
 import { PDFDocumentProxy } from "types/pdfjs";
-import { Window } from "../controls/window";
+import { Window, WindowOpenEvent } from "../controls/window";
 import { LoaderManager } from "../../../src/managers/loaderManager";
 import { TextBox } from "./textbox";
 import { Label } from "./label";
@@ -87,6 +87,7 @@ export class PdfViewer extends VrControl
 				closeable: options.popup.closeable,
 				class: "vrWindowPdfViewer",
 				classContainer: this.element().id + "_wndUtility",
+				onOpen: options.popup.onOpen
 			});
 		}
 		//#endregion
@@ -313,39 +314,46 @@ export class PdfViewer extends VrControl
 
 	content(content?: string)
 	{
-		puma(this.canvasContainer()).empty();
-		let options = this.getOptions();
-
-		if (content != null)
+		let promise = new Promise((callback?: Function) =>
 		{
-			LoaderManager.show(this.element());
-			options.content = content;
+			puma(this.canvasContainer()).empty();
+			let options = this.getOptions();
 
-			//#region Load document
-			const loadingTask = pdfjsLib.getDocument((!options.base64) ? content : { data: atob(content) });
-			loadingTask.promise.then((pdf: PDFDocumentProxy) =>
+			if (content != null)
 			{
-				this._state.pdf = pdf;
-				this.internalRender();
-				LoaderManager.hide();
+				LoaderManager.show(this.element());
+				options.content = content;
 
-				let options = this.getOptions();
-				if (options.onContentRendered != null)
+				//#region Load document
+				const loadingTask = pdfjsLib.getDocument((!options.base64) ? content : { data: atob(content) });
+				loadingTask.promise.then((pdf: PDFDocumentProxy) =>
 				{
-					let event = new OnContentRenderedEvent();
-					event.sender = this;
-					event.pdf = this._state.pdf;
-					options.onContentRendered(event);
-				}
-			},
-				(error: any) => 
-				{
-					notifyError(error);
-				});
-			//#endregion
-		}
-		else if (options.content != null)
-			this.internalRender();
+					this._state.pdf = pdf;
+					this.internalRender();
+					LoaderManager.hide();
+
+					let options = this.getOptions();
+					if (options.onContentRendered != null)
+					{
+						let event = new OnContentRenderedEvent();
+						event.sender = this;
+						event.pdf = this._state.pdf;
+						options.onContentRendered(event);
+					}
+
+					if (callback != null)
+						callback();
+				},
+					(error: any) => 
+					{
+						notifyError(error);
+					});
+				//#endregion
+			}
+			else if (options.content != null)
+				this.internalRender();
+		});
+		return promise;
 	}
 
 	private internalRender()
@@ -484,9 +492,22 @@ export class PdfViewer extends VrControl
 		this._window.close();
 	}
 
+	window()
+	{
+		return this._window;
+	}
+
 	windowTitle(title: string)
 	{
 		this._window.title(title);
+	}
+
+	windowCloseCallback(callback: Function)
+	{
+		if (this.window() != null)
+		{
+			this.window().close
+		}
 	}
 	//#endregion
 
@@ -523,6 +544,7 @@ class PdfViewerWindowSettings
 	height?: number;
 	title?: string;
 	closeable?: boolean;
+	onOpen?(e: WindowOpenEvent): void;
 }
 
 class OnContentRenderedEvent
@@ -530,5 +552,10 @@ class OnContentRenderedEvent
 	sender: PdfViewer;
 	pdf: any;
 	base64bytes: string;
+}
+
+class OnWindowOpenEvent
+{
+	sender: PdfViewer;
 }
 //#endregion

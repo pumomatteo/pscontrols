@@ -32,7 +32,10 @@ export declare class Window extends VrControl {
     private _divHeader;
     private _divFooter;
     private _callbackFooterItems?;
-    private _closeCallback?;
+    private _openCloseCallback?;
+    private _additionalCloseCallbacks?;
+    private _additionalOpenCallbacks?;
+    private _additionalContentLoadedCallbacks;
     private _background;
     private _iframe;
     private _animateAutosize;
@@ -40,6 +43,9 @@ export declare class Window extends VrControl {
     open(callBackFooterItems?: CallBackFooterItem[] | null, center?: boolean, position?: WindowPosition): Promise<any>;
     close(triggerEvents?: boolean): void;
     remove(): void;
+    addCloseCallbacks(...callback: Function[]): void;
+    addOpenCallbacks(...callback: Function[]): void;
+    addContentLoadedCallbacks(...callback: Function[]): void;
     closeIconVisible(state?: boolean): any;
     title(text?: string): string;
     maximize(padding?: boolean): void;
@@ -50,7 +56,10 @@ export declare class Window extends VrControl {
     clear(): void;
     background(): HTMLElement;
     center(): void;
-    position(left?: number | string | null, top?: number | string | null, right?: number | string | null, bottom?: number | string | null): void;
+    position(left?: number | string | null, top?: number | string | null, right?: number | string | null, bottom?: number | string | null): {
+        left: number;
+        top: number;
+    };
     footerItem<T extends VrControl>(value: string | number): T;
     hideFooterItem(value: string | number): void;
     showFooterItem(value: string | number): void;
@@ -126,7 +135,7 @@ export declare class WindowEvent extends VrControlsEvent {
 }
 declare class WindowFooterItemClickEvent extends WindowEvent {
 }
-declare class WindowOpenEvent extends WindowEvent {
+export declare class WindowOpenEvent extends WindowEvent {
 }
 declare class WindowBeforeCloseEvent extends WindowEvent {
 }

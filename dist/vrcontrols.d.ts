@@ -2251,7 +2251,7 @@ export class PdfViewer extends VrControl
     toolbarCenterArea(): any;
     toolbarRightArea(): any;
     toolbarArea(area: PdfViewerToolbarAreaEnum): any;
-    content(content?: string): void;
+    content(content?: string): Promise<unknown>;
     page(page?: number): number;
     fileName(name?: string): string | undefined;
     download(): void;
@@ -2259,7 +2259,9 @@ export class PdfViewer extends VrControl
     getData(): Promise<string>;
     open(content?: string): void;
     close(): void;
+    window(): Window;
     windowTitle(title: string): void;
+    windowCloseCallback(callback: Function): void;
     getOptions(): PdfViewerOptions;
 }
 class PdfViewerWindowSettings
@@ -2269,6 +2271,7 @@ class PdfViewerWindowSettings
     height?: number;
     title?: string;
     closeable?: boolean;
+    onOpen?(e: WindowOpenEvent): void;
 }
 class OnContentRenderedEvent
 {
@@ -3440,6 +3443,7 @@ export class UploadOptions extends VrControlOptions
     confirmToRemoveFile?: boolean;
     canRemoveFile?: boolean;
     validation?: UploadValidation;
+    async?: boolean;
     onProgress?: (e: UploadProgressEvent) => void;
     onError?: (e: UploadErrorEvent) => void;
     onValidationError?: (e: UploadValidationErrorEvent) => void;
@@ -3596,6 +3600,9 @@ export class Window extends VrControl
     open(callBackFooterItems?: CallBackFooterItem[] | null, center?: boolean, position?: WindowPosition): Promise<any>;
     close(triggerEvents?: boolean): void;
     remove(): void;
+    addCloseCallbacks(...callback: Function[]): void;
+    addOpenCallbacks(...callback: Function[]): void;
+    addContentLoadedCallbacks(...callback: Function[]): void;
     closeIconVisible(state?: boolean): any;
     title(text?: string): string;
     maximize(padding?: boolean): void;
@@ -3605,7 +3612,11 @@ export class Window extends VrControl
     clear(): void;
     background(): HTMLElement;
     center(): void;
-    position(left?: number | string | null, top?: number | string | null, right?: number | string | null, bottom?: number | string | null): void;
+    position(left?: number | string | null, top?: number | string | null, right?: number | string | null, bottom?: number | string | null):
+{
+        left: number;
+        top: number;
+    };
     footerItem<T extends VrControl>(value: string | number): T;
     hideFooterItem(value: string | number): void;
     showFooterItem(value: string | number): void;
@@ -3688,7 +3699,7 @@ export class WindowEvent extends VrControlsEvent
 class WindowFooterItemClickEvent extends WindowEvent
 {
 }
-class WindowOpenEvent extends WindowEvent
+export class WindowOpenEvent extends WindowEvent
 {
 }
 class WindowBeforeCloseEvent extends WindowEvent
@@ -4100,6 +4111,7 @@ export enum IconClassSolid
     Futbol = "fa-solid fa-futbol",
     Gear = "fa-solid fa-gear",
     Gears = "fa-solid fa-gears",
+    Globe = "fa-solid fa-globe",
     Hashtag = "fa-solid fa-hashtag",
     HatWizard = "fa-solid fa-hat-wizard",
     Headset = "fa-solid fa-headset",
@@ -4436,6 +4448,7 @@ export enum IconClassLight
     Futbol = "fa-light fa-futbol",
     Gear = "fa-light fa-gear",
     Gears = "fa-light fa-gears",
+    Globe = "fa-light fa-globe",
     Hashtag = "fa-light fa-hashtag",
     HatWizard = "fa-light fa-hat-wizard",
     Headset = "fa-light fa-headset",
@@ -4773,6 +4786,7 @@ export enum IconClassRegular
     Futbol = "fa-regular fa-futbol",
     Gear = "fa-regular fa-gear",
     Gears = "fa-regular fa-gears",
+    Globe = "fa-regular fa-globe",
     Hashtag = "fa-regular fa-hashtag",
     HatWizard = "fa-regular fa-hat-wizard",
     Headset = "fa-regular fa-headset",
@@ -5110,6 +5124,7 @@ export enum IconClassDuotone
     Futbol = "fa-duotone fa-futbol",
     Gear = "fa-duotone fa-gear",
     Gears = "fa-duotone fa-gears",
+    Globe = "fa-duotone fa-globe",
     Hashtag = "fa-duotone fa-hashtag",
     HatWizard = "fa-duotone fa-hat-wizard",
     Headset = "fa-duotone fa-headset",
@@ -5447,6 +5462,7 @@ export enum IconClassThin
     Futbol = "fa-thin fa-futbol",
     Gear = "fa-thin fa-gear",
     Gears = "fa-thin fa-gears",
+    Globe = "fa-thin fa-globe",
     Hashtag = "fa-thin fa-hashtag",
     HatWizard = "fa-thin fa-hat-wizard",
     Headset = "fa-thin fa-headset",
