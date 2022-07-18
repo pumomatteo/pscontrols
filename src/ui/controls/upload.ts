@@ -16,6 +16,7 @@ export class UploadOptions extends VrControlOptions
 	confirmToRemoveFile?: boolean;
 	canRemoveFile?: boolean;
 	validation?: UploadValidation;
+	async?: boolean;
 
 	onProgress?: (e: UploadProgressEvent) => void;
 	onError?: (e: UploadErrorEvent) => void;
@@ -53,6 +54,7 @@ export class Upload extends VrControl
 		if (options.multiple == null) options.multiple = false;
 		if (options.fileList == null) options.fileList = true;
 		if (options.fileListMaxHeight == null) options.fileListMaxHeight = 200;
+		if (options.async == null) options.async = true;
 
 		if (options.dropArea == null) options.dropArea = true;
 		if (options.dropArea !== true && options.progressBar == null) options.progressBar = false;
@@ -561,7 +563,7 @@ export class Upload extends VrControl
 
 		var url = options.webApiSettings!.url!;
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST", url, true);
+		xhr.open("POST", url, options.async!);
 
 		//#region Header parameters
 		if (options.webApiSettings!.parameters != null)
