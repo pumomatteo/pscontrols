@@ -18,6 +18,7 @@
     cursor: pointer;
     height: 20px;
     user-select: none;
+    font-size: 14px;
 }
 
 .buttonGroupItem[disabled="disabled"] {

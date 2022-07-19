@@ -690,6 +690,7 @@ export class Scheduler extends VrControl
 							let td = document.createElement("td");
 							if (borderTopClass != "") td.classList.add(borderTopClass);
 							if (borderBottomClass != "") td.classList.add(borderBottomClass);
+							td.title = timeString;
 							row.appendChild(td);
 
 							// To fast appointment collocation
@@ -760,6 +761,7 @@ export class Scheduler extends VrControl
 									let td = document.createElement("td");
 									if (borderTopClass != "") td.classList.add(borderTopClass);
 									if (borderBottomClass != "") td.classList.add(borderBottomClass);
+									td.title = timeString;
 									row.appendChild(td);
 
 									if (j == numberOfDays - 1)
@@ -824,6 +826,7 @@ export class Scheduler extends VrControl
 									let td = document.createElement("td");
 									if (borderTopClass != "") td.classList.add(borderTopClass);
 									if (borderBottomClass != "") td.classList.add(borderBottomClass);
+									td.title = timeString;
 									row.appendChild(td);
 
 									if (((columnIndex + 1) % this.resources().length) == 0)
