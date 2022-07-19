@@ -1363,6 +1363,7 @@ export class GridOptions extends VrControlOptions
     onGroupExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
+    onScroll?: (e: GridScrollEvent) => void;
 }
 export class Grid extends VrControl
 {
@@ -6638,6 +6639,13 @@ export class GridPageSelectedEvent extends VrControlsEvent
 {
     sender: Grid;
     pageSelected: number;
+}
+export class GridScrollEvent extends VrControlsEvent
+{
+    sender: Grid;
+    target: HTMLElement;
+    scrollLeft: number;
+    scrollTop: number;
 }
 export class GridColumn
 {

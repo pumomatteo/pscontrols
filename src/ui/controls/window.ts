@@ -476,7 +476,7 @@ export class Window extends VrControl
         else
         {
             puma(this.element()).empty();
-            if (!content.startsWith("<"))
+            if (content != null && !content.startsWith("<"))
                 content = "<div>" + content + "</div>";
 
             if (!options.iframe)

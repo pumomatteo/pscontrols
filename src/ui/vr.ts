@@ -4552,6 +4552,14 @@ export class GridPageSelectedEvent extends VrControlsEvent
 	pageSelected: number;
 }
 
+export class GridScrollEvent extends VrControlsEvent
+{
+	sender: Grid;
+	target: HTMLElement;
+	scrollLeft: number;
+	scrollTop: number;
+}
+
 export class GridColumn
 {
 	field: string;

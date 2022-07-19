@@ -2826,6 +2826,12 @@ export declare class GridPageSelectedEvent extends VrControlsEvent {
     sender: Grid;
     pageSelected: number;
 }
+export declare class GridScrollEvent extends VrControlsEvent {
+    sender: Grid;
+    target: HTMLElement;
+    scrollLeft: number;
+    scrollTop: number;
+}
 export declare class GridColumn {
     field: string;
     title?: string;

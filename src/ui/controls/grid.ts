@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassLight, IconClass, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning } from "../vr";
+import { ControlTypeEnum, IconClassLight, IconClass, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -63,6 +63,7 @@ export class GridOptions extends VrControlOptions
     onGroupExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
+    onScroll?: (e: GridScrollEvent) => void;
     //#endregion
 }
 //#endregion
@@ -395,11 +396,21 @@ export class Grid extends VrControl
         this._divFilters = puma("<div id='" + element.id + "Filters' class='grid_Filters' style='overflow-x: hidden; display: none;'></div>").vrAppendToPuma("#" + element.id + "_divContainer")[0] as HTMLDivElement;
 
         this._divBody = puma("<div id='" + element.id + "Body' class='grid_Body'></div>").vrAppendToPuma("#" + element.id + "_divContainer")[0] as HTMLDivElement;
-        puma(this._divBody).scroll(() =>
+        puma(this._divBody).scroll((e: any) =>
         {
             puma(this._divFilters).scrollLeft(puma(this._divBody).scrollLeft());
             puma(this._divHeader).scrollLeft(puma(this._divBody).scrollLeft());
             puma(this._divTotals).scrollLeft(puma(this._divBody).scrollLeft());
+
+            if (options!.onScroll != null)
+            {
+                let scrollEvent = new GridScrollEvent();
+                scrollEvent.sender = this;
+                scrollEvent.target = e.target;
+                scrollEvent.scrollLeft = puma(this._divBody).scrollLeft();
+                scrollEvent.scrollTop = puma(this._divBody).scrollTop();
+                options!.onScroll(scrollEvent);
+            }
         });
 
         this._spanFitHeaderSpace = puma("<span id='" + element.id + "FitHeaderSpace' class='grid_fitHeaderSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
@@ -5186,7 +5197,8 @@ export class Grid extends VrControl
         for (let th of Array.from(puma(headerTable).find("th")))
         {
             let field = puma(th).attr("value");
-            let columnPosition = this._columnOptions.filter(k => k.field == field)[0];
+            let index = this._columnOptions.findIndex(k => k.field == field);
+            let columnPosition = this._columnOptions[index];
             columnPosition.field = field;
             columnPosition.left = puma(th).offset().left;
             columnPosition.right = puma(th).offset().left + puma(th).width();
@@ -6869,9 +6881,9 @@ export class Grid extends VrControl
                         separator: toolbarItem.splitButtonOptions.separator,
                         colorSettings: toolbarItem.splitButtonOptions.colorSettings,
                         popupSettings: toolbarItem.splitButtonOptions.popupSettings,
-                        tooltip:  toolbarItem.splitButtonOptions.tooltip,
+                        tooltip: toolbarItem.splitButtonOptions.tooltip,
                         hoverMode: toolbarItem.splitButtonOptions.hoverMode,
-                        modal:  toolbarItem.splitButtonOptions.modal,
+                        modal: toolbarItem.splitButtonOptions.modal,
                         showDefault: toolbarItem.splitButtonOptions.showDefault,
                         cssContainer: toolbarItem.cssContainer + " vertical-align: top;",
                         css: toolbarItem.css,

@@ -681,6 +681,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/GridSaveRequest.html" data-type="entity-link" >GridSaveRequest</a>
                             </li>
                             <li class="link">
+                                <a href="classes/GridScrollEvent.html" data-type="entity-link" >GridScrollEvent</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/GridSearchingInfo.html" data-type="entity-link" >GridSearchingInfo</a>
                             </li>
                             <li class="link">
