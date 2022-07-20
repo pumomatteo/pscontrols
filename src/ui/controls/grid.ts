@@ -652,7 +652,7 @@ export class Grid extends VrControl
                 if (options.groupBy == null || (!(options.groupBy.fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                     display = "display: none;";
 
-                puma(this._divHeader).find(".p-grid-headerColumn").vrAppendPuma("<th width=16 style='border: 1px solid rgb(221, 221, 221); background-color: #51B3E1; " + display + "' class='groupBy" + column.field + "'></th>");
+                puma(this._divHeader).find(".p-grid-headerColumn").vrAppendPuma("<th width=16 style='border: 1px solid rgb(221, 221, 221); background-color: #51B3E1; " + display + "' value='groupBy" + column.field + "' class='groupBy" + column.field + "'></th>");
             }
         }
 
@@ -1611,10 +1611,11 @@ export class Grid extends VrControl
                             let trOld = puma(this.element()).find("tbody tr:nth-child(" + (j + rowAdded) + ")")[0] as HTMLTableRowElement;
                             let trGroupBy: HTMLElement | null = null;
 
+                            let newTr = puma("<tr value='" + ((cellValue == null || cellValue === "") ? "nosetted" : String(cellValue).replace(/%/, "").replace(/ /g, "").replace(/\./g, "").replace(/-/g, "").replace(/\//g, "")) + "' level='" + groupByIndex + "' class='grid_trGroupBy p-grid-body'></tr>");
                             if (trOld == null)
-                                trGroupBy = puma("<tr value='" + ((cellValue == null || cellValue === "") ? "nosetted" : String(cellValue).replace(/%/, "").replace(/ /g, "").replace(/\./g, "").replace(/-/g, "").replace(/\//g, "")) + "' level='" + groupByIndex + "' class='grid_trGroupBy p-grid-body'></tr>").vrAppendToPuma(puma(this.element()).find("tbody"))[0];
+                                trGroupBy = newTr.vrAppendToPuma(puma(this.element()).find("tbody"))[0];
                             else
-                                trGroupBy = puma("<tr value='" + ((cellValue == null || cellValue === "") ? "nosetted" : String(cellValue).replace(/%/, "").replace(/ /g, "").replace(/\./g, "").replace(/-/g, "").replace(/\//g, "")) + "' level='" + groupByIndex + "' class='grid_trGroupBy p-grid-body'></tr>").vrInsertBeforePuma(trOld)[0];
+                                trGroupBy = newTr.vrInsertBeforePuma(trOld)[0];
 
                             puma(trGroupBy).height(options.rowHeight!);
                             //#endregion
