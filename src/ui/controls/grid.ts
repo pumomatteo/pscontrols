@@ -486,7 +486,7 @@ export class Grid extends VrControl
             this._divFooter = puma("<div id='" + element.id + "Footer' class='p-grid-footer'></div>").vrAppendToPuma("#" + element.id + "_divContainer")[0] as HTMLDivElement;
 
             //#region Footer page size
-            if (options.footer.showPageSize)
+            if (options.footer.showPageSize && typeof (options.pageSize) != "boolean")
             {
                 //#region PageSize items
                 let pageSizeItems =
@@ -1617,13 +1617,23 @@ export class Grid extends VrControl
             options.pageSize = dataItems.length;
 
         //#region Body
-        puma(this.element()).find("tbody").remove();
-        puma(this.element()).vrAppendPuma("<tbody></tbody>");
+        if (puma(this.element()).find("tbody").length == 0)
+            puma(this.element()).vrAppendPuma("<tbody></tbody>");
+        else
+        {
+            puma(this.element()).find("tbody tr").empty();
+            puma(this.element()).find("tbody td").css("background-color", "");
+        }
 
         if (options.lockable)
         {
-            puma(this._elementLocked).find("tbody").remove();
-            puma(this._elementLocked).vrAppendPuma("<tbody></tbody>");
+            if (puma(this._elementLocked).find("tbody").length == 0)
+                puma(this._elementLocked).vrAppendPuma("<tbody></tbody>");
+            else
+            {
+                puma(this._elementLocked).find("tbody tr").empty();
+                puma(this._elementLocked).find("tbody td").css("background-color", "");
+            }
         }
         //#endregion
 
@@ -1790,9 +1800,9 @@ export class Grid extends VrControl
                             if (groupByDisplayText == null) groupByDisplayText = cellText;
 
                             let groupByCaret = IconClassLight.CaretDown;
-                            //let childrenRows = this.getChildrenGroupRows(trGroupBy!, this._divBody);
-                            // if (this.pageSelected() > 1 && !puma(childrenRows.allRows.vrFirst()).is(":visible"))
-                            //     groupByCaret = IconClassLight.CaretRight;
+                            let childrenRows = this.getChildrenGroupRows(trGroupBy!, this._divBody);
+                            if (this.pageSelected() > 1 && !puma(childrenRows.allRows.vrFirst()).is(":visible"))
+                                groupByCaret = IconClassLight.CaretRight;
 
                             let text = "<td width=16 class='grid_tdGroupByCollapse groupBy" + groupByField + "' style='border-right-color: transparent !important;'>"
                                 + "<i class='grid_tdGroupByCollapse " + groupByCaret + "'></i></td>"
@@ -1964,16 +1974,28 @@ export class Grid extends VrControl
             j += rowAdded;
             //#endregion
 
-            let tr = document.createElement("tr");
+            let isNewRow = false;
+            let tr = puma(this.element()).find(">tbody>tr:nth-child(" + j + ")")[0] as HTMLTableRowElement;
+            if (tr == null)
+            {
+                tr = document.createElement("tr");
+                isNewRow = true;
+            }
             puma(tr).addClass("p-grid-body");
             puma(tr).attr("id", rowId);
             puma(tr).attr("dataItemId", dataItemId);
             puma(tr).attr("row", i);
 
             let trLocked = null;
+            let isNewRowLocked = false;
             if (options.lockable)
             {
-                trLocked = document.createElement("tr");
+                trLocked = puma(this._elementLocked).find(">tbody>tr:nth-child(" + j + ")")[0] as HTMLTableRowElement;
+                if (trLocked == null)
+                {
+                    trLocked = document.createElement("tr");
+                    isNewRowLocked = true;
+                }
                 puma(trLocked).addClass("p-grid-body");
                 puma(trLocked).attr("id", rowId);
                 puma(trLocked).attr("dataItemId", dataItemId);
@@ -2009,12 +2031,31 @@ export class Grid extends VrControl
             //#endregion
 
             //#region Columns
+            let k = (options.checkboxes != GridCheckboxModeEnum.None) ? 2 : 1;
+            if (options.groupable! || options.groupBy != null)
+                k += options.columns!.length;
+
             for (let column of options.columns!)
             {
-                let td = document.createElement("td");
+                let isNewCell = false;
+                let td = puma(tr).find(">td:nth-child(" + k + ")")[0] as HTMLTableCellElement;
+                if (td == null)
+                {
+                    td = document.createElement("td");
+                    isNewCell = true;
+                }
+
                 let tdLocked = null;
+                let isNewCellLocked = false;
                 if (options.lockable)
-                    tdLocked = document.createElement("td");
+                {
+                    tdLocked = puma(trLocked).find(">td:nth-child(" + k + ")")[0] as HTMLTableCellElement;
+                    if (tdLocked == null)
+                    {
+                        tdLocked = document.createElement("td");
+                        isNewCellLocked = true;
+                    }
+                }
 
                 let field = column.field;
                 puma(td).attr("value", column.field);
@@ -2044,12 +2085,19 @@ export class Grid extends VrControl
                 if (column.hidden === true)
                 {
                     puma(td).hide();
-                    puma(tr).vrAppendPuma(td);
+                    if (isNewCell)
+                        puma(tr).vrAppendPuma(td);
+
+                    if (options.lockable && isNewCellLocked)
+                        puma(trLocked).vrAppendPuma(tdLocked);
 
                     continue;
                 }
                 else
+                {
                     puma(td).show();
+                    if (options.lockable) puma(tdLocked).show();
+                }
                 //#endregion
 
                 if (!options.multilineRows)
@@ -2628,16 +2676,18 @@ export class Grid extends VrControl
                 //#endregion
 
                 // Append td
-                if (options.lockable && column.locked)
+                if (options.lockable && column.locked && isNewCellLocked)
                     puma(trLocked).vrAppendPuma(tdLocked)
-                else
+                else if (isNewCell)
                     puma(tr).vrAppendPuma(td);
             }
             //#endregion
 
             // Append tr
-            puma(this.element()).find(">tbody").vrAppendPuma(tr);
-            if (options.lockable)
+            if (isNewRow)
+                puma(this.element()).find(">tbody").vrAppendPuma(tr);
+
+            if (options.lockable && isNewRowLocked)
                 puma(this._elementLocked).find(">tbody").vrAppendPuma(trLocked);
 
             //#region GroupBy
@@ -2749,6 +2799,38 @@ export class Grid extends VrControl
         }
         //#endregion
 
+        //#region Remove empty rows
+        if (items.length < options.pageSize!)
+        {
+            let trGroupByNumber = puma(this.element()).find(".grid_trGroupBy").length;
+            let to = (options.groupable && options.groupBy != null) ? options.pageSize! + trGroupByNumber : options.pageSize!;
+            let from = (options.groupable && options.groupBy != null) ? items.length + 1 + trGroupByNumber : items.length + 1;
+            for (let i = from; i <= to; i++)
+                puma(this._divBody).find("tbody tr:nth-child(" + from + ")").remove();
+
+            if (options.lockable)
+            {
+                let trGroupByNumber = puma(this._elementLocked).find(".grid_trGroupBy").length;
+                let to = (options.groupable && options.groupBy != null) ? options.pageSize! + trGroupByNumber : options.pageSize!;
+                let from = (options.groupable && options.groupBy != null) ? items.length + 1 + trGroupByNumber : items.length + 1;
+                for (let i = from; i <= to; i++)
+                    puma(this._divBodyLocked).find("tbody tr:nth-child(" + from + ")").remove();
+            }
+        }
+
+        if (this._actualPageSize > options.pageSize!)
+        {
+            let trGroupByNumber = puma(this.element()).find(".grid_trGroupBy").length;
+            for (let i = options.pageSize! + 1 + trGroupByNumber; i <= this._actualPageSize + trGroupByNumber; i++)
+                puma(this._divBody).find("tbody tr:nth-child(" + (options.pageSize! + 1 + trGroupByNumber) + ")").remove();
+
+            if (options.lockable)
+            {
+                let trGroupByNumber = puma(this._elementLocked).find(".grid_trGroupBy").length;
+                for (let i = options.pageSize! + 1 + trGroupByNumber; i <= this._actualPageSize + trGroupByNumber; i++)
+                    puma(this._divBodyLocked).find("tbody tr:nth-child(" + (options.pageSize! + 1 + trGroupByNumber) + ")").remove();
+            }
+        }
         this._actualPageSize = options.pageSize!;
         //#endregion
 
