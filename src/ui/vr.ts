@@ -4580,6 +4580,7 @@ export class GridColumn
 	defaultValue?: any;
 	editable?: boolean;
 	exportable?: boolean;
+	locked?: boolean;
 	customFilterProperties?: string[];
 	roundingSettings?: NumberFormatRoundingSettings;
 
@@ -5916,7 +5917,7 @@ Date.vrToWebApiDateTime = function (date: Date)
 
 Date.prototype.vrToItalyString = function (mode?: DateModeEnum, showSeconds = false): string
 {
-	let dateOptions: Intl.DateTimeFormatOptions = {};
+	let dateOptions: any = {};
 	switch (mode)
 	{
 		case DateModeEnum.Date:

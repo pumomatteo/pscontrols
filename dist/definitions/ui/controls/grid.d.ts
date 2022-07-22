@@ -27,6 +27,7 @@ export declare class GridOptions extends VrControlOptions {
     header?: boolean;
     resizable?: boolean;
     reorderable?: boolean;
+    lockable?: boolean;
     groupBy?: string[] | GridGroupBySettings | null;
     groupable?: boolean;
     sortable?: boolean;
@@ -78,7 +79,7 @@ export declare class Grid extends VrControl {
     private _originalHiddenColumnFields;
     private _wndAutoWindow;
     private _wndLayout;
-    private _tblLayout;
+    private _grdLayout;
     private _actualLayout;
     private _originalOptionsForLayout;
     private _customLayouts;
@@ -88,11 +89,16 @@ export declare class Grid extends VrControl {
     private _cellLabels;
     private _cellImages;
     private _elementId;
+    private _elementLocked;
     private _divToolbar;
     private _divHeader;
+    private _divHeaderLocked;
     private _divFilters;
+    private _divFiltersLocked;
     private _divBody;
+    private _divBodyLocked;
     private _divTotals;
+    private _divTotalsLocked;
     private _divFooter;
     private _spanFitHeaderSpace;
     private _spanFitFilterSpace;
@@ -192,7 +198,7 @@ export declare class Grid extends VrControl {
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;
-    toolbar(): HTMLDivElement;
+    toolbar(): HTMLElement;
     toolbarItem<T extends VrControl>(value: string): T;
     showToolbarItem<T extends VrControl>(value: string): void;
     hideToolbarItem<T extends VrControl>(value: string): void;

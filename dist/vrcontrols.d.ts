@@ -1345,6 +1345,7 @@ export class GridOptions extends VrControlOptions
     header?: boolean;
     resizable?: boolean;
     reorderable?: boolean;
+    lockable?: boolean;
     groupBy?: string[] | GridGroupBySettings | null;
     groupable?: boolean;
     sortable?: boolean;
@@ -1432,7 +1433,7 @@ export class Grid extends VrControl
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;
-    toolbar(): HTMLDivElement;
+    toolbar(): HTMLElement;
     toolbarItem<T extends VrControl>(value: string): T;
     showToolbarItem<T extends VrControl>(value: string): void;
     hideToolbarItem<T extends VrControl>(value: string): void;
@@ -6667,6 +6668,7 @@ export class GridColumn
     defaultValue?: any;
     editable?: boolean;
     exportable?: boolean;
+    locked?: boolean;
     customFilterProperties?: string[];
     roundingSettings?: NumberFormatRoundingSettings;
     displayField?: string;

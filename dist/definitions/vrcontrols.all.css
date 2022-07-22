@@ -795,6 +795,10 @@ table.vrDatePickerPopup_table td {
     table-layout: fixed;
 }
 
+.vrGridContainer .p-grid-locked {
+    width: auto !important;
+}
+
 .vrGridContainer .p-grid th {
     border-top: solid 2px #51B3E1 !important;
     background-color: #e3f1fa !important;
@@ -849,7 +853,16 @@ table.vrDatePickerPopup_table td {
     overflow-y: auto;
     border-top: none;
     border: solid 1px #d9d9d9;
+    display: inline-block;
 }
+
+.vrGridContainer .grid_body_locked::-webkit-scrollbar {
+    display: none;
+}
+
+/* .vrGridContainer .grid_body_locked {
+    width: auto !important;
+} */
 
 .vrGridContainer .p-grid.alternateRowsColor tr.p-grid-body:nth-child(odd) {
     background-color: #f9f9f9;
@@ -941,8 +954,12 @@ table.vrDatePickerPopup_table td {
     border-right: solid 1px#d9d9d9;
 }
 
+.vrGridContainer .grid_Header_locked {
+    width: auto !important;
+    border-right: solid 1px #a5a5a5 !important;
+}
+
 .vrGridContainer .grid_fitHeaderSpace {
-    position: absolute;
     display: none;
     width: 18px;
     background-color: #e3f1fa;
@@ -950,6 +967,7 @@ table.vrDatePickerPopup_table td {
     border-top: solid 1px #f3f3f3;
     border-left: solid 1px #FFF;
     border-top: solid 2px #51B3E1 !important;
+    border-right: 1px solid #d9d9d9;
 }
 
 /*#endregion*/
@@ -971,12 +989,15 @@ table.vrDatePickerPopup_table td {
     border-right: solid 1px#d9d9d9;
 }
 
+.vrGridContainer .grid_Filters_locked {
+    width: auto !important;
+    border-right: solid 1px #a5a5a5 !important;
+}
+
 .vrGridContainer .grid_fitFilterSpace {
-    position: absolute;
     display: none;
-    width: 17px;
+    width: 18px;
     height: 32px;
-    border-left: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;
     background-color: #f3f3f3;
 }
@@ -1067,14 +1088,32 @@ table.vrDatePickerPopup_table td {
     border-right: solid 1px#d9d9d9;
 }
 
+.vrGridContainer .grid_Totals_locked {
+    width: auto !important;
+    border-right: solid 1px #a5a5a5 !important;
+}
+
 .vrGridContainer .grid_fitTotalsSpace {
-    position: absolute;
     display: none;
-    width: 17px;
+    width: 18px;
     height: 24px;
-    border-left: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;
     background-color: #f3f3f3;
+}
+
+.vrGridContainer .p-grid-totalsGroup {
+    height: 27px !important;
+}
+
+.vrGridContainer .p-grid-locked .p-grid-totalsGroup td {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.vrGridContainer .p-grid-locked tr td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /*#endregion*/

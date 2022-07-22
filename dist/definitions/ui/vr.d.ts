@@ -2851,6 +2851,7 @@ export declare class GridColumn {
     defaultValue?: any;
     editable?: boolean;
     exportable?: boolean;
+    locked?: boolean;
     customFilterProperties?: string[];
     roundingSettings?: NumberFormatRoundingSettings;
     displayField?: string;
