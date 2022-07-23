@@ -156,6 +156,10 @@ export declare class Grid extends VrControl {
     showOnlyThisColumns(fieldList: string[], updateDataSource?: boolean): void;
     columnVisible(value: string, state: boolean, updateDataSource?: boolean): void;
     columnCheckboxVisible(state: boolean, updateDataSource?: boolean): void;
+    lockColumns(fields: string[], update?: boolean): void;
+    lockColumn(field: string, update?: boolean): void;
+    unlockColumns(fields: string[], update?: boolean): void;
+    unlockColumn(field: string, update?: boolean): void;
     removeGroup(field: string, updateDataSource?: boolean): void;
     removeGroups(fields: string[], updateDataSource?: boolean): void;
     removeAllGroups(updateDataSource?: boolean): void;
@@ -174,6 +178,7 @@ export declare class Grid extends VrControl {
     private saveWindowFiltering;
     private clearWindowFiltering;
     addFilter(field: string, filterCondition: GridFilterSettings, applyFilters?: boolean): void;
+    removeFilters(fields: string[], applyFilters?: boolean): void;
     removeFilter(field: string, applyFilters?: boolean): void;
     updateFilter(field: string, filterCondition: GridFilterSettings, applyFilters?: boolean): void;
     private applyFilters;
