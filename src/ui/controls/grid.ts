@@ -179,9 +179,10 @@ export class Grid extends VrControl
         if (options.enable == null) options.enable = true;
         if (options.excel == null) options.excel = options.rebind;
 
+        let thereAreLockedColumns = options.columns!.vrAny(k => k.locked);
         if (options.lockable == null) 
         {
-            if (options.columns.vrAny(k => k.locked === true))
+            if (thereAreLockedColumns)
                 options.lockable = true;
             else
                 options.lockable = false;
@@ -593,6 +594,10 @@ export class Grid extends VrControl
                                 {
                                     text: "Raggruppa per...", icon: IconClassLight.Users, visible: options.groupable,
                                     onClick: (e) => this.openWindowTableActions(GridActionEnum.GroupBy)
+                                },
+                                {
+                                    text: "Blocca/Sblocca", icon: IconClassLight.Lock, visible: options.lockable!,
+                                    onClick: (e) => this.openWindowTableActions(GridActionEnum.LockUnlock)
                                 }
                             ]
                     }, this._divFooter, null, this._elementId + "_spbSettings");
@@ -864,7 +869,7 @@ export class Grid extends VrControl
                 puma(th).hide();
         }
 
-        if (options.lockable)
+        if (options.lockable && thereAreLockedColumns)
             puma(this._divHeader).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
         //#endregion
 
@@ -1135,7 +1140,7 @@ export class Grid extends VrControl
             }
             //#endregion
 
-            if (options.lockable)
+            if (options.lockable && thereAreLockedColumns)
                 puma(this._divFilters).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
         }
         //#endregion
@@ -1275,7 +1280,7 @@ export class Grid extends VrControl
             }
             //#endregion
 
-            if (options.lockable)
+            if (options.lockable && thereAreLockedColumns)
                 puma(this._divTotals).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
         }
         else
@@ -1283,8 +1288,18 @@ export class Grid extends VrControl
 
         if (options.lockable)
         {
-            puma(this._divBody).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
-            puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
+            if (!thereAreLockedColumns)
+            {
+                this._divHeaderLocked.style.cssText += "display: none;";
+                this._divFiltersLocked.style.cssText += "display: none;";
+                this._divBodyLocked.style.cssText += "display: none;";
+                this._divTotalsLocked.style.cssText += "display: none;";
+            }
+            else
+            {
+                puma(this._divBody).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
+                puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
+            }
         }
         //#endregion
 
@@ -4217,6 +4232,75 @@ export class Grid extends VrControl
     }
     //#endregion
 
+    //#region Lock/Unlock
+    lockColumns(fields: string[], update = true)
+    {
+        for (let field of fields)
+            this.lockColumn(field, false);
+
+        if (update)
+            this.update();
+    }
+
+    lockColumn(field: string, update = true)
+    {
+        let options = this.getOptions();
+        if (options.lockable)
+        {
+            this._divHeaderLocked.style.cssText += "display: inline-block;";
+            this._divFiltersLocked.style.cssText += "display: inline-block;";
+            this._divBodyLocked.style.cssText += "display: inline-block;";
+            this._divTotalsLocked.style.cssText += "display: inline-block;";
+
+            puma(this._divHeader).find("th[value='" + field + "']").vrAppendToPuma(puma(this._divHeaderLocked).find("tr"));
+            puma(this._divFilters).find("td[value='" + field + "']").vrAppendToPuma(puma(this._divFiltersLocked).find("tr"));
+            puma(this._divTotals).find("td[value='" + field + "']").vrAppendToPuma(puma(this._divTotalsLocked).find("tr"));
+
+            let column = this.column(field);
+            if (column != null)
+                column.locked = true;
+
+            if (update)
+                this.update();
+        }
+    }
+
+    unlockColumns(fields: string[], update = true)
+    {
+        for (let field of fields)
+            this.unlockColumn(field, false);
+
+        if (update)
+            this.update();
+    }
+
+    unlockColumn(field: string, update = true)
+    {
+        let options = this.getOptions();
+        if (options.lockable)
+        {
+            if (options.columns!.filter(k => k.locked).length == 0)
+            {
+                this._divHeaderLocked.style.cssText += "display: none;";
+                this._divFiltersLocked.style.cssText += "display: none;";
+                this._divBodyLocked.style.cssText += "display: none;";
+                this._divTotalsLocked.style.cssText += "display: none;";
+            }
+
+            puma(this._divHeaderLocked).find("th[value='" + field + "']").vrAppendToPuma(puma(this._divHeader).find("tr"));
+            puma(this._divFiltersLocked).find("td[value='" + field + "']").vrAppendToPuma(puma(this._divFilters).find("tr"));
+            puma(this._divTotalsLocked).find("td[value='" + field + "']").vrAppendToPuma(puma(this._divTotals).find("tr"));
+
+            let column = this.column(field);
+            if (column != null)
+                column.locked = false;
+
+            if (update)
+                this.update();
+        }
+    }
+    //#endregion
+
     //#region GroupBy
     removeGroup(field: string, updateDataSource = true)
     {
@@ -4411,7 +4495,7 @@ export class Grid extends VrControl
                         },
                         {
                             type: WindowFooterItemTypeEnum.Custom, text: "Seleziona tutti", mode: ButtonModeEnum.Primary,
-                            icon: IconClassLight.Check, onClick: (e) =>
+                            value: "checkAll", icon: IconClassLight.Check, onClick: (e) =>
                             {
                                 let wndTableActionsContainer = puma("#" + this._elementId + "_divWindowTableActionsContainer");
                                 for (let checkBoxElement of Array.from<HTMLInputElement>(wndTableActionsContainer.find("input")))
@@ -4438,12 +4522,16 @@ export class Grid extends VrControl
         puma(this._wndTableActions.element()).vrAppendPuma("<div id='" + this._elementId + "_divWindowTableActionsContainer'  class='vrContainer'></div>");
     }
 
-    private openWindowTableActions(tableActionEnum: GridActionEnum)
+    private openWindowTableActions(gridActionEnum: GridActionEnum)
     {
         this.createWindowTableActions();
 
-        let groupAddedList: string[] = [];
-        let groupRemovedList: string[] = [];
+        let groupFieldAddedList: string[] = [];
+        let groupFieldRemovedList: string[] = [];
+        let columnFieldToShowList: string[] = [];
+        let columnFieldToHideList: string[] = [];
+        let columnFieldToLockList: string[] = [];
+        let columnFieldToUnlockList: string[] = [];
         let editTableActions = false;
 
         let options = this.getOptions();
@@ -4458,15 +4546,43 @@ export class Grid extends VrControl
             window.setTimeout(() =>
             {
                 //#region Manage groups
-                for (let groupRemoved of groupRemovedList)
-                    this.removeGroup(groupRemoved, false);
+                if (gridActionEnum == GridActionEnum.GroupBy && (groupFieldRemovedList.length > 0 || groupFieldAddedList.length > 0))
+                {
+                    for (let groupRemoved of groupFieldRemovedList)
+                        this.removeGroup(groupRemoved, false);
 
-                for (let groupAdded of groupAddedList)
-                    this.addGroup(groupAdded, false);
+                    for (let groupAdded of groupFieldAddedList)
+                        this.addGroup(groupAdded, false);
 
-                this.update();
-                hideLoader();
+                    this.update();
+                }
+                else if (gridActionEnum == GridActionEnum.ShowHide && (columnFieldToShowList.length > 0 || columnFieldToHideList.length > 0))
+                {
+                    for (let columnFieldToShow of columnFieldToShowList)
+                        this.showColumn(columnFieldToShow, false);
+
+                    for (let columnFieldToHide of columnFieldToHideList)
+                    {
+                        this.hideColumn(columnFieldToHide, false);
+                        this.removeFilter(columnFieldToHide, false);
+                    }
+
+                    if (columnFieldToHideList.length > 0)
+                        this.applyFilters(true);
+                }
+                else if (gridActionEnum == GridActionEnum.LockUnlock && (columnFieldToLockList.length > 0 || columnFieldToUnlockList.length > 0))
+                {
+                    for (let columnFieldToLock of columnFieldToLockList)
+                        this.lockColumn(columnFieldToLock, false);
+
+                    for (let columnFieldToUnlock of columnFieldToUnlockList)
+                        this.unlockColumn(columnFieldToUnlock, false);
+
+                    this.update();
+                }
                 //#endregion
+
+                hideLoader();
             }, 100)
         });
         this.clearWindowTableActions();
@@ -4474,10 +4590,12 @@ export class Grid extends VrControl
         let divContainer = puma("#" + this._elementId + "_divWindowTableActionsContainer")[0];
         divContainer.style.cssText += "overflow-y: auto;";
 
-        if (tableActionEnum == GridActionEnum.ShowHide)
+        if (gridActionEnum == GridActionEnum.ShowHide)
             this._wndTableActions.title("Mostra o nascondi colonne");
-        else if (tableActionEnum == GridActionEnum.GroupBy)
+        else if (gridActionEnum == GridActionEnum.GroupBy)
             this._wndTableActions.title("Raggruppa per colonne");
+        else if (gridActionEnum == GridActionEnum.LockUnlock)
+            this._wndTableActions.title("Blocca o sblocca colonne");
 
         //#region Write columns
         for (let column of options.columns!)
@@ -4489,15 +4607,21 @@ export class Grid extends VrControl
 
             //#region CheckBox
             let checked = false;
-            if (tableActionEnum == GridActionEnum.ShowHide)
+            if (gridActionEnum == GridActionEnum.ShowHide)
             {
                 checked = (column.hidden !== true);
                 this._wndTableActions.footerItem("restoreOriginal")!.show();
             }
-            else if (tableActionEnum == GridActionEnum.GroupBy)
+            else if (gridActionEnum == GridActionEnum.GroupBy)
             {
                 checked = (options.groupable! && options.groupBy != null) ? (((options.groupBy! as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)) : false;
                 this._wndTableActions.footerItem("restoreOriginal")!.hide();
+            }
+            else if (gridActionEnum == GridActionEnum.LockUnlock)
+            {
+                checked = (column.locked === true);
+                this._wndTableActions.footerItem("restoreOriginal")!.hide();
+                this._wndTableActions.footerItem("checkAll")!.hide();
             }
 
             let checkBoxElement = puma("<input id='" + this._elementId + "_chkActionColumn" + column.field + "' field='" + column.field + "' />").vrAppendToPuma(div);
@@ -4509,34 +4633,41 @@ export class Grid extends VrControl
                     onCheck: (e) =>
                     {
                         editTableActions = true;
-                        if (tableActionEnum == GridActionEnum.ShowHide)
-                        {
-                            let field = puma(e.sender.element()).attr("field");
-                            if (e.checked)
-                                this.showColumn(field, false);
-                            else
-                            {
-                                this.hideColumn(field, false);
-                                this.removeFilter(field);
-                            }
-                        }
-                        else if (tableActionEnum == GridActionEnum.GroupBy)
-                        {
-                            let field = puma(e.sender.element()).attr("field");
+                        let field = puma(e.sender.element()).attr("field");
 
+                        if (gridActionEnum == GridActionEnum.ShowHide)
+                        {
+                            //#region Show/Hide
+                            if (e.checked)
+                                columnFieldToShowList.push(field);
+                            else
+                                columnFieldToHideList.push(field);
+                            //#endregion
+                        }
+                        else if (gridActionEnum == GridActionEnum.GroupBy)
+                        {
                             //#region Manage groups
-                            if (e.checked && !groupAddedList.includes(field)) // Add
+                            if (e.checked && !groupFieldAddedList.includes(field)) // Add
                             {
-                                groupAddedList.push(field);
-                                if (groupRemovedList.includes(field))
-                                    groupRemovedList.vrDelete(field);
+                                groupFieldAddedList.push(field);
+                                if (groupFieldRemovedList.includes(field))
+                                    groupFieldRemovedList.vrDelete(field);
                             }
-                            else if (!e.checked && !groupRemovedList.includes(field)) // Remove
+                            else if (!e.checked && !groupFieldRemovedList.includes(field)) // Remove
                             {
-                                groupRemovedList.push(field);
-                                if (groupAddedList.includes(field))
-                                    groupAddedList.vrDelete(field);
+                                groupFieldRemovedList.push(field);
+                                if (groupFieldAddedList.includes(field))
+                                    groupFieldAddedList.vrDelete(field);
                             }
+                            //#endregion
+                        }
+                        else if (gridActionEnum == GridActionEnum.LockUnlock)
+                        {
+                            //#region Lock/Unlock
+                            if (e.checked)
+                                columnFieldToLockList.push(field);
+                            else
+                                columnFieldToUnlockList.push(field);
                             //#endregion
                         }
                     }
@@ -6035,13 +6166,15 @@ export class Grid extends VrControl
     recalculateWidth()
     {
         let options = this.getOptions();
+        let thereAreLockedColumns = options.columns!.vrAny(k => k.locked);
+
         if (puma(this._divBody).css('overflow-y') == 'scroll' || puma(this._divBody).css('overflow-y') == 'auto')
         {
             if (puma(this._divBody)[0].scrollHeight > puma(this._divBody)[0].clientHeight && puma(this._divBody)[0].clientHeight > 0)
             {
                 //#region Structure
                 let minusWidth = 19;
-                if (options.lockable)
+                if (options.lockable && thereAreLockedColumns)
                     minusWidth += puma(this._divHeaderLocked).width() + 5;
 
                 puma(this._divHeader).width("Calc(100% - " + minusWidth + "px)")
@@ -6050,7 +6183,7 @@ export class Grid extends VrControl
                 puma(this._divFilters).width("Calc(100% - " + minusWidth + "px)")
                 puma(this._divFilters).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
 
-                if (options.lockable)
+                if (options.lockable && thereAreLockedColumns)
                 {
                     puma(this._divBody).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
                     puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
@@ -6087,7 +6220,7 @@ export class Grid extends VrControl
             else
             {
                 let minusWidth = 2;
-                if (options.lockable)
+                if (options.lockable && thereAreLockedColumns)
                     minusWidth += puma(this._divHeaderLocked).width() + 5;
 
                 //#region Structure
@@ -6097,7 +6230,7 @@ export class Grid extends VrControl
                 puma(this._divFilters).width("Calc(100% - " + minusWidth + "px)")
                 puma(this._divFilters).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
 
-                if (options.lockable)
+                if (options.lockable && thereAreLockedColumns)
                 {
                     puma(this._divBody).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
                     puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
@@ -6148,7 +6281,7 @@ export class Grid extends VrControl
             if (options.header === false)
                 puma(this._divHeader).hide();
 
-            if (options.lockable)
+            if (options.lockable && thereAreLockedColumns)
             {
                 let i = 0;
                 puma(this._divBodyLocked).find("table colgroup").remove();
@@ -9164,12 +9297,12 @@ class AutoWindowOpenEvent extends VrControlsEvent
     columns?: GridColumn[];
 }
 //#endregion
-
 //#region Grid actions (Show/Hide and GroupBy)
 enum GridActionEnum
 {
     ShowHide,
-    GroupBy
+    GroupBy,
+    LockUnlock
 }
 //#endregion
 
