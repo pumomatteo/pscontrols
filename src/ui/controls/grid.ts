@@ -180,13 +180,7 @@ export class Grid extends VrControl
         if (options.excel == null) options.excel = options.rebind;
 
         let thereAreLockedColumns = options.columns!.vrAny(k => k.locked);
-        if (options.lockable == null) 
-        {
-            if (thereAreLockedColumns)
-                options.lockable = true;
-            else
-                options.lockable = false;
-        }
+        if (options.lockable == null) options.lockable = true;
 
         if (options.checkboxes == null || options.checkboxes === false) options.checkboxes = GridCheckboxModeEnum.None;
         if (options.checkboxes === true) options.checkboxes = GridCheckboxModeEnum.MultiCheck;
@@ -2020,7 +2014,14 @@ export class Grid extends VrControl
             //#region Checkbox column
             if (options.checkboxes != GridCheckboxModeEnum.None)
             {
-                let tdCheckbox = document.createElement("td");
+                let index = (options.groupable! || options.groupBy != null) ? (1 + options.columns!.length) : 1;
+                let isNewCellCheckbox = false;
+                let tdCheckbox = puma(tr).find(">td:nth-child(" + index + ")")[0] as HTMLTableCellElement;
+                if (tdCheckbox == null)
+                {
+                    tdCheckbox = document.createElement("td");
+                    isNewCellCheckbox = true;
+                }
                 tdCheckbox.style.cssText += "border-left: none !important;";
 
                 puma(tdCheckbox).attr("width", 20);
@@ -2032,7 +2033,9 @@ export class Grid extends VrControl
                 tdCheckbox.innerHTML = textHTML;
 
                 puma(tdCheckbox).css("text-align", "center");
-                puma(tr).vrAppendPuma(tdCheckbox);
+
+                if (isNewCellCheckbox)
+                    puma(tr).vrAppendPuma(tdCheckbox);
 
                 puma(tdCheckbox).off("click");
                 puma(tdCheckbox).click((e: JQuery.ClickEvent) =>
@@ -2110,6 +2113,7 @@ export class Grid extends VrControl
                             puma(trLocked).vrAppendPuma(tdLocked);
                     }
 
+                    k++;
                     continue;
                 }
                 else
@@ -2699,6 +2703,8 @@ export class Grid extends VrControl
                     puma(trLocked).vrAppendPuma(tdLocked)
                 else if (isNewCell)
                     puma(tr).vrAppendPuma(td);
+
+                k++;
             }
             //#endregion
 
@@ -8515,7 +8521,6 @@ export class Grid extends VrControl
                                 if (this._grdLayout.getAllItems().length == 0)
                                 {
                                     //#region Settings
-                                    let options = this.getOptions();
                                     ControlManager.get<SplitButton>(this._elementId + "_spbSettings").hideItem("manageLayout");
                                     //#endregion
                                 }
