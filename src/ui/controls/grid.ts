@@ -329,6 +329,7 @@ export class Grid extends VrControl
                 layoutColumn.field = column.field;
                 layoutColumn.fitSpace = column.fitSpace;
                 layoutColumn.hidden = column.hidden;
+                layoutColumn.locked = column.locked;
                 layoutColumn.index = index;
 
                 let width = (column.width != null) ? (column.width) : ((column.type == GridColumnTypeEnum.EditButton) ? 32 : 100);
@@ -375,7 +376,7 @@ export class Grid extends VrControl
                     if (same)
                     {
                         this._actualLayout = layoutToLoad;
-                        this.changeLayout();
+                        //this.changeLayout();
                     }
                 }
             });
@@ -1284,10 +1285,10 @@ export class Grid extends VrControl
         {
             if (!thereAreLockedColumns)
             {
-                this._divHeaderLocked.style.cssText += "display: none;";
-                this._divFiltersLocked.style.cssText += "display: none;";
-                this._divBodyLocked.style.cssText += "display: none;";
-                this._divTotalsLocked.style.cssText += "display: none;";
+                if (this._divHeaderLocked != null) this._divHeaderLocked.style.cssText += "display: none;";
+                if (this._divFiltersLocked != null) this._divFiltersLocked.style.cssText += "display: none;";
+                if (this._divBodyLocked != null) this._divBodyLocked.style.cssText += "display: none;";
+                if (this._divTotalsLocked != null) this._divTotalsLocked.style.cssText += "display: none;";
             }
             else
             {
@@ -1298,6 +1299,9 @@ export class Grid extends VrControl
         //#endregion
 
         this._internalOptions = options;
+
+        if (this._actualLayout != null)
+            this.changeLayout();
 
         //#region DataSource
         if (options.dataSource != null)
@@ -4257,10 +4261,10 @@ export class Grid extends VrControl
         let options = this.getOptions();
         if (options.lockable)
         {
-            this._divHeaderLocked.style.cssText += "display: inline-block;";
-            this._divFiltersLocked.style.cssText += "display: inline-block;";
-            this._divBodyLocked.style.cssText += "display: inline-block;";
-            this._divTotalsLocked.style.cssText += "display: inline-block;";
+            if (this._divHeaderLocked != null) this._divHeaderLocked.style.cssText += "display: inline-block;";
+            if (this._divFiltersLocked != null) this._divFiltersLocked.style.cssText += "display: inline-block;";
+            if (this._divBodyLocked != null) this._divBodyLocked.style.cssText += "display: inline-block;";
+            if (this._divTotalsLocked != null) this._divTotalsLocked.style.cssText += "display: inline-block;";
 
             puma(this._divHeader).find("th[value='" + field + "']").vrAppendToPuma(puma(this._divHeaderLocked).find("tr"));
             puma(this._divFilters).find("td[value='" + field + "']").vrAppendToPuma(puma(this._divFiltersLocked).find("tr"));
@@ -4299,10 +4303,10 @@ export class Grid extends VrControl
 
             if (options.columns!.filter(k => k.locked).length == 0)
             {
-                this._divHeaderLocked.style.cssText += "display: none;";
-                this._divFiltersLocked.style.cssText += "display: none;";
-                this._divBodyLocked.style.cssText += "display: none;";
-                this._divTotalsLocked.style.cssText += "display: none;";
+                if (this._divHeaderLocked != null) this._divHeaderLocked.style.cssText += "display: none;";
+                if (this._divFiltersLocked != null) this._divFiltersLocked.style.cssText += "display: none;";
+                if (this._divBodyLocked != null) this._divBodyLocked.style.cssText += "display: none;";
+                if (this._divTotalsLocked != null) this._divTotalsLocked.style.cssText += "display: none;";
             }
 
             if (update)
@@ -4325,10 +4329,9 @@ export class Grid extends VrControl
             for (let field of fields)
             {
                 if (((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(field))
-                {
                     ((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).vrDeleteAllBy(k => (k as GridGroupByItem).field == field);
-                    puma("#" + this._elementId + "_divContainer").find(".groupBy" + field).hide();
-                }
+
+                puma("#" + this._elementId + "_divContainer").find(".groupBy" + field).hide();
             }
 
             if (((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).length == 0)
@@ -4381,15 +4384,13 @@ export class Grid extends VrControl
 
             if ((options.groupBy as GridGroupBySettings).fields == null) (options.groupBy as GridGroupBySettings).fields = [];
             if (!((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes((groupByItem as GridGroupByItem).field))
-            {
                 ((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).push(groupByItem as GridGroupByItem);
 
-                let groupByField = field;
-                if (typeof (field) != "string")
-                    groupByField = field.field;
+            let groupByField = field;
+            if (typeof (field) != "string")
+                groupByField = field.field;
 
-                puma("#" + this._elementId + "_divContainer").find(".groupBy" + groupByField).show();
-            }
+            puma("#" + this._elementId + "_divContainer").find(".groupBy" + groupByField).show();
 
             let headerClasses = Array.from(puma(this._divHeader).find(">table tr:first-child th")).map(k => (k as any).classList[0]);
             if (!headerClasses.includes("groupBy" + (groupByItem as GridGroupByItem).field))
@@ -8626,6 +8627,7 @@ export class Grid extends VrControl
             layoutColumn.field = column.field;
             layoutColumn.fitSpace = column.fitSpace;
             layoutColumn.hidden = column.hidden;
+            layoutColumn.locked = column.locked;
             layoutColumn.index = index;
 
             let width = (column.width != null) ? (column.width) : ((column.type == GridColumnTypeEnum.EditButton) ? 32 : 100);
@@ -8835,18 +8837,36 @@ export class Grid extends VrControl
                         {
                             if (jsonColumn.fitSpace !== true)
                             {
-                                puma(this._divHeader).find("th[value='" + jsonColumn.field + "']")[0].style.width = jsonColumn.width + "px";
+                                let thHeader = puma(this._divHeader).find("th[value='" + jsonColumn.field + "']")[0];
+                                if (options.lockable && thHeader == null)
+                                    thHeader = puma(this._divHeaderLocked).find("th[value='" + jsonColumn.field + "']")[0];
+
+                                thHeader.style.width = jsonColumn.width + "px";
 
                                 if (options.filterable)
                                 {
                                     if (puma(this._divFilters).find("td[value='" + jsonColumn.field + "']")[0] != null)
                                         puma(this._divFilters).find("td[value='" + jsonColumn.field + "']")[0].style.width = jsonColumn.width + "px";
+
+                                    if (options.lockable)
+                                    {
+                                        if (puma(this._divFiltersLocked).find("td[value='" + jsonColumn.field + "']")[0] != null)
+                                            puma(this._divFiltersLocked).find("td[value='" + jsonColumn.field + "']")[0].style.width = jsonColumn.width + "px";
+
+                                    }
                                 }
 
                                 if (this._showTotals)
                                 {
                                     if (puma(this._divTotals).find("td[value='" + jsonColumn.field + "']")[0] != null)
                                         puma(this._divTotals).find("td[value='" + jsonColumn.field + "']")[0].style.width = jsonColumn.width + "px";
+
+                                    if (options.lockable)
+                                    {
+                                        if (puma(this._divTotalsLocked).find("td[value='" + jsonColumn.field + "']")[0] != null)
+                                            puma(this._divTotalsLocked).find("td[value='" + jsonColumn.field + "']")[0].style.width = jsonColumn.width + "px";
+
+                                    }
                                 }
                             }
                         }
@@ -8856,6 +8876,11 @@ export class Grid extends VrControl
                             this.hideColumn(jsonColumn.field, false);
                         else
                             this.showColumn(jsonColumn.field, false);
+
+                        if (jsonColumn.locked)
+                            this.lockColumn(jsonColumn.field, false);
+                        else
+                            this.unlockColumn(jsonColumn.field, false);
                     }
                 }
                 options.columns!.vrSortAsc("index");
@@ -8897,6 +8922,8 @@ export class Grid extends VrControl
                     }
                 }
                 //#endregion
+                
+                this.recalculateWidth();
             }
             //#endregion
 
@@ -9408,6 +9435,7 @@ class GridLayoutColumn
     width?: number;
     fitSpace?: boolean;
     hidden?: boolean;
+    locked?: boolean;
     index: number;
     field: string;
 }
