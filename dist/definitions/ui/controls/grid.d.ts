@@ -74,7 +74,7 @@ export declare class Grid extends VrControl {
     private _wndFiltering;
     private _dictionaryDataValues;
     private _dictionaryFilterConditions;
-    private _wndTableActions;
+    private _wndActions;
     private _groupByActualValue;
     private _originalHiddenColumnFields;
     private _wndAutoWindow;
@@ -167,9 +167,9 @@ export declare class Grid extends VrControl {
     addGroups(fields: (string | GridGroupByItem)[], updateDataSource?: boolean, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings): void;
     private getChildrenGroupRows;
     private getCheckedChildrenGroupRows;
-    private createWindowTableActions;
-    private openWindowTableActions;
-    private clearWindowTableActions;
+    private createWindowActions;
+    private openWindowActions;
+    private clearWindowActions;
     private manageFilterTextByColumn;
     clearFilters(updateDataSource?: boolean, rebind?: boolean): void;
     private getFilteredArrayByInputText;

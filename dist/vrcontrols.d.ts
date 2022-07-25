@@ -6279,7 +6279,8 @@ export enum WindowFooterItemTypeEnum
     ComboBox = 7,
     DatePicker = 8,
     Label = 9,
-    TextBox = 10
+    TextBox = 10,
+    Separator = 11
 }
 export enum WindowFooterItemAlignEnum
 {

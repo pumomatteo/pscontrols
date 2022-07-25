@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, IconClassLight, IconClass, WindowFooterItemTypeEnum as WindowFooterItemTypeEnum, ButtonModeEnum, ColorSettings, WindowFooterItemAlignEnum, createButton, createSplitButton, puma, shadowRoot, WindowAutoSizeDirectionEnum, TextAlignEnum, createLabel, ButtonGroupItem, createSwitch, createButtonGroup, SelectionModeEnum, createCheckBox, createComboBox, createDatePicker, createTextBox, IconClassRegular, IconSettings } from "../vr";
+import { ControlTypeEnum, IconClassLight, IconClass, WindowFooterItemTypeEnum as WindowFooterItemTypeEnum, ButtonModeEnum, ColorSettings, WindowFooterItemAlignEnum, createButton, createSplitButton, puma, shadowRoot, WindowAutoSizeDirectionEnum, TextAlignEnum, createLabel, ButtonGroupItem, createSwitch, createButtonGroup, SelectionModeEnum, createCheckBox, createComboBox, createDatePicker, createTextBox, IconClassRegular, IconSettings, createSeparator } from "../vr";
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { SplitButtonItem } from "./splitButton";
 import { ControlManager } from "../../../src/managers/controlManager";
@@ -275,7 +275,7 @@ export class Window extends VrControl
             //#endregion
 
             if (closeCallBack != null)
-                this._openCloseCallback = closeCallBack;            
+                this._openCloseCallback = closeCallBack;
 
             if (options.onOpen != null)
             {
@@ -662,6 +662,12 @@ export class Window extends VrControl
                 puma(button.element()).attr("value", value);
             //#endregion
         }
+        else if (footerItem.type == WindowFooterItemTypeEnum.Separator)
+        {
+            createSeparator({ 
+                cssContainer: cssContainer
+            }, this._divFooter)
+        }
         else if (footerItem.type == WindowFooterItemTypeEnum.SplitButton || footerItem.splitButtonItems != null)
         {
             //#region SplitButton
@@ -890,7 +896,7 @@ export class Window extends VrControl
         {
             let onLoadEvent = new WindowContentLoadEvent();
             onLoadEvent.sender = this;
-            options.onContentLoaded(onLoadEvent); 
+            options.onContentLoaded(onLoadEvent);
         }
 
         for (let contentLoaded of this._additionalContentLoadedCallbacks!)

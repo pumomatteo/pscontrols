@@ -4131,21 +4131,21 @@ export class ChartOptions extends VrControlOptions
 	onDataFormatter?: (e: ChartAxisFormatterEvent) => void;
 }
 //#endregion
-
 //#region Window
 export enum WindowFooterItemTypeEnum
 {
-	Close,
-	Ok,
-	Custom,
-	SplitButton,
-	Switch,
-	ButtonGroup,
-	CheckBox,
-	ComboBox,
-	DatePicker,
-	Label,
-	TextBox
+    Close,
+    Ok,
+    Custom,
+    SplitButton,
+    Switch,
+    ButtonGroup,
+    CheckBox,
+    ComboBox,
+    DatePicker,
+    Label,
+    TextBox,
+    Separator
 }
 
 export enum WindowFooterItemAlignEnum

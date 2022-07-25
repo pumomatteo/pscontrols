@@ -106,7 +106,7 @@ export class Grid extends VrControl
     //#endregion
 
     //#region Show/Hide & Group
-    private _wndTableActions: Window;
+    private _wndActions: Window;
     private _groupByActualValue: any;
     private _originalHiddenColumnFields: string[];
     //#endregion
@@ -584,15 +584,15 @@ export class Grid extends VrControl
                                 },
                                 {
                                     text: "Mostra/Nascondi", icon: IconClassLight.Eye,
-                                    onClick: (e) => this.openWindowTableActions(GridActionEnum.ShowHide)
+                                    onClick: (e) => this.openWindowActions(GridActionEnum.ShowHide)
                                 },
                                 {
                                     text: "Raggruppa per...", icon: IconClassLight.Users, visible: options.groupable,
-                                    onClick: (e) => this.openWindowTableActions(GridActionEnum.GroupBy)
+                                    onClick: (e) => this.openWindowActions(GridActionEnum.GroupBy)
                                 },
                                 {
                                     text: "Blocca/Sblocca", icon: IconClassLight.Lock, visible: options.lockable!,
-                                    onClick: (e) => this.openWindowTableActions(GridActionEnum.LockUnlock)
+                                    onClick: (e) => this.openWindowActions(GridActionEnum.LockUnlock)
                                 }
                             ]
                     }, this._divFooter, null, this._elementId + "_spbSettings");
@@ -4498,28 +4498,30 @@ export class Grid extends VrControl
     //#endregion
 
     //#region Table actions (Show/Hide & GroupBy)
-    private createWindowTableActions()
+    private createWindowActions()
     {
-        if (this._wndTableActions != null)
+        if (this._wndActions != null)
             return;
 
-        this._wndTableActions = createWindow(
+        this._wndActions = createWindow(
             {
                 addToControlList: false,
-                width: 385,
+                width: 530,
                 height: 400,
+                closeable: false,
                 title: "Mostra/Nascondi colonne",
                 classContainer: this.element().id + "_wndUtility",
                 onClose: (e) =>
                 {
-                    puma(this._wndTableActions.container()).remove();
-                    (this._wndTableActions as any) = null;
+                    puma(this._wndActions.container()).remove();
+                    (this._wndActions as any) = null;
                 },
                 footer:
                     [
                         {
                             type: WindowFooterItemTypeEnum.Custom, text: "Reimposta", mode: ButtonModeEnum.Primary,
-                            value: "restoreOriginal", icon: IconClassLight.RotateLeft, onClick: (e) =>
+                            value: "restoreOriginal", icon: IconClassLight.RotateLeft, align: WindowFooterItemAlignEnum.Left,
+                            onClick: (e) =>
                             {
                                 let wndTableActionsContainer = puma("#" + this._elementId + "_divWindowTableActionsContainer");
                                 for (let checkBoxElement of Array.from<HTMLInputElement>(wndTableActionsContainer.find("input")))
@@ -4532,7 +4534,8 @@ export class Grid extends VrControl
                         },
                         {
                             type: WindowFooterItemTypeEnum.Custom, text: "Seleziona tutti", mode: ButtonModeEnum.Primary,
-                            value: "checkAll", icon: IconClassLight.Check, onClick: (e) =>
+                            value: "checkAll", icon: IconClassLight.Check, align: WindowFooterItemAlignEnum.Left,
+                            onClick: (e) =>
                             {
                                 let wndTableActionsContainer = puma("#" + this._elementId + "_divWindowTableActionsContainer");
                                 for (let checkBoxElement of Array.from<HTMLInputElement>(wndTableActionsContainer.find("input")))
@@ -4544,6 +4547,7 @@ export class Grid extends VrControl
                         },
                         {
                             type: WindowFooterItemTypeEnum.Custom, text: "Deseleziona tutti", icon: IconClassLight.Check,
+                            align: WindowFooterItemAlignEnum.Left,
                             onClick: (e) =>
                             {
                                 let wndTableActionsContainer = puma("#" + this._elementId + "_divWindowTableActionsContainer");
@@ -4553,15 +4557,17 @@ export class Grid extends VrControl
                                     checkBox.checked(false, true);
                                 }
                             }
-                        }
+                        },
+                        { type: WindowFooterItemTypeEnum.Close, align: WindowFooterItemAlignEnum.Right },
+                        { type: WindowFooterItemTypeEnum.Ok, value: "ok", text: "Applica", align: WindowFooterItemAlignEnum.Right }
                     ]
             });
-        puma(this._wndTableActions.element()).vrAppendPuma("<div id='" + this._elementId + "_divWindowTableActionsContainer'  class='vrContainer'></div>");
+        puma(this._wndActions.element()).vrAppendPuma("<div id='" + this._elementId + "_divWindowTableActionsContainer'  class='vrContainer'></div>");
     }
 
-    private openWindowTableActions(gridActionEnum: GridActionEnum)
+    private openWindowActions(gridActionEnum: GridActionEnum)
     {
-        this.createWindowTableActions();
+        this.createWindowActions();
 
         let groupFieldAddedList: string[] = [];
         let groupFieldRemovedList: string[] = [];
@@ -4572,56 +4578,60 @@ export class Grid extends VrControl
         let editTableActions = false;
 
         let options = this.getOptions();
-        this._wndTableActions.open().then(() =>
-        {
-            if (!editTableActions)
-                return;
-
-            if (this.dataSource().length > 1000)
-                showLoader();
-
-            window.setTimeout(() =>
+        this._wndActions.open([
             {
-                //#region Manage groups
-                if (gridActionEnum == GridActionEnum.GroupBy && (groupFieldRemovedList.length > 0 || groupFieldAddedList.length > 0))
+                value: "ok", callback: () =>
                 {
-                    this.removeGroups(groupFieldRemovedList, false);
-                    this.addGroups(groupFieldAddedList, false);
-                    this.update();
-                }
-                else if (gridActionEnum == GridActionEnum.ShowHide && (columnFieldToShowList.length > 0 || columnFieldToHideList.length > 0))
-                {
-                    this.showColumns(columnFieldToShowList, false);
-                    this.hideColumns(columnFieldToHideList, false);
-                    this.removeFilters(columnFieldToHideList, false);
+                    if (!editTableActions)
+                        return;
 
-                    if (columnFieldToHideList.length > 0)
-                        this.applyFilters(true);
-                    else
-                        this.update();
-                }
-                else if (gridActionEnum == GridActionEnum.LockUnlock && (columnFieldToLockList.length > 0 || columnFieldToUnlockList.length > 0))
-                {
-                    this.lockColumns(columnFieldToLockList, false);
-                    this.unlockColumns(columnFieldToUnlockList, false);
-                    this.update();
-                }
-                //#endregion
+                    if (this.dataSource().length > 1000)
+                        showLoader();
 
-                hideLoader();
-            }, 100)
-        });
-        this.clearWindowTableActions();
+                    window.setTimeout(() =>
+                    {
+                        //#region Manage groups
+                        if (gridActionEnum == GridActionEnum.GroupBy && (groupFieldRemovedList.length > 0 || groupFieldAddedList.length > 0))
+                        {
+                            this.removeGroups(groupFieldRemovedList, false);
+                            this.addGroups(groupFieldAddedList, false);
+                            this.update();
+                        }
+                        else if (gridActionEnum == GridActionEnum.ShowHide && (columnFieldToShowList.length > 0 || columnFieldToHideList.length > 0))
+                        {
+                            this.showColumns(columnFieldToShowList, false);
+                            this.hideColumns(columnFieldToHideList, false);
+                            this.removeFilters(columnFieldToHideList, false);
+
+                            if (columnFieldToHideList.length > 0)
+                                this.applyFilters(true);
+                            else
+                                this.update();
+                        }
+                        else if (gridActionEnum == GridActionEnum.LockUnlock && (columnFieldToLockList.length > 0 || columnFieldToUnlockList.length > 0))
+                        {
+                            this.lockColumns(columnFieldToLockList, false);
+                            this.unlockColumns(columnFieldToUnlockList, false);
+                            this.update();
+                        }
+                        //#endregion
+
+                        hideLoader();
+                    }, 100)
+                    this._wndActions.close();
+                }
+            }]);
+        this.clearWindowActions();
 
         let divContainer = puma("#" + this._elementId + "_divWindowTableActionsContainer")[0];
         divContainer.style.cssText += "overflow-y: auto;";
 
         if (gridActionEnum == GridActionEnum.ShowHide)
-            this._wndTableActions.title("Mostra o nascondi colonne");
+            this._wndActions.title("Mostra o nascondi colonne");
         else if (gridActionEnum == GridActionEnum.GroupBy)
-            this._wndTableActions.title("Raggruppa per colonne");
+            this._wndActions.title("Raggruppa per colonne");
         else if (gridActionEnum == GridActionEnum.LockUnlock)
-            this._wndTableActions.title("Blocca o sblocca colonne");
+            this._wndActions.title("Blocca o sblocca colonne");
 
         //#region Write columns
         for (let column of options.columns!)
@@ -4636,18 +4646,18 @@ export class Grid extends VrControl
             if (gridActionEnum == GridActionEnum.ShowHide)
             {
                 checked = (column.hidden !== true);
-                this._wndTableActions.footerItem("restoreOriginal")!.show();
+                this._wndActions.footerItem("restoreOriginal")!.show();
             }
             else if (gridActionEnum == GridActionEnum.GroupBy)
             {
                 checked = (options.groupable! && options.groupBy != null) ? (((options.groupBy! as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)) : false;
-                this._wndTableActions.footerItem("restoreOriginal")!.hide();
+                this._wndActions.footerItem("restoreOriginal")!.hide();
             }
             else if (gridActionEnum == GridActionEnum.LockUnlock)
             {
                 checked = (column.locked === true);
-                this._wndTableActions.footerItem("restoreOriginal")!.hide();
-                this._wndTableActions.footerItem("checkAll")!.hide();
+                this._wndActions.footerItem("restoreOriginal")!.hide();
+                this._wndActions.footerItem("checkAll")!.hide();
             }
 
             let checkBoxElement = puma("<input id='" + this._elementId + "_chkActionColumn" + column.field + "' field='" + column.field + "' />").vrAppendToPuma(div);
@@ -4703,7 +4713,7 @@ export class Grid extends VrControl
         //#endregion
     }
 
-    private clearWindowTableActions()
+    private clearWindowActions()
     {
         puma("#" + this._elementId + "_divWindowTableActionsContainer").empty();
     }
