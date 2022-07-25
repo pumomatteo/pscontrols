@@ -1109,16 +1109,17 @@ table.vrDatePickerPopup_table td {
     height: 27px !important;
 }
 
+/* 
 .vrGridContainer .p-grid-locked .p-grid-totalsGroup td {
     padding-left: 0px !important;
     padding-right: 0px !important;
-}
+} */
 
-.vrGridContainer .p-grid-locked tr td {
+/* .vrGridContainer .grid_tdGroupByName {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
+} */
 
 /*#endregion*/
 

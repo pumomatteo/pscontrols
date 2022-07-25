@@ -1537,7 +1537,7 @@ export class Grid extends VrControl
             //#region DataSourceFieldId not defined
             if (dataItems.length > 0 && dataItems[0][options.dataSourceFieldId!] == null)					
             {
-                console.log("Grid null Id!! (" + options.dataSourceFieldId!) + "): " + this.element().id;
+                //console.log("Grid null Id!! (" + options.dataSourceFieldId!) + "): " + this.element().id;
                 let index = -1;
                 for (let item of dataItems)
                 {
@@ -3262,7 +3262,16 @@ export class Grid extends VrControl
             for (let i = 0; i < trLockedList.length; i++)
             {
                 let trLocked = trLockedList[i];
-                puma(trLocked).height(puma(trList[i]).height());
+                if (puma(trLocked).height() > puma(trList[i]).height())
+                {
+                    puma(trList[i]).height(puma(trLocked).height());
+                    puma(trLocked).height(puma(trLocked).height());
+                }
+                else
+                {
+                    puma(trLocked).height(puma(trList[i]).height());
+                    puma(trList[i]).height(puma(trList[i]).height());
+                }
             }
         }
         //#endregion
@@ -4297,6 +4306,12 @@ export class Grid extends VrControl
             {
                 column.locked = true;
                 this.showColumn(field, false);
+
+                let columnToDeleteIndex = options.columns!.indexOf(column);
+                let columnToDelete = options.columns!.splice(columnToDeleteIndex, 1)[0];
+                let lastLockedColumn = options.columns!.filter(k => k.locked == true).vrLast();
+                let lastLockedColumnIndex = (lastLockedColumn == null) ? 0 : options.columns!.lastIndexOf(lastLockedColumn);
+                options.columns!.splice(lastLockedColumnIndex + 1, 0, columnToDelete);
             }
 
             if (update)
