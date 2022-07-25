@@ -44,6 +44,10 @@
     border-left: none !important;
 }
 
+.vrGridContainer .p-grid-totals td:first-child, .vrGridContainer .p-grid-totals td[style*="none"]+td {
+    border-left: none !important;
+}
+
 .vrGridContainer .p-grid-container {
     position: relative;
 }

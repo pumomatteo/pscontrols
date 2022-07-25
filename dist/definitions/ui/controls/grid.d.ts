@@ -193,7 +193,7 @@ export declare class Grid extends VrControl {
     checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;
     focus(field?: string): void;
     getOptions(): GridOptions;
-    recalculateWidth(): void;
+    recalculateWidth(fixColGroup?: boolean): void;
     height(height?: number | string): any;
     recalculateHeight(afterFilter?: boolean): void;
     private doWebApiCall;

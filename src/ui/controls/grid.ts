@@ -856,7 +856,10 @@ export class Grid extends VrControl
 
             // Append th
             if (options.lockable && column.locked)
+            {
+                th.setAttribute("locked", "locked");
                 puma(this._divHeaderLocked).find(".p-grid-headerColumn").vrAppendPuma(th);
+            }
             else
                 puma(this._divHeader).find(".p-grid-headerColumn").vrAppendPuma(th);
 
@@ -1317,6 +1320,24 @@ export class Grid extends VrControl
 
         if (options.enable === false)
             this.enable(options.enable);
+
+        //#region Column options
+        let thHeaderList = Array.from<HTMLElement>(puma(this._divHeader).find("table th"));
+        if (options.lockable)
+            thHeaderList.vrPushRange(Array.from<HTMLElement>(puma(this._divHeaderLocked).find("table th")));
+
+        this._columnOptions = [];
+        for (let th of thHeaderList)
+        {
+            let columnPosition = new GridColumnPosition();
+            columnPosition.field = puma(th).attr("value");
+            columnPosition.left = puma(th).offset().left;
+            columnPosition.right = puma(th).offset().left + puma(th).width();
+            columnPosition.index = puma(th).index();
+            columnPosition.th = th;
+            this._columnOptions.push(columnPosition);
+        }
+        //#endregion
 
         if (options.resizable)
             this.resizable();
@@ -4267,12 +4288,16 @@ export class Grid extends VrControl
             if (this._divTotalsLocked != null) this._divTotalsLocked.style.cssText += "display: inline-block;";
 
             puma(this._divHeader).find("th[value='" + field + "']").vrAppendToPuma(puma(this._divHeaderLocked).find("tr"));
+            puma(this._divHeaderLocked).find("th[value='" + field + "']").attr("locked", "locked");
             puma(this._divFilters).find("td[value='" + field + "']").vrAppendToPuma(puma(this._divFiltersLocked).find("tr"));
             puma(this._divTotals).find("td[value='" + field + "']").vrAppendToPuma(puma(this._divTotalsLocked).find("tr"));
 
             let column = this.column(field);
             if (column != null)
+            {
                 column.locked = true;
+                this.showColumn(field, false);
+            }
 
             if (update)
                 this.update();
@@ -4293,6 +4318,7 @@ export class Grid extends VrControl
         let options = this.getOptions();
         if (options.lockable)
         {
+            puma(this._divHeaderLocked).find("th[value='" + field + "']").removeAttr("locked");
             puma(this._divHeaderLocked).find("th[value='" + field + "']").vrAppendToPuma(puma(this._divHeader).find("tr"));
             puma(this._divFiltersLocked).find("td[value='" + field + "']").vrAppendToPuma(puma(this._divFilters).find("tr"));
             puma(this._divTotalsLocked).find("td[value='" + field + "']").vrAppendToPuma(puma(this._divTotals).find("tr"));
@@ -5539,10 +5565,15 @@ export class Grid extends VrControl
     //#region Resizing
     private resizable()
     {
+        let options = this.getOptions();
         let headerTable = puma(this._divHeader).find("table")[0];
         let tableHeight = headerTable.offsetHeight;
 
-        for (let th of Array.from<HTMLElement>(puma(headerTable).find("th")))
+        let thList = Array.from<HTMLElement>(puma(headerTable).find("th"));
+        if (options.lockable)
+            thList.vrPushRange(Array.from<HTMLElement>(puma(this._divHeaderLocked).find("table").find("th")));
+
+        for (let th of thList)
         {
             let divResizable = document.createElement("div");
             divResizable.style.cssText += "position: absolute; top: 0px; right: 0px; width: 5px; cursor: col-resize; user-select: none; height: " + tableHeight + "px;";
@@ -5557,6 +5588,7 @@ export class Grid extends VrControl
         let pageX: number | null = null;
         let currentColumn: HTMLElement | null = null;
         let currentColumnWidth: number | null = null;
+        let timeoutRecalculateWidthWhileMoving: number = 0;
 
         //#region Div events
         puma(divResizable).on("mousedown", (e: any) =>
@@ -5567,7 +5599,7 @@ export class Grid extends VrControl
 
             //#region Padding
             let padding = 0;
-            if (puma(currentColumn!).css("box-sizing") == 'border-box')
+            if (puma(currentColumn!).css("box-sizing") == "border-box")
                 padding = 0;
             else
             {
@@ -5591,65 +5623,103 @@ export class Grid extends VrControl
             {
                 let options = this.getOptions();
                 let field = puma(puma(this._divHeader).find("th")[puma(currentColumn).index()]).attr("value");
+                let isColumnLocked = (currentColumn.getAttribute("locked") != null);
+
+                if (isColumnLocked)
+                    field = puma(puma(this._divHeaderLocked).find("th")[puma(currentColumn).index()]).attr("value");
+
                 let index = puma(currentColumn!).index();
 
                 let column = options.columns!.filter(k => k.field == field)[0];
-                if (column.locked)
+                if (isColumnLocked)
                 {
-                    e.preventDefault();
+                    for (let headerColumn of Array.from(puma(this._divHeaderLocked).find("th[fitSpace='true']")))
+                        puma(headerColumn).css({ "width": puma(headerColumn).width() + "px" });
 
-                    window.setTimeout(() => this._isResizing = false);
-                    currentColumn = null;
-                    pageX = null;
-                    currentColumnWidth = null;
-                    return;
+                    for (let filterColumn of Array.from(puma(this._divFiltersLocked).find("td[fitSpace='true']")))
+                        puma(filterColumn).css({ "width": puma(filterColumn).width() + "px" });
+
+                    for (let totalColumn of Array.from(puma(this._divTotalsLocked).find("td[fitSpace='true']")))
+                        puma(totalColumn).css({ "width": puma(totalColumn).width() + "px" });
                 }
+                else
+                {
+                    for (let headerColumn of Array.from(puma(this._divHeader).find("th[fitSpace='true']")))
+                        puma(headerColumn).css({ "width": puma(headerColumn).width() + "px" });
 
-                for (let headerColumn of Array.from(puma(this._divHeader).find("th[fitSpace='true']")))
-                    puma(headerColumn).css({ "width": puma(headerColumn).width() + "px" });
+                    for (let filterColumn of Array.from(puma(this._divFilters).find("td[fitSpace='true']")))
+                        puma(filterColumn).css({ "width": puma(filterColumn).width() + "px" });
 
-                for (let filterColumn of Array.from(puma(this._divFilters).find("td[fitSpace='true']")))
-                    puma(filterColumn).css({ "width": puma(filterColumn).width() + "px" });
-
-                for (let totalColumn of Array.from(puma(this._divTotals).find("td[fitSpace='true']")))
-                    puma(totalColumn).css({ "width": puma(totalColumn).width() + "px" });
+                    for (let totalColumn of Array.from(puma(this._divTotals).find("td[fitSpace='true']")))
+                        puma(totalColumn).css({ "width": puma(totalColumn).width() + "px" });
+                }
 
                 let diffX = e.pageX - pageX!;
                 currentColumn.style.width = (currentColumnWidth! + diffX) + "px";
+                column.width = (currentColumnWidth! + diffX);
 
                 if (options.filterable)
                 {
-                    if (puma(this._divFilters).find("td")[index] != null)
-                        puma(this._divFilters).find("td")[index].style.width = (currentColumnWidth! + diffX) + "px";
+                    if (isColumnLocked)
+                    {
+                        if (puma(this._divFiltersLocked).find("td")[index] != null)
+                            puma(this._divFiltersLocked).find("td")[index].style.width = (currentColumnWidth! + diffX) + "px";
+                    }
+                    else
+                    {
+                        if (puma(this._divFilters).find("td")[index] != null)
+                            puma(this._divFilters).find("td")[index].style.width = (currentColumnWidth! + diffX) + "px";
+                    }
                 }
 
                 if (this._showTotals)
                 {
-                    if (puma(this._divTotals).find("td")[index] != null)
-                        puma(this._divTotals).find("td")[index].style.width = (currentColumnWidth! + diffX) + "px";
+                    if (isColumnLocked)
+                    {
+                        if (puma(this._divTotalsLocked).find("td")[index] != null)
+                            puma(this._divTotalsLocked).find("td")[index].style.width = (currentColumnWidth! + diffX) + "px";
+                    }
+                    else
+                    {
+                        if (puma(this._divTotals).find("td")[index] != null)
+                            puma(this._divTotals).find("td")[index].style.width = (currentColumnWidth! + diffX) + "px";
+                    }
                 }
-
-                column.width = (currentColumnWidth! + diffX);
 
                 let indexColumn = this._columnOptions.findIndex(k => k.field == field);
                 let columnPosition = this._columnOptions[indexColumn];
                 if (options.groupable)
                 {
                     let col = puma(this._divBody).find("colgroup").find("col[field='" + field + "'");
-                    if (col[0] != null)
-                        col[0].style.width = (currentColumnWidth! + diffX + 12) + "px";
+                    if (isColumnLocked)
+                    {
+                        col = puma(this._divBodyLocked).find("colgroup").find("col[field='" + field + "'");
+                        puma(this._divBodyLocked).find("td[value='" + field + "']")[0].style.width = (currentColumnWidth! + diffX) + "px";
+                    }
 
-                    let colWidth = col[0].style.width.getNumericPart();
-                    columnPosition.right = columnPosition.left + colWidth;
+                    if (col[0] != null)
+                    {
+                        col[0].style.width = (currentColumnWidth! + diffX + 12) + "px";
+                        let colWidth = col[0].style.width.getNumericPart();
+                        columnPosition.right = columnPosition.left + colWidth;
+                    }
                 }
                 else
                 {
-                    puma(this._divBody).find("td[value='" + field + "']")[0].style.width = (currentColumnWidth! + diffX) + "px";
+                    if (isColumnLocked)
+                        puma(this._divBodyLocked).find("td[value='" + field + "']")[0].style.width = (currentColumnWidth! + diffX) + "px";
+                    else
+                        puma(this._divBody).find("td[value='" + field + "']")[0].style.width = (currentColumnWidth! + diffX) + "px";
+
                     columnPosition.field = field;
                     columnPosition.left = columnPosition.left;
                     columnPosition.right = columnPosition.left + column.width;
                     columnPosition.index = index;
                 }
+
+                this.recalculateWidth(false);
+                window.clearTimeout(timeoutRecalculateWidthWhileMoving);
+                timeoutRecalculateWidthWhileMoving = window.setTimeout(() => this.recalculateWidth(), 1000);
             }
         });
 
@@ -5684,18 +5754,9 @@ export class Grid extends VrControl
     private draggableColumns()
     {
         let options = this.getOptions();
-        this._columnOptions = [];
         let headerTable = puma(this._divHeader).find("table")[0];
         for (let th of Array.from<HTMLElement>(puma(headerTable).find("th")))
         {
-            let columnPosition = new GridColumnPosition();
-            columnPosition.field = puma(th).attr("value");
-            columnPosition.left = puma(th).offset().left;
-            columnPosition.right = puma(th).offset().left + puma(th).width();
-            columnPosition.index = puma(th).index();
-            columnPosition.th = th;
-            this._columnOptions.push(columnPosition);
-
             this.drag(th,
                 {
                     onDragging: (e) =>
@@ -5808,7 +5869,7 @@ export class Grid extends VrControl
     drag(element: HTMLElement | JQuery | string, dragEvent?: DragSupportEvent)
     {
         let targetStartingXPosition: number | null = null;
-        puma(element).mousedown((emd: JQueryMouseEventObject) =>
+        puma(element).mousedown((emd: JQuery.MouseDownEvent) =>
         {
             if (this._isResizing === true)
                 return;
@@ -5825,7 +5886,7 @@ export class Grid extends VrControl
 
             //#region Moving
             let that = this;
-            function mouseMoveDrag(emm: JQueryMouseEventObject)
+            function mouseMoveDrag(emm: JQuery.MouseMoveEvent)
             {
                 clearTimeout(tttt);
                 if (targetStartingXPosition == null || that._isResizing === true)
@@ -6172,7 +6233,7 @@ export class Grid extends VrControl
         return (this._internalOptions != null) ? this._internalOptions : this.options<GridOptions>();
     }
 
-    recalculateWidth()
+    recalculateWidth(fixColGroup = true)
     {
         let options = this.getOptions();
         let thereAreLockedColumns = options.columns!.vrAny(k => k.locked);
@@ -6265,7 +6326,7 @@ export class Grid extends VrControl
             puma(this._spanFitTotalsSpace).hide();
         }
 
-        if (options.groupable! || options.groupBy != null)
+        if (fixColGroup && (options.groupable! || options.groupBy != null))
         {
             let i = 0;
             puma(this._divBody).find("table colgroup").remove();
@@ -8922,7 +8983,7 @@ export class Grid extends VrControl
                     }
                 }
                 //#endregion
-                
+
                 this.recalculateWidth();
             }
             //#endregion
