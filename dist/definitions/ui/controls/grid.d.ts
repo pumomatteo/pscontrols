@@ -91,6 +91,7 @@ export declare class Grid extends VrControl {
     private _elementId;
     private _elementLocked;
     private _divToolbar;
+    private _divHeaderContainer;
     private _divHeader;
     private _divHeaderLocked;
     private _divFilters;
@@ -192,6 +193,7 @@ export declare class Grid extends VrControl {
     pageSelected(page?: number, update?: boolean): number;
     checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;
     focus(field?: string): void;
+    private isRepeater;
     getOptions(): GridOptions;
     recalculateWidth(fixColGroup?: boolean): void;
     height(height?: number | string): any;

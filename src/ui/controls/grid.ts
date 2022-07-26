@@ -136,6 +136,7 @@ export class Grid extends VrControl
     private _elementId: string;
     private _elementLocked: HTMLElement;
     private _divToolbar: HTMLElement;
+    private _divHeaderContainer: HTMLElement;
     private _divHeader: HTMLElement;
     private _divHeaderLocked: HTMLElement;
     private _divFilters: HTMLElement;
@@ -293,7 +294,7 @@ export class Grid extends VrControl
         this._actualLayout = null;
 
         //#region Add columns from groupBy if not included
-        if (options.groupBy != null && !puma(this.container()).hasClass("vrRepeaterContainer"))
+        if (options.groupBy != null)
         {
             let optionsFields = options.columns.map(k => k.field);
             for (let groupByItem of options.groupBy.fields as GridGroupByItem[])
@@ -401,13 +402,17 @@ export class Grid extends VrControl
         puma(element).vrBeforePuma("<div id='" + element.id + "_divContainer' class='p-grid-container'></div>");
 
         //#region Header
-        let divHeader = div("#" + element.id + "_divContainer", { css: "height: 35px;" })
+       this._divHeaderContainer = div("#" + element.id + "_divContainer", { css: "height: 35px;" })
         if (options.lockable)
-            this._divHeaderLocked = puma("<div class='grid_Header grid_Header_locked' style='overflow-x: hidden; display: inline-block;'></div>").vrAppendToPuma(divHeader)[0] as HTMLDivElement;
+            this._divHeaderLocked = puma("<div class='grid_Header grid_Header_locked' style='overflow-x: hidden; display: inline-block;'></div>").vrAppendToPuma(this._divHeaderContainer)[0] as HTMLDivElement;
 
-        this._divHeader = puma("<div id='" + element.id + "Header' class='grid_Header' style='overflow-x: hidden; display: inline-block;'></div>").vrAppendToPuma(divHeader)[0] as HTMLDivElement;
+        this._divHeader = puma("<div id='" + element.id + "Header' class='grid_Header' style='overflow-x: hidden; display: inline-block;'></div>").vrAppendToPuma(this._divHeaderContainer)[0] as HTMLDivElement;
         if (!options.header)
-            divHeader.style.cssText += "display: none;";
+        {
+            this._divHeaderContainer.style.cssText += "display: none;";
+            this._divHeader.style.cssText += "display: none;";
+            this._divHeaderLocked.style.cssText += "display: none;";
+        }
 
         this._spanFitHeaderSpace = puma("<span id='" + element.id + "FitHeaderSpace' style='position: absolute;' class='grid_fitHeaderSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
         //#endregion
@@ -714,9 +719,6 @@ export class Grid extends VrControl
         {
             for (let column of options.columns!)
             {
-                if (puma(this.container()).hasClass("vrRepeaterContainer") && column.type == GridColumnTypeEnum.Custom)
-                    continue;
-
                 let display = "";
                 if (options.groupBy == null || (!(options.groupBy.fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                     display = "display: none;";
@@ -891,11 +893,8 @@ export class Grid extends VrControl
             {
                 for (let column of options.columns!)
                 {
-                    if (puma(this.container()).hasClass("vrRepeaterContainer") && column.type == GridColumnTypeEnum.Custom)
-                        continue;
-
                     let display = "";
-                    if (options.groupBy == null || (!puma(this.container()).hasClass("vrRepeaterContainer") && !(options.groupBy.fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
+                    if (options.groupBy == null || (!(options.groupBy.fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                         display = "display: none;";
 
                     puma(this._divFilters).find(".p-grid-filters").vrAppendPuma("<td style='border: 1px solid rgb(221, 221, 221); " + display + "' width=16 class='groupBy" + column.field + "'></td>");
@@ -1161,9 +1160,6 @@ export class Grid extends VrControl
             {
                 for (let column of options.columns!)
                 {
-                    if (puma(this.container()).hasClass("vrRepeaterContainer") && column.type == GridColumnTypeEnum.Custom)
-                        continue;
-
                     let display = "";
                     if (options.groupBy == null || (!(options.groupBy.fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                         display = "display: none;";
@@ -2747,8 +2743,6 @@ export class Grid extends VrControl
                 for (let i = options.columns!.length - 1; i >= 0; i--)
                 {
                     let column = options.columns![i];
-                    if (puma(this.container()).hasClass("vrRepeaterContainer") && column.type == GridColumnTypeEnum.Custom)
-                        continue;
 
                     let display = "";
                     if (options.groupBy == null || (options.groupBy as GridGroupBySettings).fields == null || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
@@ -6255,6 +6249,11 @@ export class Grid extends VrControl
             puma("#" + this._elementId + "_StringFilter_" + field).focus();
     }
 
+    private isRepeater()
+    {
+        return puma(this.container()).hasClass("vrRepeaterContainer");
+    }
+
     getOptions()
     {
         return (this._internalOptions != null) ? this._internalOptions : this.options<GridOptions>();
@@ -6359,6 +6358,7 @@ export class Grid extends VrControl
             puma(this._divBody).find("table colgroup").remove();
             let colGroup = puma("<colgroup></colgroup>").prependTo(puma(this._divBody).find(">table"));
 
+            puma(this._divHeaderContainer).show();
             puma(this._divHeader).show();
             for (let column of Array.from(puma(this._divHeader).find(">table tr:first-child th")))
             {
@@ -6407,6 +6407,9 @@ export class Grid extends VrControl
                 if (options.header === false)
                     puma(this._divHeaderLocked).hide();
             }
+
+            if (options.header === false)
+                puma(this._divHeaderContainer).hide();
         }
     }
 
