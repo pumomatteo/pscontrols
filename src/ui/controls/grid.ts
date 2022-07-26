@@ -10,6 +10,7 @@ import { DatePicker, DatePickerOptions } from "./datePicker";
 import { Dictionary } from "../../../src/managers/dictionary";
 import { ColorPicker } from "./colorPicker";
 import { Button } from "./button";
+import { UtilityManager } from "../../../src/managers/utilityManager";
 
 //#region Options
 export class GridOptions extends VrControlOptions
@@ -2750,7 +2751,7 @@ export class Grid extends VrControl
                         continue;
 
                     let display = "";
-                    if (options.groupBy == null || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
+                    if (options.groupBy == null || (options.groupBy as GridGroupBySettings).fields == null || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                         display = "display: none;";
 
                     let tdGroupBy = puma(tr).find("td.groupBy" + column.field);
@@ -2758,7 +2759,7 @@ export class Grid extends VrControl
                         puma(tr).prepend("<td width=16 style='border-left: none !important;" + display + "' class='groupBy" + column.field + "'></td>");
                     else
                     {
-                        if (options.groupBy == null)
+                        if (options.groupBy == null || (options.groupBy as GridGroupBySettings).fields == null)
                             tdGroupBy.hide();
                         else if (((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field))
                             tdGroupBy.show();
@@ -2771,7 +2772,7 @@ export class Grid extends VrControl
                             puma(trLocked).prepend("<td width=16 style='border-left: none !important;" + display + "' class='groupBy" + column.field + "'></td>");
                         else
                         {
-                            if (options.groupBy == null)
+                            if (options.groupBy == null || (options.groupBy as GridGroupBySettings).fields == null)
                                 tdGroupByLocked.hide();
                             else if (((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field))
                                 tdGroupByLocked.show();
@@ -3250,30 +3251,12 @@ export class Grid extends VrControl
         }
         //#endregion
 
-        //#region Recalculate Width/Height
+        //#region Recalculate Width/Height & AdjustTrHeight
         this.recalculateHeight();
         this.recalculateWidth();
         this.recalculateHeight();
 
-        if (options.lockable)
-        {
-            let trLockedList = Array.from<HTMLElement>(puma(this._elementLocked).find(">tbody tr"));
-            let trList = Array.from<HTMLElement>(puma(this.element()).find(">tbody tr"));
-            for (let i = 0; i < trLockedList.length; i++)
-            {
-                let trLocked = trLockedList[i];
-                if (puma(trLocked).height() > puma(trList[i]).height())
-                {
-                    puma(trList[i]).height(puma(trLocked).height());
-                    puma(trLocked).height(puma(trLocked).height());
-                }
-                else
-                {
-                    puma(trLocked).height(puma(trList[i]).height());
-                    puma(trList[i]).height(puma(trList[i]).height());
-                }
-            }
-        }
+        this.adjustTrHeight();
         //#endregion
 
         this._deletedItems = [];
@@ -4307,11 +4290,13 @@ export class Grid extends VrControl
                 column.locked = true;
                 this.showColumn(field, false);
 
-                let columnToDeleteIndex = options.columns!.indexOf(column);
-                let columnToDelete = options.columns!.splice(columnToDeleteIndex, 1)[0];
+                //#region Move column to correct index
+                let columnToMoveIndex = options.columns!.indexOf(column);
+                let columnToMove = options.columns!.splice(columnToMoveIndex, 1)[0];
                 let lastLockedColumn = options.columns!.filter(k => k.locked == true).vrLast();
                 let lastLockedColumnIndex = (lastLockedColumn == null) ? 0 : options.columns!.lastIndexOf(lastLockedColumn);
-                options.columns!.splice(lastLockedColumnIndex + 1, 0, columnToDelete);
+                options.columns!.splice((lastLockedColumn == null) ? 0 : (lastLockedColumnIndex + 1), 0, columnToMove);
+                //#endregion
             }
 
             if (update)
@@ -4340,7 +4325,15 @@ export class Grid extends VrControl
 
             let column = this.column(field);
             if (column != null)
+            {
                 column.locked = false;
+
+                //#region Move column to correct index
+                let columnToMoveIndex = options.columns!.indexOf(column);
+                let columnToMove = options.columns!.splice(columnToMoveIndex, 1)[0];
+                options.columns!.splice(options.columns!.length, 0, columnToMove);
+                //#endregion
+            }
 
             if (options.columns!.filter(k => k.locked).length == 0)
             {
@@ -4375,7 +4368,7 @@ export class Grid extends VrControl
                 puma("#" + this._elementId + "_divContainer").find(".groupBy" + field).hide();
             }
 
-            if (((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).length == 0)
+            if ((options.groupBy as GridGroupBySettings).fields == null || ((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).length == 0)
                 options.groupBy = null;
 
             if (updateDataSource)
@@ -4403,7 +4396,16 @@ export class Grid extends VrControl
     {
         let options = this.getOptions();
         if (options.groupBy == null)
-            options.groupBy = [];
+            options.groupBy = new GridGroupBySettings();
+        else
+        {
+            // If grid is grouped, then remove all groups and re-added all
+            let allFields = UtilityManager.duplicate((options.groupBy as GridGroupBySettings).fields);
+            allFields.vrPushRange(fields);
+            this.removeAllGroups(false);
+            this.addGroups(allFields, updateDataSource, sortBy, internalSortBy);
+            return;
+        }
 
         if (!options.groupable)
             throw new Error("Griglia non raggruppabile! Mettere opzione .groupable: true");
@@ -4665,7 +4667,7 @@ export class Grid extends VrControl
             }
             else if (gridActionEnum == GridActionEnum.GroupBy)
             {
-                checked = (options.groupable! && options.groupBy != null) ? (((options.groupBy! as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)) : false;
+                checked = (options.groupable! && options.groupBy != null && (options.groupBy as GridGroupBySettings).fields != null) ? (((options.groupBy! as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)) : false;
                 this._wndActions.footerItem("restoreOriginal")!.hide();
             }
             else if (gridActionEnum == GridActionEnum.LockUnlock)
@@ -6475,6 +6477,27 @@ export class Grid extends VrControl
                     puma(this._divBodyLocked).height(Number(puma(this._divBody).height()) - 17);
                 else
                     puma(this._divBodyLocked).height(puma(this._divBody).height());
+            }
+        }
+    }
+
+    private adjustTrHeight()
+    {
+        let options = this.getOptions();
+        if (options.lockable)
+        {
+            let trLockedList = Array.from<HTMLElement>(puma(this._elementLocked).find(">tbody tr"));
+            let trList = Array.from<HTMLElement>(puma(this.element()).find(">tbody tr"));
+            for (let i = 0; i < trLockedList.length; i++)
+            {
+                let trLocked = trLockedList[i];
+                let tr = trList[i];
+                let heightToSet = (puma(trLocked).height() > puma(tr).height()) ? puma(trLocked).height() : puma(tr).height();
+                if (heightToSet < options.rowHeight!)
+                    heightToSet = options.rowHeight!;
+
+                puma(trLocked).height(heightToSet);
+                puma(tr).height(heightToSet);
             }
         }
     }

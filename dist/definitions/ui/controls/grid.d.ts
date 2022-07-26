@@ -196,6 +196,7 @@ export declare class Grid extends VrControl {
     recalculateWidth(fixColGroup?: boolean): void;
     height(height?: number | string): any;
     recalculateHeight(afterFilter?: boolean): void;
+    private adjustTrHeight;
     private doWebApiCall;
     enable(state?: boolean | string): void;
     private toolbarCustomLogic;

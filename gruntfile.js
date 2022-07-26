@@ -180,7 +180,7 @@ module.exports = function (grunt)
                 path.resolve("N://Mediblu/Vettore.Doctor/Vettore.Doctor/Scripts/"),
                 path.resolve("N://Vettore.Web/Trunk25/Vettore.Web/Vettore.Web/Scripts/"),
                 //path.resolve("N://Vettore.Web/23/Vettore.Web/Vettore.Web/Scripts/"),
-                path.resolve("N://Vettore.Web/24/Vettore.Web/Vettore.Web/Scripts/"),
+                path.resolve("N://Vettore.Web/24.dev/Vettore.Web/Vettore.Web/Scripts/"),
             ];
 
         for (let path of productionDefitinionFolders)
@@ -208,7 +208,7 @@ module.exports = function (grunt)
                 path.resolve("N://Mediblu/Vettore.Doctor/Vettore.Doctor/Scripts/"),
                 path.resolve("N://Vettore.Web/Trunk25/Vettore.Web/Vettore.Web/Scripts/"),
                 //path.resolve("N://Vettore.Web/23/Vettore.Web/Vettore.Web/Scripts/"),
-                path.resolve("N://Vettore.Web/24/Vettore.Web/Vettore.Web/Scripts/"),
+                path.resolve("N://Vettore.Web/24.dev/Vettore.Web/Vettore.Web/Scripts/"),
             ];
         for (let path of productionJsFiles)
         {
@@ -232,7 +232,7 @@ module.exports = function (grunt)
                 path.resolve("N://Mediblu/Vettore.Doctor/Vettore.Doctor/styles/"),
                 path.resolve("N://Vettore.Web/Trunk25/Vettore.Web/Vettore.Web/styles/"),
                 //path.resolve("N://Vettore.Web/23/Vettore.Web/Vettore.Web/styles/"),
-                path.resolve("N://Vettore.Web/24/Vettore.Web/Vettore.Web/styles/"),
+                path.resolve("N://Vettore.Web/24.dev/Vettore.Web/Vettore.Web/styles/"),
             ];
         for (let path of productionCssFiles)
         {
