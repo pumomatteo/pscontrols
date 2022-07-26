@@ -194,6 +194,7 @@ export declare class Grid extends VrControl {
     checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;
     focus(field?: string): void;
     private isRepeater;
+    private thereAreLockedColumns;
     getOptions(): GridOptions;
     recalculateWidth(fixColGroup?: boolean): void;
     height(height?: number | string): any;

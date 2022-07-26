@@ -180,8 +180,6 @@ export class Grid extends VrControl
         if (options.largePageSize == null) options.largePageSize = false;
         if (options.enable == null) options.enable = true;
         if (options.excel == null) options.excel = options.rebind;
-
-        let thereAreLockedColumns = options.columns!.vrAny(k => k.locked);
         if (options.lockable == null) options.lockable = true;
 
         if (options.checkboxes == null || options.checkboxes === false) options.checkboxes = GridCheckboxModeEnum.None;
@@ -402,7 +400,7 @@ export class Grid extends VrControl
         puma(element).vrBeforePuma("<div id='" + element.id + "_divContainer' class='p-grid-container'></div>");
 
         //#region Header
-       this._divHeaderContainer = div("#" + element.id + "_divContainer", { css: "height: 35px;" })
+        this._divHeaderContainer = div("#" + element.id + "_divContainer", { css: "height: 35px;" })
         if (options.lockable)
             this._divHeaderLocked = puma("<div class='grid_Header grid_Header_locked' style='overflow-x: hidden; display: inline-block;'></div>").vrAppendToPuma(this._divHeaderContainer)[0] as HTMLDivElement;
 
@@ -678,7 +676,7 @@ export class Grid extends VrControl
         }
 
         let remainingSpace = tableWidth - columnsWidthOccupied;
-        if (options.checkboxes != GridCheckboxModeEnum.None)
+        if (!this.thereAreLockedColumns() && options.checkboxes != GridCheckboxModeEnum.None)
             remainingSpace -= 20;
 
         if (options.groupBy != null && options.groupBy.fields != null)
@@ -740,11 +738,15 @@ export class Grid extends VrControl
             puma(thCheckbox).css("color", "#FFF");
 
             let textHTML = "<input id='" + element.id + "header_CheckboxColumn' class='vrCheckBox' type='checkbox'></input>"
-                + "<label class='k-label vrCheckBoxLabel vr-checkboxColumnHeader-label' for='header_CheckboxColumn'></label>";
+                + "<label class='vrCheckBoxLabel vr-checkboxColumnHeader-label' for='header_CheckboxColumn'></label>";
             thCheckbox.innerHTML = textHTML;
 
             puma(thCheckbox).css("text-align", "center");
-            puma(this._divHeader).find(".p-grid-headerColumn").vrAppendPuma(thCheckbox);
+
+            if (this.thereAreLockedColumns())
+                puma(this._divHeaderLocked).find(".p-grid-headerColumn").vrAppendPuma(thCheckbox);
+            else
+                puma(this._divHeader).find(".p-grid-headerColumn").vrAppendPuma(thCheckbox);
 
             if (options.checkboxes == GridCheckboxModeEnum.SingleCheck)
                 puma(thCheckbox).children().hide();
@@ -870,7 +872,7 @@ export class Grid extends VrControl
                 puma(th).hide();
         }
 
-        if (options.lockable && thereAreLockedColumns)
+        if (options.lockable && this.thereAreLockedColumns())
             puma(this._divHeader).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
         //#endregion
 
@@ -911,7 +913,10 @@ export class Grid extends VrControl
                 thCheckbox.style.cssText += "border: 1px solid #dddddd;";
                 puma(thCheckbox).attr("width", 20);
 
-                puma(this._divFilters).find(".p-grid-filters").vrAppendPuma(thCheckbox);
+                if (this.thereAreLockedColumns())
+                    puma(this._divFiltersLocked).find(".p-grid-filters").vrAppendPuma(thCheckbox);
+                else
+                    puma(this._divFilters).find(".p-grid-filters").vrAppendPuma(thCheckbox);
             }
             //#endregion
 
@@ -1138,7 +1143,7 @@ export class Grid extends VrControl
             }
             //#endregion
 
-            if (options.lockable && thereAreLockedColumns)
+            if (options.lockable && this.thereAreLockedColumns())
                 puma(this._divFilters).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
         }
         //#endregion
@@ -1178,7 +1183,10 @@ export class Grid extends VrControl
                 thCheckbox.style.cssText += "border: 1px solid #dddddd;";
                 puma(thCheckbox).attr("width", 20);
 
-                puma(this._divTotals).find(".p-grid-totals").vrAppendPuma(thCheckbox);
+                if (this.thereAreLockedColumns())
+                    puma(this._divTotalsLocked).find(".p-grid-totals").vrAppendPuma(thCheckbox);
+                else
+                    puma(this._divTotals).find(".p-grid-totals").vrAppendPuma(thCheckbox);
             }
             //#endregion
 
@@ -1275,7 +1283,7 @@ export class Grid extends VrControl
             }
             //#endregion
 
-            if (options.lockable && thereAreLockedColumns)
+            if (this.thereAreLockedColumns())
                 puma(this._divTotals).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
         }
         else
@@ -1283,7 +1291,7 @@ export class Grid extends VrControl
 
         if (options.lockable)
         {
-            if (!thereAreLockedColumns)
+            if (!this.thereAreLockedColumns())
             {
                 if (this._divHeaderLocked != null) this._divHeaderLocked.style.cssText += "display: none;";
                 if (this._divFiltersLocked != null) this._divFiltersLocked.style.cssText += "display: none;";
@@ -1832,6 +1840,9 @@ export class Grid extends VrControl
 
                             let groupByCaret = IconClassLight.CaretDown;
                             let childrenRows = this.getChildrenGroupRows(trGroupBy!, this._divBody);
+                            if (this.thereAreLockedColumns())
+                                childrenRows = this.getChildrenGroupRows(trGroupBy!, this._divBodyLocked);
+
                             if (this.pageSelected() > 1 && !puma(childrenRows.allRows.vrFirst()).is(":visible"))
                                 groupByCaret = IconClassLight.CaretRight;
 
@@ -1850,6 +1861,10 @@ export class Grid extends VrControl
                             //#region Checkbox group
                             if (options.checkboxes != GridCheckboxModeEnum.None)
                             {
+                                let checkboxContainer = puma(trGroupBy).find("div.grid_divGroupByName")[0];
+                                if (this.thereAreLockedColumns())
+                                    checkboxContainer = puma(trGroupByLocked).find("div.grid_divGroupByName")[0];
+
                                 createCheckBox(
                                     {
                                         cssContainer: "margin-right: 5px;",
@@ -1857,6 +1872,9 @@ export class Grid extends VrControl
                                         {
                                             let parentGroupRow = e.sender.element().parentElement!.parentElement!.parentElement!.parentElement!;
                                             let childrenRows = this.getChildrenGroupRows(parentGroupRow, this._divBody);
+                                            if (this.thereAreLockedColumns())
+                                                childrenRows = this.getChildrenGroupRows(parentGroupRow, this._divBodyLocked);
+
                                             for (let childRow of childrenRows.children)
                                             {
                                                 let dataItemIdNotSplitted = puma(childRow).attr("id");
@@ -1873,7 +1891,7 @@ export class Grid extends VrControl
                                                 }
                                             }
                                         }
-                                    }, puma(trGroupBy).find("div.grid_divGroupByName")[0], ControlPositionEnum.Before);
+                                    }, checkboxContainer, ControlPositionEnum.Before);
                             }
                             //#endregion
 
@@ -2038,7 +2056,13 @@ export class Grid extends VrControl
             {
                 let index = (options.groupable! || options.groupBy != null) ? (1 + options.columns!.length) : 1;
                 let isNewCellCheckbox = false;
-                let tdCheckbox = puma(tr).find(">td:nth-child(" + index + ")")[0] as HTMLTableCellElement;
+                let tdCheckbox = null;
+
+                if (this.thereAreLockedColumns())
+                    tdCheckbox = puma(trLocked).find(">td:nth-child(" + index + ")")[0] as HTMLTableCellElement;
+                else
+                    tdCheckbox = puma(tr).find(">td:nth-child(" + index + ")")[0] as HTMLTableCellElement;
+
                 if (tdCheckbox == null)
                 {
                     tdCheckbox = document.createElement("td");
@@ -2057,7 +2081,12 @@ export class Grid extends VrControl
                 puma(tdCheckbox).css("text-align", "center");
 
                 if (isNewCellCheckbox)
-                    puma(tr).vrAppendPuma(tdCheckbox);
+                {
+                    if (this.thereAreLockedColumns())
+                        puma(trLocked).vrAppendPuma(tdCheckbox);
+                    else
+                        puma(tr).vrAppendPuma(tdCheckbox);
+                }
 
                 puma(tdCheckbox).off("click");
                 puma(tdCheckbox).click((e: JQuery.ClickEvent) =>
@@ -2781,8 +2810,8 @@ export class Grid extends VrControl
             //#region Select row
             if (options.checkboxes != GridCheckboxModeEnum.None)
             {
-                puma(tr).off("click");
-                puma(tr).click((e: any) =>
+                puma(tr).add(puma(trLocked)).off("click");
+                puma(tr).add(puma(trLocked)).click((e: any) =>
                 {
                     if (e.shiftKey && options.checkboxes == GridCheckboxModeEnum.MultiCheck)
                         this.selectRangeShiftKey(e.target);
@@ -2795,8 +2824,8 @@ export class Grid extends VrControl
             }
             else
             {
-                puma(tr).off("click");
-                puma(tr).click((e: any) =>
+                puma(tr).add(puma(trLocked)).off("click");
+                puma(tr).add(puma(trLocked)).click((e: any) =>
                 {
                     //#region Event
                     if (options.onSelectRow != null)
@@ -3453,6 +3482,16 @@ export class Grid extends VrControl
             if (dataItemIdList.vrToStringArrayList().includes(puma(row).attr("dataItemId")))
                 puma(row).remove();
         }
+
+        if (this.thereAreLockedColumns())
+        {
+            let rows = Array.from(puma(this._divBodyLocked).find("tr"));
+            for (let row of rows)
+            {
+                if (dataItemIdList.vrToStringArrayList().includes(puma(row).attr("dataItemId")))
+                    puma(row).remove();
+            }
+        }
         //#endregion
 
         //#region Delete item
@@ -3520,6 +3559,9 @@ export class Grid extends VrControl
     {
         let options = this.getOptions();
         let checkboxList: HTMLInputElement[] = Array.from<HTMLInputElement>(puma(this._divBody).find(".vr-checkbox-column") as any);
+        if (this.thereAreLockedColumns())
+            checkboxList = Array.from<HTMLInputElement>(puma(this._divBodyLocked).find(".vr-checkbox-column") as any);
+
         let checkboxCheckedList = checkboxList.filter(k => k.checked);
 
         let checkedItems: any[] = [];
@@ -3564,12 +3606,18 @@ export class Grid extends VrControl
     checkAllRows(triggerChange = true)
     {
         let options = this.getOptions();
+        if (options.checkboxes == GridCheckboxModeEnum.SingleCheck)
+            return;
+
         let headerCheckbox = puma("#" + puma(this.element()).attr("id") + "header_CheckboxColumn");
         headerCheckbox.attr("checked", "checked");
         if (headerCheckbox[0] != null)
             headerCheckbox[0].checked = true;
 
         let checkboxList: HTMLInputElement[] = Array.from<HTMLInputElement>(puma(this._divBody).find(".vr-checkbox-column") as any);
+        if (this.thereAreLockedColumns())
+            checkboxList = Array.from<HTMLInputElement>(puma(this._divBodyLocked).find(".vr-checkbox-column") as any);
+
         for (let checkbox of checkboxList)
         {
             puma(checkbox).attr("checked", "checked");
@@ -3582,6 +3630,9 @@ export class Grid extends VrControl
         if (options.groupable! && options.groupBy != null && options.checkboxes != GridCheckboxModeEnum.None)
         {
             let groupByRows = puma(this._divBody).find(".grid_trGroupBy");
+            if (this.thereAreLockedColumns())
+                groupByRows = puma(this._divBodyLocked).find(".grid_trGroupBy");
+
             for (let groupByRow of Array.from(groupByRows))
             {
                 let checkBox = puma(groupByRow).find("input");
@@ -3612,6 +3663,9 @@ export class Grid extends VrControl
             headerCheckbox[0].checked = false;
 
         let checkboxList: HTMLInputElement[] = Array.from<HTMLInputElement>(puma(this._divBody).find(".vr-checkbox-column") as any);
+        if (this.thereAreLockedColumns())
+            checkboxList = Array.from<HTMLInputElement>(puma(this._divBodyLocked).find(".vr-checkbox-column") as any);
+
         for (let checkbox of checkboxList)
         {
             puma(checkbox).removeAttr("checked");
@@ -3624,6 +3678,9 @@ export class Grid extends VrControl
         if (options.groupable! && options.groupBy != null && options.checkboxes != GridCheckboxModeEnum.None)
         {
             let groupByRows = puma(this._divBody).find(".grid_trGroupBy");
+            if (this.thereAreLockedColumns())
+                groupByRows = puma(this._divBodyLocked).find(".grid_trGroupBy");
+
             for (let groupByRow of Array.from(groupByRows))
             {
                 let checkBox = puma(groupByRow).find("input");
@@ -3661,6 +3718,10 @@ export class Grid extends VrControl
 
     selectRows(itemIdList: string[], property?: string, triggerChange = true)
     {
+        let options = this.getOptions();
+        if (options.checkboxes == GridCheckboxModeEnum.SingleCheck)
+            itemIdList = [itemIdList.vrLast()];
+
         //#region Other property instead of 'id'
         if (property != null)
         {
@@ -3687,6 +3748,9 @@ export class Grid extends VrControl
     {
         let rowIndex = Number(puma(target).closest("tr").attr("row"));
         let checkboxList: HTMLInputElement[] = Array.from<HTMLInputElement>(puma(this._divBody).find(".vr-checkbox-column:checked") as any);
+        if (this.thereAreLockedColumns())
+            checkboxList = Array.from<HTMLInputElement>(puma(this._divBodyLocked).find(".vr-checkbox-column:checked") as any);
+
         let trSelectedList: HTMLElement[] = [];
         for (let checkbox of checkboxList)
             trSelectedList.push(puma(checkbox).closest("tr")[0]);
@@ -3718,6 +3782,8 @@ export class Grid extends VrControl
     {
         let options = this.getOptions();
         let checkboxList: HTMLInputElement[] = Array.from<HTMLInputElement>(puma(this._divBody).find(".vr-checkbox-column") as any);
+        if (this.thereAreLockedColumns())
+            checkboxList = Array.from<HTMLInputElement>(puma(this._divBodyLocked).find(".vr-checkbox-column") as any);
 
         //#region Select checkbox
         let dataItem = null;
@@ -3847,6 +3913,9 @@ export class Grid extends VrControl
             while (!puma(parentGroupRow).hasClass("grid_trGroupBy"))
             {
                 parentGroupRow = puma(this._divBody).find("tr:nth-child(" + i + ")")[0];
+                if (this.thereAreLockedColumns())
+                    parentGroupRow = puma(this._divBodyLocked).find("tr:nth-child(" + i + ")")[0];
+
                 i--;
             }
             //#endregion
@@ -3857,6 +3926,9 @@ export class Grid extends VrControl
                 if (!puma(parentGroupRow).hasClass("grid_trGroupBy"))
                 {
                     parentGroupRow = puma(this._divBody).find("tr:nth-child(" + i + ")")[0];
+                    if (this.thereAreLockedColumns())
+                        parentGroupRow = puma(this._divBodyLocked).find("tr:nth-child(" + i + ")")[0];
+
                     i--;
                     continue;
                 }
@@ -3865,7 +3937,13 @@ export class Grid extends VrControl
 
                 //#region Check or not 
                 let childrenRows = this.getChildrenGroupRows(parentGroupRow, this._divBody);
+                if (this.thereAreLockedColumns())
+                    childrenRows = this.getChildrenGroupRows(parentGroupRow, this._divBodyLocked);
+
                 let numberOfCheckedChildren = this.getCheckedChildrenGroupRows(parentGroupRow, this._divBody).length;
+                if (this.thereAreLockedColumns())
+                    numberOfCheckedChildren = this.getCheckedChildrenGroupRows(parentGroupRow, this._divBodyLocked).length;
+
                 (checkBoxParentGroup[0] as HTMLInputElement).checked = false;
                 checkBoxParentGroup.removeClass("indeterminateVrCheckbox");
 
@@ -3881,6 +3959,9 @@ export class Grid extends VrControl
                     break;
 
                 parentGroupRow = puma(this._divBody).find("tr:nth-child(" + i + ")")[0];
+                if (this.thereAreLockedColumns())
+                    parentGroupRow = puma(this._divBodyLocked).find("tr:nth-child(" + i + ")")[0];
+
                 i--;
             }
         }
@@ -3909,6 +3990,8 @@ export class Grid extends VrControl
     {
         let options = this.getOptions();
         let checkboxList: HTMLInputElement[] = Array.from<HTMLInputElement>(puma(this._divBody).find(".vr-checkbox-column") as any);
+        if (this.thereAreLockedColumns())
+            checkboxList = Array.from<HTMLInputElement>(puma(this._divBodyLocked).find(".vr-checkbox-column") as any);
 
         let headerCheckbox = puma("#" + puma(this.element()).attr("id") + "header_CheckboxColumn");
         headerCheckbox.removeAttr("checked");
@@ -6254,6 +6337,12 @@ export class Grid extends VrControl
         return puma(this.container()).hasClass("vrRepeaterContainer");
     }
 
+    private thereAreLockedColumns()
+    {
+        let options = this.getOptions();
+        return options.lockable && options.columns!.vrAny(k => k.locked);
+    }
+
     getOptions()
     {
         return (this._internalOptions != null) ? this._internalOptions : this.options<GridOptions>();
@@ -6262,15 +6351,13 @@ export class Grid extends VrControl
     recalculateWidth(fixColGroup = true)
     {
         let options = this.getOptions();
-        let thereAreLockedColumns = options.columns!.vrAny(k => k.locked);
-
         if (puma(this._divBody).css('overflow-y') == 'scroll' || puma(this._divBody).css('overflow-y') == 'auto')
         {
             if (puma(this._divBody)[0].scrollHeight > puma(this._divBody)[0].clientHeight && puma(this._divBody)[0].clientHeight > 0)
             {
                 //#region Structure
                 let minusWidth = 19;
-                if (options.lockable && thereAreLockedColumns)
+                if (this.thereAreLockedColumns())
                     minusWidth += puma(this._divHeaderLocked).width() + 5;
 
                 puma(this._divHeader).width("Calc(100% - " + minusWidth + "px)")
@@ -6279,7 +6366,7 @@ export class Grid extends VrControl
                 puma(this._divFilters).width("Calc(100% - " + minusWidth + "px)")
                 puma(this._divFilters).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
 
-                if (options.lockable && thereAreLockedColumns)
+                if (this.thereAreLockedColumns())
                 {
                     puma(this._divBody).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
                     puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
@@ -6318,7 +6405,7 @@ export class Grid extends VrControl
             else
             {
                 let minusWidth = 2;
-                if (options.lockable && thereAreLockedColumns)
+                if (this.thereAreLockedColumns())
                     minusWidth += puma(this._divHeaderLocked).width() + 5;
 
                 //#region Structure
@@ -6328,7 +6415,7 @@ export class Grid extends VrControl
                 puma(this._divFilters).width("Calc(100% - " + minusWidth + "px)")
                 puma(this._divFilters).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
 
-                if (options.lockable && thereAreLockedColumns)
+                if (this.thereAreLockedColumns())
                 {
                     puma(this._divBody).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
                     puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
@@ -6380,7 +6467,7 @@ export class Grid extends VrControl
             if (options.header === false)
                 puma(this._divHeader).hide();
 
-            if (options.lockable && thereAreLockedColumns)
+            if (this.thereAreLockedColumns())
             {
                 let i = 0;
                 puma(this._divBodyLocked).find("table colgroup").remove();
