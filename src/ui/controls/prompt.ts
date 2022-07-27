@@ -77,7 +77,7 @@ export class Prompt
                             value: options!.defaultValue,
                             placeholder: options!.placeHolder
                         }, contentContainer);
-
+                    this._textBox.focus();
                     this.onContentLoaded(contentContainer);
                 }
             });

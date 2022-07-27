@@ -1675,6 +1675,7 @@ export enum IconClassSolid
 	PeopleArrowsLeftRight = "fa-solid fa-people-arrows-left-right",
 	Percentage = "fa-solid fa-percentage",
 	PersonChalkboard = "fa-solid fa-person-chalkboard",
+	PersonMilitaryRifle = "fa-solid fa-person-military-rifle",
 	Phone = "fa-solid fa-phone",
 	Play = "fa-solid fa-play",
 	PlayPause = "fa-solid fa-play-pause",
@@ -2080,6 +2081,7 @@ export enum IconClassLight
 	PeopleArrowsLeftRight = "fa-light fa-people-arrows-left-right",
 	Percentage = "fa-light fa-percentage",
 	PersonChalkboard = "fa-light fa-person-chalkboard",
+	PersonMilitaryRifle = "fa-light fa-person-military-rifle",
 	Phone = "fa-light fa-phone",
 	Play = "fa-light fa-play",
 	PlayPause = "fa-light fa-play-pause",
@@ -2486,6 +2488,7 @@ export enum IconClassRegular
 	PeopleArrowsLeftRight = "fa-regular fa-people-arrows-left-right",
 	Percentage = "fa-regular fa-percentage",
 	PersonChalkboard = "fa-regular fa-person-chalkboard",
+	PersonMilitaryRifle = "fa-regular fa-person-military-rifle",
 	Phone = "fa-regular fa-phone",
 	Play = "fa-regular fa-play",
 	PlayPause = "fa-regular fa-play-pause",
@@ -2892,6 +2895,7 @@ export enum IconClassDuotone
 	PeopleArrowsLeftRight = "fa-duotone fa-people-arrows-left-right",
 	Percentage = "fa-duotone fa-percentage",
 	PersonChalkboard = "fa-duotone fa-person-chalkboard",
+	PersonMilitaryRifle = "fa-duotone fa-person-military-rifle",
 	Phone = "fa-duotone fa-phone",
 	Play = "fa-duotone fa-play",
 	PlayPause = "fa-duotone fa-play-pause",
@@ -3298,6 +3302,7 @@ export enum IconClassThin
 	PeopleArrowsLeftRight = "fa-thin fa-people-arrows-left-right",
 	Percentage = "fa-thin fa-percentage",
 	PersonChalkboard = "fa-thin fa-person-chalkboard",
+	PersonMilitaryRifle = "fa-thin fa-person-military-rifle",
 	Phone = "fa-thin fa-phone",
 	Play = "fa-thin fa-play",
 	PlayPause = "fa-thin fa-play-pause",
@@ -4131,6 +4136,7 @@ export class ChartOptions extends VrControlOptions
 	onDataFormatter?: (e: ChartAxisFormatterEvent) => void;
 }
 //#endregion
+
 //#region Window
 export enum WindowFooterItemTypeEnum
 {

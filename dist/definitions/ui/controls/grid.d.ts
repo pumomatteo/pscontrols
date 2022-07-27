@@ -161,6 +161,7 @@ export declare class Grid extends VrControl {
     lockColumn(field: string, update?: boolean): void;
     unlockColumns(fields: string[], update?: boolean): void;
     unlockColumn(field: string, update?: boolean): void;
+    lockedColumns(): GridColumn[];
     removeGroup(field: string, updateDataSource?: boolean): void;
     removeGroups(fields: string[], updateDataSource?: boolean): void;
     removeAllGroups(updateDataSource?: boolean): void;
