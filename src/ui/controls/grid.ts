@@ -5902,7 +5902,7 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Document events
-        puma(document).on("mousemove", (e: any) =>
+        puma(this.container()).on("mousemove", (e: any) =>
         {
             if (currentColumn != null && !this._isDragging)
             {
@@ -6007,7 +6007,7 @@ export class Grid extends VrControl
             }
         });
 
-        puma(document).on("mouseup", () =>
+        puma(this.container()).on("mouseup", () =>
         {
             window.setTimeout(() => this._isResizing = false);
 
@@ -6223,14 +6223,14 @@ export class Grid extends VrControl
                 }
                 //#endregion
             };
-            puma(document).on("mousemove", mouseMoveDrag);
+            puma(this.container()).on("mousemove", mouseMoveDrag);
             //#endregion
 
             //#region Stop moving
-            puma(document).on("mouseup", function mouseUpDrag(e: any)
+            puma(this.container()).on("mouseup", function mouseUpDrag(e: any)
             {
-                puma(document).off("mouseup", mouseUpDrag);
-                puma(document).off("mousemove", mouseMoveDrag);
+                puma(that.container()).off("mouseup", mouseUpDrag);
+                puma(that.container()).off("mousemove", mouseMoveDrag);
                 that._isDragging = false;
 
                 if (targetStartingXPosition == null || that._isResizing === true)
