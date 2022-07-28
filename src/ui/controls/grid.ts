@@ -326,7 +326,7 @@ export class Grid extends VrControl
             for (let column of options.columns!)
             {
                 let layoutColumn = new GridLayoutColumn();
-                layoutColumn.field = column.field;
+                layoutColumn.field = (column.type == GridColumnTypeEnum.EditButton) ? "editButton" : column.field;
                 layoutColumn.fitSpace = column.fitSpace;
                 layoutColumn.hidden = column.hidden;
                 layoutColumn.locked = column.locked;
@@ -585,6 +585,15 @@ export class Grid extends VrControl
                                 {
                                     text: "Gestisci layout", icon: IconClassLight.Table, value: "manageLayout",
                                     onClick: (e) => this.openWindowLayout()
+                                },
+                                {
+                                    text: "Ripristina layout di base", icon: IconClassLight.Table, value: "restoreBaseLayout",
+                                    confirmationMessage: "Confermi di voler ripristinare il layout di base?",
+                                    onClick: (e) => 
+                                    {
+                                        this._actualLayout = null;
+                                        this.changeLayout(true, this._originalOptionsForLayout);
+                                    }
                                 },
                                 {
                                     text: "Mostra/Nascondi", icon: IconClassLight.Eye,
@@ -3795,8 +3804,13 @@ export class Grid extends VrControl
     {
         let options = this.getOptions();
         let checkboxList: HTMLInputElement[] = Array.from<HTMLInputElement>(puma(this._divBody).find(".vr-checkbox-column") as any);
+        let checkboxGroupList: HTMLInputElement[] = Array.from<HTMLInputElement>(puma(this._divBody).find(".grid_divGroupByName input") as any);
+
         if (this.thereAreLockedColumns())
+        {
             checkboxList = Array.from<HTMLInputElement>(puma(this._divBodyLocked).find(".vr-checkbox-column") as any);
+            checkboxGroupList = Array.from<HTMLInputElement>(puma(this._divBodyLocked).find(".grid_divGroupByName input") as any);
+        }
 
         //#region Select checkbox
         let dataItem = null;
@@ -3814,7 +3828,13 @@ export class Grid extends VrControl
                         {
                             puma(checkbox).removeAttr("checked");
                             checkbox.checked = false;
-                            this.manageGroupCheckParent(checkbox);
+                        }
+
+                        for (let checkbox of checkboxGroupList)
+                        {
+                            puma(checkbox).removeAttr("checked");
+                            checkbox.checked = false;
+                            puma(checkbox).removeClass("indeterminateVrCheckbox");
                         }
 
                         if (this._checkedItemsForFiltering != null)
@@ -3835,10 +3855,16 @@ export class Grid extends VrControl
                     {
                         puma(checkbox).removeAttr("checked");
                         checkbox.checked = false;
-                        this.manageGroupCheckParent(checkbox);
 
                         if (this._checkedItemsForFiltering != null)
                             this._checkedItemsForFiltering.vrDeleteAllBy(k => k[options.dataSourceFieldId!] == itemId);
+                    }
+
+                    for (let checkbox of checkboxGroupList)
+                    {
+                        puma(checkbox).removeAttr("checked");
+                        checkbox.checked = false;
+                        puma(checkbox).removeClass("indeterminateVrCheckbox");
                     }
                 }
 
@@ -4512,7 +4538,13 @@ export class Grid extends VrControl
     lockedColumns()
     {
         let options = this.getOptions();
-        return options.columns!.filter(k => k.locked);
+        return options.columns!.filter(k => k.locked && k.field != "editButton");
+    }
+
+    thereAreLockedColumns()
+    {
+        let options = this.getOptions();
+        return options.lockable && options.columns!.filter(k => k.field != "editButton").vrAny(k => k.locked);
     }
     //#endregion
 
@@ -4569,8 +4601,19 @@ export class Grid extends VrControl
             if (options.groupBy != null && (options.groupBy as GridGroupBySettings).fields != null && (options.groupBy as GridGroupBySettings).fields.length > 0)
             {
                 // If grid is grouped, then remove all groups and re-added all
-                let allFields = UtilityManager.duplicate((options.groupBy as GridGroupBySettings).fields);
-                allFields.vrPushRange(fields);
+                let allFields: any[] = UtilityManager.duplicate((options.groupBy as GridGroupBySettings).fields);
+                for (let field of fields)
+                {
+                    let realField = "";
+                    if (typeof (field) == "string")
+                        realField = field;
+                    else
+                        realField = field.field;
+
+                    if (!allFields.map(k => k.field).includes(realField))
+                        allFields.push(field);
+                }
+
                 this.removeAllGroups(false);
                 this.addGroups(allFields, updateDataSource, sortBy, internalSortBy);
                 return;
@@ -4780,17 +4823,20 @@ export class Grid extends VrControl
                     if (this.dataSource().length > 1000)
                         showLoader();
 
+                    this._wndActions.close();
                     window.setTimeout(() =>
                     {
-                        //#region Manage groups
                         if (gridActionEnum == GridActionEnum.GroupBy && (groupFieldRemovedList.length > 0 || groupFieldAddedList.length > 0))
                         {
+                            //#region Manage groups
                             this.removeGroups(groupFieldRemovedList, false);
                             this.addGroups(groupFieldAddedList, false);
                             this.update();
+                            //#endregion
                         }
                         else if (gridActionEnum == GridActionEnum.ShowHide && (columnFieldToShowList.length > 0 || columnFieldToHideList.length > 0))
                         {
+                            //#region Show/Hide
                             this.showColumns(columnFieldToShowList, false);
                             this.hideColumns(columnFieldToHideList, false);
                             this.removeFilters(columnFieldToHideList, false);
@@ -4799,18 +4845,39 @@ export class Grid extends VrControl
                                 this.applyFilters(true);
                             else
                                 this.update();
+                            //#endregion
                         }
                         else if (gridActionEnum == GridActionEnum.LockUnlock && (columnFieldToLockList.length > 0 || columnFieldToUnlockList.length > 0))
                         {
-                            this.lockColumns(columnFieldToLockList, false);
-                            this.unlockColumns(columnFieldToUnlockList, false);
-                            this.update();
+                            //#region Lock/Unlock
+                            if (columnFieldToLockList.length > 0 || (this.lockedColumns().length - columnFieldToUnlockList.length > 0))
+                            {
+                                this.lockColumns(columnFieldToLockList, false);
+                                this.unlockColumns(columnFieldToUnlockList, false);
+                                this.update();
+                            }
+                            else
+                            {
+                                confirm("Vuoi ripristinare il layout di base?").then(() =>
+                                {
+                                    this.lockColumns(columnFieldToLockList, false);
+                                    this.unlockColumns(columnFieldToUnlockList, false);
+
+                                    this._actualLayout = null;
+                                    this.changeLayout(true, this._originalOptionsForLayout);
+                                },
+                                    () => 
+                                    {
+                                        this.lockColumns(columnFieldToLockList, false);
+                                        this.unlockColumns(columnFieldToUnlockList, false);
+                                        this.update()
+                                    });
+                            }
+                            //#endregion
                         }
-                        //#endregion
 
                         hideLoader();
                     }, 100)
-                    this._wndActions.close();
                 }
             }]);
         this.clearWindowActions();
@@ -4866,10 +4933,18 @@ export class Grid extends VrControl
                         if (gridActionEnum == GridActionEnum.ShowHide)
                         {
                             //#region Show/Hide
-                            if (e.checked)
+                            if (e.checked && !columnFieldToShowList.includes(field))
+                            {
                                 columnFieldToShowList.push(field);
-                            else
+                                if (columnFieldToHideList.includes(field))
+                                    columnFieldToHideList.vrDelete(field);
+                            }
+                            else if (!e.checked && !columnFieldToHideList.includes(field))
+                            {
                                 columnFieldToHideList.push(field);
+                                if (columnFieldToShowList.includes(field))
+                                    columnFieldToShowList.vrDelete(field);
+                            }
                             //#endregion
                         }
                         else if (gridActionEnum == GridActionEnum.GroupBy)
@@ -4892,10 +4967,18 @@ export class Grid extends VrControl
                         else if (gridActionEnum == GridActionEnum.LockUnlock)
                         {
                             //#region Lock/Unlock
-                            if (e.checked)
+                            if (e.checked && !columnFieldToLockList.includes(field))
+                            {
                                 columnFieldToLockList.push(field);
-                            else
+                                if (columnFieldToUnlockList.includes(field))
+                                    columnFieldToUnlockList.vrDelete(field);
+                            }
+                            else if (!e.checked && !columnFieldToUnlockList.includes(field))
+                            {
                                 columnFieldToUnlockList.push(field);
+                                if (columnFieldToLockList.includes(field))
+                                    columnFieldToLockList.vrDelete(field);
+                            }
                             //#endregion
                         }
                     }
@@ -6434,12 +6517,6 @@ export class Grid extends VrControl
         return puma(this.container()).hasClass("vrRepeaterContainer");
     }
 
-    private thereAreLockedColumns()
-    {
-        let options = this.getOptions();
-        return options.lockable && options.columns!.filter(k => k.field != "editButton").vrAny(k => k.locked);
-    }
-
     getOptions()
     {
         return (this._internalOptions != null) ? this._internalOptions : this.options<GridOptions>();
@@ -6517,6 +6594,8 @@ export class Grid extends VrControl
                     puma(this._divBody).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
                     puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
                 }
+                else
+                    puma(this._divBody).width("100%");
 
                 puma(this._divTotals).width("Calc(100% - " + minusWidth + "px)")
                 puma(this._divTotals).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
@@ -8822,8 +8901,7 @@ export class Grid extends VrControl
                                 {
                                     //#region Settings
                                     ControlManager.get<SplitButton>(this._elementId + "_spbSettings").hideItem("manageLayout");
-                                    showLoader(this.container(), true, "vrGridLoaderLayout" + this._elementId);
-                                    this._wndLayout.close();
+                                    window.setTimeout(() => this._wndLayout.close(), 300);
                                     //#endregion
                                 }
                             }
@@ -9067,15 +9145,15 @@ export class Grid extends VrControl
                 if (Array.isArray(json.groupBy))
                 {
                     for (let groupByField of json.groupBy)
-                        groupByFields.push({ field: groupByField });
+                        groupByFields.push({ field: UtilityManager.duplicate(groupByField) });
 
                     options.groupBy = new GridGroupBySettings();
-                    options.groupBy.fields = groupByFields;
+                    options.groupBy.fields = UtilityManager.duplicate(groupByFields);
                 }
                 else
                 {
-                    groupByFields = json.groupBy.fields as GridGroupByItem[];
-                    options.groupBy = json.groupBy;
+                    groupByFields = UtilityManager.duplicate(json.groupBy.fields as GridGroupByItem[]);
+                    options.groupBy = UtilityManager.duplicate(json.groupBy);
                 }
 
                 if (groupByFields != null)

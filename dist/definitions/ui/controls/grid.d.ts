@@ -162,6 +162,7 @@ export declare class Grid extends VrControl {
     unlockColumns(fields: string[], update?: boolean): void;
     unlockColumn(field: string, update?: boolean): void;
     lockedColumns(): GridColumn[];
+    thereAreLockedColumns(): boolean | undefined;
     removeGroup(field: string, updateDataSource?: boolean): void;
     removeGroups(fields: string[], updateDataSource?: boolean): void;
     removeAllGroups(updateDataSource?: boolean): void;
@@ -195,7 +196,6 @@ export declare class Grid extends VrControl {
     checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;
     focus(field?: string): void;
     private isRepeater;
-    private thereAreLockedColumns;
     getOptions(): GridOptions;
     recalculateWidth(fixColGroup?: boolean): void;
     height(height?: number | string): any;
