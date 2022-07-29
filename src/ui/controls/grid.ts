@@ -1485,7 +1485,7 @@ export class Grid extends VrControl
             if (rowId == null)
                 rowId = puma(e.target).closest(".vrButton").attr("dataItemId");
 
-            let dataItem = this._dataSource!.filter(k => k[options.dataSourceFieldId!] == rowId)[0];
+            let dataItem = this.dataSource()!.filter(k => k[options.dataSourceFieldId!] == rowId)[0];
 
             //#region Control settings
             let controlSettings: GridButtonSettings = new GridButtonSettings();

@@ -169,9 +169,24 @@ export class Label extends VrControl
                 case LabelModeEnum.Mail: value = "<a " + linkCss + " href='mailto:" + value + "'>" + value + "</a>"; break;
                 case LabelModeEnum.Link: value = "<a " + linkCss + " href='" + value + "'>" + value + "</a>"; break;
                 case LabelModeEnum.Currency: value = Number(value).vrToCurrencyString(); break;
-                case LabelModeEnum.Date: value = new Date(value).vrToItalyString(DateModeEnum.Date); break;
-                case LabelModeEnum.DateTime: value = new Date(value).vrToItalyString(DateModeEnum.DateTime); break;
-                case LabelModeEnum.Time: value = new Date(value).vrToItalyString(DateModeEnum.Time); break;
+                case LabelModeEnum.Date:
+                    {
+                        if (Date.vrIsValidDate(value))
+                            value = new Date(value).vrToItalyString(DateModeEnum.Date);
+                    }
+                    break;
+                case LabelModeEnum.DateTime:
+                    {
+                        if (Date.vrIsValidDate(value))
+                            value = new Date(value).vrToItalyString(DateModeEnum.DateTime);
+                    }
+                    break;
+                case LabelModeEnum.Time:
+                    {
+                        if (Date.vrIsValidDate(value))
+                            value = new Date(value).vrToItalyString(DateModeEnum.Time);
+                    }
+                    break;
             }
             this.element().innerHTML = String(value);
 

@@ -5741,7 +5741,7 @@ declare global
 		vrGetLastDayOfMonthByDate(dateToCheck: Date): Date;
 		vrGetFirstDayOfWeekByDate(dateToCheck: Date): Date;
 		vrDifferenceBetweenDatesInMinutes(firstDate: Date, secondDate: Date): number;
-		vrIsValidDate(date: Date): boolean;
+		vrIsValidDate(date: any): boolean;
 		vrConvertDateFromClient(dateFromClient?: Date | null): Date;
 		vrConvertDateFromServer(dateFromServer: Date): Date;
 		vrArePeriodsOverlapped(startA: Date, endA: Date, startB: Date, endB: Date, equal?: boolean): boolean;
