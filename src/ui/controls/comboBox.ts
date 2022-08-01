@@ -1123,7 +1123,7 @@ export class ComboBox extends VrControl
 
     getSelectedItem<T extends ComboBoxItem>(): T
     {
-        return this.items().filter(k => k.value == this.value())[0] as T;
+        return this.items().filter(k => k.value != null && k.value == this.value())[0] as T;
     }
 
     addItem(item: ComboBoxItem, reloadCombo = true, triggerChange = true, sortBy?: SortByComboSettings): void
