@@ -6561,7 +6561,7 @@ export class Grid extends VrControl
 
                 if (options.filterable)
                 {
-                    window.setTimeout(() => this._spanFitFilterSpace.style.cssText += "top: " + (puma(this._divFilters).position().top - 1) + "px; left: " + (puma(this._divHeader).position().left + puma(this._divHeader).width() + 1) + "px", 100);
+                    window.setTimeout(() => this._spanFitFilterSpace.style.cssText += "top: " + (puma(this._divFilters).position().top - 1) + "px; left: " + (puma(this._divFilters).position().left + puma(this._divFilters).width() + 1) + "px", 100);
                     puma(this._spanFitFilterSpace).show();
                 }
                 else
@@ -6569,7 +6569,7 @@ export class Grid extends VrControl
 
                 if (this._showTotals && this.getAllItems().length > 0)
                 {
-                    window.setTimeout(() => this._spanFitTotalsSpace.style.cssText += "top: " + (puma(this._divTotals).position().top - 1) + "px; left: " + (puma(this._divHeader).position().left + puma(this._divHeader).width() + 1) + "px", 100);
+                    window.setTimeout(() => this._spanFitTotalsSpace.style.cssText += "top: " + (puma(this._divTotals).position().top - 1) + "px; left: " + (puma(this._divTotals).position().left + puma(this._divTotals).width() + 1) + "px", 100);
                     puma(this._spanFitTotalsSpace).show();
                 }
                 else
