@@ -2689,8 +2689,11 @@ export class Grid extends VrControl
                         puma(tr).attr("defaultrow", "defaultrow");
                 }
 
-                td.innerHTML = textHTML;
-                if (options.lockable) tdLocked!.innerHTML = textHTML;
+                if (td.innerHTML === "")
+                    td.innerHTML = textHTML;
+
+                if (options.lockable && tdLocked!.innerHTML === "")
+                    tdLocked!.innerHTML = textHTML;
                 //#endregion
 
                 //#region Color
