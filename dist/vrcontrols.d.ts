@@ -2537,6 +2537,7 @@ export class Repeater extends VrControl
     pageSelected(page?: number, update?: boolean): number;
     height(height?: number | string): any;
     recalculateHeight(afterFilter?: boolean): void;
+    recalculateWidth(): void;
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;

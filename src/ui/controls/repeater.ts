@@ -406,6 +406,11 @@ export class Repeater extends VrControl
     {
         this._grid.recalculateHeight(afterFilter);
     }
+
+    recalculateWidth()
+    {
+        this._grid.recalculateWidth();
+    }
     //#endregion
 
     //#region Visible toolbar

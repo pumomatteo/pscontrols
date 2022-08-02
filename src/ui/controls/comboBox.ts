@@ -264,7 +264,7 @@ export class ComboBox extends VrControl
                     style = "left: 6px; bottom: 6px;";
             }
 
-            iconCombo = puma("<i class='" + options.icon + "' style='cursor: pointer; position: absolute;" + style + "'></i>");
+            iconCombo = puma("<i class='" + options.icon + "' style='cursor: pointer; font-size: 14px; position: absolute;" + style + "'></i>");
             puma(this.element()).vrBeforePuma(iconCombo);
             this.element().style.cssText += "text-indent: 18px;";
 

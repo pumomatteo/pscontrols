@@ -6549,7 +6549,7 @@ export class Grid extends VrControl
                     puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
                 }
                 else
-                    puma(this._divBody).width("100%");
+                    puma(this._divBody).width("Calc(100% - 2px)");
 
                 puma(this._divTotals).width("Calc(100% - " + minusWidth + "px)")
                 puma(this._divTotals).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
@@ -6598,7 +6598,7 @@ export class Grid extends VrControl
                     puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
                 }
                 else
-                    puma(this._divBody).width("100%");
+                    puma(this._divBody).width("Calc(100% - 2px)");
 
                 puma(this._divTotals).width("Calc(100% - " + minusWidth + "px)")
                 puma(this._divTotals).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
@@ -6753,7 +6753,7 @@ export class Grid extends VrControl
     private adjustTrHeight()
     {
         let options = this.getOptions();
-        if (options.lockable)
+        if (this.thereAreLockedColumns())
         {
             let trLockedList = Array.from<HTMLElement>(puma(this._elementLocked).find(">tbody tr"));
             let trList = Array.from<HTMLElement>(puma(this.element()).find(">tbody tr"));
