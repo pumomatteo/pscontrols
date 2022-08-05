@@ -3592,7 +3592,8 @@ export declare enum DateModeEnum {
     Time = 2,
     LongDate = 3,
     LongDateTime = 4,
-    LongWeekDate = 5
+    LongWeekDate = 5,
+    ShortWeekDate = 6
 }
 export declare enum DateDepthEnum {
     Day = 0,

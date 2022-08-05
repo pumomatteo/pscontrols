@@ -4140,18 +4140,18 @@ export class ChartOptions extends VrControlOptions
 //#region Window
 export enum WindowFooterItemTypeEnum
 {
-    Close,
-    Ok,
-    Custom,
-    SplitButton,
-    Switch,
-    ButtonGroup,
-    CheckBox,
-    ComboBox,
-    DatePicker,
-    Label,
-    TextBox,
-    Separator
+	Close,
+	Ok,
+	Custom,
+	SplitButton,
+	Switch,
+	ButtonGroup,
+	CheckBox,
+	ComboBox,
+	DatePicker,
+	Label,
+	TextBox,
+	Separator
 }
 
 export enum WindowFooterItemAlignEnum
@@ -5632,12 +5632,13 @@ export enum WebApiModeEnum
 
 export enum DateModeEnum
 {
-	Date,
-	DateTime,
-	Time,
+	Date = 0,
+	DateTime = 1,
+	Time = 2,
 	LongDate = 3,
 	LongDateTime = 4,
-	LongWeekDate = 5
+	LongWeekDate = 5,
+	ShortWeekDate = 6
 }
 
 export enum DateDepthEnum
@@ -5940,6 +5941,17 @@ Date.prototype.vrToItalyString = function (mode?: DateModeEnum, showSeconds = fa
 			{
 				dateOptions = {
 					weekday: 'long',
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					hour12: false
+				}
+			}
+			break;
+		case DateModeEnum.ShortWeekDate:
+			{
+				dateOptions = {
+					weekday: 'short',
 					year: 'numeric',
 					month: '2-digit',
 					day: '2-digit',
