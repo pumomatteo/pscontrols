@@ -213,6 +213,7 @@ export class UtilityManager
     static interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;
     static createIcon(icon: IconClass): HTMLElement;
     static duplicate(element: any): any;
+    static equals(item1: any, item2: any): boolean;
     static getMonthNumberByName(monthName: string): -1 | MonthEnum;
     static doAjaxCall<T>(settings: AjaxCallSettings, callBack?: (response: T) => void, errorCallback?: () => void): null;
     static htmlDecode(text: string): string | null;
@@ -766,9 +767,11 @@ export class CheckBoxList extends VrControl
     checkAll(triggerChange?: boolean): void;
     unCheckAll(triggerChange?: boolean): void;
     value(values?: string[], state?: boolean, triggerChange?: boolean): string[];
+    valueTag(tagList?: any[], state?: boolean, triggerChange?: boolean): any[];
     isChecked(value: string): boolean;
     text(value: string, text?: string): string;
     clear(checkAll?: boolean, triggerChange?: boolean): void;
+    clearItems(): void;
     getOptions(): CheckBoxListOptions;
     enable(): void;
     disable(): void;
@@ -779,6 +782,7 @@ class CheckBoxItem
     value?: string | number;
     checked?: boolean;
     threeState?: boolean;
+    tag?: any;
     onCheck?: (e: CheckBoxCheckEvent) => void;
 }
 class CheckBoxListSelectEvent extends VrControlsEvent
@@ -1672,12 +1676,14 @@ class GridDateFilterSettings
     filterTypeEnum: GridDateFilterTypeEnum;
     dateFrom: Date;
     dateTo?: Date | null;
+    specificValues: any[];
 }
 class GridNumberFilterSettings
 {
     filterTypeEnum: GridNumberFilterTypeEnum;
     numberFrom: number;
     numberTo?: number | null;
+    specificValues: any[];
 }
 class GridCheckboxFilterSettings
 {
@@ -2399,8 +2405,10 @@ export class RadioButtonList extends VrControl
     constructor(element: HTMLElement, options?: RadioButtonListOptions | null);
     items(items?: RadioButtonItem[]): RadioButtonItem[];
     value(value?: string | number, triggerChange?: boolean): string;
+    valueTag(tag?: any, triggerChange?: boolean): any;
     text(value: string, text?: string): string;
     clear(triggerChange?: boolean): void;
+    clearItems(): void;
     getOptions(): RadioButtonListOptions;
     enable(): void;
     disable(): void;
@@ -2410,6 +2418,7 @@ class RadioButtonItem
     text?: string;
     value?: string | number;
     checked?: boolean;
+    tag?: any;
     onCheck?: (e: RadioButtonCheckEvent) => void;
 }
 class RadioButtonListSelectEvent extends VrControlsEvent
@@ -3002,8 +3011,8 @@ export
 //#region switch
 export class SwitchOptions extends VrControlOptions
 {
-    labelOff?: string;
-    labelOn?: string;
+    labelOff?: string | SwitchLabelSettings;
+    labelOn?: string | SwitchLabelSettings;
     checked?: boolean;
     onChange?(e: SwitchChangeEvent): void;
 }
@@ -6781,6 +6790,20 @@ export class SplitterCollapsableSettings
     direction: SplitterCollapseDirectionEnum;
     color?: string;
 }
+export class SwitchLabelSettings
+{
+    text: string;
+    tooltip?: string;
+    color?: string;
+    bold?: boolean;
+    css?: string;
+    onClick?: (e: SwitchLabelSettingsOnClickEvent) => void;
+}
+export class SwitchLabelSettingsOnClickEvent extends VrControlsEvent
+{
+    sender: Switch;
+    checked: boolean;
+}
 export class SchedulerSaturationInfo
 {
     manual?: boolean;
@@ -7437,6 +7460,7 @@ class PageErrorEvent
     columnNumber?: number;
     error?: Error;
 }
+export function isEquals(item1: any, item2: any): boolean;
 export function isLocalhost(): boolean;
 export function interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;
 export function addCssStyle(cssRules: string, id?: string): void;

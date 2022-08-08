@@ -30,6 +30,7 @@ export class RadioButton extends VrControl
         super(element, options, ControlTypeEnum.RadioButton);
 
         //#region Value & Name
+        if (options.value == null) options.value = options.text;
         if (options.value != null)
             puma(this.element()).attr("value", options.value);
 

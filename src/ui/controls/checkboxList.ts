@@ -1,3 +1,4 @@
+import { UtilityManager } from "../../../src/managers/utilityManager";
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
 import { ControlTypeEnum, OrientationEnum, createCheckBox, puma } from "../vr";
 import { CheckBoxCheckEvent, CheckBox } from "./checkbox";
@@ -55,9 +56,10 @@ export class CheckBoxList extends VrControl
                 let checkBox = createCheckBox(
                     {
                         text: item.text,
-                        value: String(item.value),
+                        value: (item.value == null) ? item.text : String(item.value),
                         name: options.listName,
                         checked: (options.allChecked) ? true : item.checked,
+                        tag: item.tag,
                         cssContainer: (options.orientation == OrientationEnum.Horizontal && i > 0) ? "margin-left: " + options.marginBetween + "px;" : ((options.orientation == OrientationEnum.Vertical) ? "width: 100%" : ""),
                         onCheck: (e) => 
                         {
@@ -122,6 +124,20 @@ export class CheckBoxList extends VrControl
         return this._checkboxControls.filter(k => k.checked()).map(k => puma(k.element()).attr("value"));
     }
 
+    valueTag(tagList?: any[], state = true, triggerChange = true)
+    {
+        if (tagList != null)
+        {
+            for (let tag of tagList)
+            {
+                let checkbox = this._checkboxControls.filter(k => UtilityManager.equals(k.tag(), tag))[0];
+                if (checkbox != null)
+                    checkbox.checked(state, triggerChange);
+            }
+        }
+        return this._checkboxControls.filter(k => k.checked()).map(k => k.tag());
+    }
+
     isChecked(value: string): boolean
     {
         let checkBox = this._checkboxControls.filter(k => puma(k.element()).attr("value") == value)[0];
@@ -146,6 +162,12 @@ export class CheckBoxList extends VrControl
             this.checkAll(triggerChange);
         else
             this.unCheckAll(triggerChange);
+    }
+
+    clearItems()
+    {
+        this._checkboxControls = [];
+        puma(this.element()).empty();
     }
 
     getOptions(): CheckBoxListOptions
@@ -173,10 +195,11 @@ export class CheckBoxList extends VrControl
 //#region Classes
 class CheckBoxItem
 {
-    public text?: string;
-    public value?: string | number;
-    public checked?: boolean;
-    public threeState?: boolean;
+    text?: string;
+    value?: string | number;
+    checked?: boolean;
+    threeState?: boolean;
+    tag?: any;
 
     onCheck?: (e: CheckBoxCheckEvent) => void;
 }

@@ -417,11 +417,13 @@ declare class GridDateFilterSettings {
     filterTypeEnum: GridDateFilterTypeEnum;
     dateFrom: Date;
     dateTo?: Date | null;
+    specificValues: any[];
 }
 declare class GridNumberFilterSettings {
     filterTypeEnum: GridNumberFilterTypeEnum;
     numberFrom: number;
     numberTo?: number | null;
+    specificValues: any[];
 }
 declare class GridCheckboxFilterSettings {
     value: boolean;

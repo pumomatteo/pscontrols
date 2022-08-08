@@ -18,9 +18,11 @@ export declare class CheckBoxList extends VrControl {
     checkAll(triggerChange?: boolean): void;
     unCheckAll(triggerChange?: boolean): void;
     value(values?: string[], state?: boolean, triggerChange?: boolean): string[];
+    valueTag(tagList?: any[], state?: boolean, triggerChange?: boolean): any[];
     isChecked(value: string): boolean;
     text(value: string, text?: string): string;
     clear(checkAll?: boolean, triggerChange?: boolean): void;
+    clearItems(): void;
     getOptions(): CheckBoxListOptions;
     enable(): void;
     disable(): void;
@@ -30,6 +32,7 @@ declare class CheckBoxItem {
     value?: string | number;
     checked?: boolean;
     threeState?: boolean;
+    tag?: any;
     onCheck?: (e: CheckBoxCheckEvent) => void;
 }
 declare class CheckBoxListSelectEvent extends VrControlsEvent {

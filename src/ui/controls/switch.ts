@@ -1,11 +1,11 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, puma } from "../vr";
+import { ControlTypeEnum, puma, SwitchLabelSettings, SwitchLabelSettingsOnClickEvent } from "../vr";
 
 //#region Options
 export class SwitchOptions extends VrControlOptions
 {
-    labelOff?: string;
-    labelOn?: string;
+    labelOff?: string | SwitchLabelSettings;
+    labelOn?: string | SwitchLabelSettings;
     checked?: boolean;
 
     onChange?(e: SwitchChangeEvent): void;
@@ -22,31 +22,89 @@ export class Switch extends VrControl
             options = new SwitchOptions();
 
         if (options.labelOff == null) options.labelOff = "";
+        if (typeof (options.labelOff) == "string")
+        {
+            let labelOffText = options.labelOff;
+            options.labelOff = new SwitchLabelSettings();
+            options.labelOff.text = labelOffText;
+        }
+
         if (options.labelOn == null) options.labelOn = "";
+        if (typeof (options.labelOn) == "string")
+        {
+            let labelOnText = options.labelOn;
+            options.labelOn = new SwitchLabelSettings();
+            options.labelOn.text = labelOnText;
+        }
+
         if (options.checked == null) options.checked = false;
         //#endregion
 
         super(element, options, ControlTypeEnum.Switch);
 
         //#region Label off
-        let labelOff = puma("<label class='vrSwitchLabelOff'>" + options.labelOff + "</label>").vrAppendToPuma(this.element());
+        let colorOff = (options.labelOff.color != null) ? "color: " + options.labelOff.color + ";" : "";
+        let boldOff = (options.labelOff.bold) ? "font-weight: 600;" : "";
+
+        let labelOff = puma("<label title='" + options.labelOff.tooltip + "'"
+            + " style='" + colorOff + boldOff + options.labelOff.css + ";'"
+            + " class='vrSwitchLabelOff'>"
+            + options.labelOff.text
+            + "</label>").vrAppendToPuma(this.element());
+
         labelOff.click((e: any) => 
         {
+            if ((options!.labelOff as SwitchLabelSettings).onClick != null)
+            {
+                let event = new SwitchLabelSettingsOnClickEvent();
+                event.sender = this;
+                event.checked = this.checked();
+                (options!.labelOff as SwitchLabelSettings)!.onClick!(event);
+
+                if (event.isDefaultPrevented())
+                {
+                    e.preventDefault();
+                    return;
+                }
+            }
+
             if (this.enabled())
                 this.checked(false);
         });
         //#endregion
 
-        //#region Switch
+        //#region Switch slider
         let checkedProperty = (options.checked) ? "checked='checked'" : "";
         puma("<label class='vrSwitchLabel'><input type='checkbox' " + checkedProperty + " class='vrSwitchInput'><span class='vrSwitchSlider'></span></label>").vrAppendToPuma(this.element());
         puma(this.element()).find(".vrSwitchInput").change((e: any) => this.checked(e.target.checked));
         //#endregion
 
         //#region Label on
-        let labelOn = puma("<label class='vrSwitchLabelOn'>" + options.labelOn + "</label>").vrAppendToPuma(this.element());
-        labelOn.click((e: any) =>
+        let colorOn = (options.labelOn.color != null) ? "color: " + options.labelOn.color + ";" : "";
+        let boldOn = (options.labelOn.bold) ? "font-weight: 600;" : "";
+
+        let labelOn = puma("<label title='" + options.labelOn.tooltip + "'"
+            + " style='" + colorOn + boldOn + options.labelOn.css + ";'"
+            + " class='vrSwitchLabelOn'>"
+            + options.labelOn.text
+            + "</label>").vrAppendToPuma(this.element());
+
+        labelOn.click((e: any) => 
         {
+            if ((options!.labelOn as SwitchLabelSettings).onClick != null)
+            {
+                let event = new SwitchLabelSettingsOnClickEvent();
+                event.sender = this;
+                event.checked = this.checked();
+                (options!.labelOn as SwitchLabelSettings)!.onClick!(event);
+
+                if (event.isDefaultPrevented())
+                {
+                    e.preventDefault();
+                    return;
+                }
+            }
+
             if (this.enabled())
                 this.checked(true);
         });

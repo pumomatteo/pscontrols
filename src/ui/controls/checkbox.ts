@@ -54,6 +54,7 @@ export class CheckBox extends VrControl
         puma(label.element()).attr("for", element.id);
 
         //#region Value & Name
+        if (options.value == null) options.value = options.text;
         if (options.value != null)
             puma(this.element()).attr("value", options.value);
 

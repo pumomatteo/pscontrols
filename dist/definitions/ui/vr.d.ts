@@ -2947,6 +2947,18 @@ export declare class SplitterCollapsableSettings {
     direction: SplitterCollapseDirectionEnum;
     color?: string;
 }
+export declare class SwitchLabelSettings {
+    text: string;
+    tooltip?: string;
+    color?: string;
+    bold?: boolean;
+    css?: string;
+    onClick?: (e: SwitchLabelSettingsOnClickEvent) => void;
+}
+export declare class SwitchLabelSettingsOnClickEvent extends VrControlsEvent {
+    sender: Switch;
+    checked: boolean;
+}
 export declare class SchedulerSaturationInfo {
     manual?: boolean;
     dayMode?: SchedulerSaturationDay[];
@@ -3557,6 +3569,7 @@ declare class PageErrorEvent {
     columnNumber?: number;
     error?: Error;
 }
+export declare function isEquals(item1: any, item2: any): boolean;
 export declare function isLocalhost(): boolean;
 export declare function interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;
 export declare function addCssStyle(cssRules: string, id?: string): void;

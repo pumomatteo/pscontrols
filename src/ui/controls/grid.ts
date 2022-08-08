@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassLight, IconClass, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum } from "../vr";
+import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -11,6 +11,8 @@ import { Dictionary } from "../../../src/managers/dictionary";
 import { ColorPicker } from "./colorPicker";
 import { Button } from "./button";
 import { UtilityManager } from "../../../src/managers/utilityManager";
+import { CheckBoxList } from "./checkboxList";
+import { Switch } from "./switch";
 
 //#region Options
 export class GridOptions extends VrControlOptions
@@ -1034,7 +1036,7 @@ export class Grid extends VrControl
                                             this.removeFilter(column.field);
 
                                             dateFilter.tooltip("");
-                                            puma(dateFilter.element()).css("background-color", "#FFF");
+                                            puma(dateFilter.element()).css("background-color", "#f3f3f3");
                                             puma(dateFilter.element()).css("color", "#000");
                                             dateFilterRemove.hide();
                                             this.recalculateHeight(true);
@@ -1075,7 +1077,7 @@ export class Grid extends VrControl
                                             this.removeFilter(column.field);
 
                                             numberFilter.tooltip("");
-                                            puma(numberFilter.element()).css("background-color", "#FFF");
+                                            puma(numberFilter.element()).css("background-color", "#f3f3f3");
                                             puma(numberFilter.element()).css("color", "#000");
                                             numberFilterRemove.hide();
                                             this.recalculateHeight(true);
@@ -3351,9 +3353,10 @@ export class Grid extends VrControl
         }
     }
 
-    private formatValue(value: any, columnType: GridColumnTypeEnum, decimalDigits?: number, roundingSettings?: NumberFormatRoundingSettings, showSeconds?: boolean)
+    private formatValue(value: any, columnType?: GridColumnTypeEnum, decimalDigits?: number, roundingSettings?: NumberFormatRoundingSettings, showSeconds?: boolean)
     {
         let options = this.getOptions();
+        if (columnType == null) columnType = GridColumnTypeEnum.String;
 
         //#region Number, Currency, Percentage
         if (columnType == GridColumnTypeEnum.Number || columnType == GridColumnTypeEnum.Currency || columnType == GridColumnTypeEnum.Percentage)
@@ -3409,6 +3412,7 @@ export class Grid extends VrControl
         //#region Date, DateTime, Time
         else if (columnType == GridColumnTypeEnum.Date || columnType == GridColumnTypeEnum.DateTime || columnType == GridColumnTypeEnum.Time)
         {
+            value = Date.vrFixDateString(value);
             if (columnType == GridColumnTypeEnum.Date)
                 return (value == "" || !Date.vrIsValidDate(value)) ? "" : new Date(value).vrToItalyString(DateModeEnum.Date);
             else if (columnType == GridColumnTypeEnum.DateTime)
@@ -5083,7 +5087,7 @@ export class Grid extends VrControl
                     {
                         let dateFilter = ControlManager.get<Button>(this._elementId + "_DateFilter_" + column.field);
                         dateFilter.tooltip("");
-                        puma(dateFilter.element()).css("background-color", "#FFF");
+                        puma(dateFilter.element()).css("background-color", "#f3f3f3");
                         puma(dateFilter.element()).css("color", "#000");
 
                         let dateFilterRemove = ControlManager.get<Button>(this._elementId + "_DateFilterRemove_" + column.field);
@@ -5098,7 +5102,7 @@ export class Grid extends VrControl
                     {
                         let numberFilter = ControlManager.get<Button>(this._elementId + "_NumberFilter_" + column.field);
                         numberFilter.tooltip("");
-                        puma(numberFilter.element()).css("background-color", "#FFF");
+                        puma(numberFilter.element()).css("background-color", "#f3f3f3");
                         puma(numberFilter.element()).css("color", "#000");
 
                         let numberFilterRemove = ControlManager.get<Button>(this._elementId + "_NumberFilterRemove_" + column.field);
@@ -5151,7 +5155,7 @@ export class Grid extends VrControl
                 addToControlList: false,
                 classContainer: this.element().id + "_wndUtility",
                 width: 430,
-                height: 180,
+                autoSize: WindowAutoSizeDirectionEnum.Height,
                 title: "Gestisci filtro",
                 onClose: (e) =>
                 {
@@ -5160,7 +5164,7 @@ export class Grid extends VrControl
                 },
                 footer:
                     [
-                        { type: WindowFooterItemTypeEnum.Ok, text: "Applica filtro" },
+                        { type: WindowFooterItemTypeEnum.Ok, text: "Applica" },
                         { type: WindowFooterItemTypeEnum.Close }
                     ]
             });
@@ -5168,8 +5172,24 @@ export class Grid extends VrControl
         puma(this._wndFiltering.element()).vrAppendPuma("<div id='" + this._elementId + "_divWindowFilteringContainer' class='vrContainer'></div>");
         let divContainer = puma("#" + this._elementId + "_divWindowFilteringContainer")[0];
 
+        puma("<div id='" + this._elementId + "_switchFilterSearch'></div>").vrAppendToPuma(divContainer);
+        createSwitch({
+            labelOff: "Ricerca intervalli",
+            labelOn: { text: "Ricerca puntuale", tooltip: "Max 100 valori" },
+            cssContainer: "margin-bottom: 5px;",
+            onChange: (e) =>
+            {
+                puma(divSearchIntervals).vrVisible(!e.checked);
+                puma(divSearchSpecific).vrVisible(e.checked);
+                this._wndFiltering.center();
+            }
+        }, null, null, this._elementId + "_switchFilterSearch")
+
+        //#region Search intervals
+        let divSearchIntervals = div(divContainer);
+
         //#region Filter date
-        let divFilterDate = puma("<div id='" + this._elementId + "DivFilterDate'></div>").vrAppendToPuma(divContainer);
+        let divFilterDate = puma("<div id='" + this._elementId + "DivFilterDate'></div>").vrAppendToPuma(divSearchIntervals);
         let dateFilterType = puma("<div id='" + this._elementId + "_ddlFilterDateType'></div>").vrAppendToPuma(divFilterDate);
 
         let datePickerDateFilterValueFrom: DatePicker;
@@ -5254,7 +5274,7 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Filter number
-        let divFilterNumber = puma("<div id='" + this._elementId + "DivFilterNumber'></div>").vrAppendToPuma(divContainer);
+        let divFilterNumber = puma("<div id='" + this._elementId + "DivFilterNumber'></div>").vrAppendToPuma(divSearchIntervals);
         puma("<div id='" + this._elementId + "_ddlFilterNumberType'></div>").vrAppendToPuma(divFilterNumber);
         createComboBox(
             {
@@ -5300,6 +5320,18 @@ export class Grid extends VrControl
                 decimals: 2
             }, null, null, this._elementId + "_ntbFilterNumberTo");
         //#endregion
+
+        //#endregion
+
+        //#region Search specific vlaues
+        let divSearchSpecific = div(divContainer, { css: "display: none;" });
+        let divItems = puma("<div id='" + this._elementId + "_specificValues' style='height: 300px; overflow-y: auto;'></div>").vrAppendToPuma(divSearchSpecific);
+        let divCheckboxList = puma("<div id='" + this._elementId + "_checkboxListSpecificValues'></div>").vrAppendToPuma(divItems);
+
+        createCheckBoxList({
+            orientation: OrientationEnum.Vertical
+        }, null, null, this._elementId + "_checkboxListSpecificValues");
+        //#endregion
     }
 
     private openWindowFiltering(column: GridColumn)
@@ -5308,13 +5340,21 @@ export class Grid extends VrControl
 
         this._wndFiltering.open([{ value: "ok", callback: () => this.saveWindowFiltering(column) }]);
         this.clearWindowFiltering();
+        this._wndFiltering.autoSize(WindowAutoSizeDirectionEnum.Height);
 
         if (column.title != null)
             this._wndFiltering.title("Filtro campo: '" + column.title + "'");
         else
             this._wndFiltering.title("Imposta filtro");
 
-        //#region Filter type
+        let dtpFrom = ControlManager.get<DatePicker>(this._elementId + "_dtpFilterDateFrom");
+        let dtpTo = ControlManager.get<DatePicker>(this._elementId + "_dtpFilterDateTo");
+        let dtpDateTimeFrom = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateFrom");
+        let dtpDateTimeTo = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateTo");
+        let ntbFrom = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberFrom");
+        let ntbTo = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberTo");
+
+        //#region Hide/Show
         switch (column.type!)
         {
             case GridColumnTypeEnum.DateTime:
@@ -5323,11 +5363,6 @@ export class Grid extends VrControl
                 {
                     puma("#" + this._elementId + "DivFilterDate").show();
                     puma("#" + this._elementId + "DivFilterNumber").hide();
-
-                    let dtpFrom = ControlManager.get<DatePicker>(this._elementId + "_dtpFilterDateFrom");
-                    let dtpTo = ControlManager.get<DatePicker>(this._elementId + "_dtpFilterDateTo");
-                    let dtpDateTimeFrom = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateFrom");
-                    let dtpDateTimeTo = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateTo");
 
                     switch (column.type!)
                     {
@@ -5379,21 +5414,6 @@ export class Grid extends VrControl
                             }
                             break;
                     }
-
-                    //#region Load filter data
-                    if (this._dictionaryFilterConditions.has(column.field))
-                    {
-                        let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType");
-
-                        let filterSettings = this._dictionaryFilterConditions.get(column.field);
-                        if (filterSettings != null && filterSettings.dateFilterSettings != null)
-                        {
-                            ddlType.value(filterSettings.dateFilterSettings.filterTypeEnum, true);
-                            dtpFrom.value(filterSettings.dateFilterSettings.dateFrom);
-                            dtpTo.value(filterSettings.dateFilterSettings.dateTo);
-                        }
-                    }
-                    //#endregion
                 }
                 break;
             case GridColumnTypeEnum.Number:
@@ -5404,10 +5424,6 @@ export class Grid extends VrControl
                     puma("#" + this._elementId + "DivFilterDate").hide();
                     puma("#" + this._elementId + "DivFilterNumber").show();
 
-                    let ntbFrom = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberFrom");
-                    let ntbTo = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberTo");
-
-                    //#region Change numeric textBox type
                     switch (column.type)
                     {
                         case GridColumnTypeEnum.Number:
@@ -5430,26 +5446,140 @@ export class Grid extends VrControl
                             }
                             break;
                     }
-                    //#endregion
-
-                    //#region Load filter data
-                    if (this._dictionaryFilterConditions.has(column.field))
-                    {
-                        let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterNumberType");
-
-                        let filterSettings = this._dictionaryFilterConditions.get(column.field);
-                        if (filterSettings != null && filterSettings.numberFilterSettings != null)
-                        {
-                            ddlType.value(filterSettings.numberFilterSettings.filterTypeEnum, true);
-                            ntbFrom.value(filterSettings.numberFilterSettings.numberFrom);
-                            ntbTo.value(filterSettings.numberFilterSettings.numberTo);
-                        }
-                    }
-                    //#endregion
                 }
                 break;
         }
         //#endregion
+
+        let isSearchIntervals = true;
+        if (this._dictionaryFilterConditions.has(column.field))
+        {
+            let filterSettings = this._dictionaryFilterConditions.get(column.field);
+            if (filterSettings != null)
+            {
+                if (filterSettings.dateFilterSettings != null && filterSettings.dateFilterSettings.specificValues != null
+                    && filterSettings.dateFilterSettings.specificValues.length > 0)
+                    isSearchIntervals = false;
+                else if (filterSettings.numberFilterSettings != null && filterSettings.numberFilterSettings.specificValues != null
+                    && filterSettings.numberFilterSettings.specificValues != null)
+                    isSearchIntervals = false;
+            }
+        }
+
+        //#region Fill CheckboxList specific values
+        let checkboxList = ControlManager.get<CheckBoxList>(this._elementId + "_checkboxListSpecificValues");
+        let items = this.originalDataSource().map(k =>
+        {
+            let text = this.formatValue(k[column.field], column.type!, column.decimalDigits, column.roundingSettings, column.showSeconds);
+            let tag = k[column.field];
+            if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.DateTime || column.type == GridColumnTypeEnum.Time)
+                tag = new Date(k[column.field]);
+
+            return { text: text, value: tag, tag: tag }
+        }).vrDistinctBy(k => k.text).vrSortAsc("tag");
+        checkboxList.items((items as any).take(100));
+        //#endregion
+
+        let switchSearch = ControlManager.get<Switch>(this._elementId + "_switchFilterSearch");
+        if (isSearchIntervals)
+        {
+            //#region Search intervals
+            switchSearch.checked(false);
+            switch (column.type!)
+            {
+                case GridColumnTypeEnum.DateTime:
+                case GridColumnTypeEnum.Time:
+                case GridColumnTypeEnum.Date:
+                    {
+                        if (this._dictionaryFilterConditions.has(column.field))
+                        {
+                            let filterSettings = this._dictionaryFilterConditions.get(column.field);
+                            if (filterSettings != null && filterSettings.dateFilterSettings != null)
+                            {
+                                let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType");
+                                ddlType.value(filterSettings.dateFilterSettings.filterTypeEnum, true);
+
+                                if (column.type == GridColumnTypeEnum.DateTime)
+                                {
+                                    dtpDateTimeFrom.value(filterSettings.dateFilterSettings.dateFrom);
+                                    dtpDateTimeTo.value(filterSettings.dateFilterSettings.dateTo);
+                                }
+                                else
+                                {
+                                    dtpFrom.value(filterSettings.dateFilterSettings.dateFrom);
+                                    dtpTo.value(filterSettings.dateFilterSettings.dateTo);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case GridColumnTypeEnum.Number:
+                case GridColumnTypeEnum.Currency:
+                case GridColumnTypeEnum.Duration:
+                case GridColumnTypeEnum.Percentage:
+                    {
+                        if (this._dictionaryFilterConditions.has(column.field))
+                        {
+                            let filterSettings = this._dictionaryFilterConditions.get(column.field);
+                            if (filterSettings != null && filterSettings.numberFilterSettings != null)
+                            {
+                                let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterNumberType");
+                                ddlType.value(filterSettings.numberFilterSettings.filterTypeEnum, true);
+                                ntbFrom.value(filterSettings.numberFilterSettings.numberFrom);
+                                ntbTo.value(filterSettings.numberFilterSettings.numberTo);
+                            }
+                        }
+                    }
+                    break;
+            }
+            //#endregion
+        }
+        else
+        {
+            //#region Search specific values
+            switchSearch.checked(true);
+            switch (column.type!)
+            {
+                case GridColumnTypeEnum.DateTime:
+                case GridColumnTypeEnum.Time:
+                case GridColumnTypeEnum.Date:
+                    {
+                        //#region Load filter data
+                        if (this._dictionaryFilterConditions.has(column.field))
+                        {
+                            let filterSettings = this._dictionaryFilterConditions.get(column.field);
+                            if (filterSettings != null && filterSettings.dateFilterSettings != null
+                                && filterSettings.dateFilterSettings.specificValues != null
+                                && filterSettings.dateFilterSettings.specificValues.length > 0)
+                            {
+                                checkboxList.valueTag(filterSettings.dateFilterSettings.specificValues);
+                            }
+                        }
+                        //#endregion
+                    }
+                    break;
+                case GridColumnTypeEnum.Number:
+                case GridColumnTypeEnum.Currency:
+                case GridColumnTypeEnum.Duration:
+                case GridColumnTypeEnum.Percentage:
+                    {
+                        //#region Load filter data
+                        if (this._dictionaryFilterConditions.has(column.field))
+                        {
+                            let filterSettings = this._dictionaryFilterConditions.get(column.field);
+                            if (filterSettings != null && filterSettings.numberFilterSettings != null
+                                && filterSettings.numberFilterSettings.specificValues != null
+                                && filterSettings.numberFilterSettings.specificValues.length > 0)
+                            {
+                                checkboxList.value(filterSettings.numberFilterSettings.specificValues);
+                            }
+                        }
+                        //#endregion
+                    }
+                    break;
+            }
+            //#endregion
+        }
     }
 
     private saveWindowFiltering(column: GridColumn)
@@ -5458,119 +5588,99 @@ export class Grid extends VrControl
         let filterSettings = new GridFilterSettings();
         filterSettings.type = column.type!;
 
-        //#region Filter type
-        switch (column.type!)
+        let switchSearch = ControlManager.get<Switch>(this._elementId + "_switchFilterSearch");
+        if (!switchSearch.checked())
         {
-            case GridColumnTypeEnum.DateTime:
-            case GridColumnTypeEnum.Time:
-            case GridColumnTypeEnum.Date:
-                {
-                    //#region Date filter settings
-                    let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType");
-                    let dtpFrom = ControlManager.get<DatePicker>(this._elementId + "_dtpFilterDateFrom");
-                    let dtpTo = ControlManager.get<DatePicker>(this._elementId + "_dtpFilterDateTo");
-                    let dtpDateTimeFrom = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateFrom");
-                    let dtpDateTimeTo = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateTo");
-
-                    if (column.type! == GridColumnTypeEnum.DateTime)
+            //#region Search intervals
+            switch (column.type!)
+            {
+                case GridColumnTypeEnum.DateTime:
+                case GridColumnTypeEnum.Time:
+                case GridColumnTypeEnum.Date:
                     {
-                        if (dtpDateTimeFrom.value() == null)
+                        //#region Date filter settings
+                        let dtpFrom = ControlManager.get<DatePicker>(this._elementId + "_dtpFilterDateFrom");
+                        let dtpTo = ControlManager.get<DatePicker>(this._elementId + "_dtpFilterDateTo");
+                        let dtpDateTimeFrom = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateFrom");
+                        let dtpDateTimeTo = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateTo");
+
+                        if (column.type! == GridColumnTypeEnum.DateTime)
                         {
-                            notify("Inserire almeno una data");
+                            if (dtpDateTimeFrom.value() == null)
+                            {
+                                notify("Inserire almeno una data");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            if (dtpFrom.value() == null)
+                            {
+                                notify("Inserire almeno una data");
+                                return;
+                            }
+                        }
+
+                        let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType")
+                        filterSettings.dateFilterSettings = new GridDateFilterSettings();
+                        filterSettings.dateFilterSettings.filterTypeEnum = Number(ddlType.value());
+                        filterSettings.dateFilterSettings.dateFrom = (column.type! == GridColumnTypeEnum.DateTime) ? dtpDateTimeFrom.value()! : dtpFrom.value()!;
+                        filterSettings.dateFilterSettings.dateTo = (column.type! == GridColumnTypeEnum.DateTime) ? dtpDateTimeTo.value()! : dtpTo.value();
+                        //#endregion
+                    }
+                    break;
+                case GridColumnTypeEnum.Number:
+                case GridColumnTypeEnum.Currency:
+                case GridColumnTypeEnum.Duration:
+                case GridColumnTypeEnum.Percentage:
+                    {
+                        //#region Number filter settings
+                        let ntbFrom = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberFrom");
+                        let ntbTo = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberTo");
+
+                        if (ntbFrom.value() == "")
+                        {
+                            notify("Inserire almeno un numero");
                             return;
                         }
+
+                        let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterNumberType");
+                        filterSettings.numberFilterSettings = new GridNumberFilterSettings();
+                        filterSettings.numberFilterSettings.filterTypeEnum = Number(ddlType.value());
+                        filterSettings.numberFilterSettings.numberFrom = ntbFrom.value();
+                        filterSettings.numberFilterSettings.numberTo = (ntbTo.value() == 0) ? null : Number(ntbTo.value());
+                        //#endregion
                     }
-                    else
-                    {
-                        if (dtpFrom.value() == null)
-                        {
-                            notify("Inserire almeno una data");
-                            return;
-                        }
-                    }
-
-                    //#region Filter button
-                    let filterButton = ControlManager.get<Button>(this._elementId + "_DateFilter_" + column.field);
-                    puma(filterButton.element()).css("background-color", "coral");
-                    puma(filterButton.element()).css("color", "#FFF");
-
-                    let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_DateFilterRemove_" + column.field);
-                    filterButtonRemove.show();
-                    this.recalculateHeight(true);
-
-                    let type = "";
-                    switch (Number(ddlType.value()))
-                    {
-                        case GridDateFilterTypeEnum.GreaterThan: type = "Maggiore di "; break;
-                        case GridDateFilterTypeEnum.LessThan: type = "Minore di "; break;
-                        case GridDateFilterTypeEnum.EqualsTo: type = "Uguale a "; break;
-                        case GridDateFilterTypeEnum.Between: type = "Compreso tra "; break;
-                    }
-
-                    let value = (column.type! == GridColumnTypeEnum.DateTime) ? dtpDateTimeFrom.value()!.vrToItalyString() : dtpFrom.value()!.vrToItalyString();
-                    if (Number(ddlType.value()) == GridDateFilterTypeEnum.Between)
-                        value += " e " + dtpTo.value()!.vrToItalyString();
-
-                    filterButton.tooltip(type + value);
-                    //#endregion
-
-                    filterSettings.dateFilterSettings = new GridDateFilterSettings();
-                    filterSettings.dateFilterSettings.filterTypeEnum = Number(ddlType.value());
-                    filterSettings.dateFilterSettings.dateFrom = (column.type! == GridColumnTypeEnum.DateTime) ? dtpDateTimeFrom.value()! : dtpFrom.value()!;
-                    filterSettings.dateFilterSettings.dateTo = (column.type! == GridColumnTypeEnum.DateTime) ? dtpDateTimeTo.value()! : dtpTo.value();
-                    //#endregion
-                }
-                break;
-            case GridColumnTypeEnum.Number:
-            case GridColumnTypeEnum.Currency:
-            case GridColumnTypeEnum.Duration:
-            case GridColumnTypeEnum.Percentage:
-                {
-                    //#region Number filter settings
-                    let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterNumberType");
-                    let ntbFrom = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberFrom");
-                    let ntbTo = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberTo");
-
-                    if (ntbFrom.value() == "")
-                    {
-                        notify("Inserire almeno un numero");
-                        return;
-                    }
-
-                    //#region Filter button
-                    let filterButton = ControlManager.get<Button>(this._elementId + "_NumberFilter_" + column.field);
-                    puma(filterButton.element()).css("background-color", "coral");
-                    puma(filterButton.element()).css("color", "#FFF");
-
-                    let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_NumberFilterRemove_" + column.field);
-                    filterButtonRemove.show();
-                    this.recalculateHeight(true);
-
-                    let type = "";
-                    switch (Number(ddlType.value()))
-                    {
-                        case GridNumberFilterTypeEnum.GreaterThan: type = "Maggiore di "; break;
-                        case GridNumberFilterTypeEnum.LessThan: type = "Minore di "; break;
-                        case GridNumberFilterTypeEnum.EqualsTo: type = "Uguale a "; break;
-                        case GridNumberFilterTypeEnum.Between: type = "Compreso tra "; break;
-                    }
-
-                    let value = String(ntbFrom.value());
-                    if (Number(ddlType.value()) == GridNumberFilterTypeEnum.Between)
-                        value += " e " + ntbTo.value();
-
-                    filterButton.tooltip(type + value);
-                    //#endregion
-
-                    filterSettings.numberFilterSettings = new GridNumberFilterSettings();
-                    filterSettings.numberFilterSettings.filterTypeEnum = Number(ddlType.value());
-                    filterSettings.numberFilterSettings.numberFrom = ntbFrom.value();
-                    filterSettings.numberFilterSettings.numberTo = (ntbTo.value() == 0) ? null : Number(ntbTo.value());
-                    //#endregion
-                }
-                break;
+                    break;
+            }
+            //#endregion
         }
-        //#endregion
+        else
+        {
+            //#region Search specific values
+            let checkboxList = ControlManager.get<CheckBoxList>(this._elementId + "_checkboxListSpecificValues");
+            switch (column.type!)
+            {
+                case GridColumnTypeEnum.DateTime:
+                case GridColumnTypeEnum.Time:
+                case GridColumnTypeEnum.Date:
+                    {
+                        filterSettings.dateFilterSettings = new GridDateFilterSettings();
+                        filterSettings.dateFilterSettings.specificValues = checkboxList.valueTag();
+                    }
+                    break;
+                case GridColumnTypeEnum.Number:
+                case GridColumnTypeEnum.Currency:
+                case GridColumnTypeEnum.Duration:
+                case GridColumnTypeEnum.Percentage:
+                    {
+                        filterSettings.numberFilterSettings = new GridNumberFilterSettings();
+                        filterSettings.numberFilterSettings.specificValues = checkboxList.value().vrToNumberArrayList();
+                    }
+                    break;
+            }
+            //#endregion
+        }
 
         this._wndFiltering.close();
         this.removeFilter(column.field, !options.serverBinding);
@@ -5595,6 +5705,10 @@ export class Grid extends VrControl
         ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberFrom").clear();
         ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberTo").clear();
         ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberTo").hide();
+        //#endregion
+
+        //#region Search specific values
+        ControlManager.get<CheckBoxList>(this._elementId + "_checkboxListSpecificValues").clearItems();
         //#endregion
     }
 
@@ -5655,31 +5769,24 @@ export class Grid extends VrControl
             if (column != null && column.hidden === true)
                 return;
 
+            let ddlType: ComboBox | null = null;
+            if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.DateTime || column.type == GridColumnTypeEnum.Time)
+                ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType");
+            else if (column.type == GridColumnTypeEnum.Number || column.type == GridColumnTypeEnum.Currency || column.type == GridColumnTypeEnum.Duration || column.type == GridColumnTypeEnum.Percentage)
+                ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterNumberType");
+
+            let type = "";
+            switch (Number(ddlType!.value()))
+            {
+                case GridNumberFilterTypeEnum.GreaterThan: type = "Maggiore di "; break;
+                case GridNumberFilterTypeEnum.LessThan: type = "Minore di "; break;
+                case GridNumberFilterTypeEnum.EqualsTo: type = "Uguale a "; break;
+                case GridNumberFilterTypeEnum.Between: type = "Compreso tra "; break;
+            }
+
             if (valueFilterSettings.numberFilterSettings != null)
             {
                 //#region Number filter
-                switch (valueFilterSettings.numberFilterSettings.filterTypeEnum)
-                {
-                    case GridNumberFilterTypeEnum.GreaterThan:
-                        filteredArray = filteredArray.filter(k => k[keyField] > valueFilterSettings.numberFilterSettings!.numberFrom);
-                        break;
-                    case GridNumberFilterTypeEnum.LessThan:
-                        filteredArray = filteredArray.filter(k => k[keyField] < valueFilterSettings.numberFilterSettings!.numberFrom);
-                        break;
-                    case GridNumberFilterTypeEnum.EqualsTo:
-                        filteredArray = filteredArray.filter(k => k[keyField] == valueFilterSettings.numberFilterSettings!.numberFrom);
-                        break;
-                    case GridNumberFilterTypeEnum.Between:
-                        {
-                            if (valueFilterSettings.numberFilterSettings!.numberTo != null)
-                                filteredArray = filteredArray.filter(k => k[keyField] >= valueFilterSettings.numberFilterSettings!.numberFrom && k[keyField] <= valueFilterSettings.numberFilterSettings!.numberTo!);
-                            else
-                                filteredArray = filteredArray.filter(k => k[keyField] > valueFilterSettings.numberFilterSettings!.numberFrom);
-                        }
-                        break;
-                }
-
-                //#region Filter button
                 let filterButton = ControlManager.get<Button>(this._elementId + "_NumberFilter_" + keyField);
                 puma(filterButton.element()).css("background-color", "coral");
                 puma(filterButton.element()).css("color", "#FFF");
@@ -5688,110 +5795,50 @@ export class Grid extends VrControl
                 filterButtonRemove.show();
                 this.recalculateHeight(true);
 
-                let type = "";
-                switch (valueFilterSettings.numberFilterSettings!.filterTypeEnum)
+                if (valueFilterSettings.numberFilterSettings.specificValues != null && valueFilterSettings.numberFilterSettings.specificValues.length > 0)
                 {
-                    case GridNumberFilterTypeEnum.GreaterThan: type = "Maggiore di "; break;
-                    case GridNumberFilterTypeEnum.LessThan: type = "Minore di "; break;
-                    case GridNumberFilterTypeEnum.EqualsTo: type = "Uguale a "; break;
-                    case GridNumberFilterTypeEnum.Between: type = "Compreso tra "; break;
+                    //#region Search specific values
+                    filteredArray = filteredArray.filter(k => valueFilterSettings.numberFilterSettings!.specificValues.includes(k[keyField]));
+                    filterButton.tooltip("Ricerca specifica su questi valori: " + valueFilterSettings.numberFilterSettings.specificValues.join(" - "));
+                    //#endregion
                 }
+                else
+                {
+                    //#region Search intervals
+                    switch (valueFilterSettings.numberFilterSettings.filterTypeEnum)
+                    {
+                        case GridNumberFilterTypeEnum.GreaterThan:
+                            filteredArray = filteredArray.filter(k => k[keyField] > valueFilterSettings.numberFilterSettings!.numberFrom);
+                            break;
+                        case GridNumberFilterTypeEnum.LessThan:
+                            filteredArray = filteredArray.filter(k => k[keyField] < valueFilterSettings.numberFilterSettings!.numberFrom);
+                            break;
+                        case GridNumberFilterTypeEnum.EqualsTo:
+                            filteredArray = filteredArray.filter(k => k[keyField] == valueFilterSettings.numberFilterSettings!.numberFrom);
+                            break;
+                        case GridNumberFilterTypeEnum.Between:
+                            {
+                                if (valueFilterSettings.numberFilterSettings!.numberTo != null)
+                                    filteredArray = filteredArray.filter(k => k[keyField] >= valueFilterSettings.numberFilterSettings!.numberFrom && k[keyField] <= valueFilterSettings.numberFilterSettings!.numberTo!);
+                                else
+                                    filteredArray = filteredArray.filter(k => k[keyField] > valueFilterSettings.numberFilterSettings!.numberFrom);
+                            }
+                            break;
+                    }
 
-                let valueTooltip = String(valueFilterSettings.numberFilterSettings!.numberFrom);
-                if (valueFilterSettings.numberFilterSettings!.filterTypeEnum == GridNumberFilterTypeEnum.Between)
-                    valueTooltip += " e " + valueFilterSettings.numberFilterSettings!.numberTo;
+                    // Filter button
+                    let valueTooltip = String(valueFilterSettings.numberFilterSettings!.numberFrom);
+                    if (valueFilterSettings.numberFilterSettings!.filterTypeEnum == GridNumberFilterTypeEnum.Between)
+                        valueTooltip += " e " + valueFilterSettings.numberFilterSettings!.numberTo;
 
-                filterButton.tooltip(type + valueTooltip);
-                //#endregion
-
+                    filterButton.tooltip(type + valueTooltip);
+                    //#endregion
+                }
                 //#endregion
             }
             else if (valueFilterSettings.dateFilterSettings != null)
             {
                 //#region Date filter
-                let filterDateFrom = Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateFrom);
-                let filterDateTo = Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateTo);
-
-                switch (valueFilterSettings.dateFilterSettings.filterTypeEnum)
-                {
-                    case GridDateFilterTypeEnum.GreaterThan:
-                        {
-                            switch (column.type)
-                            {
-                                case GridColumnTypeEnum.Date:
-                                    filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsGreaterThan(filterDateFrom, false, false));
-                                    break;
-                                case GridColumnTypeEnum.DateTime:
-                                    filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsGreaterThan(filterDateFrom));
-                                    break;
-                                case GridColumnTypeEnum.Time:
-                                    filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() > filterDateFrom.getMinutes())))
-                                    break;
-                            }
-                        }
-                        break;
-                    case GridDateFilterTypeEnum.LessThan:
-                        {
-                            switch (column.type)
-                            {
-                                case GridColumnTypeEnum.Date:
-                                    filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsLessThan(filterDateFrom, false, false));
-                                    break;
-                                case GridColumnTypeEnum.DateTime:
-                                    filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsLessThan(filterDateFrom));
-                                    break;
-                                case GridColumnTypeEnum.Time:
-                                    filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() < filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() < filterDateFrom.getMinutes())))
-                                    break;
-                            }
-                        }
-                        break;
-                    case GridDateFilterTypeEnum.EqualsTo:
-                        {
-                            switch (column.type)
-                            {
-                                case GridColumnTypeEnum.Date:
-                                    filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsEqualsTo(filterDateFrom, false));
-                                    break;
-                                case GridColumnTypeEnum.DateTime:
-                                    filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsEqualsTo(filterDateFrom));
-                                    break;
-                                case GridColumnTypeEnum.Time:
-                                    filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() == filterDateFrom.getMinutes()))
-                                    break;
-                            }
-                        }
-                        break;
-                    case GridDateFilterTypeEnum.Between:
-                        {
-                            switch (column.type)
-                            {
-                                case GridColumnTypeEnum.Date:
-                                case GridColumnTypeEnum.DateTime:
-                                    {
-                                        if (valueFilterSettings.dateFilterSettings!.dateTo != null)
-                                            filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsBetween(filterDateFrom, filterDateTo));
-                                        else
-                                            filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsGreaterThan(filterDateFrom));
-                                    }
-                                    break;
-                                case GridColumnTypeEnum.Time:
-                                    {
-                                        if (valueFilterSettings.dateFilterSettings!.dateTo != null)
-                                        {
-                                            filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() > filterDateFrom.getMinutes())))
-                                            filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() < filterDateTo.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateTo.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() < filterDateTo.getMinutes())))
-                                        }
-                                        else
-                                            filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() > filterDateFrom.getMinutes())))
-                                    }
-                                    break;
-                            }
-                        }
-                        break;
-                }
-
-                //#region Filter button
                 let filterButton = ControlManager.get<Button>(this._elementId + "_DateFilter_" + keyField);
                 puma(filterButton.element()).css("background-color", "coral");
                 puma(filterButton.element()).css("color", "#FFF");
@@ -5800,22 +5847,130 @@ export class Grid extends VrControl
                 filterButtonRemove.show();
                 this.recalculateHeight(true);
 
-                let type = "";
-                switch (valueFilterSettings.dateFilterSettings!.filterTypeEnum)
+                if (valueFilterSettings.dateFilterSettings.specificValues != null && valueFilterSettings.dateFilterSettings.specificValues.length > 0)
                 {
-                    case GridDateFilterTypeEnum.GreaterThan: type = "Maggiore di "; break;
-                    case GridDateFilterTypeEnum.LessThan: type = "Minore di "; break;
-                    case GridDateFilterTypeEnum.EqualsTo: type = "Uguale a "; break;
-                    case GridDateFilterTypeEnum.Between: type = "Compreso tra "; break;
+                    //#region Search specific values
+                    let dateFilteredArray = [];
+                    for (let filterValue of filteredArray)
+                    {
+                        for (let specificValue of valueFilterSettings.dateFilterSettings.specificValues)
+                        {
+                            if (Date.vrEquals(new Date(filterValue[keyField]), specificValue))
+                                dateFilteredArray.push(filterValue);
+                        }
+                    }
+                    filteredArray = dateFilteredArray;
+
+                    let tooltipValues: string[] = [];
+                    if (column.type == GridColumnTypeEnum.Date)
+                        tooltipValues = valueFilterSettings.dateFilterSettings.specificValues.map(k => { return new Date(k).vrToItalyString(DateModeEnum.Date) });
+                    else if (column.type == GridColumnTypeEnum.DateTime)
+                        tooltipValues = valueFilterSettings.dateFilterSettings.specificValues.map(k => { return new Date(k).vrToItalyString(DateModeEnum.DateTime) });
+                    else if (column.type == GridColumnTypeEnum.Time)
+                        tooltipValues = valueFilterSettings.dateFilterSettings.specificValues.map(k => { return new Date(k).vrToItalyString(DateModeEnum.Time) });
+
+                    filterButton.tooltip("Ricerca specifica su questi valori: " + tooltipValues.join(" - "));
+                    //#endregion
                 }
+                else
+                {
+                    //#region Search intervals
+                    let filterDateFrom = Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateFrom);
+                    let filterDateTo = Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateTo);
 
-                let valueTooltip = Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateFrom).vrToItalyString();
-                if (valueFilterSettings.dateFilterSettings!.filterTypeEnum == GridDateFilterTypeEnum.Between)
-                    valueTooltip += " e " + Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateTo!).vrToItalyString();
+                    switch (valueFilterSettings.dateFilterSettings.filterTypeEnum)
+                    {
+                        case GridDateFilterTypeEnum.GreaterThan:
+                            {
+                                switch (column.type)
+                                {
+                                    case GridColumnTypeEnum.Date:
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsGreaterThan(filterDateFrom, false, false));
+                                        break;
+                                    case GridColumnTypeEnum.DateTime:
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsGreaterThan(filterDateFrom));
+                                        break;
+                                    case GridColumnTypeEnum.Time:
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() > filterDateFrom.getMinutes())))
+                                        break;
+                                }
+                            }
+                            break;
+                        case GridDateFilterTypeEnum.LessThan:
+                            {
+                                switch (column.type)
+                                {
+                                    case GridColumnTypeEnum.Date:
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsLessThan(filterDateFrom, false, false));
+                                        break;
+                                    case GridColumnTypeEnum.DateTime:
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsLessThan(filterDateFrom));
+                                        break;
+                                    case GridColumnTypeEnum.Time:
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() < filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() < filterDateFrom.getMinutes())))
+                                        break;
+                                }
+                            }
+                            break;
+                        case GridDateFilterTypeEnum.EqualsTo:
+                            {
+                                switch (column.type)
+                                {
+                                    case GridColumnTypeEnum.Date:
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsEqualsTo(filterDateFrom, false));
+                                        break;
+                                    case GridColumnTypeEnum.DateTime:
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsEqualsTo(filterDateFrom));
+                                        break;
+                                    case GridColumnTypeEnum.Time:
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() == filterDateFrom.getMinutes()))
+                                        break;
+                                }
+                            }
+                            break;
+                        case GridDateFilterTypeEnum.Between:
+                            {
+                                switch (column.type)
+                                {
+                                    case GridColumnTypeEnum.Date:
+                                    case GridColumnTypeEnum.DateTime:
+                                        {
+                                            if (valueFilterSettings.dateFilterSettings!.dateTo != null)
+                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsBetween(filterDateFrom, filterDateTo));
+                                            else
+                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsGreaterThan(filterDateFrom));
+                                        }
+                                        break;
+                                    case GridColumnTypeEnum.Time:
+                                        {
+                                            if (valueFilterSettings.dateFilterSettings!.dateTo != null)
+                                            {
+                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() > filterDateFrom.getMinutes())))
+                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() < filterDateTo.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateTo.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() < filterDateTo.getMinutes())))
+                                            }
+                                            else
+                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() > filterDateFrom.getMinutes())))
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                    }
 
-                filterButton.tooltip(type + valueTooltip);
-                //#endregion
+                    // Filter button
+                    let tooltipTypeEnum = DateModeEnum.Date;
+                    if (column.type == GridColumnTypeEnum.DateTime)
+                        tooltipTypeEnum = DateModeEnum.DateTime;
+                    else if (column.type == GridColumnTypeEnum.Time)
+                        tooltipTypeEnum = DateModeEnum.Time;
 
+                    let tooltip = Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateFrom).vrToItalyString(tooltipTypeEnum);
+                    if (valueFilterSettings.dateFilterSettings!.filterTypeEnum == GridDateFilterTypeEnum.Between)
+                        tooltip += " e " + Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateTo!).vrToItalyString(tooltipTypeEnum);
+
+                    filterButton.tooltip(type + tooltip);
+                    //#endregion
+                }
                 //#endregion
             }
             else if (valueFilterSettings.stringFilterSettings != null)
@@ -9736,6 +9891,7 @@ class GridDateFilterSettings
     filterTypeEnum: GridDateFilterTypeEnum;
     dateFrom: Date;
     dateTo?: Date | null;
+    specificValues: any[];
 }
 
 class GridNumberFilterSettings
@@ -9743,6 +9899,7 @@ class GridNumberFilterSettings
     filterTypeEnum: GridNumberFilterTypeEnum;
     numberFrom: number;
     numberTo?: number | null;
+    specificValues: any[];
 }
 
 class GridCheckboxFilterSettings

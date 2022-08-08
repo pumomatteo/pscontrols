@@ -1,3 +1,4 @@
+import { UtilityManager } from "../../../src/managers/utilityManager";
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
 import { ControlTypeEnum, OrientationEnum, createRadioButton, puma } from "../vr";
 import { RadioButtonCheckEvent, RadioButton } from "./radioButton";
@@ -53,9 +54,10 @@ export class RadioButtonList extends VrControl
                 let radioButton = createRadioButton(
                     {
                         text: item.text,
-                        value: String(item.value),
+                        value: (item.value == null) ? item.text : String(item.value),
                         name: options.listName,
                         checked: item.checked,
+                        tag: item.tag,
                         cssContainer: (options.orientation == OrientationEnum.Horizontal && i > 0) ? "margin-left: 10px;" : ((options.orientation == OrientationEnum.Vertical) ? "width: 100%" : ""),
                         onCheck: (e) => 
                         {
@@ -106,6 +108,22 @@ export class RadioButtonList extends VrControl
             return "";
     }
 
+    valueTag(tag?: any, triggerChange = true)
+    {
+        if (tag != null)
+        {
+            let radioButton = this._radioControls.filter(k => UtilityManager.equals(k.tag(), tag))[0];
+            if (radioButton != null)
+                radioButton.checked(true, triggerChange);
+        }
+
+        let checkedRadio = this._radioControls.filter(k => k.checked())[0];
+        if (checkedRadio != null)
+            return checkedRadio.tag();
+        else
+            return "";
+    }
+
     text(value: string, text?: string): string
     {
         let radioButton = this._radioControls.filter(k => puma(k.element()).attr("value") == value)[0];
@@ -119,6 +137,12 @@ export class RadioButtonList extends VrControl
     {
         for (let radioButton of this._radioControls)
             radioButton.checked(false, triggerChange);
+    }
+
+    clearItems()
+    {
+        this._radioControls = [];
+        puma(this.element()).empty();
     }
 
     getOptions(): RadioButtonListOptions
@@ -146,9 +170,10 @@ export class RadioButtonList extends VrControl
 //#region Classes
 class RadioButtonItem
 {
-    public text?: string;
-    public value?: string | number;
-    public checked?: boolean;
+    text?: string;
+    value?: string | number;
+    checked?: boolean;
+    tag?: any;
 
     onCheck?: (e: RadioButtonCheckEvent) => void;
 }

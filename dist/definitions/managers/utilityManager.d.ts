@@ -4,6 +4,7 @@ export declare class UtilityManager {
     static interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;
     static createIcon(icon: IconClass): HTMLElement;
     static duplicate(element: any): any;
+    static equals(item1: any, item2: any): boolean;
     static getMonthNumberByName(monthName: string): -1 | MonthEnum;
     static doAjaxCall<T>(settings: AjaxCallSettings, callBack?: (response: T) => void, errorCallback?: () => void): null;
     static htmlDecode(text: string): string | null;

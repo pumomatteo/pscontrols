@@ -4711,6 +4711,24 @@ export class SplitterCollapsableSettings
 }
 //#endregion
 
+//#region Switch
+export class SwitchLabelSettings
+{
+	text: string;
+	tooltip?: string;
+	color?: string;
+	bold?: boolean;
+	css?: string;
+	onClick?: (e: SwitchLabelSettingsOnClickEvent) => void;
+}
+
+export class SwitchLabelSettingsOnClickEvent extends VrControlsEvent
+{
+	sender: Switch;
+	checked: boolean;
+}
+//#endregion
+
 //#region Scheduler
 export class SchedulerSaturationInfo
 {
@@ -5465,6 +5483,11 @@ class PageErrorEvent
 	public lineNumber?: number;
 	public columnNumber?: number;
 	public error?: Error;
+}
+
+export function isEquals(item1: any, item2: any)
+{
+	return UtilityManager.equals(item1, item2);
 }
 
 export function isLocalhost()

@@ -1,7 +1,8 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
+import { SwitchLabelSettings } from "../vr";
 export declare class SwitchOptions extends VrControlOptions {
-    labelOff?: string;
-    labelOn?: string;
+    labelOff?: string | SwitchLabelSettings;
+    labelOn?: string | SwitchLabelSettings;
     checked?: boolean;
     onChange?(e: SwitchChangeEvent): void;
 }

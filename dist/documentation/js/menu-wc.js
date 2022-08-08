@@ -1329,6 +1329,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/SwitchEvent.html" data-type="entity-link" >SwitchEvent</a>
                             </li>
                             <li class="link">
+                                <a href="classes/SwitchLabelSettings.html" data-type="entity-link" >SwitchLabelSettings</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/SwitchLabelSettingsOnClickEvent.html" data-type="entity-link" >SwitchLabelSettingsOnClickEvent</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/SwitchOptions.html" data-type="entity-link" >SwitchOptions</a>
                             </li>
                             <li class="link">

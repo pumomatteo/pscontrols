@@ -14,8 +14,10 @@ export declare class RadioButtonList extends VrControl {
     constructor(element: HTMLElement, options?: RadioButtonListOptions | null);
     items(items?: RadioButtonItem[]): RadioButtonItem[];
     value(value?: string | number, triggerChange?: boolean): string;
+    valueTag(tag?: any, triggerChange?: boolean): any;
     text(value: string, text?: string): string;
     clear(triggerChange?: boolean): void;
+    clearItems(): void;
     getOptions(): RadioButtonListOptions;
     enable(): void;
     disable(): void;
@@ -24,6 +26,7 @@ declare class RadioButtonItem {
     text?: string;
     value?: string | number;
     checked?: boolean;
+    tag?: any;
     onCheck?: (e: RadioButtonCheckEvent) => void;
 }
 declare class RadioButtonListSelectEvent extends VrControlsEvent {

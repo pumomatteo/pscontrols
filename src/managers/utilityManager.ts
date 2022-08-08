@@ -40,6 +40,23 @@ export class UtilityManager
         }
     }
 
+    static equals(item1: any, item2: any) // Only primitive types
+    {
+        if (item1 == null && item2 == null)
+            return true;
+        else if (item1 == null || item2 == null)
+            return false;
+
+        if ((Object.prototype.toString.call(item1) === '[object Date]') && (Object.prototype.toString.call(item2) === '[object Date]'))
+            return Date.vrEquals(item1, item2);
+        else if (typeof (item1) == "number" && typeof (item2) == "number")
+            return Number(item1) == Number(item2);
+        else if ((typeof (item1) == "string" && typeof (item2) == "string") || (typeof (item1) == "boolean" && typeof (item2) == "boolean"))
+            return item1 == item2;
+        else
+            return item1 == item2;
+    }
+
     static getMonthNumberByName(monthName: string)
     {
         switch (monthName.toLowerCase())
