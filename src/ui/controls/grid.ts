@@ -4954,6 +4954,11 @@ export class Grid extends VrControl
             if (column.type == GridColumnTypeEnum.EditButton || column.title === "" || column.title == null)
                 continue;
 
+            if ((gridActionEnum == GridActionEnum.ShowHide && column.hideable === false)
+                || (gridActionEnum == GridActionEnum.GroupBy && column.groupable === false)
+                || (gridActionEnum == GridActionEnum.LockUnlock && column.lockable === false))
+                continue;
+
             let div = puma("<div id='" + this._elementId + "_divActionColumn" + column.field + "' field='" + column.field + "' class='grid_divActionColumn'></div>").vrAppendToPuma(divContainer);
 
             //#region CheckBox

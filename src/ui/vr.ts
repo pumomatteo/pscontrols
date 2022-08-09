@@ -4585,16 +4585,19 @@ export class GridColumn
 	milesSeparator?: boolean;
 	showSeconds?: boolean;
 	ignoreFactor?: boolean;
-	hidden?: boolean;
-	filterable?: boolean;
-	filterWebService?: boolean;
 	bold?: boolean;
 	aggregate?: boolean | GridAggregateMode;
 	countZeroInAverage?: boolean;
 	defaultValue?: any;
 	editable?: boolean;
 	exportable?: boolean;
+	groupable?: boolean;
 	locked?: boolean;
+	lockable?: boolean;
+	hidden?: boolean;
+	hideable?: boolean;
+	filterable?: boolean;
+	filterWebService?: boolean;
 	customFilterProperties?: string[];
 	roundingSettings?: NumberFormatRoundingSettings;
 
