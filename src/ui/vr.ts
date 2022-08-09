@@ -4499,6 +4499,14 @@ export enum GridNumberFilterTypeEnum
 	Between
 }
 
+export enum GridStringFilterTypeEnum
+{
+    StartsWith,
+    EndsWith,
+    EqualsTo,
+    Includes
+}
+
 export class GridGroupBySettings
 {
 	sortBy?: GridSortSettings;

@@ -2787,6 +2787,12 @@ export declare enum GridNumberFilterTypeEnum {
     EqualsTo = 2,
     Between = 3
 }
+export declare enum GridStringFilterTypeEnum {
+    StartsWith = 0,
+    EndsWith = 1,
+    EqualsTo = 2,
+    Includes = 3
+}
 export declare class GridGroupBySettings {
     sortBy?: GridSortSettings;
     internalSortBy?: GridSortSettings;

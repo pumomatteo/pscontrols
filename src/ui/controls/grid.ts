@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum } from "../vr";
+import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -1018,7 +1018,6 @@ export class Grid extends VrControl
                                     {
                                         icon: IconClassLight.Filter,
                                         tooltip: "Applica filtro",
-                                        cssContainer: "margin-right: 5px;",
                                         onClick: (e) =>
                                         {
                                             this.openWindowFiltering(column);
@@ -1031,6 +1030,7 @@ export class Grid extends VrControl
                                         tooltip: "Rimuovi filtro",
                                         colorSettings: { background: "#CCC" },
                                         visible: false,
+                                        cssContainer: "margin-left: 5px;",
                                         onClick: (e) =>
                                         {
                                             this.removeFilter(column.field);
@@ -1059,7 +1059,6 @@ export class Grid extends VrControl
                                     {
                                         icon: IconClassLight.Filter,
                                         tooltip: "Applica filtro",
-                                        css: "margin-right: 5px;",
                                         onClick: (e) =>
                                         {
                                             this.openWindowFiltering(column);
@@ -1072,6 +1071,7 @@ export class Grid extends VrControl
                                         tooltip: "Rimuovi filtro",
                                         colorSettings: { background: "#CCC" },
                                         visible: false,
+                                        cssContainer: "margin-left: 5px;",
                                         onClick: (e) =>
                                         {
                                             this.removeFilter(column.field);
@@ -1090,15 +1090,14 @@ export class Grid extends VrControl
                         case GridColumnTypeEnum.Custom:
                         case GridColumnTypeEnum.Label:
                             {
-                                td.innerHTML = "<input id='" + this._elementId + "_StringFilter_" + column.field + "' field='" + column.field + "'></input>";
-
                                 //#region Create filter
                                 this._timeoutFilterText = 0;
-                                createTextBox(
+                                let txtValue = createTextBox(
                                     {
                                         icon: (column.type == GridColumnTypeEnum.Custom) ? IconClassLight.Search : undefined,
                                         placeholder: (column.type == GridColumnTypeEnum.Custom) ? "Cerca..." : undefined,
-                                        width: "100%",
+                                        width: "Calc(100% - 27px)",
+                                        attributes: [{ name: "field", value: column.field }],
                                         onPaste: (e) =>
                                         {
                                             clearTimeout(this._timeoutFilterText);
@@ -1112,6 +1111,14 @@ export class Grid extends VrControl
                                             if (e.tabKey)
                                                 return;
 
+                                            //#region Filter button
+                                            btnStringFilter.tooltip("");
+                                            puma(btnStringFilter.element()).css("background-color", "#f3f3f3");
+                                            puma(btnStringFilter.element()).css("color", "#000");
+                                            btnStringFilterRemove.hide();
+                                            e.sender.width("Calc(100% - 27px)");
+                                            //#endregion
+
                                             clearTimeout(this._timeoutFilterText);
                                             let textToSearch = e.sender.value<string>().toLowerCase();
                                             let field = puma(e.sender.element()).attr("field");
@@ -1122,6 +1129,7 @@ export class Grid extends VrControl
                                                 let filterSettings = new GridFilterSettings();
                                                 filterSettings.type = column.type!;
                                                 filterSettings.stringFilterSettings = new GridStringFilterSettings();
+                                                filterSettings.stringFilterSettings.filterTypeEnum = GridStringFilterTypeEnum.Includes;
                                                 filterSettings.stringFilterSettings.text = textToSearch.toLowerCase();
 
                                                 if (e.key == KeyEnum.Enter)
@@ -1148,7 +1156,40 @@ export class Grid extends VrControl
 
                                             this.manageFilterTextByColumn(textToSearch, column, field, e.backSpaceKey);
                                         }
-                                    }, null, null, this._elementId + "_StringFilter_" + column.field);
+                                    }, td, null, this._elementId + "_StringFilter_" + column.field);
+                                //#endregion
+
+                                //#region Create filter button
+                                let btnStringFilter = createButton(
+                                    {
+                                        icon: IconClassLight.Filter,
+                                        tooltip: "Applica filtro",
+                                        onClick: (e) =>
+                                        {
+                                            this.openWindowFiltering(column);
+                                        }
+                                    }, td, null, this._elementId + "_StringFilterBtn_" + column.field);
+
+                                let btnStringFilterRemove = createButton(
+                                    {
+                                        icon: IconClassRegular.Xmark,
+                                        tooltip: "Rimuovi filtro",
+                                        colorSettings: { background: "#CCC" },
+                                        visible: false,
+                                        cssContainer: "margin-left: 5px;",
+                                        onClick: (e) =>
+                                        {
+                                            this.removeFilter(column.field);
+
+                                            btnStringFilter.tooltip("");
+                                            puma(btnStringFilter.element()).css("background-color", "#f3f3f3");
+                                            puma(btnStringFilter.element()).css("color", "#000");
+                                            btnStringFilterRemove.hide();
+                                            this.recalculateHeight(true);
+
+                                            txtValue.width("Calc(100% - 27px");
+                                        }
+                                    }, td, null, this._elementId + "_StringFilterBtnRemove_" + column.field);
                                 //#endregion
                             }
                             break;
@@ -3422,6 +3463,14 @@ export class Grid extends VrControl
         }
         //#endregion
 
+        //#region String, Label
+        else if (columnType == GridColumnTypeEnum.String || columnType == GridColumnTypeEnum.Label)
+        {
+            value = String(value);
+            return value;
+        }
+        //#endregion
+
         return "";
     }
     //#endregion
@@ -5038,6 +5087,7 @@ export class Grid extends VrControl
                     let filterSettings = new GridFilterSettings();
                     filterSettings.type = column.type!;
                     filterSettings.stringFilterSettings = new GridStringFilterSettings();
+                    filterSettings.stringFilterSettings.filterTypeEnum = GridStringFilterTypeEnum.Includes;
                     filterSettings.stringFilterSettings.text = textToSearch.toLowerCase();
                     this.updateFilter(column.field, filterSettings, false);
                     //#endregion
@@ -5056,6 +5106,7 @@ export class Grid extends VrControl
                     let filterSettings = new GridFilterSettings();
                     filterSettings.type = column.type!;
                     filterSettings.stringFilterSettings = new GridStringFilterSettings();
+                    filterSettings.stringFilterSettings.filterTypeEnum = GridStringFilterTypeEnum.Includes;
                     filterSettings.stringFilterSettings.text = textToSearch.toLowerCase();
                     this.updateFilter(column.field, filterSettings, false);
                     //#endregion
@@ -5116,6 +5167,16 @@ export class Grid extends VrControl
                     {
                         let textBox = ControlManager.get<TextBox>(this._elementId + "_StringFilter_" + column.field);
                         textBox.clear();
+                        textBox.width("Calc(100% - 27px)"); debugger;
+
+                        let stringFilter = ControlManager.get<Button>(this._elementId + "_StringFilterBtn_" + column.field);
+                        stringFilter.tooltip("");
+                        puma(stringFilter.element()).css("background-color", "#f3f3f3");
+                        puma(stringFilter.element()).css("color", "#000");
+
+                        let stringFilterRemove = ControlManager.get<Button>(this._elementId + "_StringFilterBtnRemove_" + column.field);
+                        stringFilterRemove.hide();
+                        this.recalculateHeight(true);
                     }
                     break;
             }
@@ -5174,7 +5235,7 @@ export class Grid extends VrControl
 
         puma("<div id='" + this._elementId + "_switchFilterSearch'></div>").vrAppendToPuma(divContainer);
         createSwitch({
-            labelOff: "Ricerca intervalli",
+            labelOff: "Ricerca con parametri",
             labelOn: { text: "Ricerca puntuale", tooltip: "Max 100 valori" },
             cssContainer: "margin-bottom: 5px;",
             onChange: (e) =>
@@ -5189,7 +5250,7 @@ export class Grid extends VrControl
         let divSearchIntervals = div(divContainer);
 
         //#region Filter date
-        let divFilterDate = puma("<div id='" + this._elementId + "DivFilterDate'></div>").vrAppendToPuma(divSearchIntervals);
+        let divFilterDate = puma("<div id='" + this._elementId + "DivFilterDate' style='display: none;'></div>").vrAppendToPuma(divSearchIntervals);
         let dateFilterType = puma("<div id='" + this._elementId + "_ddlFilterDateType'></div>").vrAppendToPuma(divFilterDate);
 
         let datePickerDateFilterValueFrom: DatePicker;
@@ -5274,7 +5335,7 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Filter number
-        let divFilterNumber = puma("<div id='" + this._elementId + "DivFilterNumber'></div>").vrAppendToPuma(divSearchIntervals);
+        let divFilterNumber = puma("<div id='" + this._elementId + "DivFilterNumber' style='display: none;'></div>").vrAppendToPuma(divSearchIntervals);
         puma("<div id='" + this._elementId + "_ddlFilterNumberType'></div>").vrAppendToPuma(divFilterNumber);
         createComboBox(
             {
@@ -5321,6 +5382,41 @@ export class Grid extends VrControl
             }, null, null, this._elementId + "_ntbFilterNumberTo");
         //#endregion
 
+        //#region Filter string
+        let divFilterString = puma("<div id='" + this._elementId + "DivFilterString' style='display: none;'></div>").vrAppendToPuma(divSearchIntervals);
+        puma("<div id='" + this._elementId + "_ddlFilterStringType'></div>").vrAppendToPuma(divFilterString);
+        createComboBox(
+            {
+                mode: ComboBoxTypeEnum.DropDown,
+                label: "Tipo di filtro",
+                width: "100%",
+                cssContainer: "margin-bottom: 10px;",
+                items:
+                    [
+                        { text: "Inizia con", value: String(GridStringFilterTypeEnum.StartsWith) },
+                        { text: "Finisce con", value: String(GridStringFilterTypeEnum.EndsWith) },
+                        { text: "Uguale a", value: String(GridStringFilterTypeEnum.EqualsTo) },
+                        { text: "Contiene", value: String(GridStringFilterTypeEnum.Includes) }
+                    ],
+                onAfterChange: (e) =>
+                {
+                    if (numericTextBoxFilterValueTo == null)
+                        return;
+
+                    if (Number(e.sender.value()) == GridNumberFilterTypeEnum.Between)
+                        numericTextBoxFilterValueTo.show();
+                    else
+                        numericTextBoxFilterValueTo.hide();
+                }
+            }, null, null, this._elementId + "_ddlFilterStringType");
+
+        puma("<input id='" + this._elementId + "_txtFilterStringValue' />").vrAppendToPuma(divFilterString);
+        createTextBox(
+            {
+                width: "100%",
+            }, null, null, this._elementId + "_txtFilterStringValue");
+        //#endregion
+
         //#endregion
 
         //#region Search specific vlaues
@@ -5353,6 +5449,7 @@ export class Grid extends VrControl
         let dtpDateTimeTo = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateTo");
         let ntbFrom = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberFrom");
         let ntbTo = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberTo");
+        let txtStringValue = ControlManager.get<TextBox>(this._elementId + "_txtFilterStringValue");
 
         //#region Hide/Show
         switch (column.type!)
@@ -5363,6 +5460,7 @@ export class Grid extends VrControl
                 {
                     puma("#" + this._elementId + "DivFilterDate").show();
                     puma("#" + this._elementId + "DivFilterNumber").hide();
+                    puma("#" + this._elementId + "DivFilterString").hide();
 
                     switch (column.type!)
                     {
@@ -5423,6 +5521,7 @@ export class Grid extends VrControl
                 {
                     puma("#" + this._elementId + "DivFilterDate").hide();
                     puma("#" + this._elementId + "DivFilterNumber").show();
+                    puma("#" + this._elementId + "DivFilterString").hide();
 
                     switch (column.type)
                     {
@@ -5446,6 +5545,14 @@ export class Grid extends VrControl
                             }
                             break;
                     }
+                }
+                break;
+            case GridColumnTypeEnum.String:
+            case GridColumnTypeEnum.Label:
+                {
+                    puma("#" + this._elementId + "DivFilterDate").hide();
+                    puma("#" + this._elementId + "DivFilterNumber").hide();
+                    puma("#" + this._elementId + "DivFilterString").show();
                 }
                 break;
         }
@@ -5531,6 +5638,21 @@ export class Grid extends VrControl
                         }
                     }
                     break;
+                case GridColumnTypeEnum.String:
+                case GridColumnTypeEnum.Label:
+                    {
+                        if (this._dictionaryFilterConditions.has(column.field))
+                        {
+                            let filterSettings = this._dictionaryFilterConditions.get(column.field);
+                            if (filterSettings != null && filterSettings.stringFilterSettings != null)
+                            {
+                                let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterStringType");
+                                ddlType.value(filterSettings.stringFilterSettings.filterTypeEnum, true);
+                                txtStringValue.value(filterSettings.stringFilterSettings.text);
+                            }
+                        }
+                    }
+                    break;
             }
             //#endregion
         }
@@ -5577,6 +5699,21 @@ export class Grid extends VrControl
                         //#endregion
                     }
                     break;
+                case GridColumnTypeEnum.String:
+                case GridColumnTypeEnum.Label:
+                    {
+                        if (this._dictionaryFilterConditions.has(column.field))
+                        {
+                            let filterSettings = this._dictionaryFilterConditions.get(column.field);
+                            if (filterSettings != null && filterSettings.stringFilterSettings != null
+                                && filterSettings.stringFilterSettings.specificValues != null
+                                && filterSettings.stringFilterSettings.specificValues.length > 0)
+                            {
+                                checkboxList.value(filterSettings.stringFilterSettings.specificValues);
+                            }
+                        }
+                    }
+                    break;
             }
             //#endregion
         }
@@ -5608,7 +5745,7 @@ export class Grid extends VrControl
                         {
                             if (dtpDateTimeFrom.value() == null)
                             {
-                                notify("Inserire almeno una data");
+                                notifyWarning("Inserire almeno una data");
                                 return;
                             }
                         }
@@ -5616,7 +5753,7 @@ export class Grid extends VrControl
                         {
                             if (dtpFrom.value() == null)
                             {
-                                notify("Inserire almeno una data");
+                                notifyWarning("Inserire almeno una data");
                                 return;
                             }
                         }
@@ -5637,10 +5774,9 @@ export class Grid extends VrControl
                         //#region Number filter settings
                         let ntbFrom = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberFrom");
                         let ntbTo = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberTo");
-
                         if (ntbFrom.value() == "")
                         {
-                            notify("Inserire almeno un numero");
+                            notifyWarning("Inserire almeno un numero");
                             return;
                         }
 
@@ -5649,6 +5785,24 @@ export class Grid extends VrControl
                         filterSettings.numberFilterSettings.filterTypeEnum = Number(ddlType.value());
                         filterSettings.numberFilterSettings.numberFrom = ntbFrom.value();
                         filterSettings.numberFilterSettings.numberTo = (ntbTo.value() == 0) ? null : Number(ntbTo.value());
+                        //#endregion
+                    }
+                    break;
+                case GridColumnTypeEnum.String:
+                case GridColumnTypeEnum.Label:
+                    {
+                        //#region String filter settings
+                        let txtStringValue = ControlManager.get<TextBox>(this._elementId + "_txtFilterStringValue");
+                        if (txtStringValue.value() == "")
+                        {
+                            notifyWarning("Inserire un testo");
+                            return;
+                        }
+
+                        let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterStringType");
+                        filterSettings.stringFilterSettings = new GridStringFilterSettings();
+                        filterSettings.stringFilterSettings.filterTypeEnum = Number(ddlType.value());
+                        filterSettings.stringFilterSettings.text = txtStringValue.value();
                         //#endregion
                     }
                     break;
@@ -5676,6 +5830,13 @@ export class Grid extends VrControl
                     {
                         filterSettings.numberFilterSettings = new GridNumberFilterSettings();
                         filterSettings.numberFilterSettings.specificValues = checkboxList.value().vrToNumberArrayList();
+                    }
+                    break;
+                case GridColumnTypeEnum.String:
+                case GridColumnTypeEnum.Label:
+                    {
+                        filterSettings.stringFilterSettings = new GridStringFilterSettings();
+                        filterSettings.stringFilterSettings.specificValues = checkboxList.value();
                     }
                     break;
             }
@@ -5708,6 +5869,8 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Search specific values
+        ControlManager.get<ComboBox>(this._elementId + "_ddlFilterStringType").clear();
+        ControlManager.get<TextBox>(this._elementId + "_txtFilterStringValue").clear();
         ControlManager.get<CheckBoxList>(this._elementId + "_checkboxListSpecificValues").clearItems();
         //#endregion
     }
@@ -5769,21 +5932,6 @@ export class Grid extends VrControl
             if (column != null && column.hidden === true)
                 return;
 
-            let ddlType: ComboBox | null = null;
-            if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.DateTime || column.type == GridColumnTypeEnum.Time)
-                ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType");
-            else if (column.type == GridColumnTypeEnum.Number || column.type == GridColumnTypeEnum.Currency || column.type == GridColumnTypeEnum.Duration || column.type == GridColumnTypeEnum.Percentage)
-                ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterNumberType");
-
-            let type = "";
-            switch (Number(ddlType!.value()))
-            {
-                case GridNumberFilterTypeEnum.GreaterThan: type = "Maggiore di "; break;
-                case GridNumberFilterTypeEnum.LessThan: type = "Minore di "; break;
-                case GridNumberFilterTypeEnum.EqualsTo: type = "Uguale a "; break;
-                case GridNumberFilterTypeEnum.Between: type = "Compreso tra "; break;
-            }
-
             if (valueFilterSettings.numberFilterSettings != null)
             {
                 //#region Number filter
@@ -5830,6 +5978,16 @@ export class Grid extends VrControl
                     let valueTooltip = String(valueFilterSettings.numberFilterSettings!.numberFrom);
                     if (valueFilterSettings.numberFilterSettings!.filterTypeEnum == GridNumberFilterTypeEnum.Between)
                         valueTooltip += " e " + valueFilterSettings.numberFilterSettings!.numberTo;
+
+                    let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterNumberType");
+                    let type = "";
+                    switch (Number(ddlType!.value()))
+                    {
+                        case GridNumberFilterTypeEnum.GreaterThan: type = "Maggiore di "; break;
+                        case GridNumberFilterTypeEnum.LessThan: type = "Minore di "; break;
+                        case GridNumberFilterTypeEnum.EqualsTo: type = "Uguale a "; break;
+                        case GridNumberFilterTypeEnum.Between: type = "Compreso tra "; break;
+                    }
 
                     filterButton.tooltip(type + valueTooltip);
                     //#endregion
@@ -5968,6 +6126,16 @@ export class Grid extends VrControl
                     if (valueFilterSettings.dateFilterSettings!.filterTypeEnum == GridDateFilterTypeEnum.Between)
                         tooltip += " e " + Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateTo!).vrToItalyString(tooltipTypeEnum);
 
+                    let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType");
+                    let type = "";
+                    switch (Number(ddlType!.value()))
+                    {
+                        case GridNumberFilterTypeEnum.GreaterThan: type = "Maggiore di "; break;
+                        case GridNumberFilterTypeEnum.LessThan: type = "Minore di "; break;
+                        case GridNumberFilterTypeEnum.EqualsTo: type = "Uguale a "; break;
+                        case GridNumberFilterTypeEnum.Between: type = "Compreso tra "; break;
+                    }
+
                     filterButton.tooltip(type + tooltip);
                     //#endregion
                 }
@@ -5975,8 +6143,67 @@ export class Grid extends VrControl
             }
             else if (valueFilterSettings.stringFilterSettings != null)
             {
-                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text) !== -1);
-                ControlManager.get<TextBox>(this._elementId + "_StringFilter_" + keyField).value(valueFilterSettings.stringFilterSettings!.text);
+                //#region String filter
+                let filterButton = ControlManager.get<Button>(this._elementId + "_StringFilterBtn_" + keyField);
+                puma(filterButton.element()).css("background-color", "coral");
+                puma(filterButton.element()).css("color", "#FFF");
+
+                let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_StringFilterBtnRemove_" + keyField);
+                filterButtonRemove.show();
+                this.recalculateHeight(true);
+
+                let textBox = ControlManager.get<TextBox>(this._elementId + "_StringFilter_" + column.field);
+                textBox.width("Calc(100% - 60px)");
+
+                if (valueFilterSettings.stringFilterSettings.specificValues != null && valueFilterSettings.stringFilterSettings.specificValues.length > 0)
+                {
+                    //#region Search specific values
+                    filteredArray = filteredArray.filter(k => k[keyField] != null && valueFilterSettings.stringFilterSettings!.specificValues.map(k => { return k.toLowerCase() }).includes(k[keyField].toLowerCase()));
+                    filterButton.tooltip("Ricerca specifica su questi valori: " + valueFilterSettings.stringFilterSettings.specificValues.join(" - "));
+                    //#endregion
+                }
+                else
+                {
+                    //#region Search intervals
+                    let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterStringType");
+                    let type = "";
+                    switch (Number(ddlType!.value()))
+                    {
+                        case GridStringFilterTypeEnum.StartsWith:
+                            {
+                                type = "Inizia con: ";
+                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().startsWith(valueFilterSettings.stringFilterSettings!.text.toLowerCase()));
+                            }
+                            break;
+                        case GridStringFilterTypeEnum.EndsWith:
+                            {
+                                type = "Finisce con: ";
+                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().endsWith(valueFilterSettings.stringFilterSettings!.text.toLowerCase()));
+                            }
+                            break;
+                        case GridStringFilterTypeEnum.EqualsTo:
+                            {
+                                type = "Uguale a: ";
+                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase() == valueFilterSettings.stringFilterSettings!.text.toLowerCase());
+                            }
+                            break;
+                        case GridStringFilterTypeEnum.Includes:
+                            {
+                                type = "Contiene: ";
+                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text.toLowerCase()) !== -1);
+                            }
+                            break;
+                        default:
+                            {
+                                type = "Contiene: ";
+                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text.toLowerCase()) !== -1);
+                            }
+                            break;
+                    }
+                    filterButton.tooltip(type + valueFilterSettings.stringFilterSettings!.text);
+                    //#endregion
+                }
+                //#endregion
             }
             else if (valueFilterSettings.checkboxFilterSettings != null)
             {
@@ -7089,7 +7316,7 @@ export class Grid extends VrControl
                     let rebindAfterSave = request!.rebindGridAfterSave;
                     rebindAfterSave = (rebindAfterSave == null) ? false : rebindAfterSave;
 
-                    if (rebindAfterSave)
+                    if (rebindAfterSave && requestType != GridRequestTypeEnum.Rebind)
                         that.rebind();
                     else
                     {
@@ -7218,7 +7445,7 @@ export class Grid extends VrControl
                     let rebindAfterError = request!.rebindGridAfterError;
                     rebindAfterError = (rebindAfterError == null) ? false : rebindAfterError;
 
-                    if (rebindAfterError)
+                    if (rebindAfterError && requestType != GridRequestTypeEnum.Rebind)
                         that.rebind();
                     //#endregion
 
@@ -7271,7 +7498,7 @@ export class Grid extends VrControl
                 let rebindAfterError = request!.rebindGridAfterError;
                 rebindAfterError = (rebindAfterError == null) ? false : rebindAfterError;
 
-                if (rebindAfterError)
+                if (rebindAfterError && requestType != GridRequestTypeEnum.Rebind)
                     that.rebind();
                 //#endregion
 
@@ -9910,6 +10137,8 @@ class GridCheckboxFilterSettings
 class GridStringFilterSettings
 {
     text: string;
+    filterTypeEnum: GridStringFilterTypeEnum;
+    specificValues: any[];
 }
 //#endregion
 

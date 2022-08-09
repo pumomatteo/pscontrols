@@ -1692,6 +1692,8 @@ class GridCheckboxFilterSettings
 class GridStringFilterSettings
 {
     text: string;
+    filterTypeEnum: GridStringFilterTypeEnum;
+    specificValues: any[];
 }
 class DragSupportEvent
 {
@@ -6611,6 +6613,13 @@ export enum GridNumberFilterTypeEnum
     LessThan = 1,
     EqualsTo = 2,
     Between = 3
+}
+export enum GridStringFilterTypeEnum
+{
+    StartsWith = 0,
+    EndsWith = 1,
+    EqualsTo = 2,
+    Includes = 3
 }
 export class GridGroupBySettings
 {

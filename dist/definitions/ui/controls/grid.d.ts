@@ -1,4 +1,4 @@
-import { IconClass, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, GridColumn, GridToolbarItem, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, NumberFormatRoundingSettings, GridPageSelectedEvent, GridScrollEvent } from "../vr";
+import { IconClass, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, GridColumn, GridToolbarItem, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, NumberFormatRoundingSettings, GridPageSelectedEvent, GridScrollEvent, GridStringFilterTypeEnum } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 export declare class GridOptions extends VrControlOptions {
@@ -430,6 +430,8 @@ declare class GridCheckboxFilterSettings {
 }
 declare class GridStringFilterSettings {
     text: string;
+    filterTypeEnum: GridStringFilterTypeEnum;
+    specificValues: any[];
 }
 declare class DragSupportEvent {
     onDragged?: null | ((e: DragEveryEvent) => void);
