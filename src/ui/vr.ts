@@ -5693,16 +5693,18 @@ export enum DateFormatEnum
 	Year
 }
 
+
 export enum KeyEnum
 {
-	ArrowLeft = "ArrowLeft", // 37,
-	ArrowUp = "ArrowUp", // 38
-	ArrowRight = "ArrowRight", // 39
-	ArrowDown = "ArrowDown", // 40
-	Enter = "Enter", // 13
-	Tab = "Tab", // 9
-	Backspace = "Backspace", // 8,
-	Control = "Control" // 17
+    ArrowLeft = "ArrowLeft",
+    ArrowUp = "ArrowUp",
+    ArrowRight = "ArrowRight",
+    ArrowDown = "ArrowDown",
+    Enter = "Enter",
+    Tab = "Tab",
+    Backspace = "Backspace",
+    Control = "Control",
+	Shift = "Shift"
 }
 
 export class NumberFormatRoundingSettings

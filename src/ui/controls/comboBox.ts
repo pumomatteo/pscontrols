@@ -394,7 +394,7 @@ export class ComboBox extends VrControl
                     return;
                 }
 
-                if (e.key == KeyEnum.Enter)
+                if (e.key == KeyEnum.Enter || e.key == KeyEnum.Tab || e.key == KeyEnum.Shift)
                     return;
                 else
                     this._value = null;

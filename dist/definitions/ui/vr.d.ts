@@ -3639,7 +3639,8 @@ export declare enum KeyEnum {
     Enter = "Enter",
     Tab = "Tab",
     Backspace = "Backspace",
-    Control = "Control"
+    Control = "Control",
+    Shift = "Shift"
 }
 export declare class NumberFormatRoundingSettings {
     roundingMode?: RoundingModeEnum;

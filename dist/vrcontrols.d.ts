@@ -7540,7 +7540,8 @@ export enum KeyEnum
     Enter = "Enter",
     Tab = "Tab",
     Backspace = "Backspace",
-    Control = "Control"
+    Control = "Control",
+    Shift = "Shift"
 }
 export class NumberFormatRoundingSettings
 {
