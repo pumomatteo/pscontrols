@@ -11,7 +11,6 @@ import { Dictionary } from "../../../src/managers/dictionary";
 import { ColorPicker } from "./colorPicker";
 import { Button } from "./button";
 import { UtilityManager } from "../../../src/managers/utilityManager";
-import { CheckBoxList } from "./checkboxList";
 import { Switch } from "./switch";
 
 //#region Options
@@ -5172,7 +5171,7 @@ export class Grid extends VrControl
                     {
                         let textBox = ControlManager.get<TextBox>(this._elementId + "_StringFilter_" + column.field);
                         textBox.clear();
-                        textBox.width("Calc(100% - 27px)"); debugger;
+                        textBox.width("Calc(100% - 27px)");
 
                         let stringFilter = ControlManager.get<Button>(this._elementId + "_StringFilterBtn_" + column.field);
                         stringFilter.tooltip("");
@@ -5248,6 +5247,9 @@ export class Grid extends VrControl
                 puma(divSearchIntervals).vrVisible(!e.checked);
                 puma(divSearchSpecific).vrVisible(e.checked);
                 this._wndFiltering.center();
+
+                if (e.checked)
+                    txtFilterSpecificValues.focus();
             }
         }, null, null, this._elementId + "_switchFilterSearch")
 
@@ -5426,12 +5428,74 @@ export class Grid extends VrControl
 
         //#region Search specific vlaues
         let divSearchSpecific = div(divContainer, { css: "display: none;" });
-        let divItems = puma("<div id='" + this._elementId + "_specificValues' style='height: 300px; overflow-y: auto;'></div>").vrAppendToPuma(divSearchSpecific);
-        let divCheckboxList = puma("<div id='" + this._elementId + "_checkboxListSpecificValues'></div>").vrAppendToPuma(divItems);
+        let divFilterSpecificValues = div(divSearchSpecific);
+        let timeoutSearch = 0;
 
-        createCheckBoxList({
-            orientation: OrientationEnum.Vertical
-        }, null, null, this._elementId + "_checkboxListSpecificValues");
+        let txtFilterSpecificValues = createTextBox({
+            width: "100%",
+            css: "border: solid 1px #ddd !important;",
+            onKeyUp: (e) =>
+            {
+                window.clearTimeout(timeoutSearch);
+                timeoutSearch = window.setTimeout(() =>
+                {
+                    for (let checkbox of Array.from<HTMLInputElement>(puma(this._wndFiltering.element()).find(".vrGrid_divSearchSpecificValues input")))
+                    {
+                        checkbox.parentElement!.classList.remove("checkboxToShow");
+                        checkbox.parentElement!.classList.remove("checkboxToHide");
+
+                        if (e.value != "")
+                        {
+                            let tag = String(JSON.parse(checkbox.getAttribute("tag")!));
+                            if (tag.toLowerCase().indexOf(String(e.value!).toLowerCase()) !== -1)
+                                checkbox.parentElement!.classList.add("checkboxToShow");
+                            else
+                                checkbox.parentElement!.classList.add("checkboxToHide");
+                        }
+                        else
+                            checkbox.parentElement!.classList.add("checkboxToShow");
+                    }
+
+                    for (let checkboxToShow of Array.from<HTMLElement>(puma(this._wndFiltering.element()).find(".checkboxToShow")))
+                        checkboxToShow.style.display = "flex";
+
+                    for (let checkboxToShow of Array.from<HTMLElement>(puma(this._wndFiltering.element()).find(".checkboxToHide")))
+                        checkboxToShow.style.display = "none";
+                }, 300)
+            }
+        }, divFilterSpecificValues, null, this._elementId + "_txtFilterSearchSpecificValues")
+
+        let dtpFilterSpecificValues = createDatePicker({
+            width: "100%",
+            css: "border: solid 1px #ddd !important;",
+            onAfterChange: (e) =>
+            {
+                for (let checkbox of Array.from<HTMLInputElement>(puma(this._wndFiltering.element()).find(".vrGrid_divSearchSpecificValues input")))
+                {
+                    checkbox.parentElement!.classList.remove("checkboxToShow");
+                    checkbox.parentElement!.classList.remove("checkboxToHide");
+
+                    if (e.value != null)
+                    {
+                        let tag = new Date(JSON.parse(checkbox.getAttribute("tag")!));
+                        if (Date.vrEquals(tag, e.value))
+                            checkbox.parentElement!.classList.add("checkboxToShow");
+                        else
+                            checkbox.parentElement!.classList.add("checkboxToHide");
+                    }
+                    else
+                        checkbox.parentElement!.classList.add("checkboxToShow");
+                }
+
+                for (let checkboxToShow of Array.from<HTMLElement>(puma(this._wndFiltering.element()).find(".checkboxToShow")))
+                    checkboxToShow.style.display = "flex";
+
+                for (let checkboxToShow of Array.from<HTMLElement>(puma(this._wndFiltering.element()).find(".checkboxToHide")))
+                    checkboxToShow.style.display = "none";
+            }
+        }, divFilterSpecificValues, null, this._elementId + "_dtpFilterSearchSpecificValues")
+
+        let divSpecificValues = div(divSearchSpecific, { id: this._elementId + "_specificValues", css: "height: 300px; overflow-y: auto;" })
         //#endregion
     }
 
@@ -5455,6 +5519,8 @@ export class Grid extends VrControl
         let ntbFrom = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberFrom");
         let ntbTo = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberTo");
         let txtStringValue = ControlManager.get<TextBox>(this._elementId + "_txtFilterStringValue");
+        let txtFilterSearchSpecificValues = ControlManager.get<TextBox>(this._elementId + "_txtFilterSearchSpecificValues");
+        let dtpFilterSearchSpecificValues = ControlManager.get<DatePicker>(this._elementId + "_dtpFilterSearchSpecificValues");
 
         //#region Hide/Show
         switch (column.type!)
@@ -5466,6 +5532,8 @@ export class Grid extends VrControl
                     puma("#" + this._elementId + "DivFilterDate").show();
                     puma("#" + this._elementId + "DivFilterNumber").hide();
                     puma("#" + this._elementId + "DivFilterString").hide();
+                    txtFilterSearchSpecificValues.hide();
+                    dtpFilterSearchSpecificValues.show();
 
                     switch (column.type!)
                     {
@@ -5527,6 +5595,8 @@ export class Grid extends VrControl
                     puma("#" + this._elementId + "DivFilterDate").hide();
                     puma("#" + this._elementId + "DivFilterNumber").show();
                     puma("#" + this._elementId + "DivFilterString").hide();
+                    txtFilterSearchSpecificValues.show();
+                    dtpFilterSearchSpecificValues.hide();
 
                     switch (column.type)
                     {
@@ -5558,6 +5628,8 @@ export class Grid extends VrControl
                     puma("#" + this._elementId + "DivFilterDate").hide();
                     puma("#" + this._elementId + "DivFilterNumber").hide();
                     puma("#" + this._elementId + "DivFilterString").show();
+                    txtFilterSearchSpecificValues.show();
+                    dtpFilterSearchSpecificValues.hide();
                 }
                 break;
         }
@@ -5573,13 +5645,15 @@ export class Grid extends VrControl
                     && filterSettings.dateFilterSettings.specificValues.length > 0)
                     isSearchIntervals = false;
                 else if (filterSettings.numberFilterSettings != null && filterSettings.numberFilterSettings.specificValues != null
-                    && filterSettings.numberFilterSettings.specificValues != null)
+                    && filterSettings.numberFilterSettings.specificValues.length > 0)
+                    isSearchIntervals = false;
+                else if (filterSettings.stringFilterSettings != null && filterSettings.stringFilterSettings.specificValues != null
+                    && filterSettings.stringFilterSettings.specificValues.length > 0)
                     isSearchIntervals = false;
             }
         }
 
         //#region Fill CheckboxList specific values
-        let checkboxList = ControlManager.get<CheckBoxList>(this._elementId + "_checkboxListSpecificValues");
         let items = this.originalDataSource().map(k =>
         {
             let text = this.formatValue(k[column.field], column.type!, column.decimalDigits, column.roundingSettings, column.showSeconds);
@@ -5589,7 +5663,28 @@ export class Grid extends VrControl
 
             return { text: text, value: tag, tag: tag }
         }).vrDistinctBy(k => k.text).vrSortAsc("tag");
-        checkboxList.items((items as any).take(100));
+
+        let divContent = puma("#" + this._elementId + "_specificValues")[0];
+        let contentFragment = document.createDocumentFragment();
+        let divRecords = document.createElement("div");
+        divRecords.classList.add("vrGrid_divSearchSpecificValues");
+        contentFragment.appendChild(divRecords);
+        for (let data of items)
+        {
+            let divRow = document.createElement("div");
+            divRecords.appendChild(divRow);
+
+            let checkbox = document.createElement("input");
+            checkbox.setAttribute("type", "checkbox");
+            checkbox.classList.add("vrControls", "vrCheckBox");
+            checkbox.setAttribute("tag", JSON.stringify(data.tag));
+            divRow.appendChild(checkbox);
+
+            let lblText = document.createElement("label");
+            lblText.innerHTML = data.text;
+            divRow.appendChild(lblText);
+        }
+        divContent.appendChild(contentFragment);
         //#endregion
 
         let switchSearch = ControlManager.get<Switch>(this._elementId + "_switchFilterSearch");
@@ -5679,7 +5774,18 @@ export class Grid extends VrControl
                                 && filterSettings.dateFilterSettings.specificValues != null
                                 && filterSettings.dateFilterSettings.specificValues.length > 0)
                             {
-                                checkboxList.valueTag(filterSettings.dateFilterSettings.specificValues);
+                                for (let value of filterSettings.dateFilterSettings.specificValues)
+                                {
+                                    for (let checkbox of Array.from<HTMLInputElement>(puma(this._wndFiltering.element()).find(".vrGrid_divSearchSpecificValues input")))
+                                    {
+                                        let tag = new Date(JSON.parse(checkbox.getAttribute("tag")!));
+                                        if (UtilityManager.equals(value, tag))
+                                        {
+                                            checkbox.checked = true;
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                         }
                         //#endregion
@@ -5698,7 +5804,18 @@ export class Grid extends VrControl
                                 && filterSettings.numberFilterSettings.specificValues != null
                                 && filterSettings.numberFilterSettings.specificValues.length > 0)
                             {
-                                checkboxList.value(filterSettings.numberFilterSettings.specificValues);
+                                for (let value of filterSettings.numberFilterSettings.specificValues)
+                                {
+                                    for (let checkbox of Array.from<HTMLInputElement>(puma(this._wndFiltering.element()).find(".vrGrid_divSearchSpecificValues input")))
+                                    {
+                                        let tag = Number(JSON.parse(checkbox.getAttribute("tag")!));
+                                        if (UtilityManager.equals(value, tag))
+                                        {
+                                            checkbox.checked = true;
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                         }
                         //#endregion
@@ -5714,7 +5831,18 @@ export class Grid extends VrControl
                                 && filterSettings.stringFilterSettings.specificValues != null
                                 && filterSettings.stringFilterSettings.specificValues.length > 0)
                             {
-                                checkboxList.value(filterSettings.stringFilterSettings.specificValues);
+                                for (let value of filterSettings.stringFilterSettings.specificValues)
+                                {
+                                    for (let checkbox of Array.from<HTMLInputElement>(puma(this._wndFiltering.element()).find(".vrGrid_divSearchSpecificValues input")))
+                                    {
+                                        let tag = String(JSON.parse(checkbox.getAttribute("tag")!));
+                                        if (UtilityManager.equals(value, tag))
+                                        {
+                                            checkbox.checked = true;
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -5817,7 +5945,6 @@ export class Grid extends VrControl
         else
         {
             //#region Search specific values
-            let checkboxList = ControlManager.get<CheckBoxList>(this._elementId + "_checkboxListSpecificValues");
             switch (column.type!)
             {
                 case GridColumnTypeEnum.DateTime:
@@ -5825,7 +5952,9 @@ export class Grid extends VrControl
                 case GridColumnTypeEnum.Date:
                     {
                         filterSettings.dateFilterSettings = new GridDateFilterSettings();
-                        filterSettings.dateFilterSettings.specificValues = checkboxList.valueTag();
+                        filterSettings.dateFilterSettings.specificValues = [];
+                        for (let checkbox of Array.from<HTMLElement>(puma('.vrGrid_divSearchSpecificValues input:checkbox:checked')))
+                            filterSettings.dateFilterSettings.specificValues.push(new Date(JSON.parse(checkbox.getAttribute("tag")!)));
                     }
                     break;
                 case GridColumnTypeEnum.Number:
@@ -5834,14 +5963,18 @@ export class Grid extends VrControl
                 case GridColumnTypeEnum.Percentage:
                     {
                         filterSettings.numberFilterSettings = new GridNumberFilterSettings();
-                        filterSettings.numberFilterSettings.specificValues = checkboxList.value().vrToNumberArrayList();
+                        filterSettings.numberFilterSettings.specificValues = [];
+                        for (let checkbox of Array.from<HTMLElement>(puma('.vrGrid_divSearchSpecificValues input:checkbox:checked')))
+                            filterSettings.numberFilterSettings.specificValues.push(Number(JSON.parse(checkbox.getAttribute("tag")!)));
                     }
                     break;
                 case GridColumnTypeEnum.String:
                 case GridColumnTypeEnum.Label:
                     {
                         filterSettings.stringFilterSettings = new GridStringFilterSettings();
-                        filterSettings.stringFilterSettings.specificValues = checkboxList.value();
+                        filterSettings.stringFilterSettings.specificValues = [];
+                        for (let checkbox of Array.from<HTMLElement>(puma('.vrGrid_divSearchSpecificValues input:checkbox:checked')))
+                            filterSettings.stringFilterSettings.specificValues.push(String(JSON.parse(checkbox.getAttribute("tag")!)));
                     }
                     break;
             }
@@ -5876,7 +6009,9 @@ export class Grid extends VrControl
         //#region Search specific values
         ControlManager.get<ComboBox>(this._elementId + "_ddlFilterStringType").clear();
         ControlManager.get<TextBox>(this._elementId + "_txtFilterStringValue").clear();
-        ControlManager.get<CheckBoxList>(this._elementId + "_checkboxListSpecificValues").clearItems();
+        puma(this._wndFiltering.element()).find(this._elementId + "_specificValues").empty();
+        ControlManager.get<TextBox>(this._elementId + "_txtFilterSearchSpecificValues").show();
+        ControlManager.get<DatePicker>(this._elementId + "_dtpFilterSearchSpecificValues").hide();
         //#endregion
     }
 
