@@ -1285,6 +1285,16 @@ table.vrDatePickerPopup_table td {
     font-size: 14px;
 }
 
+.vrGridDivSpecificValues .vrCheckBox.indeterminateVrCheckbox:after {
+    content: "\25A0";
+    font-size: 23px;
+    color: #ccc;
+    height: 10px;
+    position: absolute;
+    top: -8px;
+    left: -1px;
+}
+
 /*#endregion*/
 
 /*#region Drag&Drop*/
