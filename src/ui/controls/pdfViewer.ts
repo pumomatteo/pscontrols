@@ -1,4 +1,4 @@
-import { ControlTypeEnum, createWindow, puma, IconClassLight, IconClass, div, createButton, span, createTextBox, createLabel, TextModeEnum, PdfViewerToolbarAreaEnum, PdfViewerToolbarSettings, ToolbarItemOnClickEvent, PdfViewerToolbarItem, notify, notifyError } from "../vr";
+import { ControlTypeEnum, createWindow, puma, IconClassLight, IconClass, div, createButton, span, createTextBox, createLabel, TextModeEnum, PdfViewerToolbarAreaEnum, PdfViewerToolbarSettings, ToolbarItemOnClickEvent, PdfViewerToolbarItem, notify, notifyError, OnContentRenderedEvent } from "../vr";
 import { VrControlOptions, VrControl, AttributeSettings } from "../common";
 import { PDFDocumentProxy } from "types/pdfjs";
 import { Window, WindowOpenEvent } from "../controls/window";
@@ -469,22 +469,35 @@ export class PdfViewer extends VrControl
 
 	async getData(): Promise<string>
 	{
-		let data = await this._state.pdf.getData();
-		let base64string = UtilityManager.bytesToBase64(data);
-		return base64string;
+		if (this._state.pdf != null)
+		{
+			let data = await this._state.pdf.getData();
+			let base64string = UtilityManager.bytesToBase64(data);
+			return base64string;
+		}
+		return "";
 	}
 
 	//#region Window
 	open(content?: string)
 	{
-		let options = this.getOptions();
-		if (options.popup === false)
-			return;
+		let promise = new Promise((callback?: Function) =>
+		{
+			let options = this.getOptions();
+			if (options.popup === false)
+				return;
 
-		if (content != null)
-			this.content(content);
-
-		this._window.open();
+			if (content != null)
+			{
+				this.content(content).then(() =>
+				{
+					if (callback != null)
+						callback()
+				});
+			}
+			this._window.open();
+		});
+		return promise;
 	}
 
 	close()
@@ -545,13 +558,6 @@ class PdfViewerWindowSettings
 	title?: string;
 	closeable?: boolean;
 	onOpen?(e: WindowOpenEvent): void;
-}
-
-class OnContentRenderedEvent
-{
-	sender: PdfViewer;
-	pdf: any;
-	base64bytes: string;
 }
 
 class OnWindowOpenEvent

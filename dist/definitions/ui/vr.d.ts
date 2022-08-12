@@ -2921,6 +2921,11 @@ export declare enum PdfViewerToolbarAreaEnum {
     Center = 1,
     Right = 2
 }
+export declare class OnContentRenderedEvent {
+    sender: PdfViewer;
+    pdf: any;
+    base64bytes: string;
+}
 export declare class PdfViewerToolbarSettings {
     navigation?: boolean;
     zoom?: boolean;

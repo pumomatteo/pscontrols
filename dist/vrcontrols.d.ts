@@ -2274,7 +2274,7 @@ export class PdfViewer extends VrControl
     download(): void;
     print(): void;
     getData(): Promise<string>;
-    open(content?: string): void;
+    open(content?: string): Promise<unknown>;
     close(): void;
     window(): Window;
     windowTitle(title: string): void;
@@ -2289,12 +2289,6 @@ class PdfViewerWindowSettings
     title?: string;
     closeable?: boolean;
     onOpen?(e: WindowOpenEvent): void;
-}
-class OnContentRenderedEvent
-{
-    sender: PdfViewer;
-    pdf: any;
-    base64bytes: string;
 }
 export
 {};
@@ -6760,6 +6754,12 @@ export enum PdfViewerToolbarAreaEnum
     Left = 0,
     Center = 1,
     Right = 2
+}
+export class OnContentRenderedEvent
+{
+    sender: PdfViewer;
+    pdf: any;
+    base64bytes: string;
 }
 export class PdfViewerToolbarSettings
 {

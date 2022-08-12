@@ -4672,6 +4672,13 @@ export enum PdfViewerToolbarAreaEnum
 	Right
 }
 
+export class OnContentRenderedEvent
+{
+	sender: PdfViewer;
+	pdf: any;
+	base64bytes: string;
+}
+
 export class PdfViewerToolbarSettings
 {
 	navigation?: boolean;
