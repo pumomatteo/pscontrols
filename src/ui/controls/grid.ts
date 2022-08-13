@@ -2218,13 +2218,13 @@ export class Grid extends VrControl
                 //#region Hidden
                 if (column.hidden === true)
                 {
-                    puma(td).hide();
+                    td.style.display = "none"
                     if (isNewCell)
                         puma(tr).vrAppendPuma(td);
 
                     if (options.lockable)
                     {
-                        puma(tdLocked).hide();
+                        tdLocked!.style.display = "none"
                         if (isNewCellLocked)
                             puma(trLocked).vrAppendPuma(tdLocked);
                     }
@@ -2234,8 +2234,8 @@ export class Grid extends VrControl
                 }
                 else
                 {
-                    puma(td).show();
-                    if (options.lockable) puma(tdLocked).show();
+                    td.style.display = "table-cell"
+                    if (options.lockable) tdLocked!.style.display = "table-cell"
                 }
                 //#endregion
 
@@ -2851,9 +2851,9 @@ export class Grid extends VrControl
                     else
                     {
                         if (options.groupBy == null || (options.groupBy as GridGroupBySettings).fields == null)
-                            tdGroupBy.hide();
+                            tdGroupBy[0].style.display = "none";
                         else if (((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field))
-                            tdGroupBy.show();
+                            tdGroupBy[0].style.display = "table-cell";
                     }
 
                     if (options.lockable)
@@ -2864,9 +2864,9 @@ export class Grid extends VrControl
                         else
                         {
                             if (options.groupBy == null || (options.groupBy as GridGroupBySettings).fields == null)
-                                tdGroupByLocked.hide();
+                                tdGroupByLocked[0].style.display = "none";
                             else if (((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field))
-                                tdGroupByLocked.show();
+                                tdGroupByLocked[0].style.display = "table-cell";
                         }
                     }
                 }
