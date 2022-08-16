@@ -2426,7 +2426,6 @@ input:checked+.vrSwitchSlider:before {
 }
 
 .vrTextBox.vrTextBoxError {
-    border-left-width: 4px !important;
     border-color: #FF5050 !important;
 }
 
@@ -2435,7 +2434,7 @@ input:checked+.vrSwitchSlider:before {
     cursor: pointer;
     color: #ff5050;
     right: 7px;
-    top: 30px;
+    top: 24px;
 }
 
 .vrTextBox.noViewablePassword {

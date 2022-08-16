@@ -702,9 +702,6 @@ export class TextBox extends VrControl
         if (hideMode == null) hideMode = ErrorHideModeEnum.OnAction;
         if (text == null) text = "";
 
-        if (!(puma(this.element()).hasClass("vrTextBoxError")))
-            puma(this.element()).width(puma(this.element()).width() - 4);
-
         puma(this.element()).addClass("vrTextBoxError");
         this._hideErrorMode = hideMode;
 
@@ -770,7 +767,6 @@ export class TextBox extends VrControl
         if (puma(this.element()).hasClass("vrTextBoxError"))
         {
             puma(this.element()).removeClass("vrTextBoxError");
-            puma(this.element()).width(puma(this.element()).width() + 4);
             puma(this.container()).find(".vrTextBoxErrorIcon").hide();
             puma(this.container()).find(".vrTextBoxErrorTooltip").hide();
             puma(this.container()).find(".vrTextBoxErrorOverlay").hide();
