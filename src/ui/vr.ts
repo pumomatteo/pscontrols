@@ -5073,6 +5073,11 @@ export class TreeViewToolbarClickEvent
 	}
 }
 
+export class UpdateRowRebindSettings
+{
+	onlyText: boolean;
+}
+
 export enum TreeViewToolbarItemType
 {
 	Separator,

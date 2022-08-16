@@ -1539,6 +1539,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/TreeViewWebApiRequest.html" data-type="entity-link" >TreeViewWebApiRequest</a>
                             </li>
                             <li class="link">
+                                <a href="classes/UpdateRowRebindSettings.html" data-type="entity-link" >UpdateRowRebindSettings</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/Upload.html" data-type="entity-link" >Upload</a>
                             </li>
                             <li class="link">

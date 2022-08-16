@@ -1,7 +1,7 @@
 import { ControlManager } from "../../../src/managers/controlManager";
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { alert, ButtonModeEnum, ControlPositionEnum, confirm, ControlTypeEnum, createButton, createLabel, createSeparator, createTextBox, DateModeEnum, div, hideLoader, icon, IconClassLight, IconClass, notify, OrientationEnum, puma, shadowRoot, showLoader, span, TextAlignEnum, TreeModeEnum, TreeViewAlignEnum, TreeViewColumn, TreeViewColumnTypeEnum, TreeViewContextMenuItem, TreeViewFilterSettings, TreeViewItem, TreeViewItemExtraCell, TreeViewNumericTypeEnum, TreeViewToolbarClickEvent, TreeViewToolbarItem, TreeViewToolbarItemType, createSplitButton, TreeViewToolbarSwitchEvent, createSwitch, TreeViewToolbarSwitchSettings, createDatePicker, createComboBox, createCheckBox, createButtonGroup, SelectionModeEnum, IconClassSolid, NumberFormatSettings, addCssStyle } from "../vr";
+import { alert, ButtonModeEnum, ControlPositionEnum, confirm, ControlTypeEnum, createButton, createLabel, createSeparator, createTextBox, DateModeEnum, div, hideLoader, icon, IconClassLight, IconClass, notify, OrientationEnum, puma, shadowRoot, showLoader, span, TextAlignEnum, TreeModeEnum, TreeViewAlignEnum, TreeViewColumn, TreeViewColumnTypeEnum, TreeViewContextMenuItem, TreeViewFilterSettings, TreeViewItem, TreeViewItemExtraCell, TreeViewNumericTypeEnum, TreeViewToolbarClickEvent, TreeViewToolbarItem, TreeViewToolbarItemType, createSplitButton, TreeViewToolbarSwitchEvent, createSwitch, TreeViewToolbarSwitchSettings, createDatePicker, createComboBox, createCheckBox, createButtonGroup, SelectionModeEnum, IconClassSolid, NumberFormatSettings, addCssStyle, UpdateRowRebindSettings } from "../vr";
 import { Button } from "./button";
 import { ComboBoxOptions } from "./comboBox";
 import { DatePickerOptions } from "./datePicker";
@@ -551,15 +551,16 @@ export class TreeView extends VrControl
 			//#region Text
 			if (options.template == null)
 			{
-				let rowText = item.text.replace(/'/g, "&#39;");
+				let iconText = "";
 				if (item.icon != null)
-					rowText = "<i class='" + item.icon + "' style='margin-right: 5px;'></i>" + rowText;
+					iconText = "<i class='" + item.icon + "' style='margin-right: 5px;'></i>";
 
+				let rowText = item.text.replace(/'/g, "&#39;");
 				let styleRow = "white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block;";
 				if (options.rowLine != null && options.rowLine > 1)
 					styleRow = "display: -webkit-inline-box; overflow: hidden; -webkit-line-clamp: " + options.rowLine + "; -webkit-box-orient: vertical;white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;";
 
-				rowText = "<span style='" + styleRow + "'>" + rowText + "</span>";
+				rowText = iconText + "<span class='vrTreeViewSpanValue' style='" + styleRow + "'>" + rowText + "</span>";
 				puma(rowText).vrAppendToPuma(treeViewItemText);
 			}
 			else
@@ -1700,7 +1701,7 @@ export class TreeView extends VrControl
 	//#endregion
 
 	//#region Manage rows
-	updateRow(dataItem: any, rebind = true)
+	updateRow(dataItem: any, rebind: UpdateRowRebindSettings | boolean = true)
 	{
 		let options = this.getOptions();
 		let dataItemId = dataItem[options.dataSourceFieldId!];
@@ -1710,8 +1711,16 @@ export class TreeView extends VrControl
 		if (itemDatasource != null)
 		{
 			this.datasource()[itemDatasourceIndex] = dataItem;
-			if (rebind)
-				this.update();
+			if (typeof (rebind) == "boolean")
+			{
+				if (rebind === true)
+					this.update();
+			}
+			else if (rebind.onlyText)
+			{
+				let li = this._dictionaryValueLi.get(dataItemId)!;
+				puma(li).find(".vrTreeViewSpanValue")[0].innerHTML = dataItem.text;
+			}
 		}
 	}
 

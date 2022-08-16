@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { IconClass, TreeModeEnum, TreeViewAlignEnum, TreeViewColumn, TreeViewContextMenuItem, TreeViewFilterSettings, TreeViewItem, TreeViewNumericTypeEnum, TreeViewToolbarItem } from "../vr";
+import { IconClass, TreeModeEnum, TreeViewAlignEnum, TreeViewColumn, TreeViewContextMenuItem, TreeViewFilterSettings, TreeViewItem, TreeViewNumericTypeEnum, TreeViewToolbarItem, UpdateRowRebindSettings } from "../vr";
 export declare class TreeViewOptions extends VrControlOptions {
     checkboxes?: boolean;
     treeMode?: TreeModeEnum;
@@ -94,7 +94,7 @@ export declare class TreeView extends VrControl {
     private clickOnContextMenuItem;
     private showContextMenu;
     private closeContextMenu;
-    updateRow(dataItem: any, rebind?: boolean): void;
+    updateRow(dataItem: any, rebind?: UpdateRowRebindSettings | boolean): void;
     updateRows(dataItems: any[], rebind?: boolean): void;
     addItem(item: TreeViewItem, rebind?: boolean): void;
     updateItem(item: TreeViewItem, rebind?: boolean): void;

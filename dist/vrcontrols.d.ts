@@ -3316,7 +3316,7 @@ export class TreeView extends VrControl
     showOnlyThisColumns(fieldList: string[], update?: boolean): void;
     checkAll(triggerChange?: boolean): void;
     unCheckAll(triggerChange?: boolean): void;
-    updateRow(dataItem: any, rebind?: boolean): void;
+    updateRow(dataItem: any, rebind?: UpdateRowRebindSettings | boolean): void;
     updateRows(dataItems: any[], rebind?: boolean): void;
     addItem(item: TreeViewItem, rebind?: boolean): void;
     updateItem(item: TreeViewItem, rebind?: boolean): void;
@@ -7087,6 +7087,10 @@ export class TreeViewToolbarClickEvent
     isDefaultPrevented: boolean;
     deletedItems?: any[];
     preventDefault(): void;
+}
+export class UpdateRowRebindSettings
+{
+    onlyText: boolean;
 }
 export enum TreeViewToolbarItemType
 {

@@ -3215,6 +3215,9 @@ export declare class TreeViewToolbarClickEvent {
     deletedItems?: any[];
     preventDefault(): void;
 }
+export declare class UpdateRowRebindSettings {
+    onlyText: boolean;
+}
 export declare enum TreeViewToolbarItemType {
     Separator = 0,
     Excel = 1,
