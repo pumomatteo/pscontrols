@@ -6417,9 +6417,8 @@ export class Grid extends VrControl
                 else
                 {
                     //#region Search intervals
-                    let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterStringType");
                     let type = "";
-                    switch (Number(ddlType!.value()))
+                    switch (valueFilterSettings.stringFilterSettings.filterTypeEnum)
                     {
                         case GridStringFilterTypeEnum.StartsWith:
                             {
