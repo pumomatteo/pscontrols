@@ -644,6 +644,8 @@ export class Grid extends VrControl
             options.height = "auto";
 
         puma(this._divBody).height(options.height!);
+        let heightContainer = (typeof (options.height!) == "number") ? options.height! + 2 : options.height;
+        puma("#" + this.element().id + "_grid_body_container").height(heightContainer);
         if (options.lockable) puma(this._divBodyLocked).height(options.height!);
         //#endregion
 
