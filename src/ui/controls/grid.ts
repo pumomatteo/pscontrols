@@ -414,7 +414,7 @@ export class Grid extends VrControl
             this._divHeaderLocked.style.cssText += "display: none;";
         }
 
-        this._spanFitHeaderSpace = puma("<span id='" + element.id + "FitHeaderSpace' style='position: absolute;' class='grid_fitHeaderSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
+        this._spanFitHeaderSpace = puma("<span id='" + element.id + "FitHeaderSpace' style='position: absolute; display: none;' class='grid_fitHeaderSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
         //#endregion
 
         //#region Filters
@@ -423,7 +423,7 @@ export class Grid extends VrControl
             this._divFiltersLocked = puma("<div id='" + element.id + "Filters' class='grid_Filters grid_Filters_locked' style='overflow-x: hidden; display: none;'></div>").vrAppendToPuma(divFilters)[0] as HTMLDivElement;
 
         this._divFilters = puma("<div id='" + element.id + "Filters' class='grid_Filters' style='overflow-x: hidden; display: none;'></div>").vrAppendToPuma(divFilters)[0] as HTMLDivElement;
-        this._spanFitFilterSpace = puma("<span id='" + element.id + "FitFilterSpace' style='position: absolute; border-left: 1px solid #d9d9d9;' class='grid_fitFilterSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
+        this._spanFitFilterSpace = puma("<span id='" + element.id + "FitFilterSpace' style='position: absolute; border-left: 1px solid #d9d9d9; display: none;' class='grid_fitFilterSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
         //#endregion
 
         //#region Body
@@ -477,7 +477,7 @@ export class Grid extends VrControl
         if (this._showTotals)
             this.createTotalsFunction();
 
-        this._spanFitTotalsSpace = puma("<span id='" + element.id + "FitTotalsSpace' style='position: absolute; border-left: 1px solid #d9d9d9;' class='grid_fitTotalsSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
+        this._spanFitTotalsSpace = puma("<span id='" + element.id + "FitTotalsSpace' style='position: absolute; border-left: 1px solid #d9d9d9; display: none;' class='grid_fitTotalsSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
         //#endregion
 
         //#endregion
@@ -7207,13 +7207,13 @@ export class Grid extends VrControl
                 //#region Fit space
                 if (puma(this._divHeader).is(":visible"))
                 {
-                    window.setTimeout(() => this._spanFitHeaderSpace.style.cssText += "top: " + (puma(this._divHeader).position().top) + "px; left: " + (puma(this._divHeader).position().left + puma(this._divHeader).width() + 1) + "px", 100);
+                    this._spanFitHeaderSpace.style.cssText += "top: " + (puma(this._divHeader).position().top) + "px; left: " + (puma(this._divHeader).position().left + puma(this._divHeader).width() + 1) + "px";
                     puma(this._spanFitHeaderSpace).show();
                 }
 
                 if (options.filterable)
                 {
-                    window.setTimeout(() => this._spanFitFilterSpace.style.cssText += "top: " + (puma(this._divFilters).position().top - 1) + "px; left: " + (puma(this._divFilters).position().left + puma(this._divFilters).width() + 1) + "px", 100);
+                    this._spanFitFilterSpace.style.cssText += "top: " + (puma(this._divFilters).position().top - 1) + "px; left: " + (puma(this._divFilters).position().left + puma(this._divFilters).width() + 1) + "px";
                     puma(this._spanFitFilterSpace).show();
                 }
                 else
@@ -7221,7 +7221,7 @@ export class Grid extends VrControl
 
                 if (this._showTotals && this.getAllItems().length > 0)
                 {
-                    window.setTimeout(() => this._spanFitTotalsSpace.style.cssText += "top: " + (puma(this._divTotals).position().top - 1) + "px; left: " + (puma(this._divTotals).position().left + puma(this._divTotals).width() + 1) + "px", 100);
+                    this._spanFitTotalsSpace.style.cssText += "top: " + (puma(this._divTotals).position().top - 1) + "px; left: " + (puma(this._divTotals).position().left + puma(this._divTotals).width() + 1) + "px";
                     puma(this._spanFitTotalsSpace).show();
                 }
                 else
