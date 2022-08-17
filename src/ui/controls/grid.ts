@@ -1129,7 +1129,7 @@ export class Grid extends VrControl
                                                 let filterSettings = new GridFilterSettings();
                                                 filterSettings.type = column.type!;
                                                 filterSettings.stringFilterSettings = new GridStringFilterSettings();
-                                                filterSettings.stringFilterSettings.filterTypeEnum = GridStringFilterTypeEnum.Includes;
+                                                filterSettings.stringFilterSettings.filterTypeEnum = GridStringFilterTypeEnum.IncludesFromSimpleSearch;
                                                 filterSettings.stringFilterSettings.text = textToSearch.toLowerCase();
 
                                                 if (e.key == KeyEnum.Enter)
@@ -5092,7 +5092,7 @@ export class Grid extends VrControl
                     let filterSettings = new GridFilterSettings();
                     filterSettings.type = column.type!;
                     filterSettings.stringFilterSettings = new GridStringFilterSettings();
-                    filterSettings.stringFilterSettings.filterTypeEnum = GridStringFilterTypeEnum.Includes;
+                    filterSettings.stringFilterSettings.filterTypeEnum = GridStringFilterTypeEnum.IncludesFromSimpleSearch;
                     filterSettings.stringFilterSettings.text = textToSearch.toLowerCase();
                     this.updateFilter(column.field, filterSettings, false);
                     //#endregion
@@ -5111,12 +5111,12 @@ export class Grid extends VrControl
                     let filterSettings = new GridFilterSettings();
                     filterSettings.type = column.type!;
                     filterSettings.stringFilterSettings = new GridStringFilterSettings();
-                    filterSettings.stringFilterSettings.filterTypeEnum = GridStringFilterTypeEnum.Includes;
+                    filterSettings.stringFilterSettings.filterTypeEnum = GridStringFilterTypeEnum.IncludesFromSimpleSearch;
                     filterSettings.stringFilterSettings.text = textToSearch.toLowerCase();
                     this.updateFilter(column.field, filterSettings, false);
                     //#endregion
                 }
-            }, (backSpace) ? 200 : (options!.groupBy != null || column.filterWebService) ? 300 : 100);
+            }, 500);
         }
     }
 
@@ -6396,22 +6396,28 @@ export class Grid extends VrControl
                     && (valueFilterSettings.stringFilterSettings.specificValues == null || valueFilterSettings.stringFilterSettings.specificValues.length == 0))
                     return;
 
-                let filterButton = ControlManager.get<Button>(this._elementId + "_StringFilterBtn_" + keyField);
-                puma(filterButton.element()).css("background-color", "coral");
-                puma(filterButton.element()).css("color", "#FFF");
+                let filterButton: Button | null = null;
+                if ((valueFilterSettings.stringFilterSettings.specificValues != null && valueFilterSettings.stringFilterSettings.specificValues.length > 0)
+                    || valueFilterSettings.stringFilterSettings.filterTypeEnum != GridStringFilterTypeEnum.IncludesFromSimpleSearch)
+                {
+                    filterButton = ControlManager.get<Button>(this._elementId + "_StringFilterBtn_" + keyField);
+                    puma(filterButton.element()).css("background-color", "coral");
+                    puma(filterButton.element()).css("color", "#FFF");
 
-                let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_StringFilterBtnRemove_" + keyField);
-                filterButtonRemove.show();
-                this.recalculateHeight(true);
+                    let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_StringFilterBtnRemove_" + keyField);
+                    filterButtonRemove.show();
+                    this.recalculateHeight(true);
 
-                let textBox = ControlManager.get<TextBox>(this._elementId + "_StringFilter_" + column.field);
-                textBox.width("Calc(100% - 60px)");
+                    let textBox = ControlManager.get<TextBox>(this._elementId + "_StringFilter_" + column.field);
+                    textBox.width("Calc(100% - 60px)");
+                }
 
                 if (valueFilterSettings.stringFilterSettings.specificValues != null && valueFilterSettings.stringFilterSettings.specificValues.length > 0)
                 {
                     //#region Search specific values
                     filteredArray = filteredArray.filter(k => k[keyField] != null && valueFilterSettings.stringFilterSettings!.specificValues.map(k => { return k.toLowerCase() }).includes(k[keyField].toLowerCase()));
-                    filterButton.tooltip("Ricerca specifica su questi valori: " + valueFilterSettings.stringFilterSettings.specificValues.join(" - "));
+                    if (filterButton != null)
+                        filterButton.tooltip("Ricerca specifica su questi valori: " + valueFilterSettings.stringFilterSettings.specificValues.join(" - "));
                     //#endregion
                 }
                 else
@@ -6444,6 +6450,12 @@ export class Grid extends VrControl
                                 filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text.toLowerCase()) !== -1);
                             }
                             break;
+                        case GridStringFilterTypeEnum.IncludesFromSimpleSearch:
+                            {
+                                type = "Contiene: ";
+                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text.toLowerCase()) !== -1);
+                            }
+                            break;
                         default:
                             {
                                 type = "Contiene: ";
@@ -6451,7 +6463,9 @@ export class Grid extends VrControl
                             }
                             break;
                     }
-                    filterButton.tooltip(type + valueFilterSettings.stringFilterSettings!.text);
+
+                    if (filterButton != null)
+                        filterButton.tooltip(type + valueFilterSettings.stringFilterSettings!.text);
                     //#endregion
                 }
                 //#endregion

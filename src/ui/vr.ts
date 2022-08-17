@@ -4504,7 +4504,8 @@ export enum GridStringFilterTypeEnum
     StartsWith,
     EndsWith,
     EqualsTo,
-    Includes
+    Includes,
+    IncludesFromSimpleSearch
 }
 
 export class GridGroupBySettings
