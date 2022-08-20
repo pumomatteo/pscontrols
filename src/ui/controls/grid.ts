@@ -5722,6 +5722,8 @@ export class Grid extends VrControl
 
             let lblText = document.createElement("label");
             lblText.innerHTML = data.text;
+            lblText.style.cssText += "display: block; width: 100%; user-select: none;";
+            lblText.onclick = (e: any) => puma(checkbox).click();
             divRow.appendChild(lblText);
         }
         divContent.appendChild(contentFragment);
