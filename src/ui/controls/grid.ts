@@ -414,7 +414,7 @@ export class Grid extends VrControl
             this._divHeaderLocked.style.cssText += "display: none;";
         }
 
-        this._spanFitHeaderSpace = puma("<span id='" + element.id + "FitHeaderSpace' style='position: absolute; display: none;' class='grid_fitHeaderSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
+        this._spanFitHeaderSpace = puma("<span id='" + element.id + "FitHeaderSpace' class='grid_fitHeaderSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
         //#endregion
 
         //#region Filters
@@ -423,7 +423,7 @@ export class Grid extends VrControl
             this._divFiltersLocked = puma("<div id='" + element.id + "Filters' class='grid_Filters grid_Filters_locked' style='overflow-x: hidden; display: none;'></div>").vrAppendToPuma(divFilters)[0] as HTMLDivElement;
 
         this._divFilters = puma("<div id='" + element.id + "Filters' class='grid_Filters' style='overflow-x: hidden; display: none;'></div>").vrAppendToPuma(divFilters)[0] as HTMLDivElement;
-        this._spanFitFilterSpace = puma("<span id='" + element.id + "FitFilterSpace' style='position: absolute; border-left: 1px solid #d9d9d9; display: none;' class='grid_fitFilterSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
+        this._spanFitFilterSpace = puma("<span id='" + element.id + "FitFilterSpace' class='grid_fitFilterSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
         //#endregion
 
         //#region Body
@@ -477,7 +477,7 @@ export class Grid extends VrControl
         if (this._showTotals)
             this.createTotalsFunction();
 
-        this._spanFitTotalsSpace = puma("<span id='" + element.id + "FitTotalsSpace' style='position: absolute; border-left: 1px solid #d9d9d9; display: none;' class='grid_fitTotalsSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
+        this._spanFitTotalsSpace = puma("<span id='" + element.id + "FitTotalsSpace' class='grid_fitTotalsSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
         //#endregion
 
         //#endregion
@@ -7209,13 +7209,13 @@ export class Grid extends VrControl
                 //#region Fit space
                 if (puma(this._divHeader).is(":visible"))
                 {
-                    this._spanFitHeaderSpace.style.cssText += "top: " + (puma(this._divHeader).position().top) + "px; left: " + (puma(this._divHeader).position().left + puma(this._divHeader).width() + 1) + "px";
+                    this._spanFitHeaderSpace.style.cssText += "top: " + (puma(this._divHeader).position().top) + "px; left: " + (puma(this._divHeader).position().left + puma(this._divHeader).width()) + "px";
                     puma(this._spanFitHeaderSpace).show();
                 }
 
                 if (options.filterable)
                 {
-                    this._spanFitFilterSpace.style.cssText += "top: " + (puma(this._divFilters).position().top - 1) + "px; left: " + (puma(this._divFilters).position().left + puma(this._divFilters).width() + 1) + "px";
+                    this._spanFitFilterSpace.style.cssText += "top: " + (puma(this._divFilters).position().top) + "px; left: " + (puma(this._divFilters).position().left + puma(this._divFilters).width()) + "px";
                     puma(this._spanFitFilterSpace).show();
                 }
                 else
@@ -7223,7 +7223,7 @@ export class Grid extends VrControl
 
                 if (this._showTotals && this.getAllItems().length > 0)
                 {
-                    this._spanFitTotalsSpace.style.cssText += "top: " + (puma(this._divTotals).position().top - 1) + "px; left: " + (puma(this._divTotals).position().left + puma(this._divTotals).width() + 1) + "px";
+                    this._spanFitTotalsSpace.style.cssText += "top: " + (puma(this._divTotals).position().top) + "px; left: " + (puma(this._divTotals).position().left + puma(this._divTotals).width()) + "px";
                     puma(this._spanFitTotalsSpace).show();
                 }
                 else
@@ -7358,7 +7358,7 @@ export class Grid extends VrControl
         if (options.height! < 0 || options.height == GridHeightModeEnum.FitScreen)
         {
             let headerHeight = (puma(this._divHeader).is(":visible")) ? 34 : 0;
-            let filtersHeight = (options.filterable) ? 28 : 0;
+            let filtersHeight = (options.filterable) ? 30 : 0;
             let toolbarHeight = (options.toolbar != null) ? 34 : 0;
             let totalsheight = (this._showTotals) ? 25 : 0;
             let footerHeight = (options.footer !== false) ? 34 : 0;
@@ -7369,7 +7369,9 @@ export class Grid extends VrControl
             let containerOffsetTop = (containerOffset != null) ? containerOffset.top : 0;
             let height = document.body.offsetHeight - containerOffsetTop - diffHeight + "px";
             puma(this._divBody).height(height);
-            puma("#" + this.element().id + "_grid_body_container").height(height);
+
+            let heightContainer = document.body.offsetHeight - containerOffsetTop - diffHeight + 2 + "px";
+            puma("#" + this.element().id + "_grid_body_container").height(heightContainer);
 
             if (options.lockable && this._divBody != null)
             {
@@ -7378,9 +7380,6 @@ export class Grid extends VrControl
                 else
                     puma(this._divBodyLocked).height(height);
             }
-
-            if (this._showTotals)
-                this._spanFitTotalsSpace.style.cssText += "top: " + (puma(this._divTotals).position().top - 1) + "px; left: " + (puma(this._divHeader).position().left + puma(this._divHeader).width()) + "px";
         }
         else if (afterFilter && typeof (options.height) == "number")
         {
@@ -7389,7 +7388,7 @@ export class Grid extends VrControl
             else
                 puma(this._divBody).height(options.height - 31);
 
-            puma("#" + this.element().id + "_grid_body_container").height(puma(this._divBody).height());
+            puma("#" + this.element().id + "_grid_body_container").height(puma(this._divBody).height() + 2);
 
             if (options.lockable && this._divBody != null)
             {

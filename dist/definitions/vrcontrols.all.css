@@ -790,7 +790,7 @@ table.vrDatePickerPopup_table td {
 }
 
 .vrGridContainer .p-grid {
-    width: Calc(100% - 0.5px) !important;
+    width: 100% !important;
     border-collapse: collapse;
     table-layout: fixed;
 }
@@ -965,10 +965,10 @@ table.vrDatePickerPopup_table td {
 
 .vrGridContainer .grid_fitHeaderSpace {
     display: none;
-    width: 18px;
-    background-color: #e3f1fa;
+    position: absolute;
+    width: 17px;
     height: 32px;
-    border-top: solid 1px #f3f3f3;
+    background-color: #e3f1fa;
     border-left: solid 1px #FFF;
     border-top: solid 2px #51B3E1 !important;
     border-right: 1px solid #d9d9d9;
@@ -1000,10 +1000,13 @@ table.vrDatePickerPopup_table td {
 
 .vrGridContainer .grid_fitFilterSpace {
     display: none;
-    width: 18px;
-    height: 32px;
-    border-right: 1px solid #d9d9d9;
+    position: absolute;
+    width: 17px;
+    height: 30px;
     background-color: #f3f3f3;
+    border-right: 1px solid #d9d9d9;
+    border-left: 1px solid #FFF;
+    border-top: solid 1px #d9d9d9;
 }
 
 .vrGridContainer .p-grid-filters .vrButton {
@@ -1099,10 +1102,14 @@ table.vrDatePickerPopup_table td {
 
 .vrGridContainer .grid_fitTotalsSpace {
     display: none;
-    width: 18px;
-    height: 24px;
-    border-right: 1px solid #d9d9d9;
+    position: absolute;
+    width: 17px;
+    height: 21px;
     background-color: #f3f3f3;
+    border-right: 1px solid #d9d9d9;
+    border-left: 1px solid #fff;
+    border-top: solid 1px #d9d9d9;
+    border-bottom: solid 1px #d9d9d9;
 }
 
 .vrGridContainer .p-grid-totalsGroup {
