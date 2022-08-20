@@ -705,6 +705,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/GridSortSettings.html" data-type="entity-link" >GridSortSettings</a>
                             </li>
                             <li class="link">
+                                <a href="classes/GridStickerClickEvent.html" data-type="entity-link" >GridStickerClickEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/GridStickerSettings.html" data-type="entity-link" >GridStickerSettings</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/GridStringFilterSettings.html" data-type="entity-link" >GridStringFilterSettings</a>
                             </li>
                             <li class="link">

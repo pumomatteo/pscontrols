@@ -4501,11 +4501,37 @@ export enum GridNumberFilterTypeEnum
 
 export enum GridStringFilterTypeEnum
 {
-    StartsWith,
-    EndsWith,
-    EqualsTo,
-    Includes,
-    IncludesFromSimpleSearch
+	StartsWith,
+	EndsWith,
+	EqualsTo,
+	Includes,
+	IncludesFromSimpleSearch
+}
+
+export class GridStickerSettings
+{
+	textColor?: string;
+	backgroundColor?: string;
+	text?: string;
+	cssContainer?: string;
+	css?: string;
+	bold?: boolean;
+
+	onClick?: (e: GridStickerClickEvent) => void;
+}
+
+export class GridStickerClickEvent
+{
+	sender: Grid;
+	control: Label;
+	value?: string | null;
+}
+
+export class GridServerBindSettings
+{
+	public itemCountPropertyName?: string;
+	public totalsPropertyName?: string;
+	public excelDownloadUrlPropertyName?: string;
 }
 
 export class GridGroupBySettings
@@ -5709,14 +5735,14 @@ export enum DateFormatEnum
 
 export enum KeyEnum
 {
-    ArrowLeft = "ArrowLeft",
-    ArrowUp = "ArrowUp",
-    ArrowRight = "ArrowRight",
-    ArrowDown = "ArrowDown",
-    Enter = "Enter",
-    Tab = "Tab",
-    Backspace = "Backspace",
-    Control = "Control",
+	ArrowLeft = "ArrowLeft",
+	ArrowUp = "ArrowUp",
+	ArrowRight = "ArrowRight",
+	ArrowDown = "ArrowDown",
+	Enter = "Enter",
+	Tab = "Tab",
+	Backspace = "Backspace",
+	Control = "Control",
 	Shift = "Shift"
 }
 

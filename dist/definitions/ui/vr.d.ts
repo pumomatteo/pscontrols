@@ -2794,6 +2794,25 @@ export declare enum GridStringFilterTypeEnum {
     Includes = 3,
     IncludesFromSimpleSearch = 4
 }
+export declare class GridStickerSettings {
+    textColor?: string;
+    backgroundColor?: string;
+    text?: string;
+    cssContainer?: string;
+    css?: string;
+    bold?: boolean;
+    onClick?: (e: GridStickerClickEvent) => void;
+}
+export declare class GridStickerClickEvent {
+    sender: Grid;
+    control: Label;
+    value?: string | null;
+}
+export declare class GridServerBindSettings {
+    itemCountPropertyName?: string;
+    totalsPropertyName?: string;
+    excelDownloadUrlPropertyName?: string;
+}
 export declare class GridGroupBySettings {
     sortBy?: GridSortSettings;
     internalSortBy?: GridSortSettings;

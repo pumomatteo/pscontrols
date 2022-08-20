@@ -1,6 +1,7 @@
-import { IconClass, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, GridColumn, GridToolbarItem, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, NumberFormatRoundingSettings, GridPageSelectedEvent, GridScrollEvent, GridStringFilterTypeEnum } from "../vr";
+import { IconClass, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, GridColumn, GridToolbarItem, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, NumberFormatRoundingSettings, GridPageSelectedEvent, GridScrollEvent, GridStringFilterTypeEnum, GridServerBindSettings, GridStickerSettings } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
+import { Label } from "./label";
 export declare class GridOptions extends VrControlOptions {
     columns?: GridColumn[];
     toolbar?: GridToolbarItem[];
@@ -34,6 +35,7 @@ export declare class GridOptions extends VrControlOptions {
     sortBy?: string | GridSortSettings | null;
     serverBinding?: boolean | GridServerBindSettings;
     roundingSettings?: NumberFormatRoundingSettings;
+    sticker?: string | GridStickerSettings;
     layoutSettings?: GridLayoutSettings | boolean;
     onDataSourceChanged?: () => void;
     onDataBound?: (e: GridOnDataBoundEvent) => void;
@@ -90,6 +92,7 @@ export declare class Grid extends VrControl {
     private _cellImages;
     private _elementId;
     private _elementLocked;
+    private _lblSticker;
     private _divToolbar;
     private _divHeaderContainer;
     private _divHeader;
@@ -190,6 +193,10 @@ export declare class Grid extends VrControl {
     private updateColumnOptions;
     private draggableColumns;
     drag(element: HTMLElement | JQuery | string, dragEvent?: DragSupportEvent): void;
+    sticker(text?: string): Label;
+    stickerVisible(state?: boolean): boolean;
+    showSticker(): void;
+    hideSticker(): void;
     createTotalsFunction(): void;
     pageSize(pageSize?: number, update?: boolean, triggerDataBound?: boolean): number;
     pageSelected(page?: number, update?: boolean): number;
@@ -293,11 +300,6 @@ export declare class GridRebindRequest extends GridWebApiRequest {
     rebindAtStartup?: boolean;
     clearFilters?: boolean;
     specificItemIdListPropertyName?: string;
-}
-declare class GridServerBindSettings {
-    itemCountPropertyName?: string;
-    totalsPropertyName?: string;
-    excelDownloadUrlPropertyName?: string;
 }
 export declare class GridExcelRequest extends GridWebApiRequest {
     fileName?: string;

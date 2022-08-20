@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum } from "../vr";
+import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -50,6 +50,7 @@ export class GridOptions extends VrControlOptions
     sortBy?: string | GridSortSettings | null;
     serverBinding?: boolean | GridServerBindSettings;
     roundingSettings?: NumberFormatRoundingSettings;
+    sticker?: string | GridStickerSettings;
 
     //**********************TODO//**********************
     layoutSettings?: GridLayoutSettings | boolean;
@@ -137,6 +138,7 @@ export class Grid extends VrControl
     //#region Structure
     private _elementId: string;
     private _elementLocked: HTMLElement;
+    private _lblSticker: Label;
     private _divToolbar: HTMLElement;
     private _divHeaderContainer: HTMLElement;
     private _divHeader: HTMLElement;
@@ -198,6 +200,19 @@ export class Grid extends VrControl
             if (options.serverBinding.totalsPropertyName == null) options.serverBinding.totalsPropertyName = "totals";
             if (options.serverBinding.excelDownloadUrlPropertyName == null) options.serverBinding.excelDownloadUrlPropertyName = "excelDownloadUrl";
         }
+        //#endregion
+
+        //#region Sticker options
+        if (options.sticker == null) options.sticker = new GridStickerSettings();
+        if (typeof (options.sticker) == "string")
+        {
+            let text = options.sticker;
+            options.sticker = new GridStickerSettings();
+            options.sticker.text = text;
+        }
+
+        if (options.sticker.textColor == null) options.sticker.textColor = "#000";
+        if (options.sticker.backgroundColor == null) options.sticker.backgroundColor = "#e3f1fa";
         //#endregion
 
         //#region Layout
@@ -399,7 +414,30 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Structure
-        puma(element).vrBeforePuma("<div id='" + element.id + "_divContainer' class='p-grid-container'></div>");
+        let divContainer = puma(element).vrBeforePuma("<div id='" + element.id + "_divContainer' class='p-grid-container'></div>");
+
+        //#region Sticker
+        this._lblSticker = createLabel({
+            text: options.sticker.text,
+            align: TextAlignEnum.Center,
+            bold: options.sticker.bold,
+            visible: options.sticker.text != null && options.sticker.text.length > 0,
+            colorSettings: { background: options.sticker.backgroundColor, textColor: options.sticker.textColor },
+            cssContainer: "width: 30px; border: solid 1px #d9d9d9; border-right: none; border-top: solid 2px #25a0da;" + options.sticker.cssContainer,
+            css: "transform: rotate(180deg); writing-mode: tb; width: 100%; height: 100%; font-size: 16px;" + options.sticker.css,
+            onClick: (e) =>
+            {
+                if ((options!.sticker! as GridStickerSettings).onClick != null)
+                {
+                    let clickEvent = new GridStickerClickEvent();
+                    clickEvent.sender = this;
+                    clickEvent.control = e.sender;
+                    clickEvent.value = e.sender.value();
+                    (options!.sticker! as GridStickerSettings).onClick!(clickEvent);
+                }
+            }
+        }, this.container(), ControlPositionEnum.Before)
+        //#endregion
 
         //#region Header
         this._divHeaderContainer = div("#" + element.id + "_divContainer", { css: "height: 35px;" })
@@ -647,6 +685,14 @@ export class Grid extends VrControl
         let heightContainer = (typeof (options.height!) == "number") ? options.height! + 2 : options.height;
         puma("#" + this.element().id + "_grid_body_container").height(heightContainer);
         if (options.lockable) puma(this._divBodyLocked).height(options.height!);
+
+        if (this._lblSticker != null)
+        {
+            let headerHeight = (puma(this._divHeader).is(":visible")) ? 34 : 0;
+            let filtersHeight = (options.filterable) ? 30 : 0;
+            let totalsheight = (this._showTotals) ? 25 : 0;
+            puma(this._lblSticker.container()).height(puma("#" + this.element().id + "_grid_body_container").height() + headerHeight + filtersHeight + totalsheight - 1);
+        }
         //#endregion
 
         puma(this._divBody).vrAppendPuma(element);
@@ -6913,6 +6959,37 @@ export class Grid extends VrControl
 
     //#endregion
 
+    //#region Sticker
+    sticker(text?: string)
+    {
+        if (text != null && text.length > 0)
+        {
+            this.showSticker();
+            this._lblSticker.value(text);
+        }
+
+        return this._lblSticker;
+    }
+
+    stickerVisible(state?: boolean)
+    {
+        if (state != null)
+            this._lblSticker.visible(state);
+
+        return this._lblSticker.visible();
+    }
+
+    showSticker()
+    {
+        this._lblSticker.show();
+    }
+
+    hideSticker()
+    {
+        this._lblSticker.hide();
+    }
+    //#endregion
+
     //#region Utility
     createTotalsFunction()
     {
@@ -7334,12 +7411,20 @@ export class Grid extends VrControl
     {
         if (height != null)
         {
+            let options = this.getOptions();
             if (typeof (height) == "number" && height > 0)
             {
                 puma(this._divBody).height(height);
                 puma("#" + this.element().id + "_grid_body_container").height(height);
 
-                let options = this.getOptions();
+                if (this._lblSticker != null)
+                {
+                    let headerHeight = (puma(this._divHeader).is(":visible")) ? 34 : 0;
+                    let filtersHeight = (options.filterable) ? 30 : 0;
+                    let totalsheight = (this._showTotals) ? 25 : 0;
+                    puma(this._lblSticker.container()).height(puma(this._divBody).height() + headerHeight + filtersHeight + totalsheight - 1);
+                }
+
                 if (options.lockable && this._divBody != null)
                 {
                     if (this._divBody.scrollWidth > this._divBody.clientWidth && this._divBody.clientWidth > 0)
@@ -7355,13 +7440,15 @@ export class Grid extends VrControl
     recalculateHeight(afterFilter = false)
     {
         let options = this.getOptions();
+
+        let headerHeight = (puma(this._divHeader).is(":visible")) ? 34 : 0;
+        let filtersHeight = (options.filterable) ? 30 : 0;
+        let totalsheight = (this._showTotals) ? 25 : 0;
+
         if (options.height! < 0 || options.height == GridHeightModeEnum.FitScreen)
         {
-            let headerHeight = (puma(this._divHeader).is(":visible")) ? 34 : 0;
-            let filtersHeight = (options.filterable) ? 30 : 0;
-            let toolbarHeight = (options.toolbar != null) ? 34 : 0;
-            let totalsheight = (this._showTotals) ? 25 : 0;
             let footerHeight = (options.footer !== false) ? 34 : 0;
+            let toolbarHeight = (options.toolbar != null) ? 34 : 0;
             let diffHeaderElement = 4;
             let diffHeight = headerHeight + filtersHeight + toolbarHeight + totalsheight + footerHeight + diffHeaderElement;
 
@@ -7380,6 +7467,9 @@ export class Grid extends VrControl
                 else
                     puma(this._divBodyLocked).height(height);
             }
+
+            if (this._lblSticker != null)
+                puma(this._lblSticker.container()).height(puma(this._divBody).height() + headerHeight + filtersHeight + totalsheight - 1);
         }
         else if (afterFilter && typeof (options.height) == "number")
         {
@@ -7388,7 +7478,11 @@ export class Grid extends VrControl
             else
                 puma(this._divBody).height(options.height - 31);
 
-            puma("#" + this.element().id + "_grid_body_container").height(puma(this._divBody).height() + 2);
+            let height = puma(this._divBody).height();
+            puma("#" + this.element().id + "_grid_body_container").height(height + 2);
+
+            if (this._lblSticker != null)
+                puma(this._lblSticker.container()).height(height + headerHeight + filtersHeight + totalsheight - 1);
 
             if (options.lockable && this._divBody != null)
             {
@@ -10101,13 +10195,6 @@ class VrGridServerBindingSettings
     groupByFields?: string[] | null;
     excel?: boolean;
     excelFileName: string | undefined;
-}
-
-class GridServerBindSettings
-{
-    public itemCountPropertyName?: string;
-    public totalsPropertyName?: string;
-    public excelDownloadUrlPropertyName?: string;
 }
 
 class GridServerBindPagination

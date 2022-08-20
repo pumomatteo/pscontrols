@@ -1356,6 +1356,7 @@ export class GridOptions extends VrControlOptions
     sortBy?: string | GridSortSettings | null;
     serverBinding?: boolean | GridServerBindSettings;
     roundingSettings?: NumberFormatRoundingSettings;
+    sticker?: string | GridStickerSettings;
     layoutSettings?: GridLayoutSettings | boolean;
     onDataSourceChanged?: () => void;
     onDataBound?: (e: GridOnDataBoundEvent) => void;
@@ -1430,6 +1431,10 @@ export class Grid extends VrControl
     removeFilter(field: string, applyFilters?: boolean): void;
     updateFilter(field: string, filterCondition: GridFilterSettings, applyFilters?: boolean): void;
     drag(element: HTMLElement | JQuery | string, dragEvent?: DragSupportEvent): void;
+    sticker(text?: string): Label;
+    stickerVisible(state?: boolean): boolean;
+    showSticker(): void;
+    hideSticker(): void;
     createTotalsFunction(): void;
     pageSize(pageSize?: number, update?: boolean, triggerDataBound?: boolean): number;
     pageSelected(page?: number, update?: boolean): number;
@@ -1529,12 +1534,6 @@ export class GridRebindRequest extends GridWebApiRequest
     rebindAtStartup?: boolean;
     clearFilters?: boolean;
     specificItemIdListPropertyName?: string;
-}
-class GridServerBindSettings
-{
-    itemCountPropertyName?: string;
-    totalsPropertyName?: string;
-    excelDownloadUrlPropertyName?: string;
 }
 export class GridExcelRequest extends GridWebApiRequest
 {
@@ -6615,6 +6614,28 @@ export enum GridStringFilterTypeEnum
     EqualsTo = 2,
     Includes = 3,
     IncludesFromSimpleSearch = 4
+}
+export class GridStickerSettings
+{
+    textColor?: string;
+    backgroundColor?: string;
+    text?: string;
+    cssContainer?: string;
+    css?: string;
+    bold?: boolean;
+    onClick?: (e: GridStickerClickEvent) => void;
+}
+export class GridStickerClickEvent
+{
+    sender: Grid;
+    control: Label;
+    value?: string | null;
+}
+export class GridServerBindSettings
+{
+    itemCountPropertyName?: string;
+    totalsPropertyName?: string;
+    excelDownloadUrlPropertyName?: string;
 }
 export class GridGroupBySettings
 {
