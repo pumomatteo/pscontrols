@@ -1411,8 +1411,8 @@ export class Scheduler extends VrControl
 									else if (options.onMoving != null)
 									{
 										//#region Moving event
-										start = slotToMove.start;
-										end = slotToMove.start.vrAddMinutes(duration);
+										start = new Date(slotToMove.start);
+										end = new Date(slotToMove.start).vrAddMinutes(duration);
 
 										let moveAppointmentEvent = new SchedulerMovingEvent();
 										moveAppointmentEvent.sender = this;
@@ -1460,7 +1460,7 @@ export class Scheduler extends VrControl
 								if (slotToMove != null)
 								{
 									let duration = Date.vrDifferenceBetweenDatesInMinutes(apt.end, apt.start);
-									let start = slotToMove.start;
+									let start = new Date(slotToMove.start);
 									let end = new Date(start).vrAddMinutes(duration);
 
 									let appointmentDataSource = null;
@@ -2078,6 +2078,10 @@ export class Scheduler extends VrControl
 			if (slotElement == null)
 				return;
 
+			let duplicatedSlotElement = UtilityManager.duplicate(slotElement);
+			duplicatedSlotElement.start = new Date(duplicatedSlotElement.start);
+			duplicatedSlotElement.end = new Date(duplicatedSlotElement.end);
+
 			// 0 = Main mouse button (usually left)
 			if (e.button == 0 && !this._isMoving && !this._isResizing)
 			{
@@ -2093,7 +2097,7 @@ export class Scheduler extends VrControl
 					{
 						let clickOnAppointmentEvent = new SchedulerAppointmentClickEvent();
 						clickOnAppointmentEvent.sender = this;
-						clickOnAppointmentEvent.slotElement = slotElement;
+						clickOnAppointmentEvent.slotElement = duplicatedSlotElement;
 						clickOnAppointmentEvent.start = start;
 						clickOnAppointmentEvent.end = end;
 						clickOnAppointmentEvent.resourceId = appointmentDataSource.resourceId;
@@ -2115,7 +2119,7 @@ export class Scheduler extends VrControl
 					{
 						let clickOnAvailabilityEvent = new SchedulerAvailabilityClickEvent();
 						clickOnAvailabilityEvent.sender = this;
-						clickOnAvailabilityEvent.slotElement = slotElement;
+						clickOnAvailabilityEvent.slotElement = duplicatedSlotElement;
 						clickOnAvailabilityEvent.start = start;
 						clickOnAvailabilityEvent.end = end;
 						clickOnAvailabilityEvent.resourceId = availabilityDataSource.resourceId;
@@ -2132,9 +2136,9 @@ export class Scheduler extends VrControl
 					{
 						let clickOnTimeslotEvent = new SchedulerTimeslotClickEvent();
 						clickOnTimeslotEvent.sender = this;
-						clickOnTimeslotEvent.slotElement = slotElement;
-						clickOnTimeslotEvent.start = slotElement.start;
-						clickOnTimeslotEvent.end = slotElement.end;
+						clickOnTimeslotEvent.slotElement = duplicatedSlotElement;
+						clickOnTimeslotEvent.start = duplicatedSlotElement.start;
+						clickOnTimeslotEvent.end = duplicatedSlotElement.end;
 						clickOnTimeslotEvent.resourceId = slotElement.resourceId;
 						clickOnTimeslotEvent.element = target[0];
 						options.onTimeslotClick(clickOnTimeslotEvent);
