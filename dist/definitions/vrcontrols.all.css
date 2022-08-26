@@ -987,6 +987,10 @@ table.vrDatePickerPopup_table td {
     height: 27px;
 }
 
+.vrGridContainer .grid_Filters td {
+    white-space: nowrap;
+}
+
 .vrGridContainer .grid_Filters {
     width: Calc(100% - 2px);
     border-left: solid 1px#d9d9d9;

@@ -5280,7 +5280,9 @@ export class Grid extends VrControl
                 footer:
                     [
                         { type: WindowFooterItemTypeEnum.Ok, text: "Applica" },
-                        { type: WindowFooterItemTypeEnum.Close }
+                        { type: WindowFooterItemTypeEnum.Close },
+                        { type: WindowFooterItemTypeEnum.Separator, value: "removeFilterSeparator" },
+                        { type: WindowFooterItemTypeEnum.Custom, text: "Rimuovi filtro", value: "removeFilter", cssContainer: "margin-right: 18px;" }
                     ]
             });
 
@@ -5570,7 +5572,60 @@ export class Grid extends VrControl
     {
         this.createWindowFiltering();
 
-        this._wndFiltering.open([{ value: "ok", callback: () => this.saveWindowFiltering(column) }]);
+        this._wndFiltering.open([
+            { value: "ok", callback: () => this.saveWindowFiltering(column) },
+            {
+                value: "removeFilter", callback: () =>
+                {
+                    this._wndFiltering.close();
+                    this.removeFilter(column.field);
+                    this.recalculateHeight(true);
+
+                    switch (column.type)
+                    {
+                        case GridColumnTypeEnum.DateTime:
+                        case GridColumnTypeEnum.Time:
+                        case GridColumnTypeEnum.Date:
+                            {
+                                let filterButton = ControlManager.get<Button>(this._elementId + "_DateFilter_" + column.field);
+                                puma(filterButton.element()).css("background-color", "#f3f3f3");
+                                puma(filterButton.element()).css("color", "#000");
+
+                                let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_DateFilterRemove_" + column.field);
+                                filterButtonRemove.hide();
+                            }
+                            break;
+                        case GridColumnTypeEnum.Number:
+                        case GridColumnTypeEnum.Currency:
+                        case GridColumnTypeEnum.Duration:
+                        case GridColumnTypeEnum.Percentage:
+                            {
+                                let filterButton = ControlManager.get<Button>(this._elementId + "_NumberFilter_" + column.field);
+                                puma(filterButton.element()).css("background-color", "#f3f3f3");
+                                puma(filterButton.element()).css("color", "#000");
+
+                                let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_NumberFilterRemove_" + column.field);
+                                filterButtonRemove.hide();
+                            }
+                            break;
+                        case GridColumnTypeEnum.String:
+                        case GridColumnTypeEnum.Label:
+                            {
+                                let filterButton = ControlManager.get<Button>(this._elementId + "_StringFilterBtn_" + column.field);
+                                puma(filterButton.element()).css("background-color", "#f3f3f3");
+                                puma(filterButton.element()).css("color", "#000");
+
+                                let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_StringFilterBtnRemove_" + column.field);
+                                filterButtonRemove.hide();
+
+                                let textBox = ControlManager.get<TextBox>(this._elementId + "_StringFilter_" + column.field);
+                                textBox.width("Calc(100% - 27px)");
+                            }
+                            break;
+                    }
+                }
+            }
+        ]);
         this.clearWindowFiltering();
         this._wndFiltering.autoSize(WindowAutoSizeDirectionEnum.Height);
 
@@ -5702,9 +5757,14 @@ export class Grid extends VrControl
         }
         //#endregion
 
+        this._wndFiltering.hideFooterItem("removeFilter");
+        this._wndFiltering.hideFooterItem("removeFilterSeparator");
         let isSearchIntervals = true;
         if (this._dictionaryFilterConditions.has(column.field))
         {
+            this._wndFiltering.showFooterItem("removeFilter");
+            this._wndFiltering.showFooterItem("removeFilterSeparator");
+
             let filterSettings = this._dictionaryFilterConditions.get(column.field);
             if (filterSettings != null)
             {
@@ -6021,7 +6081,7 @@ export class Grid extends VrControl
                         //#region Number filter settings
                         let ntbFrom = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberFrom");
                         let ntbTo = ControlManager.get<TextBox>(this._elementId + "_ntbFilterNumberTo");
-                        if (ntbFrom.value() == "")
+                        if (ntbFrom.isEmpty())
                         {
                             notifyWarning("Inserire almeno un numero");
                             return;
@@ -6040,7 +6100,7 @@ export class Grid extends VrControl
                     {
                         //#region String filter settings
                         let txtStringValue = ControlManager.get<TextBox>(this._elementId + "_txtFilterStringValue");
-                        if (txtStringValue.value() == "")
+                        if (txtStringValue.isEmpty())
                         {
                             notifyWarning("Inserire un testo");
                             return;
@@ -6225,27 +6285,27 @@ export class Grid extends VrControl
         //#endregion
 
         let filteredArray: any[] = (onOriginalDataSource) ? this._originalDataSource : this.dataSource();
-        this._dictionaryFilterConditions.forEach((valueFilterSettings, keyField, dic) =>
+        this._dictionaryFilterConditions.forEach((valueFilterSettings, columnField, dic) =>
         {
-            let column = options.columns!.filter(k => k.field == keyField)[0];
+            let column = options.columns!.filter(k => k.field == columnField)[0];
             if (column != null && column.hidden === true)
                 return;
 
             if (valueFilterSettings.numberFilterSettings != null)
             {
                 //#region Number filter
-                let filterButton = ControlManager.get<Button>(this._elementId + "_NumberFilter_" + keyField);
+                let filterButton = ControlManager.get<Button>(this._elementId + "_NumberFilter_" + columnField);
                 puma(filterButton.element()).css("background-color", "coral");
                 puma(filterButton.element()).css("color", "#FFF");
 
-                let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_NumberFilterRemove_" + keyField);
+                let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_NumberFilterRemove_" + columnField);
                 filterButtonRemove.show();
                 this.recalculateHeight(true);
 
                 if (valueFilterSettings.numberFilterSettings.specificValues != null && valueFilterSettings.numberFilterSettings.specificValues.length > 0)
                 {
                     //#region Search specific values
-                    filteredArray = filteredArray.filter(k => valueFilterSettings.numberFilterSettings!.specificValues.includes(k[keyField]));
+                    filteredArray = filteredArray.filter(k => valueFilterSettings.numberFilterSettings!.specificValues.includes(k[columnField]));
                     filterButton.tooltip("Ricerca specifica su questi valori: " + valueFilterSettings.numberFilterSettings.specificValues.join(" - "));
                     //#endregion
                 }
@@ -6255,20 +6315,20 @@ export class Grid extends VrControl
                     switch (valueFilterSettings.numberFilterSettings.filterTypeEnum)
                     {
                         case GridNumberFilterTypeEnum.GreaterThan:
-                            filteredArray = filteredArray.filter(k => k[keyField] > valueFilterSettings.numberFilterSettings!.numberFrom);
+                            filteredArray = filteredArray.filter(k => k[columnField] > valueFilterSettings.numberFilterSettings!.numberFrom);
                             break;
                         case GridNumberFilterTypeEnum.LessThan:
-                            filteredArray = filteredArray.filter(k => k[keyField] < valueFilterSettings.numberFilterSettings!.numberFrom);
+                            filteredArray = filteredArray.filter(k => k[columnField] < valueFilterSettings.numberFilterSettings!.numberFrom);
                             break;
                         case GridNumberFilterTypeEnum.EqualsTo:
-                            filteredArray = filteredArray.filter(k => k[keyField] == valueFilterSettings.numberFilterSettings!.numberFrom);
+                            filteredArray = filteredArray.filter(k => k[columnField] == valueFilterSettings.numberFilterSettings!.numberFrom);
                             break;
                         case GridNumberFilterTypeEnum.Between:
                             {
                                 if (valueFilterSettings.numberFilterSettings!.numberTo != null)
-                                    filteredArray = filteredArray.filter(k => k[keyField] >= valueFilterSettings.numberFilterSettings!.numberFrom && k[keyField] <= valueFilterSettings.numberFilterSettings!.numberTo!);
+                                    filteredArray = filteredArray.filter(k => k[columnField] >= valueFilterSettings.numberFilterSettings!.numberFrom && k[columnField] <= valueFilterSettings.numberFilterSettings!.numberTo!);
                                 else
-                                    filteredArray = filteredArray.filter(k => k[keyField] > valueFilterSettings.numberFilterSettings!.numberFrom);
+                                    filteredArray = filteredArray.filter(k => k[columnField] > valueFilterSettings.numberFilterSettings!.numberFrom);
                             }
                             break;
                     }
@@ -6296,11 +6356,11 @@ export class Grid extends VrControl
             else if (valueFilterSettings.dateFilterSettings != null)
             {
                 //#region Date filter
-                let filterButton = ControlManager.get<Button>(this._elementId + "_DateFilter_" + keyField);
+                let filterButton = ControlManager.get<Button>(this._elementId + "_DateFilter_" + columnField);
                 puma(filterButton.element()).css("background-color", "coral");
                 puma(filterButton.element()).css("color", "#FFF");
 
-                let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_DateFilterRemove_" + keyField);
+                let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_DateFilterRemove_" + columnField);
                 filterButtonRemove.show();
                 this.recalculateHeight(true);
 
@@ -6312,7 +6372,7 @@ export class Grid extends VrControl
                     {
                         for (let specificValue of valueFilterSettings.dateFilterSettings.specificValues)
                         {
-                            if (Date.vrEquals(new Date(filterValue[keyField]), specificValue))
+                            if (Date.vrEquals(new Date(filterValue[columnField]), specificValue))
                                 dateFilteredArray.push(filterValue);
                         }
                     }
@@ -6342,13 +6402,13 @@ export class Grid extends VrControl
                                 switch (column.type)
                                 {
                                     case GridColumnTypeEnum.Date:
-                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsGreaterThan(filterDateFrom, false, false));
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsGreaterThan(filterDateFrom, false, false));
                                         break;
                                     case GridColumnTypeEnum.DateTime:
-                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsGreaterThan(filterDateFrom));
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsGreaterThan(filterDateFrom));
                                         break;
                                     case GridColumnTypeEnum.Time:
-                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() > filterDateFrom.getMinutes())))
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && (Date.vrFixDateString(k[columnField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[columnField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[columnField]).getMinutes() > filterDateFrom.getMinutes())))
                                         break;
                                 }
                             }
@@ -6358,13 +6418,13 @@ export class Grid extends VrControl
                                 switch (column.type)
                                 {
                                     case GridColumnTypeEnum.Date:
-                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsLessThan(filterDateFrom, false, false));
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsLessThan(filterDateFrom, false, false));
                                         break;
                                     case GridColumnTypeEnum.DateTime:
-                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsLessThan(filterDateFrom));
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsLessThan(filterDateFrom));
                                         break;
                                     case GridColumnTypeEnum.Time:
-                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() < filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() < filterDateFrom.getMinutes())))
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && (Date.vrFixDateString(k[columnField]).getHours() < filterDateFrom.getHours() || (Date.vrFixDateString(k[columnField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[columnField]).getMinutes() < filterDateFrom.getMinutes())))
                                         break;
                                 }
                             }
@@ -6374,13 +6434,13 @@ export class Grid extends VrControl
                                 switch (column.type)
                                 {
                                     case GridColumnTypeEnum.Date:
-                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsEqualsTo(filterDateFrom, false));
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsEqualsTo(filterDateFrom, false));
                                         break;
                                     case GridColumnTypeEnum.DateTime:
-                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsEqualsTo(filterDateFrom));
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsEqualsTo(filterDateFrom));
                                         break;
                                     case GridColumnTypeEnum.Time:
-                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() == filterDateFrom.getMinutes()))
+                                        filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && (Date.vrFixDateString(k[columnField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[columnField]).getMinutes() == filterDateFrom.getMinutes()))
                                         break;
                                 }
                             }
@@ -6393,20 +6453,20 @@ export class Grid extends VrControl
                                     case GridColumnTypeEnum.DateTime:
                                         {
                                             if (valueFilterSettings.dateFilterSettings!.dateTo != null)
-                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsBetween(filterDateFrom, filterDateTo));
+                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsBetween(filterDateFrom, filterDateTo));
                                             else
-                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && Date.vrFixDateString(k[keyField]).vrIsGreaterThan(filterDateFrom));
+                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsGreaterThan(filterDateFrom));
                                         }
                                         break;
                                     case GridColumnTypeEnum.Time:
                                         {
                                             if (valueFilterSettings.dateFilterSettings!.dateTo != null)
                                             {
-                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() > filterDateFrom.getMinutes())))
-                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() < filterDateTo.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateTo.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() < filterDateTo.getMinutes())))
+                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && (Date.vrFixDateString(k[columnField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[columnField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[columnField]).getMinutes() > filterDateFrom.getMinutes())))
+                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && (Date.vrFixDateString(k[columnField]).getHours() < filterDateTo.getHours() || (Date.vrFixDateString(k[columnField]).getHours() == filterDateTo.getHours() && Date.vrFixDateString(k[columnField]).getMinutes() < filterDateTo.getMinutes())))
                                             }
                                             else
-                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[keyField]) != null && (Date.vrFixDateString(k[keyField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[keyField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[keyField]).getMinutes() > filterDateFrom.getMinutes())))
+                                                filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && (Date.vrFixDateString(k[columnField]).getHours() > filterDateFrom.getHours() || (Date.vrFixDateString(k[columnField]).getHours() == filterDateFrom.getHours() && Date.vrFixDateString(k[columnField]).getMinutes() > filterDateFrom.getMinutes())))
                                         }
                                         break;
                                 }
@@ -6451,11 +6511,11 @@ export class Grid extends VrControl
                 if ((valueFilterSettings.stringFilterSettings.specificValues != null && valueFilterSettings.stringFilterSettings.specificValues.length > 0)
                     || valueFilterSettings.stringFilterSettings.filterTypeEnum != GridStringFilterTypeEnum.IncludesFromSimpleSearch)
                 {
-                    filterButton = ControlManager.get<Button>(this._elementId + "_StringFilterBtn_" + keyField);
+                    filterButton = ControlManager.get<Button>(this._elementId + "_StringFilterBtn_" + columnField);
                     puma(filterButton.element()).css("background-color", "coral");
                     puma(filterButton.element()).css("color", "#FFF");
 
-                    let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_StringFilterBtnRemove_" + keyField);
+                    let filterButtonRemove = ControlManager.get<Button>(this._elementId + "_StringFilterBtnRemove_" + columnField);
                     filterButtonRemove.show();
                     this.recalculateHeight(true);
 
@@ -6466,7 +6526,7 @@ export class Grid extends VrControl
                 if (valueFilterSettings.stringFilterSettings.specificValues != null && valueFilterSettings.stringFilterSettings.specificValues.length > 0)
                 {
                     //#region Search specific values
-                    filteredArray = filteredArray.filter(k => k[keyField] != null && valueFilterSettings.stringFilterSettings!.specificValues.map(k => { return k.toLowerCase() }).includes(k[keyField].toLowerCase()));
+                    filteredArray = filteredArray.filter(k => k[columnField] != null && valueFilterSettings.stringFilterSettings!.specificValues.map(k => { return k.toLowerCase() }).includes(k[columnField].toLowerCase()));
                     if (filterButton != null)
                         filterButton.tooltip("Ricerca specifica su questi valori: " + valueFilterSettings.stringFilterSettings.specificValues.join(" - "));
                     //#endregion
@@ -6480,37 +6540,37 @@ export class Grid extends VrControl
                         case GridStringFilterTypeEnum.StartsWith:
                             {
                                 type = "Inizia con: ";
-                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().startsWith(valueFilterSettings.stringFilterSettings!.text.toLowerCase()));
+                                filteredArray = filteredArray.filter(k => k[columnField] != null && k[columnField].toLowerCase().startsWith(valueFilterSettings.stringFilterSettings!.text.toLowerCase()));
                             }
                             break;
                         case GridStringFilterTypeEnum.EndsWith:
                             {
                                 type = "Finisce con: ";
-                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().endsWith(valueFilterSettings.stringFilterSettings!.text.toLowerCase()));
+                                filteredArray = filteredArray.filter(k => k[columnField] != null && k[columnField].toLowerCase().endsWith(valueFilterSettings.stringFilterSettings!.text.toLowerCase()));
                             }
                             break;
                         case GridStringFilterTypeEnum.EqualsTo:
                             {
                                 type = "Uguale a: ";
-                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase() == valueFilterSettings.stringFilterSettings!.text.toLowerCase());
+                                filteredArray = filteredArray.filter(k => k[columnField] != null && k[columnField].toLowerCase() == valueFilterSettings.stringFilterSettings!.text.toLowerCase());
                             }
                             break;
                         case GridStringFilterTypeEnum.Includes:
                             {
                                 type = "Contiene: ";
-                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text.toLowerCase()) !== -1);
+                                filteredArray = filteredArray.filter(k => k[columnField] != null && k[columnField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text.toLowerCase()) !== -1);
                             }
                             break;
                         case GridStringFilterTypeEnum.IncludesFromSimpleSearch:
                             {
                                 type = "Contiene: ";
-                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text.toLowerCase()) !== -1);
+                                filteredArray = filteredArray.filter(k => k[columnField] != null && k[columnField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text.toLowerCase()) !== -1);
                             }
                             break;
                         default:
                             {
                                 type = "Contiene: ";
-                                filteredArray = filteredArray.filter(k => k[keyField] != null && k[keyField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text.toLowerCase()) !== -1);
+                                filteredArray = filteredArray.filter(k => k[columnField] != null && k[columnField].toLowerCase().indexOf(valueFilterSettings.stringFilterSettings!.text.toLowerCase()) !== -1);
                             }
                             break;
                     }
@@ -6523,10 +6583,10 @@ export class Grid extends VrControl
             }
             else if (valueFilterSettings.checkboxFilterSettings != null)
             {
-                filteredArray = filteredArray.filter(k => k[keyField] === valueFilterSettings.checkboxFilterSettings!.value);
+                filteredArray = filteredArray.filter(k => k[columnField] === valueFilterSettings.checkboxFilterSettings!.value);
 
                 //#region Filter checkbox
-                let checkboxJq = puma("#" + this._elementId + "_CheckboxFilter_" + keyField);
+                let checkboxJq = puma("#" + this._elementId + "_CheckboxFilter_" + columnField);
                 checkboxJq.removeClass("indeterminateVrCheckbox");
 
                 let checkbox = checkboxJq[0] as HTMLInputElement;

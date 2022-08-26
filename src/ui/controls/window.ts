@@ -664,9 +664,12 @@ export class Window extends VrControl
         }
         else if (footerItem.type == WindowFooterItemTypeEnum.Separator)
         {
-            createSeparator({ 
+            let separator = createSeparator({ 
                 cssContainer: cssContainer
             }, this._divFooter)
+
+            if (footerItem.value != null)
+                puma(separator.element()).attr("value", footerItem.value);
         }
         else if (footerItem.type == WindowFooterItemTypeEnum.SplitButton || footerItem.splitButtonItems != null)
         {
