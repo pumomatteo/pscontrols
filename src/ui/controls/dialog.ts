@@ -16,6 +16,7 @@ export class DialogOptions
     hideCloseIcon?: boolean;
 
     onContentLoaded?(e: ContentDialogLoadedEvent): void;
+    onClose?: () => void;
 }
 //#endregion
 
@@ -89,7 +90,12 @@ export class Dialog
                 cssContainer: "height: auto !important;",
                 css: "height: auto !important;" + textAlign,
                 footer: options.footerItems,
-                onContentLoaded: (e) => this.onContentLoaded(puma(e.sender.element()).find(".contentContainer")[0])
+                onContentLoaded: (e) => this.onContentLoaded(puma(e.sender.element()).find(".contentContainer")[0]),
+                onClose: () =>
+                {
+                    if (options!.onClose != null)
+                        options!.onClose();
+                }
             });
 
         if (options.cssContainer != null)

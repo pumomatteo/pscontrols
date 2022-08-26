@@ -12,6 +12,7 @@ export declare class DialogOptions {
     cssContainer?: string;
     hideCloseIcon?: boolean;
     onContentLoaded?(e: ContentDialogLoadedEvent): void;
+    onClose?: () => void;
 }
 export declare class Dialog {
     private _window;

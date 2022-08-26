@@ -1131,6 +1131,7 @@ export class DialogOptions
     cssContainer?: string;
     hideCloseIcon?: boolean;
     onContentLoaded?(e: ContentDialogLoadedEvent): void;
+    onClose?: () => void;
 }
 export class Dialog
 {
