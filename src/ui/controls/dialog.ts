@@ -13,6 +13,7 @@ export class DialogOptions
     footerItems?: WindowFooterItem[];
     css?: string;
     cssContainer?: string;
+    hideCloseIcon?: boolean;
 
     onContentLoaded?(e: ContentDialogLoadedEvent): void;
 }
@@ -80,6 +81,7 @@ export class Dialog
             {
                 addToControlList: false,
                 closeable: false,
+                hideCloseIcon: options.hideCloseIcon,
                 title: options.title,
                 width: options.width,
                 height: options.height,

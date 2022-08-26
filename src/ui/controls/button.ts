@@ -109,6 +109,9 @@ export class Button extends VrControl
         if ((badgeText == "" || badgeText == null) && !badgeVisible)
             puma(badge).hide();
 
+        if (options.badgeSettings != null && options.badgeSettings.css != null)
+            badge.style.cssText += options.badgeSettings.css;
+
         if (options.badgeSettings != null && options.badgeSettings.click != null)
         {
             puma(badge).on("mousedown", (e: JQuery.MouseDownEvent) =>
@@ -235,6 +238,16 @@ export class Button extends VrControl
         return puma(this.container()).find(".vrButtonBadgeClass").html();
     }
 
+    badgeBackgroundColor(color: string)
+    {
+        puma(this.container()).find(".vrButtonBadgeClass").css("background-color", color)
+    }
+
+    badgeColor(color: string)
+    {
+        puma(this.container()).find(".vrButtonBadgeClass").css("color", color)
+    }
+
     showBadge()
     {
         puma(this.container()).find(".vrButtonBadgeClass").show();
@@ -243,6 +256,14 @@ export class Button extends VrControl
     hideBadge()
     {
         puma(this.container()).find(".vrButtonBadgeClass").hide();
+    }
+    //#endregion
+
+    //#region Override
+    hide()
+    {
+        super.hide();
+        this.hideBadge();
     }
     //#endregion
 
@@ -517,6 +538,7 @@ export class ButtonBadgeSettings
     color?: string;
     backgroundColor?: string;
     visible?: boolean;
+    css?: string;
     click?: (e: ButtonBadgeClickEvent) => void;
 }
 

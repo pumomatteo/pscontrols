@@ -10,6 +10,7 @@ export declare class DialogOptions {
     footerItems?: WindowFooterItem[];
     css?: string;
     cssContainer?: string;
+    hideCloseIcon?: boolean;
     onContentLoaded?(e: ContentDialogLoadedEvent): void;
 }
 export declare class Dialog {

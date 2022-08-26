@@ -69,6 +69,7 @@ export class GridOptions extends VrControlOptions
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
     onScroll?: (e: GridScrollEvent) => void;
+    //onBeforeExcelExport?: (e: )
     //#endregion
 }
 //#endregion
@@ -7945,12 +7946,12 @@ export class Grid extends VrControl
                 break;
             case GridToolbarItemType.Excel:
                 {
-                    this.excelExport((toolbarItem.excelFileName != null) ? toolbarItem.excelFileName : undefined);
+                    this.excelExport(toolbarItem.excelFileName);
                 }
                 break;
             case GridToolbarItemType.ExcelWithHiddenColumns:
                 {
-                    this.excelExport((toolbarItem.excelFileName != null) ? toolbarItem.excelFileName : undefined, true);
+                    this.excelExport(toolbarItem.excelFileName, true);
                 }
                 break;
         }

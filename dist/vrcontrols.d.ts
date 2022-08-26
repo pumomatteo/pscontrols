@@ -488,8 +488,11 @@ export class Button extends VrControl
     value(value?: string): string;
     tooltip(value?: string | number): string;
     badge(text?: string | number): any;
+    badgeBackgroundColor(color: string): void;
+    badgeColor(color: string): void;
     showBadge(): void;
     hideBadge(): void;
+    hide(): void;
     mode(mode?: ButtonModeEnum): ButtonModeEnum;
     colorSettings(settings?: ColorSettings): ColorSettings | undefined;
     color(value?: string): string;
@@ -534,6 +537,7 @@ export class ButtonBadgeSettings
     color?: string;
     backgroundColor?: string;
     visible?: boolean;
+    css?: string;
     click?: (e: ButtonBadgeClickEvent) => void;
 }
 class ButtonBadgeClickEvent
@@ -1125,6 +1129,7 @@ export class DialogOptions
     footerItems?: WindowFooterItem[];
     css?: string;
     cssContainer?: string;
+    hideCloseIcon?: boolean;
     onContentLoaded?(e: ContentDialogLoadedEvent): void;
 }
 export class Dialog
