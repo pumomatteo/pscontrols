@@ -1,4 +1,4 @@
-import { IconClass, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, GridColumn, GridToolbarItem, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, NumberFormatRoundingSettings, GridPageSelectedEvent, GridScrollEvent, GridStringFilterTypeEnum, GridServerBindSettings, GridStickerSettings } from "../vr";
+import { IconClass, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, GridColumn, GridToolbarItem, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, NumberFormatRoundingSettings, GridPageSelectedEvent, GridScrollEvent, GridStringFilterTypeEnum, GridServerBindSettings, GridStickerSettings, GridBeforeExcelExportEvent, GridAfterExcelExportEvent } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { Label } from "./label";
@@ -49,6 +49,8 @@ export declare class GridOptions extends VrControlOptions {
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
     onScroll?: (e: GridScrollEvent) => void;
+    onBeforeExcelExport?: (e: GridBeforeExcelExportEvent) => void;
+    onAfterExcelExport?: (e: GridAfterExcelExportEvent) => void;
 }
 export declare class Grid extends VrControl {
     private _fitSpaceColumnPercentage;
@@ -382,6 +384,25 @@ declare class GridTotalElementTemplateEvent {
     dataItems: any[];
     pageSelected: number;
     numberOfPages: number;
+}
+export declare class GridExcelRow {
+    cells: GridExcelCell[];
+}
+declare class GridExcelCell {
+    title: string | undefined;
+    field: string;
+    text?: string;
+    bold?: boolean;
+    type?: GridColumnTypeEnum;
+    width?: number;
+    cellSettings?: GridHeaderAndCellSettings;
+    aggregate?: GridAggregateMode;
+    decimalDigits?: number;
+    hidden?: boolean;
+    locked?: boolean;
+    backgroundColor: string;
+    color: string;
+    roundingSettings?: NumberFormatRoundingSettings;
 }
 declare class GridAutoWindowSettings {
     save?: GridSaveRequest;

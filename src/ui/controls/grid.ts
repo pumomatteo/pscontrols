@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent } from "../vr";
+import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -69,7 +69,8 @@ export class GridOptions extends VrControlOptions
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
     onScroll?: (e: GridScrollEvent) => void;
-    //onBeforeExcelExport?: (e: )
+    onBeforeExcelExport?: (e: GridBeforeExcelExportEvent) => void;
+    onAfterExcelExport?: (e: GridAfterExcelExportEvent) => void;
     //#endregion
 }
 //#endregion
@@ -8024,6 +8025,21 @@ export class Grid extends VrControl
     excelExport(fileName = "Esportazione_excel", exportHiddenColumns = false)
     {
         let options = this.getOptions();
+
+        //#region Before excel export
+        if (options.onBeforeExcelExport != null)
+        {
+            let event = new GridBeforeExcelExportEvent();
+            event.sender = this;
+            event.fileName = fileName;
+            event.exportHiddenColumns = exportHiddenColumns;
+            options.onBeforeExcelExport(event);
+
+            if (event.isDefaultPrevented())
+                return;
+        }
+        //#endregion
+
         if (!options.serverBinding)
             showLoader(this.container(), true, "vrGridLoaderExcel" + this._elementId);
 
@@ -8348,6 +8364,30 @@ export class Grid extends VrControl
                         success: (response: GenerateExcelResponse, textStatus: string, jqXHR: JQueryXHR) =>
                         {
                             hideLoader("vrGridLoaderExcel" + this._elementId);
+
+                            //#region After excel export
+                            if (options.onAfterExcelExport != null)
+                            {
+                                let event = new GridAfterExcelExportEvent();
+                                event.sender = this;
+                                event.headerRow = headerRow;
+                                event.contentRows = contentRows;
+                                event.footerRow = footerRow;
+                                event.excelFileName = fileName;
+                                event.exportHiddenColumns = exportHiddenColumns;
+
+                                if (options.groupBy != null)
+                                {
+                                    let groupByFields = (options.groupBy as GridGroupBySettings).fields;
+                                    event.groupBy = (groupByFields != null) ? (groupByFields as GridGroupByItem[]).map(k => k.field) : null;
+                                }
+
+                                options.onAfterExcelExport(event);
+
+                                if (event.isDefaultPrevented())
+                                    return;
+                            }
+                            //#endregion
 
                             if (response.downloadUrl != null && response.downloadUrl.length > 0)
                                 location.replace(response.downloadUrl);
@@ -10427,7 +10467,7 @@ class WorkerTotalsResult
 //#endregion
 
 //#region Excel
-class GridExcelRow
+export class GridExcelRow
 {
     cells: GridExcelCell[];
 }

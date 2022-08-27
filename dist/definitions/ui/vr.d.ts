@@ -12,7 +12,7 @@ import { WindowOptions, Window } from "./controls/window";
 import { ConfirmOptions } from "./controls/confirm";
 import { AlertOptions } from "./controls/alert";
 import { Dialog, DialogOptions } from "./controls/dialog";
-import { Grid, GridOptions, GridHeaderSettings, GridCellSettings, GridCustomSettings, GridIconSettings, GridImageSettings, GridLabelSettings, GridTemplateEvent, GridToolbarDeleteRequest, GridToolbarSwitchSettings, GridToolbarClickEvent, GridControlsSettings } from "./controls/grid";
+import { Grid, GridOptions, GridHeaderSettings, GridCellSettings, GridCustomSettings, GridIconSettings, GridImageSettings, GridLabelSettings, GridTemplateEvent, GridToolbarDeleteRequest, GridToolbarSwitchSettings, GridToolbarClickEvent, GridControlsSettings, GridExcelRow } from "./controls/grid";
 import { PromptOptions } from "./controls/prompt";
 import { SwitchOptions, Switch } from "./controls/switch";
 import { CheckBoxListOptions, CheckBoxList } from "./controls/checkboxList";
@@ -2867,6 +2867,21 @@ export declare class GridScrollEvent extends VrControlsEvent {
     target: HTMLElement;
     scrollLeft: number;
     scrollTop: number;
+}
+declare class GridExcelExportEvent extends VrControlsEvent {
+    sender: Grid;
+}
+export declare class GridBeforeExcelExportEvent extends GridExcelExportEvent {
+    fileName: string;
+    exportHiddenColumns: boolean;
+}
+export declare class GridAfterExcelExportEvent extends GridExcelExportEvent {
+    headerRow: GridExcelRow;
+    contentRows: GridExcelRow[];
+    footerRow: GridExcelRow;
+    excelFileName: string;
+    groupBy: string[] | null;
+    exportHiddenColumns: boolean;
 }
 export declare class GridColumn {
     field: string;

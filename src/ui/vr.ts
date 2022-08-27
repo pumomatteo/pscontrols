@@ -15,7 +15,7 @@ import { WindowOptions, Window, WindowEvent } from "./controls/window";
 import { ConfirmOptions, Confirm } from "./controls/confirm";
 import { AlertOptions, Alert } from "./controls/alert";
 import { Dialog, DialogOptions } from "./controls/dialog";
-import { Grid, GridOptions, GridHeaderSettings, GridCellSettings, GridCustomSettings, GridIconSettings, GridImageSettings, GridLabelSettings, GridTemplateEvent, GridToolbarDeleteRequest, GridToolbarSwitchSettings, GridToolbarClickEvent, GridControlsSettings } from "./controls/grid";
+import { Grid, GridOptions, GridHeaderSettings, GridCellSettings, GridCustomSettings, GridIconSettings, GridImageSettings, GridLabelSettings, GridTemplateEvent, GridToolbarDeleteRequest, GridToolbarSwitchSettings, GridToolbarClickEvent, GridControlsSettings, GridExcelRow } from "./controls/grid";
 import { PromptOptions, Prompt } from "./controls/prompt";
 import { ControlManager } from "../managers/controlManager";
 import { SwitchOptions, Switch } from "./controls/switch";
@@ -4603,6 +4603,28 @@ export class GridScrollEvent extends VrControlsEvent
 	target: HTMLElement;
 	scrollLeft: number;
 	scrollTop: number;
+}
+
+class GridExcelExportEvent extends VrControlsEvent
+{
+	sender: Grid;
+}
+
+export class GridBeforeExcelExportEvent extends GridExcelExportEvent
+{
+    fileName: string;
+    exportHiddenColumns: boolean;
+}
+
+export class GridAfterExcelExportEvent extends GridExcelExportEvent
+{
+    headerRow: GridExcelRow;
+    contentRows: GridExcelRow[];
+    footerRow: GridExcelRow;
+    excelFileName: string;
+    groupBy: string[] | null;
+    exportHiddenColumns: boolean;
+
 }
 
 export class GridColumn

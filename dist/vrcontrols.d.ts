@@ -1376,6 +1376,8 @@ export class GridOptions extends VrControlOptions
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
     onScroll?: (e: GridScrollEvent) => void;
+    onBeforeExcelExport?: (e: GridBeforeExcelExportEvent) => void;
+    onAfterExcelExport?: (e: GridAfterExcelExportEvent) => void;
 }
 export class Grid extends VrControl
 {
@@ -1638,6 +1640,27 @@ class GridTotalElementTemplateEvent
     dataItems: any[];
     pageSelected: number;
     numberOfPages: number;
+}
+export class GridExcelRow
+{
+    cells: GridExcelCell[];
+}
+class GridExcelCell
+{
+    title: string | undefined;
+    field: string;
+    text?: string;
+    bold?: boolean;
+    type?: GridColumnTypeEnum;
+    width?: number;
+    cellSettings?: GridHeaderAndCellSettings;
+    aggregate?: GridAggregateMode;
+    decimalDigits?: number;
+    hidden?: boolean;
+    locked?: boolean;
+    backgroundColor: string;
+    color: string;
+    roundingSettings?: NumberFormatRoundingSettings;
 }
 class GridAutoWindowSettings
 {
@@ -6705,6 +6728,24 @@ export class GridScrollEvent extends VrControlsEvent
     target: HTMLElement;
     scrollLeft: number;
     scrollTop: number;
+}
+class GridExcelExportEvent extends VrControlsEvent
+{
+    sender: Grid;
+}
+export class GridBeforeExcelExportEvent extends GridExcelExportEvent
+{
+    fileName: string;
+    exportHiddenColumns: boolean;
+}
+export class GridAfterExcelExportEvent extends GridExcelExportEvent
+{
+    headerRow: GridExcelRow;
+    contentRows: GridExcelRow[];
+    footerRow: GridExcelRow;
+    excelFileName: string;
+    groupBy: string[] | null;
+    exportHiddenColumns: boolean;
 }
 export class GridColumn
 {

@@ -561,10 +561,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/Grid.html" data-type="entity-link" >Grid</a>
                             </li>
                             <li class="link">
+                                <a href="classes/GridAfterExcelExportEvent.html" data-type="entity-link" >GridAfterExcelExportEvent</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/GridAutoWindowOption.html" data-type="entity-link" >GridAutoWindowOption</a>
                             </li>
                             <li class="link">
                                 <a href="classes/GridAutoWindowSettings.html" data-type="entity-link" >GridAutoWindowSettings</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/GridBeforeExcelExportEvent.html" data-type="entity-link" >GridBeforeExcelExportEvent</a>
                             </li>
                             <li class="link">
                                 <a href="classes/GridButtonSettings.html" data-type="entity-link" >GridButtonSettings</a>
@@ -601,6 +607,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/GridExcelCell.html" data-type="entity-link" >GridExcelCell</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/GridExcelExportEvent.html" data-type="entity-link" >GridExcelExportEvent</a>
                             </li>
                             <li class="link">
                                 <a href="classes/GridExcelRequest.html" data-type="entity-link" >GridExcelRequest</a>
