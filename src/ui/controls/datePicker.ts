@@ -400,11 +400,10 @@ export class DatePicker extends VrControl
                 this.value(this.value(), false);
                 return;
             }
-            {
-                this._value = null;
-                this.change();
-                return;
-            }
+
+            this._value = null;
+            this.change();
+            return;
         }
 
         if (this.format() != DateFormatEnum.ShortDate && this.value() != null)

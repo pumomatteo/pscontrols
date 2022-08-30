@@ -91,7 +91,7 @@ export class Editor extends VrControl
 
         if (options.fontSize == null) options.fontSize = new vrEditorFontSizeSettings();
         if (options.fontSize.defaultSize == null) options.fontSize.defaultSize = 12;
-        if (options.fontSize.formatSizeList == null) options.fontSize.formatSizeList = [8, 10, 11, 12, 13, 14, 15, 16, 18, 24, 36];
+        if (options.fontSize.formatSizeList == null) options.fontSize.formatSizeList = [8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 24, 36];
         //#endregion
 
         super(element, options, ControlTypeEnum.Editor);
@@ -325,7 +325,7 @@ export class Editor extends VrControl
                 plugins: options.plugins,
                 browser_spellcheck: options.browserSpellCheck,
                 contextmenu: false,
-                fontsize_formats: options.fontSize.formatSizeList.join("pt ") + "pt",
+                font_size_formats: options.fontSize.formatSizeList.join("pt ") + "pt",
                 content_style: "body { font-size: " + options.fontSize.defaultSize + "pt; } p { margin-top: 0px; margin-bottom: 0px; }",
                 forced_root_block: "div",
                 paste_as_text: options.pasteAsText,
