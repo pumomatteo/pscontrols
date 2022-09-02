@@ -105,7 +105,25 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/AutoCompleteBoxOptions.html" data-type="entity-link" >AutoCompleteBoxOptions</a>
                             </li>
                             <li class="link">
-                                <a href="classes/AutoWindowOpenEvent.html" data-type="entity-link" >AutoWindowOpenEvent</a>
+                                <a href="classes/AutowindowAfterCloseEvent.html" data-type="entity-link" >AutowindowAfterCloseEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/AutowindowAfterOpenEvent.html" data-type="entity-link" >AutowindowAfterOpenEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/AutowindowAfterSaveEvent.html" data-type="entity-link" >AutowindowAfterSaveEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/AutowindowBeforeCloseEvent.html" data-type="entity-link" >AutowindowBeforeCloseEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/AutowindowBeforeOpenEvent.html" data-type="entity-link" >AutowindowBeforeOpenEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/AutowindowBeforeSaveEvent.html" data-type="entity-link" >AutowindowBeforeSaveEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/AutoWindowEvent.html" data-type="entity-link" >AutoWindowEvent</a>
                             </li>
                             <li class="link">
                                 <a href="classes/BarChart.html" data-type="entity-link" >BarChart</a>

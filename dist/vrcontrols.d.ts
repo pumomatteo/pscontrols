@@ -1371,7 +1371,6 @@ export class GridOptions extends VrControlOptions
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
     onUnselectRow?: (e: GridUnselectRowEvent) => void;
     onUnselectAllRows?: (e: GridUnselectAllRowsEvent) => void;
-    onAutoWindowOpen?: (e: AutoWindowOpenEvent) => void;
     onGroupExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
@@ -1666,7 +1665,12 @@ class GridAutoWindowSettings
 {
     save?: GridSaveRequest;
     options?: GridAutoWindowOption;
-    onClose?(): void;
+    onBeforeOpen?: (e: AutowindowBeforeOpenEvent) => void;
+    onAfterOpen?: (e: AutowindowAfterOpenEvent) => void;
+    onBeforeSave?: (e: AutowindowBeforeSaveEvent) => void;
+    onAfterSave?: (e: AutowindowAfterSaveEvent) => void;
+    onBeforeClose?: (e: AutowindowBeforeCloseEvent) => void;
+    onAfterClose?: (e: AutowindowAfterCloseEvent) => void;
 }
 class GridAutoWindowOption
 {
@@ -1684,12 +1688,30 @@ class GridSaveRequest extends GridWebApiRequest
 {
     itemPropertyName?: string;
 }
-class AutoWindowOpenEvent extends VrControlsEvent
+class AutoWindowEvent extends VrControlsEvent
 {
     sender: Grid;
     window: Window;
     dataItem: any;
     columns?: GridColumn[];
+}
+class AutowindowBeforeOpenEvent extends AutoWindowEvent
+{
+}
+class AutowindowAfterOpenEvent extends AutoWindowEvent
+{
+}
+class AutowindowBeforeSaveEvent extends AutoWindowEvent
+{
+}
+class AutowindowAfterSaveEvent extends AutoWindowEvent
+{
+}
+class AutowindowBeforeCloseEvent extends AutoWindowEvent
+{
+}
+class AutowindowAfterCloseEvent extends AutoWindowEvent
+{
 }
 export class GridFilterSettings
 {
@@ -6761,6 +6783,7 @@ export class GridColumn
     bold?: boolean;
     aggregate?: boolean | GridAggregateMode;
     countZeroInAverage?: boolean;
+    roundingSettings?: NumberFormatRoundingSettings;
     defaultValue?: any;
     editable?: boolean;
     exportable?: boolean;
@@ -6772,7 +6795,6 @@ export class GridColumn
     filterable?: boolean;
     filterWebService?: boolean;
     customFilterProperties?: string[];
-    roundingSettings?: NumberFormatRoundingSettings;
     displayField?: string;
     dataItems?: any[];
     ddlNullable?: boolean;

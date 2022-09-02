@@ -4624,7 +4624,6 @@ export class GridAfterExcelExportEvent extends GridExcelExportEvent
     excelFileName: string;
     groupBy: string[] | null;
     exportHiddenColumns: boolean;
-
 }
 
 export class GridColumn
@@ -4641,6 +4640,7 @@ export class GridColumn
 	bold?: boolean;
 	aggregate?: boolean | GridAggregateMode;
 	countZeroInAverage?: boolean;
+	roundingSettings?: NumberFormatRoundingSettings;
 	defaultValue?: any;
 	editable?: boolean;
 	exportable?: boolean;
@@ -4652,7 +4652,6 @@ export class GridColumn
 	filterable?: boolean;
 	filterWebService?: boolean;
 	customFilterProperties?: string[];
-	roundingSettings?: NumberFormatRoundingSettings;
 
 	//#region DropDownList, ComboBox and DropDownTree
 	displayField?: string;

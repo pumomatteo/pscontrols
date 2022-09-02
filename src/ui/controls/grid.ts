@@ -1,6 +1,6 @@
 import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { Window } from "./Window";
+import { Window, WindowOpenEvent } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
 import { ControlManager } from "../../../src/managers/controlManager";
 import { ComboBox, ComboBoxOptions } from "./comboBox";
@@ -64,7 +64,6 @@ export class GridOptions extends VrControlOptions
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
     onUnselectRow?: (e: GridUnselectRowEvent) => void;
     onUnselectAllRows?: (e: GridUnselectAllRowsEvent) => void;
-    onAutoWindowOpen?: (e: AutoWindowOpenEvent) => void;
     onGroupExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
@@ -5108,7 +5107,6 @@ export class Grid extends VrControl
     //#region Filtering
     private manageFilterTextByColumn(textToSearch: string, column: GridColumn, field: string, backSpace: boolean)
     {
-        let options = this.getOptions();
         let filteredArray: any[] = [];
         if (column.type == GridColumnTypeEnum.Custom)
         {
@@ -8939,25 +8937,68 @@ export class Grid extends VrControl
                 width: options.autoWindowSettings.options.width,
                 height: options.autoWindowSettings.options.height,
                 title: options.autoWindowSettings.options.titleNew,
+                onBeforeClose: (e) =>
+                {
+                    //#region OnBeforeClose event
+                    if (options.autoWindowSettings!.onBeforeClose != null)
+                    {
+                        let event = new AutowindowBeforeCloseEvent();
+                        event.sender = this;
+                        event.window = this._wndAutoWindow;
+                        event.dataItem = this._actualEditedItem;
+                        event.columns = options.columns;
+                        options.autoWindowSettings!.onBeforeClose(event);
+
+                        if (event.isDefaultPrevented())
+                            return;
+                    }
+                    //#endregion
+                },
                 onClose: (e) =>
                 {
                     puma(this._wndAutoWindow.container()).remove();
                     (this._wndAutoWindow as any) = null;
+
+                    //#region OnAfterClose event
+                    if (options.autoWindowSettings!.onAfterClose != null)
+                    {
+                        let event = new AutowindowAfterCloseEvent();
+                        event.sender = this;
+                        event.window = this._wndAutoWindow;
+                        event.dataItem = this._actualEditedItem;
+                        event.columns = options.columns;
+                        options.autoWindowSettings!.onAfterClose(event);
+
+                        if (event.isDefaultPrevented())
+                            return;
+                    }
+                    //#endregion
+
+                    this._actualEditedItem = null;
                 },
                 footer:
                     [
                         {
-                            type: WindowFooterItemTypeEnum.Close, onClick: (e) =>
-                            {
-                                this._actualEditedItem = null;
-
-                                if (options.autoWindowSettings!.onClose != null)
-                                    options.autoWindowSettings!.onClose();
-                            }
+                            type: WindowFooterItemTypeEnum.Close
                         },
                         {
                             type: WindowFooterItemTypeEnum.Ok, onClick: (e) =>
                             {
+                                //#region OnBeforeSave event
+                                if (options.autoWindowSettings!.onBeforeSave != null)
+                                {
+                                    let event = new AutowindowBeforeSaveEvent();
+                                    event.sender = this;
+                                    event.window = this._wndAutoWindow;
+                                    event.dataItem = this._actualEditedItem;
+                                    event.columns = options.columns;
+                                    options.autoWindowSettings!.onBeforeSave(event);
+
+                                    if (event.isDefaultPrevented())
+                                        return;
+                                }
+                                //#endregion
+
                                 //#region Confirmation message
                                 if (options.autoWindowSettings!.options!.confirmationMessage != null
                                     && options.autoWindowSettings!.options!.confirmationMessage.length > 0)
@@ -9196,18 +9237,20 @@ export class Grid extends VrControl
         if (this._wndAutoWindow == null)
             return;
 
-        if (options.onAutoWindowOpen != null)
+        //#region OnBeforeOpen event
+        if (options.autoWindowSettings!.onBeforeOpen != null)
         {
-            let autoWindowOpenEvent = new AutoWindowOpenEvent();
-            autoWindowOpenEvent.sender = this;
-            autoWindowOpenEvent.window = this._wndAutoWindow;
-            autoWindowOpenEvent.dataItem = dataItem;
-            autoWindowOpenEvent.columns = options.columns;
-            options.onAutoWindowOpen(autoWindowOpenEvent);
+            let event = new AutowindowBeforeOpenEvent();
+            event.sender = this;
+            event.window = this._wndAutoWindow;
+            event.dataItem = dataItem;
+            event.columns = options.columns;
+            options.autoWindowSettings!.onBeforeOpen(event);
 
-            if (autoWindowOpenEvent.isDefaultPrevented())
+            if (event.isDefaultPrevented())
                 return;
         }
+        //#endregion
 
         //#region Main options
         let title = (dataItem != null) ? options.autoWindowSettings!.options!.titleEdit : options.autoWindowSettings!.options!.titleNew;
@@ -9220,6 +9263,21 @@ export class Grid extends VrControl
             puma(this._wndAutoWindow.element()).parent().css("height", "auto");
             this._wndAutoWindow.center();
             puma(this._wndAutoWindow.element()).css("overflow-y", "auto");
+        }
+        //#endregion
+
+        //#region OnAfterOpen event
+        if (options.autoWindowSettings!.onAfterOpen != null)
+        {
+            let event = new AutowindowAfterOpenEvent();
+            event.sender = this;
+            event.window = this._wndAutoWindow;
+            event.dataItem = dataItem;
+            event.columns = options.columns;
+            options.autoWindowSettings!.onAfterOpen(event);
+
+            if (event.isDefaultPrevented())
+                return;
         }
         //#endregion
 
@@ -9631,12 +9689,28 @@ export class Grid extends VrControl
             }
 
             this.updateRow(this._actualEditedItem);
+
+            //#region OnAfterSave event
+            if (options.autoWindowSettings!.onAfterSave != null)
+            {
+                let event = new AutowindowAfterSaveEvent();
+                event.sender = this;
+                event.window = this._wndAutoWindow;
+                event.dataItem = this._actualEditedItem;
+                event.columns = options.columns;
+                options.autoWindowSettings!.onAfterSave(event);
+
+                if (event.isDefaultPrevented())
+                    return;
+            }
+            //#endregion
+
             this._wndAutoWindow.close();
 
             if (options.onDataSourceChanged != null)
                 options.onDataSourceChanged();
         }
-        //#endregion
+        //#endregion        
     }
     //#endregion
 
@@ -10520,7 +10594,13 @@ class GridAutoWindowSettings
 {
     save?: GridSaveRequest;
     options?: GridAutoWindowOption;
-    onClose?(): void;
+
+    onBeforeOpen?: (e: AutowindowBeforeOpenEvent) => void;
+    onAfterOpen?: (e: AutowindowAfterOpenEvent) => void;
+    onBeforeSave?: (e: AutowindowBeforeSaveEvent) => void;
+    onAfterSave?: (e: AutowindowAfterSaveEvent) => void;
+    onBeforeClose?: (e: AutowindowBeforeCloseEvent) => void;
+    onAfterClose?: (e: AutowindowAfterCloseEvent) => void;
 }
 
 class GridAutoWindowOption
@@ -10541,14 +10621,22 @@ class GridSaveRequest extends GridWebApiRequest
     itemPropertyName?: string;
 }
 
-class AutoWindowOpenEvent extends VrControlsEvent
+class AutoWindowEvent extends VrControlsEvent
 {
     sender: Grid;
     window: Window;
     dataItem: any;
     columns?: GridColumn[];
 }
+
+class AutowindowBeforeOpenEvent extends AutoWindowEvent { }
+class AutowindowAfterOpenEvent extends AutoWindowEvent { }
+class AutowindowBeforeSaveEvent extends AutoWindowEvent { }
+class AutowindowAfterSaveEvent extends AutoWindowEvent { }
+class AutowindowBeforeCloseEvent extends AutoWindowEvent { }
+class AutowindowAfterCloseEvent extends AutoWindowEvent { }
 //#endregion
+
 //#region Grid actions (Show/Hide and GroupBy)
 enum GridActionEnum
 {

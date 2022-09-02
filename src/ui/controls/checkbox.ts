@@ -49,7 +49,8 @@ export class CheckBox extends VrControl
                 text: options.text,
                 cssContainer: "position: relative; top: -1px;",
                 class: "vrCheckBoxLabel",
-                width: "100%"
+                width: "100%",
+                tooltip: options.tooltip
             }, this.container());
         puma(label.element()).attr("for", element.id);
 

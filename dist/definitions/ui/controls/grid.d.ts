@@ -44,7 +44,6 @@ export declare class GridOptions extends VrControlOptions {
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
     onUnselectRow?: (e: GridUnselectRowEvent) => void;
     onUnselectAllRows?: (e: GridUnselectAllRowsEvent) => void;
-    onAutoWindowOpen?: (e: AutoWindowOpenEvent) => void;
     onGroupExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
@@ -407,7 +406,12 @@ declare class GridExcelCell {
 declare class GridAutoWindowSettings {
     save?: GridSaveRequest;
     options?: GridAutoWindowOption;
-    onClose?(): void;
+    onBeforeOpen?: (e: AutowindowBeforeOpenEvent) => void;
+    onAfterOpen?: (e: AutowindowAfterOpenEvent) => void;
+    onBeforeSave?: (e: AutowindowBeforeSaveEvent) => void;
+    onAfterSave?: (e: AutowindowAfterSaveEvent) => void;
+    onBeforeClose?: (e: AutowindowBeforeCloseEvent) => void;
+    onAfterClose?: (e: AutowindowAfterCloseEvent) => void;
 }
 declare class GridAutoWindowOption {
     titleNew?: string;
@@ -423,11 +427,23 @@ declare class GridAutoWindowOption {
 declare class GridSaveRequest extends GridWebApiRequest {
     itemPropertyName?: string;
 }
-declare class AutoWindowOpenEvent extends VrControlsEvent {
+declare class AutoWindowEvent extends VrControlsEvent {
     sender: Grid;
     window: Window;
     dataItem: any;
     columns?: GridColumn[];
+}
+declare class AutowindowBeforeOpenEvent extends AutoWindowEvent {
+}
+declare class AutowindowAfterOpenEvent extends AutoWindowEvent {
+}
+declare class AutowindowBeforeSaveEvent extends AutoWindowEvent {
+}
+declare class AutowindowAfterSaveEvent extends AutoWindowEvent {
+}
+declare class AutowindowBeforeCloseEvent extends AutoWindowEvent {
+}
+declare class AutowindowAfterCloseEvent extends AutoWindowEvent {
 }
 export declare class GridFilterSettings {
     type: GridColumnTypeEnum;

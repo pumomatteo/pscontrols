@@ -2896,6 +2896,7 @@ export declare class GridColumn {
     bold?: boolean;
     aggregate?: boolean | GridAggregateMode;
     countZeroInAverage?: boolean;
+    roundingSettings?: NumberFormatRoundingSettings;
     defaultValue?: any;
     editable?: boolean;
     exportable?: boolean;
@@ -2907,7 +2908,6 @@ export declare class GridColumn {
     filterable?: boolean;
     filterWebService?: boolean;
     customFilterProperties?: string[];
-    roundingSettings?: NumberFormatRoundingSettings;
     displayField?: string;
     dataItems?: any[];
     ddlNullable?: boolean;
