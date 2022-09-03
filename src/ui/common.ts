@@ -270,7 +270,7 @@ export class VrControl
             let documentBodyTop = puma(document.body).offset().top;
             let documentBodyHeight = puma(document.body).height();
 
-            if ((documentBodyTop + documentBodyHeight) <= (elementTop + popupHeight + elementHeight)) // To up
+            if ((documentBodyTop + documentBodyHeight) <= (elementTop + popupHeight + elementHeight) && ((window.innerHeight - elementTop) - popupHeight) > 0) // To up
                 popup.style.cssText += "left: " + positionLeft + "px; bottom: " + (window.innerHeight - elementTop) + "px;";
             else // To down
                 popup.style.cssText += "left: " + positionLeft + "px; top: " + (elementTop + elementHeight) + "px;";
