@@ -1026,7 +1026,7 @@ export class DatePickerOptions extends VrControlOptions
     min?: Date;
     max?: Date;
     timeInterval?: number;
-    format?: DateFormatEnum;
+    format?: DateFormatEnum | Intl.DateTimeFormatOptions;
     todayLabel?: boolean;
     otherMonthDays?: boolean;
     tooltip?: string;
@@ -1050,7 +1050,7 @@ export class DatePicker extends VrControl
     mode(mode?: DateModeEnum): DateModeEnum | undefined;
     min(min?: Date): Date | undefined;
     max(max?: Date): Date | undefined;
-    format(format?: DateFormatEnum, changeText?: boolean): DateFormatEnum | undefined;
+    format(format?: DateFormatEnum, changeText?: boolean): DateFormatEnum | Intl.DateTimeFormatOptions | undefined;
     clear(triggerChange?: boolean): void;
     isEmpty(): boolean;
     error(): void;
@@ -7628,7 +7628,9 @@ export enum DateFormatEnum
     WeekRange = 3,
     FourWeeksRange = 4,
     Month = 5,
-    Year = 6
+    Year = 6,
+    LongDateWithoutYear = 7,
+    ShortDateWithoutYear = 8
 }
 export enum KeyEnum
 {

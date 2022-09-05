@@ -7,7 +7,7 @@ export declare class DatePickerOptions extends VrControlOptions {
     min?: Date;
     max?: Date;
     timeInterval?: number;
-    format?: DateFormatEnum;
+    format?: DateFormatEnum | Intl.DateTimeFormatOptions;
     todayLabel?: boolean;
     otherMonthDays?: boolean;
     tooltip?: string;
@@ -44,7 +44,7 @@ export declare class DatePicker extends VrControl {
     mode(mode?: DateModeEnum): DateModeEnum | undefined;
     min(min?: Date): Date | undefined;
     max(max?: Date): Date | undefined;
-    format(format?: DateFormatEnum, changeText?: boolean): DateFormatEnum | undefined;
+    format(format?: DateFormatEnum, changeText?: boolean): DateFormatEnum | Intl.DateTimeFormatOptions | undefined;
     clear(triggerChange?: boolean): void;
     isEmpty(): boolean;
     error(): void;

@@ -3676,7 +3676,9 @@ export declare enum DateFormatEnum {
     WeekRange = 3,
     FourWeeksRange = 4,
     Month = 5,
-    Year = 6
+    Year = 6,
+    LongDateWithoutYear = 7,
+    ShortDateWithoutYear = 8
 }
 export declare enum KeyEnum {
     ArrowLeft = "ArrowLeft",

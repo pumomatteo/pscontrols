@@ -4612,18 +4612,18 @@ class GridExcelExportEvent extends VrControlsEvent
 
 export class GridBeforeExcelExportEvent extends GridExcelExportEvent
 {
-    fileName: string;
-    exportHiddenColumns: boolean;
+	fileName: string;
+	exportHiddenColumns: boolean;
 }
 
 export class GridAfterExcelExportEvent extends GridExcelExportEvent
 {
-    headerRow: GridExcelRow;
-    contentRows: GridExcelRow[];
-    footerRow: GridExcelRow;
-    excelFileName: string;
-    groupBy: string[] | null;
-    exportHiddenColumns: boolean;
+	headerRow: GridExcelRow;
+	contentRows: GridExcelRow[];
+	footerRow: GridExcelRow;
+	excelFileName: string;
+	groupBy: string[] | null;
+	exportHiddenColumns: boolean;
 }
 
 export class GridColumn
@@ -5754,9 +5754,10 @@ export enum DateFormatEnum
 	WeekRange,
 	FourWeeksRange,
 	Month,
-	Year
+	Year,
+	LongDateWithoutYear,
+	ShortDateWithoutYear
 }
-
 
 export enum KeyEnum
 {

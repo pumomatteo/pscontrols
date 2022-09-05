@@ -11,7 +11,7 @@ export class DatePickerOptions extends VrControlOptions
     min?: Date;
     max?: Date;
     timeInterval?: number;
-    format?: DateFormatEnum;
+    format?: DateFormatEnum | Intl.DateTimeFormatOptions;
     todayLabel?: boolean;
     otherMonthDays?: boolean;
     tooltip?: string;
@@ -963,79 +963,86 @@ export class DatePicker extends VrControl
         let options = this.getOptions();
         let element = (this.element() as HTMLInputElement);
 
-        let dateOptions: Intl.DateTimeFormatOptions = {};
-        switch (options.format)
+        if (typeof (options.format!) == "number") // DateFormatEnum
         {
-            case DateFormatEnum.ShortDate:
-                {
-                    dateOptions = {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                        hour12: false
+            let dateOptions: Intl.DateTimeFormatOptions = {};
+            switch (options.format)
+            {
+                case DateFormatEnum.ShortDate:
+                case DateFormatEnum.ShortDateWithoutYear:
+                    {
+                        dateOptions = {
+                            year: (options.format == DateFormatEnum.ShortDate) ? 'numeric' : undefined,
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour12: false
+                        }
                     }
-                }
-                break;
-            case DateFormatEnum.LongDate:
-                {
-                    dateOptions = {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: '2-digit',
-                        hour12: false
+                    break;
+                case DateFormatEnum.LongDate:
+                case DateFormatEnum.LongDateWithoutYear:
+                    {
+                        dateOptions = {
+                            weekday: 'long',
+                            year: (options.format == DateFormatEnum.LongDate) ? 'numeric' : undefined,
+                            month: 'long',
+                            day: '2-digit',
+                            hour12: false
+                        }
                     }
-                }
-                break;
-            case DateFormatEnum.WeekDay:
-                {
-                    dateOptions = {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                        hour12: false
+                    break;
+                case DateFormatEnum.WeekDay:
+                    {
+                        dateOptions = {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour12: false
+                        }
                     }
-                }
-                break;
-            case DateFormatEnum.Month:
-                {
-                    dateOptions = {
-                        year: 'numeric',
-                        month: 'long',
+                    break;
+                case DateFormatEnum.Month:
+                    {
+                        dateOptions = {
+                            year: 'numeric',
+                            month: 'long',
+                        }
                     }
-                }
-                break;
-            case DateFormatEnum.Year:
-                {
-                    dateOptions = {
-                        year: 'numeric',
+                    break;
+                case DateFormatEnum.Year:
+                    {
+                        dateOptions = {
+                            year: 'numeric',
+                        }
                     }
-                }
-                break;
-        }
-        let dateFormatter = new Intl.DateTimeFormat(/*navigator.language*/"it", dateOptions);
-        let dateString = dateFormatter.format(this._value!).vrCapitalize();
+                    break;
+            }
+            let dateFormatter = new Intl.DateTimeFormat(/*navigator.language*/"it", dateOptions);
+            let dateString = dateFormatter.format(this._value!).vrCapitalize();
 
-        if (options.format == DateFormatEnum.WeekRange)
-        {
-            let firstDayOfWeek = Date.vrGetFirstDayOfWeekByDate(this._value!);
-            let lastDayOfWeek = firstDayOfWeek.vrAddDays(5);
-            dateString = firstDayOfWeek.vrToItalyString() + " - " + lastDayOfWeek.vrToItalyString();
-        }
-        else if (options.format == DateFormatEnum.FourWeeksRange)
-        {
-            let firstDayOfWeek = Date.vrGetFirstDayOfWeekByDate(this._value!);
-            let lastDayOfWeek = firstDayOfWeek.vrAddDays(26);
-            dateString = firstDayOfWeek.vrToItalyString() + " - " + lastDayOfWeek.vrToItalyString();
-        }
+            if (options.format == DateFormatEnum.WeekRange)
+            {
+                let firstDayOfWeek = Date.vrGetFirstDayOfWeekByDate(this._value!);
+                let lastDayOfWeek = firstDayOfWeek.vrAddDays(5);
+                dateString = firstDayOfWeek.vrToItalyString() + " - " + lastDayOfWeek.vrToItalyString();
+            }
+            else if (options.format == DateFormatEnum.FourWeeksRange)
+            {
+                let firstDayOfWeek = Date.vrGetFirstDayOfWeekByDate(this._value!);
+                let lastDayOfWeek = firstDayOfWeek.vrAddDays(26);
+                dateString = firstDayOfWeek.vrToItalyString() + " - " + lastDayOfWeek.vrToItalyString();
+            }
 
-        switch (options.mode)
-        {
-            case DateModeEnum.Date: element.value = dateString; break;
-            case DateModeEnum.Time: element.value = this._value!.toTimeString(); break;
-            case DateModeEnum.DateTime: element.value = dateString + " " + this._value!.toTimeString(); break;
+            switch (options.mode)
+            {
+                case DateModeEnum.Date: element.value = dateString; break;
+                case DateModeEnum.Time: element.value = this._value!.toTimeString(); break;
+                case DateModeEnum.DateTime: element.value = dateString + " " + this._value!.toTimeString(); break;
+            }
         }
+        else
+            element.value = this._value!.vrFormatString(options.format!, "it")
     }
 
     mode(mode?: DateModeEnum)
