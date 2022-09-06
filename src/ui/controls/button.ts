@@ -15,6 +15,7 @@ export class ButtonOptions extends VrControlOptions
     confirmationMessage?: string;
     badgeSettings?: ButtonBadgeSettings;
 
+    onContextMenu?: boolean | ((e: ContextMenuEvent) => void);
     onClick?: (e: ButtonClickEvent) => void;
     onRightClick?: (e: ButtonRightClickEvent) => void;
     onMiddleClick?: (e: ButtonMiddleClickEvent) => void;
@@ -40,6 +41,7 @@ export class Button extends VrControl
 
         if (options.iconSettings == null) options.iconSettings = new IconSettings();
         if (options.iconSettings.position == null) options.iconSettings.position = PositionEnum.Left;
+        if (options.onContextMenu == null) options.onContextMenu = true;
         //#endregion
 
         super(element, options, ControlTypeEnum.Button);
@@ -132,9 +134,8 @@ export class Button extends VrControl
         }
         else if (options.onClick != null)
         {
-            puma(badge).on("mousedown", (e: JQuery.MouseDownEvent) => 
+            puma(badge).on("click", (e: JQuery.MouseDownEvent) => 
             {
-                this._mouseDownEvent = e;
                 this.click();
                 return false;
             });
@@ -142,24 +143,16 @@ export class Button extends VrControl
         //#endregion
 
         //#region Events
-        let mouseDownClicked = false;
         puma(element).on("mousedown", (e: JQuery.MouseDownEvent) => 
         {
-            mouseDownClicked = true;
             this._mouseDownEvent = e;
-            this.click();
-
-            // To prevent Ajax rebind
-            e.preventDefault();
-            return false;
+            if (e.button != 0) // Not left button
+                this.click();
         });
 
         puma(element).on("click", (e: JQuery.ClickEvent) =>
         {
-            if (!mouseDownClicked)
-                this.click();
-            else
-                mouseDownClicked = false;
+            this.click();
 
             // To prevent Ajax rebind
             e.preventDefault();
@@ -183,6 +176,24 @@ export class Button extends VrControl
                 let blurEvent = new ButtonBlurEvent();
                 blurEvent.sender = this;
                 options!.onBlur(blurEvent);
+            }
+        });
+
+        puma(this.container()).on("contextmenu", (e: JQuery.ContextMenuEvent) => 
+        {
+            if (options!.onContextMenu != null)
+            {
+                if (typeof (options!.onContextMenu) == "boolean")
+                {
+                    if (!options!.onContextMenu)
+                        e.preventDefault();
+                }
+                else
+                {
+                    let event = new ContextMenuEvent();
+                    event.sender = this;
+                    options!.onContextMenu(event);
+                }
             }
         });
         //#endregion
@@ -448,35 +459,25 @@ export class Button extends VrControl
 
     private internalClick(callback?: (e: ButtonClickEvent) => void): void
     {
-        let clickEvent = new ButtonClickEvent();
+        let clickCallback = this.options<ButtonOptions>().onClick; // Left click
         if (this._mouseDownEvent != null)
         {
-            let clickCallback: Function | null | undefined = null;
             switch (this._mouseDownEvent.button)
             {
-                case 0: clickCallback = this.options<ButtonOptions>().onClick; break; // Left button
-                case 1: clickCallback = this.options<ButtonOptions>().onMiddleClick; break; // Middle button
-                case 2: clickCallback = this.options<ButtonOptions>().onRightClick; break; // Right button
+                case 0: clickCallback = this.options<ButtonOptions>().onClick; break; // Left click
+                case 1: clickCallback = this.options<ButtonOptions>().onMiddleClick; break; // Middle click
+                case 2: clickCallback = this.options<ButtonOptions>().onRightClick; break; // Right click
             }
+        }
 
-            if (clickCallback != null)
-            {
-                clickEvent.sender = this;
-                clickEvent.text = this.text();
-                clickCallback(clickEvent);
-            }
-            this._mouseDownEvent = null;
-        }
-        else
+        if (clickCallback != null)
         {
-            let clickCallback: Function | null | undefined = this.options<ButtonOptions>().onClick;
-            if (clickCallback != null)
-            {
-                clickEvent.sender = this;
-                clickEvent.text = this.text();
-                clickCallback(clickEvent);
-            }
+            let clickEvent = new ButtonClickEvent();
+            clickEvent.sender = this;
+            clickEvent.text = this.text();
+            clickCallback(clickEvent);
         }
+        this._mouseDownEvent = null;
 
         if (callback != null)
         {
@@ -525,12 +526,13 @@ class ButtonMiddleClickEvent extends ButtonEvent
 }
 
 class ButtonHoverEvent extends ButtonEvent
-{
-}
+{ }
 
 class ButtonBlurEvent extends ButtonEvent
-{
-}
+{ }
+
+class ContextMenuEvent extends ButtonEvent
+{ }
 
 export class ButtonBadgeSettings
 {

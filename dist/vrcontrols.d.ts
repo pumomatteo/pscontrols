@@ -474,6 +474,7 @@ export class ButtonOptions extends VrControlOptions
     iconSettings?: IconSettings;
     confirmationMessage?: string;
     badgeSettings?: ButtonBadgeSettings;
+    onContextMenu?: boolean | ((e: ContextMenuEvent) => void);
     onClick?: (e: ButtonClickEvent) => void;
     onRightClick?: (e: ButtonRightClickEvent) => void;
     onMiddleClick?: (e: ButtonMiddleClickEvent) => void;
@@ -529,6 +530,9 @@ class ButtonHoverEvent extends ButtonEvent
 {
 }
 class ButtonBlurEvent extends ButtonEvent
+{
+}
+class ContextMenuEvent extends ButtonEvent
 {
 }
 export class ButtonBadgeSettings

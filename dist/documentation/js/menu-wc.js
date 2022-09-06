@@ -417,6 +417,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/ContentPromptLoadedEvent.html" data-type="entity-link" >ContentPromptLoadedEvent</a>
                             </li>
                             <li class="link">
+                                <a href="classes/ContextMenuEvent.html" data-type="entity-link" >ContextMenuEvent</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/ControlManager.html" data-type="entity-link" >ControlManager</a>
                             </li>
                             <li class="link">

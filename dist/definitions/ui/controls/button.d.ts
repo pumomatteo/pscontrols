@@ -11,6 +11,7 @@ export declare class ButtonOptions extends VrControlOptions {
     iconSettings?: IconSettings;
     confirmationMessage?: string;
     badgeSettings?: ButtonBadgeSettings;
+    onContextMenu?: boolean | ((e: ContextMenuEvent) => void);
     onClick?: (e: ButtonClickEvent) => void;
     onRightClick?: (e: ButtonRightClickEvent) => void;
     onMiddleClick?: (e: ButtonMiddleClickEvent) => void;
@@ -63,6 +64,8 @@ declare class ButtonMiddleClickEvent extends ButtonEvent {
 declare class ButtonHoverEvent extends ButtonEvent {
 }
 declare class ButtonBlurEvent extends ButtonEvent {
+}
+declare class ContextMenuEvent extends ButtonEvent {
 }
 export declare class ButtonBadgeSettings {
     text?: string | number;
