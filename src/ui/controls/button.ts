@@ -448,8 +448,6 @@ export class Button extends VrControl
     //#region Events
     click(callback?: (e: ButtonClickEvent) => void): void
     {
-        //puma(this.element()).focus();
-
         let options = this.getOptions();
         if (options.confirmationMessage != null)
             confirm(options.confirmationMessage).then(() => this.internalClick(callback), () => this.rejectedConfirm());

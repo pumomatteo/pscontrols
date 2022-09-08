@@ -359,6 +359,7 @@ export class Grid extends VrControl
                 if (column.hidden === true)
                     this._originalHiddenColumnFields.push(column.field);
             }
+
             layoutJson.columns = layoutColumns;
             this._originalOptionsForLayout = layoutJson;
 
@@ -6801,6 +6802,10 @@ export class Grid extends VrControl
         let headerTable = puma(this._divHeader).find("table")[0];
         for (let th of Array.from<HTMLElement>(puma(headerTable).find("th")))
         {
+            let field = puma(th).attr("value");
+            if (field == "vrGridCheckboxColumn" || field == "editButton" || field.startsWith("groupBy"))
+                continue;
+
             this.drag(th,
                 {
                     onDragging: (e) =>
@@ -6845,7 +6850,6 @@ export class Grid extends VrControl
                         else
                         {
                             let columnIndex = puma(th).index();
-                            let field = puma(th).attr("value");
 
                             //#region Swap column
                             if (toDragColumnPosition.index > columnIndex)
@@ -10046,6 +10050,10 @@ export class Grid extends VrControl
         {
             let options = this.getOptions();
             let json = (layoutJson != null) ? layoutJson : JSON.parse(this._actualLayout!.layoutJson) as GridLayoutStructure;
+
+            let editButtonColumnIndex = json.columns.findIndex(k => k.field.toLowerCase() == "editbutton");
+            let editButtonColumn = json.columns[editButtonColumnIndex];
+            editButtonColumn.field = "editButton";
 
             //#region GroupBy
             if (options.groupable! && options.groupBy != null)
