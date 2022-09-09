@@ -10053,7 +10053,8 @@ export class Grid extends VrControl
 
             let editButtonColumnIndex = json.columns.findIndex(k => k.field.toLowerCase() == "editbutton");
             let editButtonColumn = json.columns[editButtonColumnIndex];
-            editButtonColumn.field = "editButton";
+            if (editButtonColumn != null)
+                editButtonColumn.field = "editButton";
 
             //#region GroupBy
             if (options.groupable! && options.groupBy != null)
