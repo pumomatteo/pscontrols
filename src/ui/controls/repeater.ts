@@ -191,9 +191,13 @@ export class Repeater extends VrControl
     }
 
     //#region Methods
-    rebind(parameters?: any | null, keepInfo = true)
+    rebind(parameters?: any | null, keepInfo = true, callback?: Function)
     {
-        this._grid.rebind(parameters, false, keepInfo);
+        this._grid.rebind(parameters, false, keepInfo).then(() =>
+        {
+            if (callback != null)
+                callback();
+        });
     }
 
     rebindSpecificRows(itemIdList: number[], update = true)
