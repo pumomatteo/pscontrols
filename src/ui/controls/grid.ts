@@ -3331,7 +3331,7 @@ export class Grid extends VrControl
                 //#endregion
 
                 //#region Totals group
-                if (this._showTotals && level == 0)
+                if (this._showTotals)
                 {
                     let value = puma(tr).attr("value").replace(/\(/g, "").replace(/\)/g, "").replace(/,/g, "").replace(/\[/g, "").replace(/\]/g, "").replace(/:/g, "");
 
