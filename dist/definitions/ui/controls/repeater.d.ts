@@ -38,7 +38,7 @@ export declare class RepeaterOptions extends VrControlOptions {
 export declare class Repeater extends VrControl {
     private _grid;
     constructor(element: HTMLElement, options?: RepeaterOptions | null);
-    rebind(parameters?: any | null, keepInfo?: boolean, callback?: Function): void;
+    rebind(parameters?: any | null, keepInfo?: boolean): any;
     rebindSpecificRows(itemIdList: number[], update?: boolean): void;
     clear(): void;
     originalDataSource(): any[];

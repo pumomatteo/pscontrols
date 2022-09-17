@@ -2555,7 +2555,7 @@ export class RepeaterOptions extends VrControlOptions
 export class Repeater extends VrControl
 {
     constructor(element: HTMLElement, options?: RepeaterOptions | null);
-    rebind(parameters?: any | null, keepInfo?: boolean, callback?: Function): void;
+    rebind(parameters?: any | null, keepInfo?: boolean): any;
     rebindSpecificRows(itemIdList: number[], update?: boolean): void;
     clear(): void;
     originalDataSource(): any[];

@@ -8988,21 +8988,6 @@ export class Grid extends VrControl
                         {
                             type: WindowFooterItemTypeEnum.Ok, onClick: (e) =>
                             {
-                                //#region OnBeforeSave event
-                                if (options.autoWindowSettings!.onBeforeSave != null)
-                                {
-                                    let event = new AutowindowBeforeSaveEvent();
-                                    event.sender = this;
-                                    event.window = this._wndAutoWindow;
-                                    event.dataItem = this._actualEditedItem;
-                                    event.columns = options.columns;
-                                    options.autoWindowSettings!.onBeforeSave(event);
-
-                                    if (event.isDefaultPrevented())
-                                        return;
-                                }
-                                //#endregion
-
                                 //#region Confirmation message
                                 if (options.autoWindowSettings!.options!.confirmationMessage != null
                                     && options.autoWindowSettings!.options!.confirmationMessage.length > 0)
@@ -9666,6 +9651,21 @@ export class Grid extends VrControl
                 //#endregion
             }
             //#endregion
+        }
+        //#endregion
+
+        //#region OnBeforeSave event
+        if (options.autoWindowSettings!.onBeforeSave != null)
+        {
+            let event = new AutowindowBeforeSaveEvent();
+            event.sender = this;
+            event.window = this._wndAutoWindow;
+            event.dataItem = this._actualEditedItem;
+            event.columns = options.columns;
+            options.autoWindowSettings!.onBeforeSave(event);
+
+            if (event.isDefaultPrevented())
+                return;
         }
         //#endregion
 
