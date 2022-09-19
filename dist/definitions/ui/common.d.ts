@@ -1,4 +1,4 @@
-import { ControlTypeEnum, LabelModeEnum, PositionEnum, TextAlignEnum, PopupSettings, ColorSettings, VrMarginSettings } from "./vr";
+import { ControlTypeEnum, LabelModeEnum, PositionEnum, TextAlignEnum, PopupSettings, ColorSettings, VrMarginSettings, LabelUnderlineMode } from "./vr";
 import { Label, LabelClickEvent } from "./controls/label";
 export declare class VrControl {
     private _element;
@@ -68,6 +68,7 @@ export declare class LabelControlsSettings {
     css?: string;
     cssContainer?: string;
     colorSettings?: ColorSettings;
+    underlineMode?: LabelUnderlineMode | undefined;
     onClick?: (e: LabelClickEvent) => void;
 }
 export declare class AttributeSettings {

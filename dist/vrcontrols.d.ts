@@ -351,6 +351,7 @@ export class LabelControlsSettings
     css?: string;
     cssContainer?: string;
     colorSettings?: ColorSettings;
+    underlineMode?: LabelUnderlineMode | undefined;
     onClick?: (e: LabelClickEvent) => void;
 }
 export class AttributeSettings

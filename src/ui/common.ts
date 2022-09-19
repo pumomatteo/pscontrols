@@ -1,4 +1,4 @@
-import { ControlTypeEnum, LabelModeEnum, PositionEnum, createLabel, ControlPositionEnum, TextAlignEnum, PopupSettings, ColorSettings, puma, shadowRoot, PopupDirectionEnum, VrMarginSettings } from "./vr";
+import { ControlTypeEnum, LabelModeEnum, PositionEnum, createLabel, ControlPositionEnum, TextAlignEnum, PopupSettings, ColorSettings, puma, shadowRoot, PopupDirectionEnum, VrMarginSettings, LabelUnderlineMode } from "./vr";
 import { Label, LabelClickEvent } from "./controls/label";
 
 export class VrControl
@@ -64,6 +64,7 @@ export class VrControl
                     tooltip: options!.labelSettings.tooltip,
                     colorSettings: options!.labelSettings.colorSettings,
                     tabIndex: -1,
+                    underlineMode: options!.labelSettings.underlineMode,
                     onClick: options!.labelSettings.onClick
                 }, this.container(), controlPositionEnum);
         }
@@ -499,6 +500,8 @@ export class LabelControlsSettings
     css?: string;
     cssContainer?: string;
     colorSettings?: ColorSettings;
+    underlineMode?: LabelUnderlineMode | undefined;
+
     onClick?: (e: LabelClickEvent) => void;
 }
 
