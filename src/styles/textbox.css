@@ -49,7 +49,6 @@
     cursor: pointer;
     color: #ff5050;
     right: 7px;
-    top: 24px;
 }
 
 .vrTextBox.noViewablePassword {
@@ -63,10 +62,8 @@
 }
 
 .vrTextBoxErrorIcon:hover .vrTextBoxErrorTooltipRight {
-    visibility: visible;
     position: absolute;
     z-index: 1;
-    display: inline-block;
     width: max-content;
     background-color: #FF5050;
     color: #FFF;
@@ -88,10 +85,8 @@
 }
 
 .vrTextBoxErrorIcon:hover .vrTextBoxErrorTooltipBottom {
-    visibility: visible;
     position: absolute;
     z-index: 1;
-    display: inline-block;
     width: max-content;
     background-color: #ff5050;
     color: #fff;

@@ -710,6 +710,11 @@ export class TextBox extends VrControl
             errorIcon = puma("<i class='" + IconClassLight.TriangleExclamation + " vrTextBoxErrorIcon'></i>").vrInsertAfterPuma(this.element())[0];
         puma(errorIcon).show();
 
+        if (this.label() != null)
+            errorIcon.style.cssText += "top: 24px;";
+        else
+            errorIcon.style.cssText += "top: 5px;";
+
         if (mode == ErrorModeEnum.Tooltip)
         {
             //#region Tooltip
@@ -719,7 +724,13 @@ export class TextBox extends VrControl
             else if (position == ErrorPositionEnum.Bottom)
             {
                 puma(spanError).addClass("vrTextBoxErrorTooltipBottom");
-                puma(errorIcon).hover(() => puma(spanError)[0].style.cssText += "left: -" + ((puma(spanError).outerWidth() / 2) - 7) + "px;");
+                puma(errorIcon).hover(() => 
+                {
+                    if (text == "")
+                        puma(spanError).hide();
+                    else
+                        puma(spanError)[0].style.cssText += "display: inline-block; left: -" + ((puma(spanError).outerWidth() / 2) - 7) + "px;"
+                });
             }
             //#endregion
         }
