@@ -881,6 +881,8 @@ export class ComboBoxOptions extends VrControlOptions
     onKeyDown?(e: ComboBoxKeyDownEvent): void;
     onKeyUp?(e: ComboBoxKeyUpEvent): void;
     onEnterKey?(e: ComboBoxEnterKeyEvent): void;
+    onBeforeOpen?(e: ComboBoxOpenEvent): void;
+    onAfterOpen?(e: ComboBoxOpenEvent): void;
     onClose?(e: ComboBoxCloseEvent): void;
     onItemDataBound?(e: ComboBoxItemDataBoundEvent): void;
     onBlur?(e: ComboBoxBlurEvent): void;
@@ -917,6 +919,7 @@ export class ComboBox extends VrControl
     unCheck(value: string, triggerChange?: boolean): void;
     select(index?: number, triggerChange?: boolean): void;
     index(index?: number, triggerChange?: boolean): void;
+    icon(icon?: IconClass | string | null): HTMLElement | null;
     isEmpty(): boolean;
     error(): void;
     hideError(): void;
@@ -979,6 +982,11 @@ class ComboBoxCloseEvent extends VrControlsEvent
     beforeValue: any;
     afterValue: any;
 }
+class ComboBoxOpenEvent extends VrControlsEvent
+{
+    sender: ComboBox;
+    value: any;
+}
 class ComboBoxItemDataBoundEvent extends VrControlsEvent
 {
     sender: ComboBox;
@@ -988,6 +996,7 @@ class ComboBoxItemDataBoundEvent extends VrControlsEvent
 class ComboBoxBlurEvent extends VrControlsEvent
 {
     sender: ComboBox;
+    value: any;
 }
 export
 {};

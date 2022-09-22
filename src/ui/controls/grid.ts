@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent } from "../vr";
+import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, createIcon } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -13,6 +13,7 @@ import { Button } from "./button";
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { Switch } from "./switch";
 import { Label } from "./label";
+import { Icon } from "./icon";
 
 //#region Options
 export class GridOptions extends VrControlOptions
@@ -2587,6 +2588,8 @@ export class Grid extends VrControl
                                 icon = "<i class='vrIcon " + iconSettings.icon + "'></i>";
                             else if (iconSettings.imageUrl != null)
                                 imageUrl = "<img src='" + iconSettings.imageUrl + "' />";
+                            else
+                                icon = "<i class='vrIcon " + row[field] + "'></i>";
                             //#endregion
 
                             this._cellIcons.set(className, { GridControlsSettings: iconSettings, columnType: column.type });
@@ -9212,6 +9215,35 @@ export class Grid extends VrControl
                     }
                     break;
                 //#endregion
+
+                //#region Color
+                case GridColumnTypeEnum.Icon:
+                    {
+                        let iconItems: ComboBoxItem[] = [];
+                        for (let value of Object.values(IconClassLight))
+                            iconItems.push({ text: value, value: value });
+
+                        let comboIcons = createComboBox({
+                            label: label,
+                            width: "100%",
+                            cssContainer: "margin-right: 5px;",
+                            items: iconItems,
+                            tooltip: tooltip,
+                            clearButton: true,
+                            placeholder: "Scrivi per cercare un'icona...",
+                            template: (e) => { return "<i class='" + e.dataItem.value + "'></i>" },
+                            onAfterOpen: (e) => comboIcons.text(""),
+                            onAfterChange: (e) => 
+                            {
+                                comboIcons.text("");
+                                if (e.value == null) comboIcons.icon(IconClassLight.Pumo)
+                                else comboIcons.icon(e.value);
+                            },
+                            icon: IconClassLight.Pumo
+                        }, autoWindowId, null, this._elementId + "_comboIcons_" + column.field);
+                    }
+                    break;
+                //#endregion
             }
             //#endregion
         }
@@ -9525,6 +9557,30 @@ export class Grid extends VrControl
                     }
                     break;
                 //#endregion
+
+                //#region Icon
+                case GridColumnTypeEnum.Icon:
+                    {
+                        let comboIcons = ControlManager.get<ComboBox>(this._elementId + "_comboIcons_" + column.field);
+                        comboIcons.clear();
+
+                        if (columnValue != null)
+                            comboIcons.value(columnValue);
+                        else if (column.defaultValue != null)
+                            comboIcons.value(column.defaultValue);
+
+                        comboIcons.icon(comboIcons.value<string>());
+
+                        if (column.editable == false || column.editable == null)
+                        {
+                            comboIcons.enabled(false);
+                            comboIcons.hide();
+                        }
+                        else
+                            comboIcons.enabled(true);
+                    }
+                    break;
+                //#endregion
             }
             //#endregion
 
@@ -9646,6 +9702,16 @@ export class Grid extends VrControl
                     {
                         let colorPicker = ControlManager.get<ColorPicker>(this._elementId + "_colorPicker_" + column.field);
                         this._actualEditedItem[column.field] = colorPicker.value();
+                    }
+                    break;
+                //#endregion
+
+                //#region Icon
+                case GridColumnTypeEnum.Icon:
+                    {
+                        let comboIcons = ControlManager.get<ComboBox>(this._elementId + "_comboIcons_" + column.field);
+                        this._actualEditedItem[column.field] = comboIcons.value();
+                        this._actualEditedItem[column.displayField!] = comboIcons.text();
                     }
                     break;
                 //#endregion

@@ -4,6 +4,7 @@ import { UtilityManager } from "../../managers/utilityManager";
 import { TextBox } from "./textbox";
 import { CheckBox } from "./checkbox";
 import { Button, ButtonOptions } from "./button";
+import { Icon } from "./icon";
 
 //#region Options
 export class ComboBoxOptions extends VrControlOptions
@@ -37,6 +38,8 @@ export class ComboBoxOptions extends VrControlOptions
     onKeyDown?(e: ComboBoxKeyDownEvent): void;
     onKeyUp?(e: ComboBoxKeyUpEvent): void;
     onEnterKey?(e: ComboBoxEnterKeyEvent): void;
+    onBeforeOpen?(e: ComboBoxOpenEvent): void;
+    onAfterOpen?(e: ComboBoxOpenEvent): void;
     onClose?(e: ComboBoxCloseEvent): void;
     onItemDataBound?(e: ComboBoxItemDataBoundEvent): void;
     onBlur?(e: ComboBoxBlurEvent): void;
@@ -62,6 +65,7 @@ export class ComboBox extends VrControl
     private _btnCombo: Button;
     private _divPickerIcon: HTMLElement;
     private _allCheckedOnlyIcon: HTMLElement;
+    private _iconCombo: HTMLElement | null;
 
     private _dictionaryValueLi: Map<string, HTMLElement[]>;
     private _checkedValues: string[];
@@ -246,7 +250,7 @@ export class ComboBox extends VrControl
         //#endregion
 
         //#region Icon/ImageUrl
-        let iconCombo = null;
+        this._iconCombo = null;
         if (options.icon != null)
         {
             let style = "";
@@ -264,14 +268,14 @@ export class ComboBox extends VrControl
                     style = "left: 6px; bottom: 6px;";
             }
 
-            iconCombo = puma("<i class='" + options.icon + "' style='cursor: pointer; font-size: 14px; position: absolute;" + style + "'></i>");
-            puma(this.element()).vrBeforePuma(iconCombo);
+            this._iconCombo = puma("<i class='" + options.icon + "' style='cursor: pointer; font-size: 14px; position: absolute;" + style + "'></i>")[0];
+            puma(this.element()).vrBeforePuma(this._iconCombo);
             this.element().style.cssText += "text-indent: 18px;";
 
             if (options.tooltip != null)
-                puma(iconCombo).attr("title", options.tooltip);
+                puma(this._iconCombo).attr("title", options.tooltip);
 
-            puma(iconCombo).click(() => 
+            puma(this._iconCombo).click(() => 
             {
                 if (puma(".comboBox_divPopup").is(":visible"))
                     this.close();
@@ -282,8 +286,8 @@ export class ComboBox extends VrControl
                 }
             });
 
-            puma(iconCombo).on("mouseenter", (e: JQuery.MouseEnterEvent) => puma(this.element()).addClass("hoverClass"))
-            puma(iconCombo).on("mouseleave", (e: JQuery.MouseLeaveEvent) => puma(this.element()).removeClass("hoverClass"))
+            puma(this._iconCombo).on("mouseenter", (e: JQuery.MouseEnterEvent) => puma(this.element()).addClass("hoverClass"))
+            puma(this._iconCombo).on("mouseleave", (e: JQuery.MouseLeaveEvent) => puma(this.element()).removeClass("hoverClass"))
         }
         else if (options.imageUrl != null)
             this.element().style.cssText += "background-image: url(" + options.imageUrl + "); background-position: 4px 5px; background-repeat: no-repeat; text-indent: 13px;";
@@ -291,7 +295,7 @@ export class ComboBox extends VrControl
 
         //#region Only icons
         if (options.onlyIcon && options.icon != null)
-            this._allCheckedOnlyIcon = icon(IconClassSolid.Check, iconCombo, { css: "display: none; position: absolute; z-index: 2; font-size: 9px; top: -5px; right: -7px;" });
+            this._allCheckedOnlyIcon = icon(IconClassSolid.Check, this._iconCombo, { css: "display: none; position: absolute; z-index: 2; font-size: 9px; top: -5px; right: -7px;" });
         //#endregion
 
         //#region Check all
@@ -514,6 +518,7 @@ export class ComboBox extends VrControl
                 {
                     let blurEvent = new ComboBoxBlurEvent();
                     blurEvent.sender = this;
+                    blurEvent.value = this.value();
                     options!.onBlur(blurEvent);
                 }
             }, 200));
@@ -571,6 +576,17 @@ export class ComboBox extends VrControl
 
         if (puma(this._popup).is(":visible"))
             return;
+
+        if (options.onBeforeOpen != null)
+        {
+            let beforeOpenEvent = new ComboBoxOpenEvent();
+            beforeOpenEvent.sender = this;
+            beforeOpenEvent.value = this.value();
+            options.onBeforeOpen(beforeOpenEvent);
+
+            if (beforeOpenEvent.isDefaultPrevented())
+                return;
+        }
 
         if (this._popup == null)
             this._popup = puma("<div class='comboBox_divPopup vrPopup' id='" + this.element().id + "_divPopup'></div>").vrAppendToPuma((shadowRoot() != null) ? shadowRoot() : document.body)[0];
@@ -689,6 +705,14 @@ export class ComboBox extends VrControl
                 }
             }
             //#endregion
+        
+            if (options.onAfterOpen != null)
+            {
+                let afterOpenEvent = new ComboBoxOpenEvent();
+                afterOpenEvent.sender = this;
+                afterOpenEvent.value = this._openedValue;
+                options.onAfterOpen(afterOpenEvent);
+            }
         });
     }
 
@@ -1555,13 +1579,17 @@ export class ComboBox extends VrControl
 
     private writeTextByValue(comboItem: ComboBoxItem | null, value: string[]): void
     {
+        let options = this.getOptions();
         if (!this._isDivElement)
         {
             if (comboItem == null)
             {
                 let item = this.items().filter(k => k.value == value[0])[0];
                 if (item != null)
-                    (this.element() as HTMLInputElement).value = item.text.toString();
+                {
+                    let rowText = String(item.text).replace(/'/g, "&#39;");
+                    (this.element() as HTMLInputElement).value = rowText;
+                }
             }
             else
                 (this.element() as HTMLInputElement).value = comboItem.text;
@@ -1572,7 +1600,6 @@ export class ComboBox extends VrControl
             let selectedItems = this.items().filter(k => value.includes(String(k.value)));
             if (selectedItems.length > 0)
             {
-                let options = this.getOptions();
                 if (selectedItems.length == 1 && selectedItems.vrFirst().text == "")
                     return;
 
@@ -1714,6 +1741,18 @@ export class ComboBox extends VrControl
     index(index = 0, triggerChange = true)
     {
         this.select(index, triggerChange);
+    }
+
+    icon(icon?: IconClass | string | null)
+    {
+        let options = this.getOptions();
+        if (icon != null && this._iconCombo != null)
+        {
+            options.icon = icon;
+            this._iconCombo.removeAttribute('class');
+            puma(this._iconCombo).addClass(icon)
+        }
+        return this._iconCombo;
     }
 
     isEmpty()
@@ -2082,6 +2121,12 @@ class ComboBoxCloseEvent extends VrControlsEvent
     afterValue: any;
 }
 
+class ComboBoxOpenEvent extends VrControlsEvent
+{
+    sender: ComboBox;
+    value: any;
+}
+
 class ComboBoxItemDataBoundEvent extends VrControlsEvent
 {
     sender: ComboBox;
@@ -2092,5 +2137,6 @@ class ComboBoxItemDataBoundEvent extends VrControlsEvent
 class ComboBoxBlurEvent extends VrControlsEvent
 {
     sender: ComboBox;
+    value: any;
 }
 //#endregion

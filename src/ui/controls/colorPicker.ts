@@ -132,8 +132,8 @@ export class ColorPicker extends VrControl
 			puma("body").on("DOMNodeRemoved", ".jscolor-picker-wrap", (e: any) =>
 			{
 				e.target.style.cssText += "z-index: 999999 !important;";
-				clearIcon.element().style.cssText += "color: transparent;";
-				clearIcon.container().style.cssText += "background-color: transparent;";
+				if (clearIcon.element() != null) clearIcon.element().style.cssText += "color: transparent;";
+				if (clearIcon.container() != null) clearIcon.container().style.cssText += "background-color: transparent;";
 
 				window.setTimeout(() => 
 				{
@@ -146,11 +146,11 @@ export class ColorPicker extends VrControl
 			{
 				let top = puma(puma(".jscolor-picker-wrap")[0]).position().top + 125;
 				let left = puma(puma(".jscolor-picker-wrap")[0]).position().left + 13;
-				clearIcon.container().style.cssText += "top: " + top + "px; left: " + left + "px;";
+				if (clearIcon.container() != null) clearIcon.container().style.cssText += "top: " + top + "px; left: " + left + "px;";
 
 				e.target.style.cssText += "z-index: 999999 !important;";
-				clearIcon.element().style.cssText += "color: #000;";
-				clearIcon.container().style.cssText += "background-color: #FFF;";
+				if (clearIcon.element() != null) clearIcon.element().style.cssText += "color: #000;";
+				if (clearIcon.container() != null) clearIcon.container().style.cssText += "background-color: #FFF;";
 				clearIcon.show();
 
 				window.setTimeout(() => 
@@ -160,7 +160,7 @@ export class ColorPicker extends VrControl
 
 					let top = puma(puma(".jscolor-picker-wrap")[0]).position().top + 125;
 					let left = puma(puma(".jscolor-picker-wrap")[0]).position().left + 13;
-					clearIcon.container().style.cssText += "top: " + top + "px; left: " + left + "px;";
+					if (clearIcon.container() != null) clearIcon.container().style.cssText += "top: " + top + "px; left: " + left + "px;";
 				}, 300);
 			});
 		}

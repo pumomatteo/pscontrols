@@ -387,6 +387,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/ComboBoxNullableItem.html" data-type="entity-link" >ComboBoxNullableItem</a>
                             </li>
                             <li class="link">
+                                <a href="classes/ComboBoxOpenEvent.html" data-type="entity-link" >ComboBoxOpenEvent</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/ComboBoxOptions.html" data-type="entity-link" >ComboBoxOptions</a>
                             </li>
                             <li class="link">
