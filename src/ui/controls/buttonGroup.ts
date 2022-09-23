@@ -41,21 +41,22 @@ export class ButtonGroup extends VrControl
         this.element().style.cssText += "display: inline-block;";
 
         //#region Back/Forward buttons for horizontal scroll
+        let intervalScrolling = 0;
         this._btnScrollBack = createButton({
             icon: IconClassLight.CaretLeft,
             visible: false,
             enable: false,
             colorSettings: { background: "#f1f1f1" },
             css: "border-top-right-radius: 0px; border-bottom-right-radius: 0px;",
-            onClick: (e) =>
+            onMouseDown: (e) =>
             {
-                let leftPos = puma(this.element()).scrollLeft();
-                puma(this.element()).animate({ scrollLeft: leftPos - 20 }, 10);
-
-                this._btnScrollForward.enable();
-                if ((leftPos - 20) <= 0)
-                    this._btnScrollBack.disable();
-            }
+                this.scrollBack();
+                intervalScrolling = window.setInterval(() =>
+                {
+                    this.scrollBack(intervalScrolling);
+                }, 100)
+            },
+            onMouseUp: (e) => window.clearInterval(intervalScrolling)
         }, this.container())
         puma(this._btnScrollBack.container()).vrInsertBeforePuma(this.element())
 
@@ -64,15 +65,15 @@ export class ButtonGroup extends VrControl
             visible: false,
             colorSettings: { background: "#f1f1f1" },
             css: "border-top-left-radius: 0px; border-bottom-left-radius: 0px;",
-            onClick: (e) =>
+            onMouseDown: (e) =>
             {
-                let leftPos = puma(this.element()).scrollLeft();
-                puma(this.element()).animate({ scrollLeft: leftPos + 20 }, 10);
-
-                this._btnScrollBack.enable();
-                if ((leftPos + 20) >= (this.element().scrollWidth - this.element().offsetWidth))
-                    this._btnScrollForward.disable();
-            }
+                this.scrollForward();
+                intervalScrolling = window.setInterval(() =>
+                {
+                    this.scrollForward(intervalScrolling);
+                }, 100)
+            },
+            onMouseUp: (e) => window.clearInterval(intervalScrolling)
         }, this.container())
         puma(this._btnScrollForward.container()).vrInsertAfterPuma(this.element())
         //#endregion
@@ -250,16 +251,42 @@ export class ButtonGroup extends VrControl
             this._btnScrollBack.show();
             this._btnScrollForward.show();
 
-            puma(puma(this.element()).find(".buttonGroupItem")[0]).css({ "border-top-left-radius": "0px", "border-bottom-left-radius": "0px", "border-left": "none" })
-            puma(puma(this.element()).find(".buttonGroupItem")[this.items().length - 1]).css({ "border-top-right-radius": "0px", "border-bottom-right-radius": "0px", "border-right": "none" })
+            puma(this.element()).find(".buttonGroupItem").first().css({ "border-top-left-radius": "0px", "border-bottom-left-radius": "0px", "border-left": "none" })
+            puma(this.element()).find(".buttonGroupItem").last().css({ "border-top-right-radius": "0px", "border-bottom-right-radius": "0px", "border-right": "none" })
         }
         else
         {
             this._btnScrollBack.hide();
             this._btnScrollForward.hide();
 
-            puma(puma(this.element()).find(".buttonGroupItem")[0]).css({ "border-top-left-radius": "4px", "border-bottom-left-radius": "4px", "border-left": "solid 1px #d9d9d9" })
-            puma(puma(this.element()).find(".buttonGroupItem")[this.items().length - 1]).css({ "border-top-right-radius": "4px", "border-bottom-right-radius": "4px", "border-right": "solid 1px #d9d9d9" })
+            puma(this.element()).find(".buttonGroupItem").first().css({ "border-top-left-radius": "4px", "border-bottom-left-radius": "4px", "border-left": "solid 1px #d9d9d9" })
+            puma(this.element()).find(".buttonGroupItem").last().css({ "border-top-right-radius": "4px", "border-bottom-right-radius": "4px", "border-right": "solid 1px #d9d9d9" })
+        }
+    }
+
+    private scrollBack(interval?: number)
+    {
+        let leftPos = puma(this.element()).scrollLeft();
+        puma(this.element()).animate({ scrollLeft: leftPos - 20 }, 10);
+
+        this._btnScrollForward.enable();
+        if ((leftPos - 20) <= 0)
+        {
+            window.clearInterval(interval);
+            this._btnScrollBack.disable();
+        }
+    }
+
+    private scrollForward(interval?: number)
+    {
+        let leftPos = puma(this.element()).scrollLeft();
+        puma(this.element()).animate({ scrollLeft: leftPos + 20 }, 10);
+
+        this._btnScrollBack.enable();
+        if ((leftPos + 20) >= (this.element().scrollWidth - this.element().offsetWidth))
+        {
+            window.clearInterval(interval);
+            this._btnScrollForward.disable();
         }
     }
 

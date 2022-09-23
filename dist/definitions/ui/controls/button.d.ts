@@ -18,6 +18,8 @@ export declare class ButtonOptions extends VrControlOptions {
     onHover?: (e: ButtonHoverEvent) => void;
     onBlur?: (e: ButtonBlurEvent) => void;
     onRejectedConfirm?: () => void;
+    onMouseDown?: (e: ButtonMouseDownEvent) => void;
+    onMouseUp?: (e: ButtonMouseUpEvent) => void;
 }
 export declare class Button extends VrControl {
     private _mouseDownEvent;
@@ -66,6 +68,10 @@ declare class ButtonHoverEvent extends ButtonEvent {
 declare class ButtonBlurEvent extends ButtonEvent {
 }
 declare class ContextMenuEvent extends ButtonEvent {
+}
+declare class ButtonMouseDownEvent extends ButtonEvent {
+}
+declare class ButtonMouseUpEvent extends ButtonEvent {
 }
 export declare class ButtonBadgeSettings {
     text?: string | number;

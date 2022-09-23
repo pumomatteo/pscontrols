@@ -13,7 +13,6 @@ import { Button } from "./button";
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { Switch } from "./switch";
 import { Label } from "./label";
-import { Icon } from "./icon";
 
 //#region Options
 export class GridOptions extends VrControlOptions
@@ -169,7 +168,7 @@ export class Grid extends VrControl
         if (options.width == null) options.width = "100%";
         if (options.tooltip == null) options.tooltip = true;
         if (options.dataSourceFieldId == null) options.dataSourceFieldId = "id";
-        if (options.multilineRows == null) options.multilineRows = false;
+        if (options.multilineRows == null) options.multilineRows = true;
         if (options.multilineHeader == null) options.multilineHeader = false;
         if (options.rowHeight == null) options.rowHeight = 27;
         if (options.columns == null) options.columns = [];
@@ -2292,13 +2291,8 @@ export class Grid extends VrControl
 
                 if (!options.multilineRows)
                 {
-                    puma(td).addClass("grid_singleLineTableRow");
-                    if (options.lockable) puma(tdLocked).addClass("grid_singleLineTableRow");
-                }
-                else
-                {
-                    puma(td).addClass("grid_multilineTableRow");
-                    if (options.lockable) puma(tdLocked).addClass("grid_multilineTableRow");
+                    puma(td).addClass("grid_singleLineGridRow");
+                    if (options.lockable) puma(tdLocked).addClass("grid_singleLineGridRow");
                 }
 
                 //#region Cell

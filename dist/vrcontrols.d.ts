@@ -482,6 +482,8 @@ export class ButtonOptions extends VrControlOptions
     onHover?: (e: ButtonHoverEvent) => void;
     onBlur?: (e: ButtonBlurEvent) => void;
     onRejectedConfirm?: () => void;
+    onMouseDown?: (e: ButtonMouseDownEvent) => void;
+    onMouseUp?: (e: ButtonMouseUpEvent) => void;
 }
 export class Button extends VrControl
 {
@@ -534,6 +536,12 @@ class ButtonBlurEvent extends ButtonEvent
 {
 }
 class ContextMenuEvent extends ButtonEvent
+{
+}
+class ButtonMouseDownEvent extends ButtonEvent
+{
+}
+class ButtonMouseUpEvent extends ButtonEvent
 {
 }
 export class ButtonBadgeSettings

@@ -22,6 +22,8 @@ export class ButtonOptions extends VrControlOptions
     onHover?: (e: ButtonHoverEvent) => void;
     onBlur?: (e: ButtonBlurEvent) => void;
     onRejectedConfirm?: () => void;
+    onMouseDown?: (e: ButtonMouseDownEvent) => void;
+    onMouseUp?: (e: ButtonMouseUpEvent) => void;
 }
 //#endregion
 
@@ -145,6 +147,18 @@ export class Button extends VrControl
         //#region Events
         puma(element).on("mousedown", (e: JQuery.MouseDownEvent) => 
         {
+            //#region MouseDown event
+            if (options!.onMouseDown != null)
+            {
+                let event = new ButtonMouseDownEvent();
+                event.sender = this;
+                options!.onMouseDown(event);
+
+                if (event.isDefaultPrevented())
+                    return;
+            }
+            //#endregion
+
             this._mouseDownEvent = e;
             if (e.button != 0) // Not left button
                 this.click();
@@ -157,6 +171,21 @@ export class Button extends VrControl
             // To prevent Ajax rebind
             e.preventDefault();
             return false;
+        });
+
+        puma(element).on("mouseup", (e: JQuery.MouseUpEvent) => 
+        {
+            //#region MouseUp event
+            if (options!.onMouseUp != null)
+            {
+                let event = new ButtonMouseUpEvent();
+                event.sender = this;
+                options!.onMouseUp(event);
+
+                if (event.isDefaultPrevented())
+                    return;
+            }
+            //#endregion
         });
 
         puma(this.container()).hover(() =>
@@ -530,6 +559,12 @@ class ButtonBlurEvent extends ButtonEvent
 { }
 
 class ContextMenuEvent extends ButtonEvent
+{ }
+
+class ButtonMouseDownEvent extends ButtonEvent
+{ }
+
+class ButtonMouseUpEvent extends ButtonEvent
 { }
 
 export class ButtonBadgeSettings

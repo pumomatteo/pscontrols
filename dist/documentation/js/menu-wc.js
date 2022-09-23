@@ -186,6 +186,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/ButtonMiddleClickEvent.html" data-type="entity-link" >ButtonMiddleClickEvent</a>
                             </li>
                             <li class="link">
+                                <a href="classes/ButtonMouseDownEvent.html" data-type="entity-link" >ButtonMouseDownEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/ButtonMouseUpEvent.html" data-type="entity-link" >ButtonMouseUpEvent</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/ButtonOptions.html" data-type="entity-link" >ButtonOptions</a>
                             </li>
                             <li class="link">

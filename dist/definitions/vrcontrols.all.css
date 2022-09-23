@@ -842,14 +842,10 @@ table.vrDatePickerPopup_table td {
     font-size: 13px;
 }
 
-.vrGridContainer .grid_singleLinegridRow {
+.vrGridContainer .grid_singleLineGridRow {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
-
-.vrGridContainer .grid_multilinegridRow {
-    word-break: break-all;
 }
 
 .vrGridContainer .grid_Body {
