@@ -6308,7 +6308,11 @@ Number.prototype.vrFormatNumber = function (format?: NumberFormatSettings)
 
 	if (format.roundingMode == null) format.roundingMode = RoundingModeEnum.HalfAwayFromZero;
 	if (format.roundingMode == RoundingModeEnum.None)
-		if (format.maximumFractionDigits == null) format.maximumFractionDigits = 8;
+	{
+		format.roundingMode = RoundingModeEnum.Default;
+		if (format.maximumFractionDigits == null)
+			format.maximumFractionDigits = 8;
+	}
 
 	const formatter = new Intl.NumberFormat("it-IT"/*navigator.language*/, format as any);
 	return formatter.format(Number(this));
