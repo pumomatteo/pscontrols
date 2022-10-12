@@ -218,7 +218,13 @@ export class DatePicker extends VrControl
         });
         puma(this.element()).blur((e: JQuery.BlurEvent) => 
         {
-            this.formatDateInput((e.target as HTMLInputElement).value);
+            let value = UtilityManager.duplicate(this._value);
+            this._value = this.formatDateInput((e.target as HTMLInputElement).value, true) as any;
+            if (this._value != null)
+                this.formatValue();
+
+            if (!UtilityManager.equals(value, this._value))
+                this.change();
 
             if (options!.onBlur != null)
             {
@@ -346,15 +352,16 @@ export class DatePicker extends VrControl
         window.setTimeout(() => this._justOpened = false, 500);
     }
 
-    private formatDateInput(inputText: string): void
+    private formatDateInput(inputText: string, onlyFormat = false)
     {
         let options = this.getOptions();
         switch (options.mode)
         {
-            case DateModeEnum.Date: this.formatInputDatePicker(inputText); break;
-            case DateModeEnum.DateTime: this.formatInputDateTimePicker(inputText); break;
-            case DateModeEnum.Time: this.formatInputTimePicker(inputText); break;
+            case DateModeEnum.Date: return this.formatInputDatePicker(inputText, onlyFormat); break;
+            case DateModeEnum.DateTime: return this.formatInputDateTimePicker(inputText); break;
+            case DateModeEnum.Time: return this.formatInputTimePicker(inputText, onlyFormat); break;
         }
+        return null;
     }
 
     //#region DatePicker
@@ -402,7 +409,8 @@ export class DatePicker extends VrControl
             }
 
             this._value = null;
-            this.change();
+            if (!onlyFormat)
+                this.change();
             return;
         }
 
@@ -822,6 +830,7 @@ export class DatePicker extends VrControl
             date.setHours(time.getHours(), time.getMinutes());
             this.value(date);
         }
+        return date;
     }
     //#endregion
 
@@ -873,6 +882,18 @@ export class DatePicker extends VrControl
         let options = this.getOptions();
         if (date === null)
         {
+            let changingEvent = new DatePickerChangingEvent();
+            if (options.onBeforeChange != null)
+            {
+                changingEvent.sender = this;
+                changingEvent.value = date!;
+                changingEvent.previousValue = this._value;
+                options.onBeforeChange(changingEvent);
+
+                if (changingEvent.isDefaultPrevented())
+                    return null;
+            }
+
             if (!options.nullable)
             {
                 UtilityManager.interval(() => puma(this.element()).toggleClass("errorInput"), 200, 800);
