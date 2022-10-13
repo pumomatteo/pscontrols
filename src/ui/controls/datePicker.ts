@@ -218,13 +218,27 @@ export class DatePicker extends VrControl
         });
         puma(this.element()).blur((e: JQuery.BlurEvent) => 
         {
-            let value = UtilityManager.duplicate(this._value);
+            let value = (this._value != null) ? new Date(this._value) : null;
             this._value = this.formatDateInput((e.target as HTMLInputElement).value, true) as any;
             if (this._value != null)
                 this.formatValue();
 
             if (!UtilityManager.equals(value, this._value))
+            {
+                let changingEvent = new DatePickerChangingEvent();
+                if (options!.onBeforeChange != null)
+                {
+                    changingEvent.sender = this;
+                    changingEvent.value = (this._value != null) ? new Date(this._value!) : null;
+                    changingEvent.previousValue = value;
+                    options!.onBeforeChange(changingEvent);
+
+                    if (changingEvent.isDefaultPrevented())
+                        return;
+                }
+
                 this.change();
+            }
 
             if (options!.onBlur != null)
             {
@@ -886,8 +900,8 @@ export class DatePicker extends VrControl
             if (options.onBeforeChange != null)
             {
                 changingEvent.sender = this;
-                changingEvent.value = date!;
-                changingEvent.previousValue = this._value;
+                changingEvent.value = new Date(date!);
+                changingEvent.previousValue = (this._value != null) ? new Date(this._value!) : null;
                 options.onBeforeChange(changingEvent);
 
                 if (changingEvent.isDefaultPrevented())
@@ -947,8 +961,8 @@ export class DatePicker extends VrControl
                 if (options.onBeforeChange != null)
                 {
                     changingEvent.sender = this;
-                    changingEvent.value = date;
-                    changingEvent.previousValue = this._value;
+                    changingEvent.value = new Date(date);
+                    changingEvent.previousValue = (this._value != null) ? new Date(this._value!) : null;
                     options.onBeforeChange(changingEvent);
                 }
 
@@ -1159,7 +1173,7 @@ export class DatePicker extends VrControl
         {
             let changeEvent = new DatePickerChangeEvent();
             changeEvent.sender = this;
-            changeEvent.value = this.value();
+            changeEvent.value = (this.value() != null) ? new Date(this.value()!) : null;
             changeCallBack(changeEvent);
         }
     }
