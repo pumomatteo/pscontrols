@@ -4,8 +4,9 @@ export class LoaderManager
 {
 	static show(element?: string | HTMLElement | JQuery, transparency = true, tag?: any)
 	{
-		if (tag == null) tag = "vrLoadingTemp";
 		this.addCss();
+		if (tag == null)
+			tag = "vrLoadingTemp";
 
 		//#region	Loader	element
 		let loaderElement = null;
@@ -19,6 +20,9 @@ export class LoaderManager
 		}
 		else
 			loaderElement = puma(element)[0];
+
+		if (puma(loaderElement).css("position") != "absolute")
+			puma(loaderElement).css("position", "relative");
 		//#endregion
 
 		//#region	Transparency
@@ -31,29 +35,12 @@ export class LoaderManager
 		let elementWidth = puma(loaderElement).outerWidth();
 		let elementHeight = puma(loaderElement).outerHeight();
 
-		let backgroundWidth = "100%";
-		let backgroundHeight = "100%";
-		let loaderWidth = "80px";
-		let loaderHeight = "80px";
-		backgroundWidth = elementWidth + "px";
-		backgroundHeight = elementHeight + "px";
-
-		let loaderWidthNumber = ((elementHeight) * 80 / 100);
+		let loaderWidthNumber = elementHeight;
 		if (loaderWidthNumber > 80)
 			loaderWidthNumber = 80;
-		let loaderHeightNumber = ((elementHeight) * 80 / 100);
+		let loaderHeightNumber = elementHeight;
 		if (loaderHeightNumber > 80)
 			loaderHeightNumber = 80;
-		//#endregion
-
-		//#region	Position
-		let loaderXPosition = "Calc(50%	-	50px)";
-		let loaderYPosition = "Calc(50%	-	50px)";
-		loaderXPosition = (0 + ((elementWidth) / 2) - (loaderWidthNumber / 2)) - 16 + "px";
-		loaderYPosition = (0 + ((elementHeight) / 2) - (loaderHeightNumber / 2)) - 16 + "px";
-
-		if (puma(loaderElement).css("position") != "absolute")
-			puma(loaderElement).css("position", "relative");
 		//#endregion
 
 		//#region	Background
@@ -61,6 +48,9 @@ export class LoaderManager
 		zIndex = String((puma(loaderElement).css("z-index"))).vrGetNumericPart() + 1;
 		if (loaderElement == document.body)
 			zIndex = 999999999;
+
+		let backgroundWidth = elementWidth + "px";
+		let backgroundHeight = elementHeight + "px";
 
 		let background: HTMLDivElement = document.createElement("div");
 		background.setAttribute("id", "loaderManager_background");
@@ -71,9 +61,21 @@ export class LoaderManager
 		//#endregion
 
 		//#region	Loader
-		loaderWidth = loaderWidthNumber + "px";
-		loaderHeight = loaderHeightNumber + "px";
-		puma("<div class='loaderManager_loader' tag='" + tag + "'style='position: absolute; left: " + loaderXPosition + "; top: " + loaderYPosition + "; width: " + loaderWidth + "; height:	" + loaderHeight + ";'><div></div><div></div><div></div><div></div></div>").vrAppendToPuma(loaderElement);
+		let loaderLeftPosition = "Calc(50% - " + (loaderWidthNumber / 2) + "px)";
+		let loaderTopPosition = "Calc(50% - " + (loaderWidthNumber / 2) + "px)";
+		let loaderWidth = loaderWidthNumber + "px";
+		let loaderHeight = loaderHeightNumber + "px";
+
+		puma(`
+			<div class='loaderManager_loader' tag='` + tag + `' style='display: inline-block; z-index: 99999999; 
+			position: absolute; left: ` + loaderLeftPosition + `; top: ` + loaderTopPosition + `; width: ` + loaderWidth + `; 
+			height: ` + loaderHeight + `;'>
+				<div class='loaderManager_step' style='left: 8px; animation: loaderManager_loader1 0.6s infinite;'></div>
+				<div class='loaderManager_step' style='left: 8px; animation: loaderManager_loader2 0.6s infinite;'></div>
+				<div class='loaderManager_step' style='left: 32px; animation: loaderManager_loader2 0.6s infinite;'></div>
+				<div class='loaderManager_step' style='left: 56px; animation: loaderManager_loader3 0.6s infinite;'></div>
+			</div>
+		`).vrAppendToPuma(loaderElement);		
 		//#endregion
 	}
 
@@ -96,60 +98,44 @@ export class LoaderManager
 		if (puma("head").find("style[id='vr_loader']")[0] == null)
 		{
 			this.addCssBase(`
-				.loaderManager_loader	{
-						display:	inline-block;
-						z-index:	9999999999999999999999999999999999999;
+                @keyframes loaderManager_loader1 {
+                  0% {
+                    transform: scale(0);
+                  }
+                  100% {
+                    transform: scale(1);
+                  }
+                }
+
+                @keyframes loaderManager_loader3 {
+                  0% {
+                    transform: scale(1);
+                  }
+                  100% {
+                    transform: scale(0);
+                  }
+                }
+
+                @keyframes loaderManager_loader2 {
+                  0% {
+                    transform: translate(0, 0);
+                  }
+                  100% {
+                    transform: translate(24px, 0);
+                  }
+                }
+
+				.loaderManager_step {
+					background: #51B3E1;
+					position: absolute; 
+					top: Calc(50% - 6.5px); 
+					width: 13px; 
+					height: 13px; 
+					border-radius: 50%; 
+					animation-timing-function: cubic-bezier(0, 1, 1, 0);
+					z-index: 999999999;
 				}
-				.loaderManager_loader	div	{
-						position:	absolute;
-						top:	33px;
-						width:	13px;
-						height:	13px;
-						border-radius:	50%;
-						background:	#51B3E1;
-						animation-timing-function:	cubic-bezier(0,1,1,0);
-				}
-				.loaderManager_loader	div:nth-child(1)	{
-						left:	8px;
-						animation:	loaderManager_loader1 0.6s infinite;
-				}
-				.loaderManager_loader	div:nth-child(2)	{
-						left: 8px;
-						animation:	loaderManager_loader2 0.6s infinite;
-				}
-				.loaderManager_loader	div:nth-child(3)	{
-						left: 32px;
-						animation:	loaderManager_loader2 0.6s infinite;
-				}
-				.loaderManager_loader	div:nth-child(4)	{
-						left: 56px;
-						animation:	loaderManager_loader3 0.6s infinite;
-				}
-				@keyframes	loaderManager_loader1	{
-						0%	{
-								transform: scale(0);
-						}
-						100%	{
-								transform: scale(1);
-						}
-				}
-				@keyframes	loaderManager_loader3	{
-						0%	{
-								transform: scale(1);
-						}
-						100%	{
-								transform: scale(0);
-						}
-				}
-				@keyframes	loaderManager_loader2	{
-						0%	{
-								transform: translate(0, 0);
-						}
-						100%	{
-								transform: translate(24px, 0);
-						}
-				}
-			`);
+            `);
 		}
 	}
 
