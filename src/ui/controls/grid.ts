@@ -8051,9 +8051,10 @@ export class Grid extends VrControl
                 headerRow.cells = [];
                 for (let column of options.columns!)
                 {
-                    if ((!exportHiddenColumns && column.hidden == true && (options.groupBy == null || !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
+                    if (column.exportable !== true && ((!exportHiddenColumns && column.hidden == true
+                        && (options.groupBy == null || !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                         || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
-                        || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false)
+                        || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false))
                         continue;
 
                     let excelCell = new GridExcelCell();
@@ -8079,9 +8080,10 @@ export class Grid extends VrControl
 
                     for (let column of options.columns!)
                     {
-                        if ((!exportHiddenColumns && column.hidden == true && (options.groupBy == null || !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
+                        if (column.exportable !== true && ((!exportHiddenColumns && column.hidden == true && (options.groupBy == null || !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                             || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
-                            || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false)
+                            || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon
+                            || column.exportable === false))
                             continue;
 
                         let textHTML = (item[column.field] == null) ? "" : String(item[column.field]);
@@ -8283,10 +8285,13 @@ export class Grid extends VrControl
                         continue;
 
                     let column = options.columns!.filter(k => k.field == field)[0];
-                    if (column == null || (!exportHiddenColumns && column.hidden == true && (options.groupBy == null || !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
-                        || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
-                        || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false)
-                        continue;
+                    if (column == null || (column != null && column.exportable !== true))
+                    {
+                        if (column == null || (!exportHiddenColumns && column.hidden == true && (options.groupBy == null || !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
+                            || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
+                            || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false)
+                            continue;
+                    }
 
                     let excelCell = new GridExcelCell();
                     excelCell.field = column.field;
@@ -8333,7 +8338,7 @@ export class Grid extends VrControl
                 if (options.groupBy != null)
                 {
                     let groupByFields = (options.groupBy as GridGroupBySettings).fields;
-                    generateExcelRequest.groupBy = (groupByFields != null) ? (groupByFields as GridGroupByItem[]).map(k => k.field) : null;
+                    generateExcelRequest.groupBy = groupByFields as GridGroupByItem[];
                 }
 
                 let jsonString = JSON.stringify(generateExcelRequest);
@@ -10640,7 +10645,7 @@ class GenerateExcelRequest
     public footerRow: GridExcelRow;
     public excelFileName: string;
     public AuthKey: string;
-    public groupBy?: string[] | null;
+    public groupBy?: GridGroupByItem[] | null;
     public exportHiddenColumns: boolean;
 }
 
