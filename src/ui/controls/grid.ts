@@ -7304,6 +7304,16 @@ export class Grid extends VrControl
             puma("#" + this._elementId + "_StringFilter_" + field).focus();
     }
 
+    scrollTo(rowIndex: number)
+    {
+        let rowAtIndex = this.rows().filter(k => k.index == rowIndex)[0];
+        if (rowAtIndex != null)
+        {
+            let position = puma(rowAtIndex.element).position();
+            puma(this._divBody).scrollTop(position.top);
+        }
+    }
+
     private isRepeater()
     {
         return puma(this.container()).hasClass("vrRepeaterContainer");

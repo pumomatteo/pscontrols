@@ -1469,6 +1469,7 @@ export class Grid extends VrControl
     pageSelected(page?: number, update?: boolean): number;
     checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;
     focus(field?: string): void;
+    scrollTo(rowIndex: number): void;
     getOptions(): GridOptions;
     recalculateWidth(fixColGroup?: boolean): void;
     height(height?: number | string): any;

@@ -203,6 +203,7 @@ export declare class Grid extends VrControl {
     pageSelected(page?: number, update?: boolean): number;
     checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;
     focus(field?: string): void;
+    scrollTo(rowIndex: number): void;
     private isRepeater;
     getOptions(): GridOptions;
     recalculateWidth(fixColGroup?: boolean): void;
