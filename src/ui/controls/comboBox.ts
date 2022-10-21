@@ -1586,10 +1586,7 @@ export class ComboBox extends VrControl
             {
                 let item = this.items().filter(k => k.value == value[0])[0];
                 if (item != null)
-                {
-                    let rowText = String(item.text).replace(/'/g, "&#39;");
-                    (this.element() as HTMLInputElement).value = rowText;
-                }
+                    (this.element() as HTMLInputElement).value = item.text;
             }
             else
                 (this.element() as HTMLInputElement).value = comboItem.text;
