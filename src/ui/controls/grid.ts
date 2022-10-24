@@ -905,7 +905,9 @@ export class Grid extends VrControl
             //#region Sort
             let sorGridColumnTypes = [GridColumnTypeEnum.Currency, GridColumnTypeEnum.Date, GridColumnTypeEnum.DateTime,
             GridColumnTypeEnum.Duration, GridColumnTypeEnum.Label, GridColumnTypeEnum.Number, GridColumnTypeEnum.Percentage,
-            GridColumnTypeEnum.String, GridColumnTypeEnum.Time];
+            GridColumnTypeEnum.String, GridColumnTypeEnum.Time, GridColumnTypeEnum.LongDate, GridColumnTypeEnum.LongDateTime,
+            GridColumnTypeEnum.LongWeekDate, GridColumnTypeEnum.ShortWeekDate];
+
             if (sorGridColumnTypes.includes(column.type!))
             {
                 puma(th).css("cursor", "pointer");
@@ -1058,6 +1060,10 @@ export class Grid extends VrControl
                         case GridColumnTypeEnum.DateTime:
                         case GridColumnTypeEnum.Time:
                         case GridColumnTypeEnum.Date:
+                        case GridColumnTypeEnum.LongDate:
+                        case GridColumnTypeEnum.LongDateTime:
+                        case GridColumnTypeEnum.LongWeekDate:
+                        case GridColumnTypeEnum.ShortWeekDate:
                             {
                                 puma(td).css("text-align", "center");
                                 td.innerHTML = "<button id='" + this._elementId + "_DateFilter_" + column.field + "'></button>" +
@@ -1328,6 +1334,10 @@ export class Grid extends VrControl
                     case GridColumnTypeEnum.Date:
                     case GridColumnTypeEnum.DateTime:
                     case GridColumnTypeEnum.Time:
+                    case GridColumnTypeEnum.LongDate:
+                    case GridColumnTypeEnum.LongDateTime:
+                    case GridColumnTypeEnum.LongWeekDate:
+                    case GridColumnTypeEnum.ShortWeekDate:
                         textAlign = GridAlignEnum.Center;
                         break;
                     case GridColumnTypeEnum.String:
@@ -2357,6 +2367,10 @@ export class Grid extends VrControl
                     case GridColumnTypeEnum.Date:
                     case GridColumnTypeEnum.DateTime:
                     case GridColumnTypeEnum.Time:
+                    case GridColumnTypeEnum.LongDate:
+                    case GridColumnTypeEnum.LongDateTime:
+                    case GridColumnTypeEnum.LongWeekDate:
+                    case GridColumnTypeEnum.ShortWeekDate:
                         {
                             textAlign = GridAlignEnum.Center;
                             let valueFormatted = this.formatValue(new Date(textHTML), column.type, undefined, undefined, column.showSeconds);
@@ -3498,15 +3512,23 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Date, DateTime, Time
-        else if (columnType == GridColumnTypeEnum.Date || columnType == GridColumnTypeEnum.DateTime || columnType == GridColumnTypeEnum.Time)
+        else if (columnType == GridColumnTypeEnum.Date || columnType == GridColumnTypeEnum.DateTime
+            || columnType == GridColumnTypeEnum.Time || columnType == GridColumnTypeEnum.LongDate
+            || columnType == GridColumnTypeEnum.LongDateTime || columnType == GridColumnTypeEnum.LongWeekDate
+            || columnType == GridColumnTypeEnum.ShortWeekDate)
         {
             value = Date.vrFixDateString(value);
-            if (columnType == GridColumnTypeEnum.Date)
-                return (value == "" || !Date.vrIsValidDate(value)) ? "" : new Date(value).vrToItalyString(DateModeEnum.Date);
-            else if (columnType == GridColumnTypeEnum.DateTime)
-                return (value == "" || !Date.vrIsValidDate(value)) ? "" : new Date(value).vrToItalyString(DateModeEnum.DateTime, showSeconds);
-            else if (columnType == GridColumnTypeEnum.Time)
-                return (value == "" || !Date.vrIsValidDate(value)) ? "" : new Date(value).vrToItalyString(DateModeEnum.Time, showSeconds);
+            let dateModeEnum: DateModeEnum = DateModeEnum.Date;
+
+            if (columnType == GridColumnTypeEnum.Date) dateModeEnum = DateModeEnum.Date;
+            else if (columnType == GridColumnTypeEnum.DateTime) dateModeEnum = DateModeEnum.DateTime;
+            else if (columnType == GridColumnTypeEnum.Time) dateModeEnum = DateModeEnum.Time;
+            else if (columnType == GridColumnTypeEnum.LongDate) dateModeEnum = DateModeEnum.LongDate;
+            else if (columnType == GridColumnTypeEnum.LongDateTime) dateModeEnum = DateModeEnum.LongDateTime;
+            else if (columnType == GridColumnTypeEnum.LongWeekDate) dateModeEnum = DateModeEnum.LongWeekDate;
+            else if (columnType == GridColumnTypeEnum.ShortWeekDate) dateModeEnum = DateModeEnum.ShortWeekDate;
+
+            return (value == "" || !Date.vrIsValidDate(value)) ? "" : new Date(value).vrToItalyString(dateModeEnum, showSeconds);
         }
         //#endregion
 
@@ -5583,6 +5605,10 @@ export class Grid extends VrControl
                         case GridColumnTypeEnum.DateTime:
                         case GridColumnTypeEnum.Time:
                         case GridColumnTypeEnum.Date:
+                        case GridColumnTypeEnum.LongDate:
+                        case GridColumnTypeEnum.LongDateTime:
+                        case GridColumnTypeEnum.LongWeekDate:
+                        case GridColumnTypeEnum.ShortWeekDate:
                             {
                                 let filterButton = ControlManager.get<Button>(this._elementId + "_DateFilter_" + column.field);
                                 puma(filterButton.element()).css("background-color", "#f3f3f3");
@@ -5647,6 +5673,10 @@ export class Grid extends VrControl
             case GridColumnTypeEnum.DateTime:
             case GridColumnTypeEnum.Time:
             case GridColumnTypeEnum.Date:
+            case GridColumnTypeEnum.LongDate:
+            case GridColumnTypeEnum.LongDateTime:
+            case GridColumnTypeEnum.LongWeekDate:
+            case GridColumnTypeEnum.ShortWeekDate:
                 {
                     puma("#" + this._elementId + "DivFilterDate").show();
                     puma("#" + this._elementId + "DivFilterNumber").hide();
@@ -5657,6 +5687,7 @@ export class Grid extends VrControl
                     switch (column.type!)
                     {
                         case GridColumnTypeEnum.DateTime:
+                        case GridColumnTypeEnum.LongDateTime:
                             {
                                 dtpFrom.hide();
                                 dtpTo.hide();
@@ -5684,6 +5715,9 @@ export class Grid extends VrControl
                             }
                             break;
                         case GridColumnTypeEnum.Date:
+                        case GridColumnTypeEnum.LongDate:
+                        case GridColumnTypeEnum.LongWeekDate:
+                        case GridColumnTypeEnum.ShortWeekDate:
                             {
                                 dtpFrom.show();
                                 dtpDateTimeFrom.hide();
@@ -5782,7 +5816,10 @@ export class Grid extends VrControl
         {
             let text = this.formatValue(k[column.field], column.type!, column.decimalDigits, column.roundingSettings, column.showSeconds);
             let tag = k[column.field];
-            if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.DateTime || column.type == GridColumnTypeEnum.Time)
+            if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.DateTime
+                || column.type == GridColumnTypeEnum.Time || column.type == GridColumnTypeEnum.LongDate
+                || column.type == GridColumnTypeEnum.LongDateTime || column.type == GridColumnTypeEnum.LongWeekDate
+                || column.type == GridColumnTypeEnum.ShortWeekDate)
                 tag = new Date(k[column.field]);
             else if (column.type == GridColumnTypeEnum.String || column.type == GridColumnTypeEnum.Label)
                 tag = tag.toLowerCase();
@@ -5848,6 +5885,10 @@ export class Grid extends VrControl
                 case GridColumnTypeEnum.DateTime:
                 case GridColumnTypeEnum.Time:
                 case GridColumnTypeEnum.Date:
+                case GridColumnTypeEnum.LongDate:
+                case GridColumnTypeEnum.LongDateTime:
+                case GridColumnTypeEnum.LongWeekDate:
+                case GridColumnTypeEnum.ShortWeekDate:
                     {
                         if (this._dictionaryFilterConditions.has(column.field))
                         {
@@ -5857,7 +5898,7 @@ export class Grid extends VrControl
                                 let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType");
                                 ddlType.value(filterSettings.dateFilterSettings.filterTypeEnum, true);
 
-                                if (column.type == GridColumnTypeEnum.DateTime)
+                                if (column.type == GridColumnTypeEnum.DateTime || column.type == GridColumnTypeEnum.LongDateTime)
                                 {
                                     dtpDateTimeFrom.value(filterSettings.dateFilterSettings.dateFrom);
                                     dtpDateTimeTo.value(filterSettings.dateFilterSettings.dateTo);
@@ -5916,6 +5957,10 @@ export class Grid extends VrControl
                 case GridColumnTypeEnum.DateTime:
                 case GridColumnTypeEnum.Time:
                 case GridColumnTypeEnum.Date:
+                case GridColumnTypeEnum.LongDate:
+                case GridColumnTypeEnum.LongDateTime:
+                case GridColumnTypeEnum.LongWeekDate:
+                case GridColumnTypeEnum.ShortWeekDate:
                     {
                         //#region Load filter data
                         if (this._dictionaryFilterConditions.has(column.field))
@@ -6038,6 +6083,10 @@ export class Grid extends VrControl
                 case GridColumnTypeEnum.DateTime:
                 case GridColumnTypeEnum.Time:
                 case GridColumnTypeEnum.Date:
+                case GridColumnTypeEnum.LongDate:
+                case GridColumnTypeEnum.LongDateTime:
+                case GridColumnTypeEnum.LongWeekDate:
+                case GridColumnTypeEnum.ShortWeekDate:
                     {
                         //#region Date filter settings
                         let dtpFrom = ControlManager.get<DatePicker>(this._elementId + "_dtpFilterDateFrom");
@@ -6045,7 +6094,7 @@ export class Grid extends VrControl
                         let dtpDateTimeFrom = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateFrom");
                         let dtpDateTimeTo = ControlManager.get<DatePicker>(this._elementId + "_dtpDateTimeFilterDateTo");
 
-                        if (column.type! == GridColumnTypeEnum.DateTime)
+                        if (column.type! == GridColumnTypeEnum.DateTime || column.type! == GridColumnTypeEnum.LongDateTime)
                         {
                             if (dtpDateTimeFrom.value() == null)
                             {
@@ -6065,8 +6114,8 @@ export class Grid extends VrControl
                         let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType")
                         filterSettings.dateFilterSettings = new GridDateFilterSettings();
                         filterSettings.dateFilterSettings.filterTypeEnum = Number(ddlType.value());
-                        filterSettings.dateFilterSettings.dateFrom = (column.type! == GridColumnTypeEnum.DateTime) ? dtpDateTimeFrom.value()! : dtpFrom.value()!;
-                        filterSettings.dateFilterSettings.dateTo = (column.type! == GridColumnTypeEnum.DateTime) ? dtpDateTimeTo.value()! : dtpTo.value();
+                        filterSettings.dateFilterSettings.dateFrom = (column.type! == GridColumnTypeEnum.DateTime || column.type! == GridColumnTypeEnum.LongDateTime) ? dtpDateTimeFrom.value()! : dtpFrom.value()!;
+                        filterSettings.dateFilterSettings.dateTo = (column.type! == GridColumnTypeEnum.DateTime || column.type! == GridColumnTypeEnum.LongDateTime) ? dtpDateTimeTo.value()! : dtpTo.value();
                         //#endregion
                     }
                     break;
@@ -6126,6 +6175,10 @@ export class Grid extends VrControl
                 case GridColumnTypeEnum.DateTime:
                 case GridColumnTypeEnum.Time:
                 case GridColumnTypeEnum.Date:
+                case GridColumnTypeEnum.LongDate:
+                case GridColumnTypeEnum.LongDateTime:
+                case GridColumnTypeEnum.LongWeekDate:
+                case GridColumnTypeEnum.ShortWeekDate:
                     {
                         filterSettings.dateFilterSettings = new GridDateFilterSettings();
                         filterSettings.dateFilterSettings.specificValues = [];
@@ -6376,13 +6429,17 @@ export class Grid extends VrControl
                     filteredArray = dateFilteredArray;
 
                     let tooltipValues: string[] = [];
-                    if (column.type == GridColumnTypeEnum.Date)
-                        tooltipValues = valueFilterSettings.dateFilterSettings.specificValues.map(k => { return new Date(k).vrToItalyString(DateModeEnum.Date) });
-                    else if (column.type == GridColumnTypeEnum.DateTime)
-                        tooltipValues = valueFilterSettings.dateFilterSettings.specificValues.map(k => { return new Date(k).vrToItalyString(DateModeEnum.DateTime) });
-                    else if (column.type == GridColumnTypeEnum.Time)
-                        tooltipValues = valueFilterSettings.dateFilterSettings.specificValues.map(k => { return new Date(k).vrToItalyString(DateModeEnum.Time) });
+                    let dateModeEnum: DateModeEnum = DateModeEnum.Date;
 
+                    if (column.type == GridColumnTypeEnum.Date) dateModeEnum = DateModeEnum.Date;
+                    else if (column.type == GridColumnTypeEnum.DateTime) dateModeEnum = DateModeEnum.DateTime;
+                    else if (column.type == GridColumnTypeEnum.Time) dateModeEnum = DateModeEnum.Time;
+                    else if (column.type == GridColumnTypeEnum.LongDate) dateModeEnum = DateModeEnum.LongDate;
+                    else if (column.type == GridColumnTypeEnum.LongDateTime) dateModeEnum = DateModeEnum.LongDateTime;
+                    else if (column.type == GridColumnTypeEnum.LongWeekDate) dateModeEnum = DateModeEnum.LongWeekDate;
+                    else if (column.type == GridColumnTypeEnum.ShortWeekDate) dateModeEnum = DateModeEnum.ShortWeekDate;
+
+                    tooltipValues = valueFilterSettings.dateFilterSettings.specificValues.map(k => { return new Date(k).vrToItalyString(dateModeEnum, column.showSeconds) });
                     filterButton.tooltip("Ricerca specifica su questi valori: " + tooltipValues.join(" - "));
                     //#endregion
                 }
@@ -6399,9 +6456,13 @@ export class Grid extends VrControl
                                 switch (column.type)
                                 {
                                     case GridColumnTypeEnum.Date:
+                                    case GridColumnTypeEnum.LongDate:
+                                    case GridColumnTypeEnum.LongWeekDate:
+                                    case GridColumnTypeEnum.ShortWeekDate:
                                         filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsGreaterThan(filterDateFrom, false, false));
                                         break;
                                     case GridColumnTypeEnum.DateTime:
+                                    case GridColumnTypeEnum.LongDateTime:
                                         filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsGreaterThan(filterDateFrom));
                                         break;
                                     case GridColumnTypeEnum.Time:
@@ -6415,9 +6476,13 @@ export class Grid extends VrControl
                                 switch (column.type)
                                 {
                                     case GridColumnTypeEnum.Date:
+                                    case GridColumnTypeEnum.LongDate:
+                                    case GridColumnTypeEnum.LongWeekDate:
+                                    case GridColumnTypeEnum.ShortWeekDate:
                                         filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsLessThan(filterDateFrom, false, false));
                                         break;
                                     case GridColumnTypeEnum.DateTime:
+                                    case GridColumnTypeEnum.LongDateTime:
                                         filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsLessThan(filterDateFrom));
                                         break;
                                     case GridColumnTypeEnum.Time:
@@ -6431,9 +6496,13 @@ export class Grid extends VrControl
                                 switch (column.type)
                                 {
                                     case GridColumnTypeEnum.Date:
+                                    case GridColumnTypeEnum.LongDate:
+                                    case GridColumnTypeEnum.LongWeekDate:
+                                    case GridColumnTypeEnum.ShortWeekDate:
                                         filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsEqualsTo(filterDateFrom, false));
                                         break;
                                     case GridColumnTypeEnum.DateTime:
+                                    case GridColumnTypeEnum.LongDateTime:
                                         filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsEqualsTo(filterDateFrom));
                                         break;
                                     case GridColumnTypeEnum.Time:
@@ -6448,6 +6517,10 @@ export class Grid extends VrControl
                                 {
                                     case GridColumnTypeEnum.Date:
                                     case GridColumnTypeEnum.DateTime:
+                                    case GridColumnTypeEnum.LongDate:
+                                    case GridColumnTypeEnum.LongWeekDate:
+                                    case GridColumnTypeEnum.ShortWeekDate:
+                                    case GridColumnTypeEnum.LongDateTime:
                                         {
                                             if (valueFilterSettings.dateFilterSettings!.dateTo != null)
                                                 filteredArray = filteredArray.filter(k => Date.vrFixDateString(k[columnField]) != null && Date.vrFixDateString(k[columnField]).vrIsBetween(filterDateFrom, filterDateTo));
@@ -6472,15 +6545,19 @@ export class Grid extends VrControl
                     }
 
                     // Filter button
-                    let tooltipTypeEnum = DateModeEnum.Date;
-                    if (column.type == GridColumnTypeEnum.DateTime)
-                        tooltipTypeEnum = DateModeEnum.DateTime;
-                    else if (column.type == GridColumnTypeEnum.Time)
-                        tooltipTypeEnum = DateModeEnum.Time;
+                    let dateModeEnum: DateModeEnum = DateModeEnum.Date;
 
-                    let tooltip = Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateFrom).vrToItalyString(tooltipTypeEnum);
+                    if (column.type == GridColumnTypeEnum.Date) dateModeEnum = DateModeEnum.Date;
+                    else if (column.type == GridColumnTypeEnum.DateTime) dateModeEnum = DateModeEnum.DateTime;
+                    else if (column.type == GridColumnTypeEnum.Time) dateModeEnum = DateModeEnum.Time;
+                    else if (column.type == GridColumnTypeEnum.LongDate) dateModeEnum = DateModeEnum.LongDate;
+                    else if (column.type == GridColumnTypeEnum.LongDateTime) dateModeEnum = DateModeEnum.LongDateTime;
+                    else if (column.type == GridColumnTypeEnum.LongWeekDate) dateModeEnum = DateModeEnum.LongWeekDate;
+                    else if (column.type == GridColumnTypeEnum.ShortWeekDate) dateModeEnum = DateModeEnum.ShortWeekDate;
+
+                    let tooltip = Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateFrom).vrToItalyString(dateModeEnum);
                     if (valueFilterSettings.dateFilterSettings!.filterTypeEnum == GridDateFilterTypeEnum.Between)
-                        tooltip += " e " + Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateTo!).vrToItalyString(tooltipTypeEnum);
+                        tooltip += " e " + Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateTo!).vrToItalyString(dateModeEnum);
 
                     let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType");
                     let type = "";
@@ -8106,18 +8183,23 @@ export class Grid extends VrControl
                             case GridColumnTypeEnum.Date:
                             case GridColumnTypeEnum.DateTime:
                             case GridColumnTypeEnum.Time:
+                            case GridColumnTypeEnum.LongDate:
+                            case GridColumnTypeEnum.LongDateTime:
+                            case GridColumnTypeEnum.LongWeekDate:
+                            case GridColumnTypeEnum.ShortWeekDate:
                                 {
                                     textAlign = GridAlignEnum.Center;
+                                    let dateModeEnum: DateModeEnum = DateModeEnum.Date;
 
-                                    if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.DateTime || column.type == GridColumnTypeEnum.Time)
-                                    {
-                                        if (column.type == GridColumnTypeEnum.Date)
-                                            textHTML = (textHTML == "") ? "" : new Date(new Date(textHTML)).vrToItalyString(DateModeEnum.Date);
-                                        else if (column.type == GridColumnTypeEnum.DateTime)
-                                            textHTML = (textHTML == "") ? "" : new Date(new Date(textHTML)).vrToItalyString(DateModeEnum.DateTime, column.showSeconds);
-                                        else if (column.type == GridColumnTypeEnum.Time)
-                                            textHTML = (textHTML == "") ? "" : new Date(new Date(textHTML)).vrToItalyString(DateModeEnum.Time, column.showSeconds);
-                                    }
+                                    if (column.type == GridColumnTypeEnum.Date) dateModeEnum = DateModeEnum.Date;
+                                    else if (column.type == GridColumnTypeEnum.DateTime) dateModeEnum = DateModeEnum.DateTime;
+                                    else if (column.type == GridColumnTypeEnum.Time) dateModeEnum = DateModeEnum.Time;
+                                    else if (column.type == GridColumnTypeEnum.LongDate) dateModeEnum = DateModeEnum.LongDate;
+                                    else if (column.type == GridColumnTypeEnum.LongDateTime) dateModeEnum = DateModeEnum.LongDateTime;
+                                    else if (column.type == GridColumnTypeEnum.LongWeekDate) dateModeEnum = DateModeEnum.LongWeekDate;
+                                    else if (column.type == GridColumnTypeEnum.ShortWeekDate) dateModeEnum = DateModeEnum.ShortWeekDate;
+
+                                    textHTML = (textHTML == "") ? "" : new Date(new Date(textHTML)).vrToItalyString(dateModeEnum, column.showSeconds);
                                 }
                                 break;
                             //#endregion
@@ -9099,6 +9181,9 @@ export class Grid extends VrControl
 
                 //#region Date, DateTime, Time
                 case GridColumnTypeEnum.Date:
+                case GridColumnTypeEnum.LongDate:
+                case GridColumnTypeEnum.LongWeekDate:
+                case GridColumnTypeEnum.ShortWeekDate:
                     {
                         let datePicker = createDatePicker(
                             {
@@ -9109,6 +9194,7 @@ export class Grid extends VrControl
                     }
                     break;
                 case GridColumnTypeEnum.DateTime:
+                case GridColumnTypeEnum.LongDateTime:
                     {
                         let dateTimePicker = createDatePicker(
                             {
@@ -9394,6 +9480,9 @@ export class Grid extends VrControl
 
                 //#region Date, DateTime, Time
                 case GridColumnTypeEnum.Date:
+                case GridColumnTypeEnum.LongDate:
+                case GridColumnTypeEnum.LongWeekDate:
+                case GridColumnTypeEnum.ShortWeekDate:
                     {
                         let datePicker = ControlManager.get<DatePicker>(this._elementId + "_datePicker_" + column.field);
                         datePicker.clear();
@@ -9413,6 +9502,7 @@ export class Grid extends VrControl
                     }
                     break;
                 case GridColumnTypeEnum.DateTime:
+                case GridColumnTypeEnum.LongDateTime:
                     {
                         let dateTimePicker = ControlManager.get<DatePicker>(this._elementId + "_dateTimePicker_" + column.field);
                         dateTimePicker.clear();
@@ -9644,12 +9734,16 @@ export class Grid extends VrControl
 
                 //#region Date, DateTime, Time
                 case GridColumnTypeEnum.Date:
+                case GridColumnTypeEnum.LongDate:
+                case GridColumnTypeEnum.LongWeekDate:
+                case GridColumnTypeEnum.ShortWeekDate:
                     {
                         let datePicker = ControlManager.get<DatePicker>(this._elementId + "_datePicker_" + column.field);
                         this._actualEditedItem[column.field] = datePicker.value();
                     }
                     break;
                 case GridColumnTypeEnum.DateTime:
+                case GridColumnTypeEnum.LongDateTime:
                     {
                         let dateTimePicker = ControlManager.get<DatePicker>(this._elementId + "_dateTimePicker_" + column.field);
                         this._actualEditedItem[column.field] = dateTimePicker.value();

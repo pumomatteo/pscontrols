@@ -6645,7 +6645,11 @@ export enum GridColumnTypeEnum
     DropDownTree = 18,
     DropDownTreeCheckboxes = 19,
     PasswordViewable = 20,
-    Color = 21
+    Color = 21,
+    LongDate = 22,
+    LongDateTime = 23,
+    LongWeekDate = 24,
+    ShortWeekDate = 25
 }
 export enum GridLabelUnderlineMode
 {
