@@ -1407,7 +1407,7 @@ export class Grid extends VrControl
     rebindSpecificRows(itemIdList: number[], update?: boolean, keepInfo?: boolean, loadingElement?: boolean | HTMLElement | JQuery | string): void;
     clear(triggerChange?: boolean): void;
     originalDataSource(): any[];
-    dataSource(dataItems?: any[], clearFilters?: boolean): any[];
+    dataSource(dataItems?: any[], clearFilters?: boolean, keepInfo?: boolean): any[];
     update(triggerDataBound?: boolean, keepInfo?: boolean): void;
     updateRow(dataItem: any, rebind?: boolean): void;
     updateRows(dataItems: any[], rebind?: boolean): void;

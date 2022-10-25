@@ -1655,7 +1655,7 @@ export class Grid extends VrControl
         return this._originalDataSource;
     }
 
-    dataSource(dataItems?: any[], clearFilters = false)
+    dataSource(dataItems?: any[], clearFilters = false, keepInfo = true)
     {
         if (dataItems != null)
         {
@@ -1694,6 +1694,16 @@ export class Grid extends VrControl
                     if (column.type != GridColumnTypeEnum.EditButton)
                         this._dictionaryDataValues.set(column.field, dataItems.map(k => String(k[column.field]).toLowerCase()));
                 }
+            }
+            //#endregion
+
+            //#region Keep info after rebind
+            if (keepInfo)
+            {
+                this._tempRebindInfo = new TempRebindInfo();
+                this._tempRebindInfo.checkedValues = this.getCheckedValues();
+                this._tempRebindInfo.page = this.pageSelected();
+                this._tempRebindInfo.yPosition = puma(this.container()).find(".grid_Body")[0].scrollTop;
             }
             //#endregion
 

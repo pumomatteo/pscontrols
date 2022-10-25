@@ -115,7 +115,7 @@ export declare class Grid extends VrControl {
     private manageDataSourceControls;
     private manageControls;
     originalDataSource(): any[];
-    dataSource(dataItems?: any[], clearFilters?: boolean): any[];
+    dataSource(dataItems?: any[], clearFilters?: boolean, keepInfo?: boolean): any[];
     update(triggerDataBound?: boolean, keepInfo?: boolean): void;
     private setDataSource;
     private drawTable;
