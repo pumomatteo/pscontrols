@@ -417,8 +417,6 @@ export class TextBox extends VrControl
     value<T extends string | number | null>(value?: string | number | null, triggerChange: boolean = true): T
     {
         let options = this.options<TextBoxOptions>();
-
-        this._oldValue = (this.isNumericTextBox()) ? this._numberValue : (this.element() as HTMLInputElement).value;
         if (value === null)
         {
             if (options.nullable)
@@ -440,6 +438,8 @@ export class TextBox extends VrControl
 
             if (triggerChange)
                 this.change();
+
+            this._oldValue = (this.isNumericTextBox()) ? UtilityManager.duplicate(this._numberValue) : (this.element() as HTMLInputElement).value;
         }
 
         if (this.isNumericTextBox())
