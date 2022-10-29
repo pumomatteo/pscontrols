@@ -1,6 +1,6 @@
 import { ControlManager } from "../../../src/managers/controlManager";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, vrEditorItemEnum, vrEditorToolbarModeEnum, div, vrEditorCustomItem, vrEditorCustomMenuItem, EditorCustomMenuItemType, createSplitButton, createSwitch, createButtonGroup, createComboBox, createDatePicker, createTextBox, createButton, createSeparator, createLabel, puma, createSpeechRecognizer, vrEditorSpeechRecognizerSettings, createWindow, PositionEnum, vrEditorFontSizeSettings, EditorSpeechRecognizerPositionEnum, EditorSpeechRecognizerModeEnum, createMultilineTextBox, IconClassLight, KeyEnum } from "../vr";
+import { ControlTypeEnum, vrEditorItemEnum, vrEditorToolbarModeEnum, div, vrEditorCustomItem, vrEditorCustomMenuItem, EditorCustomMenuItemType, createSplitButton, createSwitch, createButtonGroup, createComboBox, createDatePicker, createTextBox, createButton, createSeparator, createLabel, puma, createSpeechRecognizer, vrEditorSpeechRecognizerSettings, createWindow, PositionEnum, vrEditorFontSizeSettings, EditorSpeechRecognizerPositionEnum, EditorSpeechRecognizerModeEnum, createMultilineTextBox, IconClassicLight, KeyEnum } from "../vr";
 import { ButtonGroupOptions } from "./buttonGroup";
 import { SpeechRecognizer } from "./speechRecognizer";
 import { TextBox } from "./textbox";
@@ -624,7 +624,7 @@ export class Editor extends VrControl
         }, this._wndTempMessage.element())
 
         createButton({
-            icon: IconClassLight.Info,
+            icon: IconClassicLight.Info,
             cssContainer: "margin-right: 16px; margin-top: 4px;",
             css: "font-size: 17px; border: none; background: none;",
             colorSettings: { textColor: "#FFF" },

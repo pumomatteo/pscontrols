@@ -1,5 +1,5 @@
 import { DeviceManager } from "../../../src/managers/deviceManager";
-import { AnimationShowEnum, AnimationHideEnum, ColorSettings, div, icon, IconClassLight, IconClass, NotifierPositionEnum, NotifierTypeEnum, puma, shadowRoot, NotifierOptions, IconClassRegular } from "../vr";
+import { AnimationShowEnum, AnimationHideEnum, ColorSettings, div, icon, IconClassicLight, IconClass, NotifierPositionEnum, NotifierTypeEnum, puma, shadowRoot, NotifierOptions, IconClassicRegular } from "../vr";
 
 //#region Control
 export class Notifier
@@ -126,7 +126,7 @@ export class Notifier
 					color = "#B94A48";
 					backgroundColor = "#F2DEDE";
 					borderColor = "#EED3D7";
-					iconClass = IconClassRegular.CircleExclamation;
+					iconClass = IconClassicRegular.CircleExclamation;
 				}
 				break;
 			case NotifierTypeEnum.Warning:
@@ -134,7 +134,7 @@ export class Notifier
 					color = "#684200";
 					backgroundColor = "#FCF8E3";
 					borderColor = "#FBEED5";
-					iconClass = IconClassRegular.TriangleExclamation;
+					iconClass = IconClassicRegular.TriangleExclamation;
 				}
 				break;
 			case NotifierTypeEnum.Info:
@@ -142,7 +142,7 @@ export class Notifier
 					color = "#3A87AD";
 					backgroundColor = "#D9EDF7";
 					borderColor = "#BCE8F1";
-					iconClass = IconClassRegular.Info;
+					iconClass = IconClassicRegular.Info;
 				}
 				break;
 			case NotifierTypeEnum.Success:
@@ -150,7 +150,7 @@ export class Notifier
 					color = "#468847";
 					backgroundColor = "#DFF0D8";
 					borderColor = "#D6E9C6";
-					iconClass = IconClassRegular.Check;
+					iconClass = IconClassicRegular.Check;
 				}
 				break;
 		}

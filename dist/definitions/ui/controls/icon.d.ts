@@ -1,7 +1,7 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { IconClassLight } from "../vr";
+import { IconClassicLight } from "../vr";
 export declare class IconOptions extends VrControlOptions {
-    value?: string | IconClassLight;
+    value?: string | IconClassicLight;
     color?: string;
     fontSize?: number | string;
     cursorPointer?: boolean;
@@ -12,7 +12,7 @@ export declare class IconOptions extends VrControlOptions {
 }
 export declare class Icon extends VrControl {
     constructor(element: HTMLElement, options?: IconOptions | null);
-    value(value?: string | IconClassLight): string | undefined;
+    value(value?: string | IconClassicLight): string | undefined;
     fontSize(fontSize?: number | string): string | number | undefined;
     color(color?: string): string | undefined;
     click(): void;
@@ -22,6 +22,6 @@ export declare class Icon extends VrControl {
 }
 declare class VrIconClickEvent extends VrControlsEvent {
     sender: Icon;
-    value?: string | IconClassLight;
+    value?: string | IconClassicLight;
 }
 export {};

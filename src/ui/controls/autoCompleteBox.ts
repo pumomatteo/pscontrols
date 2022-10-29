@@ -1,6 +1,6 @@
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
-import { AutoCompleteBoxItem, ControlTypeEnum, createTextBox, div, span, puma, createIcon, IconClassLight, IconClass, AutoCompleteBoxComboSettings, AutoCompleteBoxItemSettings, WebApiModeEnum, ComboBoxItem, ComboBoxTreeModeEnum, KeyEnum, shadowRoot, IconClassRegular } from "../vr";
+import { AutoCompleteBoxItem, ControlTypeEnum, createTextBox, div, span, puma, createIcon, IconClassicLight, IconClass, AutoCompleteBoxComboSettings, AutoCompleteBoxItemSettings, WebApiModeEnum, ComboBoxItem, ComboBoxTreeModeEnum, KeyEnum, shadowRoot, IconClassicRegular } from "../vr";
 import { TextBox } from "./textbox";
 
 //#region Options
@@ -349,7 +349,7 @@ export class AutoCompleteBox extends VrControl
 
 		//#region Delete
 		createIcon({
-			value: IconClassRegular.Xmark,
+			value: IconClassicRegular.Xmark,
 			cssContainer: "margin-left: 5px; top: -1px;",
 			color: deleteIconColor,
 			onClick: (e) => this.removeItem(realItem.value!)
@@ -733,12 +733,12 @@ export class AutoCompleteBox extends VrControl
 			{
 				//#region Icon expand/collapse
 				let iconClassForDiv = "";
-				let iconClass = IconClassLight.CaretRight;
+				let iconClass = IconClassicLight.CaretRight;
 				if (options.comboSettings!.treeMode == ComboBoxTreeModeEnum.AllCollapsed)
 				{
 					if (item.parentValue != null)
 					{
-						iconClass = IconClassLight.CaretRight;
+						iconClass = IconClassicLight.CaretRight;
 						iconClassForDiv = "caret-right";
 					}
 				}
@@ -746,18 +746,18 @@ export class AutoCompleteBox extends VrControl
 				{
 					if (puma(li).parents(".vrComboBoxUl").length == 1)
 					{
-						iconClass = IconClassLight.CaretDown;
+						iconClass = IconClassicLight.CaretDown;
 						iconClassForDiv = "caret-down";
 					}
 					else
 					{
-						iconClass = IconClassLight.CaretRight;
+						iconClass = IconClassicLight.CaretRight;
 						iconClassForDiv = "caret-right";
 					}
 				}
 				else
 				{
-					iconClass = IconClassLight.CaretDown;
+					iconClass = IconClassicLight.CaretDown;
 					iconClassForDiv = "caret-down";
 				}
 
@@ -765,20 +765,20 @@ export class AutoCompleteBox extends VrControl
 				puma(UtilityManager.createIcon(iconClass)).vrAppendToPuma(divIcon);
 				puma(divIcon).click((e: any) =>
 				{
-					puma(e.currentTarget).children("i").removeClass(IconClassLight.CaretRight + " " + IconClassLight.CaretDown);
+					puma(e.currentTarget).children("i").removeClass(IconClassicLight.CaretRight + " " + IconClassicLight.CaretDown);
 					puma(e.currentTarget).removeClass("caret-right caret-down");
 
 					let ulChildren = puma(e.currentTarget).siblings(".vrComboBoxUl");
 					if (ulChildren.first().is(":visible"))
 					{
 						ulChildren.hide();
-						puma(e.currentTarget).children("i").addClass(IconClassLight.CaretRight);
+						puma(e.currentTarget).children("i").addClass(IconClassicLight.CaretRight);
 						puma(e.currentTarget).addClass("caret-right");
 					}
 					else
 					{
 						ulChildren.show();
-						puma(e.currentTarget).children("i").addClass(IconClassLight.CaretDown);
+						puma(e.currentTarget).children("i").addClass(IconClassicLight.CaretDown);
 						puma(e.currentTarget).addClass("caret-down");
 					}
 				});
@@ -880,9 +880,9 @@ export class AutoCompleteBox extends VrControl
 					puma(comboItemText).closest(".vrComboBoxLi").closest(".vrComboBoxUl").show();
 
 					puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").removeClass("caret-right caret-down");
-					puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").children("i").removeClass(IconClassLight.CaretRight + " " + IconClassLight.CaretDown);
+					puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").children("i").removeClass(IconClassicLight.CaretRight + " " + IconClassicLight.CaretDown);
 					puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").addClass("caret-down");
-					puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").children("i").addClass(IconClassLight.CaretDown);
+					puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").children("i").addClass(IconClassicLight.CaretDown);
 				}
 			}
 		}

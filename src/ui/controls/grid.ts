@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassRegular, IconClassSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, createIcon } from "../vr";
+import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, createIcon } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -584,12 +584,12 @@ export class Grid extends VrControl
                 let spbSettingsControl = createSplitButton(
                     {
 
-                        icon: IconClassLight.Gear,
+                        icon: IconClassicLight.Gear,
                         cssContainer: "top: 2px; margin-left: 5px;",
                         items:
                             [
                                 {
-                                    text: "Salva layout", icon: IconClassLight.Table, onClick: (e) =>
+                                    text: "Salva layout", icon: IconClassicLight.Table, onClick: (e) =>
                                     {
                                         if (this._actualLayout == null)
                                             prompt("Assegna un nome a questo layout", { title: "Salva layout" }).then((value) => this.saveLayout(value));
@@ -625,11 +625,11 @@ export class Grid extends VrControl
                                     }
                                 },
                                 {
-                                    text: "Gestisci layout", icon: IconClassLight.Table, value: "manageLayout",
+                                    text: "Gestisci layout", icon: IconClassicLight.Table, value: "manageLayout",
                                     onClick: (e) => this.openWindowLayout()
                                 },
                                 {
-                                    text: "Ripristina layout di base", icon: IconClassLight.Table, value: "restoreBaseLayout",
+                                    text: "Ripristina layout di base", icon: IconClassicLight.Table, value: "restoreBaseLayout",
                                     confirmationMessage: "Confermi di voler ripristinare il layout di base?",
                                     onClick: (e) => 
                                     {
@@ -638,15 +638,15 @@ export class Grid extends VrControl
                                     }
                                 },
                                 {
-                                    text: "Mostra/Nascondi", icon: IconClassLight.Eye,
+                                    text: "Mostra/Nascondi", icon: IconClassicLight.Eye,
                                     onClick: (e) => this.openWindowActions(GridActionEnum.ShowHide)
                                 },
                                 {
-                                    text: "Raggruppa per...", icon: IconClassLight.Users, visible: options.groupable,
+                                    text: "Raggruppa per...", icon: IconClassicLight.Users, visible: options.groupable,
                                     onClick: (e) => this.openWindowActions(GridActionEnum.GroupBy)
                                 },
                                 {
-                                    text: "Blocca/Sblocca", icon: IconClassLight.Lock, visible: options.lockable!,
+                                    text: "Blocca/Sblocca", icon: IconClassicLight.Lock, visible: options.lockable!,
                                     onClick: (e) => this.openWindowActions(GridActionEnum.LockUnlock)
                                 }
                             ]
@@ -1072,7 +1072,7 @@ export class Grid extends VrControl
                                 //#region Create filter
                                 let dateFilter = createButton(
                                     {
-                                        icon: IconClassLight.Filter,
+                                        icon: IconClassicLight.Filter,
                                         tooltip: "Applica filtro",
                                         onClick: (e) =>
                                         {
@@ -1082,7 +1082,7 @@ export class Grid extends VrControl
 
                                 let dateFilterRemove = createButton(
                                     {
-                                        icon: IconClassRegular.Xmark,
+                                        icon: IconClassicRegular.Xmark,
                                         tooltip: "Rimuovi filtro",
                                         colorSettings: { background: "#CCC" },
                                         visible: false,
@@ -1113,7 +1113,7 @@ export class Grid extends VrControl
                                 //#region Create filter
                                 let numberFilter = createButton(
                                     {
-                                        icon: IconClassLight.Filter,
+                                        icon: IconClassicLight.Filter,
                                         tooltip: "Applica filtro",
                                         onClick: (e) =>
                                         {
@@ -1123,7 +1123,7 @@ export class Grid extends VrControl
 
                                 let numberFilterRemove = createButton(
                                     {
-                                        icon: IconClassRegular.Xmark,
+                                        icon: IconClassicRegular.Xmark,
                                         tooltip: "Rimuovi filtro",
                                         colorSettings: { background: "#CCC" },
                                         visible: false,
@@ -1150,7 +1150,7 @@ export class Grid extends VrControl
                                 this._timeoutFilterText = 0;
                                 let txtValue = createTextBox(
                                     {
-                                        icon: (column.type == GridColumnTypeEnum.Custom) ? IconClassLight.Search : undefined,
+                                        icon: (column.type == GridColumnTypeEnum.Custom) ? IconClassicLight.Search : undefined,
                                         placeholder: (column.type == GridColumnTypeEnum.Custom) ? "Cerca..." : undefined,
                                         width: "Calc(100% - 27px)",
                                         attributes: [{ name: "field", value: column.field }],
@@ -1218,7 +1218,7 @@ export class Grid extends VrControl
                                 //#region Create filter button
                                 let btnStringFilter = createButton(
                                     {
-                                        icon: IconClassLight.Filter,
+                                        icon: IconClassicLight.Filter,
                                         tooltip: "Applica filtro",
                                         onClick: (e) =>
                                         {
@@ -1228,7 +1228,7 @@ export class Grid extends VrControl
 
                                 let btnStringFilterRemove = createButton(
                                     {
-                                        icon: IconClassRegular.Xmark,
+                                        icon: IconClassicRegular.Xmark,
                                         tooltip: "Rimuovi filtro",
                                         colorSettings: { background: "#CCC" },
                                         visible: false,
@@ -1970,20 +1970,20 @@ export class Grid extends VrControl
 
                             if (groupByDisplayText == null) groupByDisplayText = cellText;
 
-                            let groupByCaret = IconClassLight.CaretDown;
+                            let groupByCaret = IconClassicLight.CaretDown;
                             let childrenRows = this.getChildrenGroupRows(trGroupBy!, this._divBody);
                             if (this.thereAreLockedColumns())
                                 childrenRows = this.getChildrenGroupRows(trGroupBy!, this._divBodyLocked);
 
                             if (this.pageSelected() > 1 && !puma(childrenRows.allRows.vrFirst()).is(":visible"))
-                                groupByCaret = IconClassLight.CaretRight;
+                                groupByCaret = IconClassicLight.CaretRight;
 
                             let text = "<td width=16 class='grid_tdGroupByCollapse groupBy" + groupByField + "' style='border-right-color: transparent !important;'>"
                                 + "<i class='grid_tdGroupByCollapse " + groupByCaret + "'></i></td>"
                                 + "<td class='grid_tdGroupByName' style='font-weight: 500;' colspan=" + colspan + "><div class='grid_divGroupByName'>"
                                 + ((dataItems.length == 1 && dataItems[0]["defaultRow"] != null) ? "Nessun gruppo o elemento presente" : (groupByDisplayText == null || groupByDisplayText === "" || groupByDisplayText == "null") ? "Non impostato" : groupByDisplayText)
                                 + "</div>"
-                                + ((options.onGroupEditClick != null || (groupByField as GridGroupByItem).onEditClick != null) ? "<div style='position: relative; display: inline-flex; margin-left: 6px;" + ((options.checkboxes !== false) ? "top: -4px;" : "") + "'><i class='grid_groupByEdit " + IconClassLight.Pencil + "' style='cursor: pointer;'></div></i>" : "")
+                                + ((options.onGroupEditClick != null || (groupByField as GridGroupByItem).onEditClick != null) ? "<div style='position: relative; display: inline-flex; margin-left: 6px;" + ((options.checkboxes !== false) ? "top: -4px;" : "") + "'><i class='grid_groupByEdit " + IconClassicLight.Pencil + "' style='cursor: pointer;'></div></i>" : "")
                                 + "</td>";
                             puma(trGroupBy).vrAppendPuma(text);
                             if (options.lockable) puma(trGroupByLocked).vrAppendPuma(text);
@@ -2052,8 +2052,8 @@ export class Grid extends VrControl
 
                                         //#region Subgroup icon
                                         let childrenIcon = puma(childRow).find("i.grid_tdGroupByCollapse");
-                                        childrenIcon.removeClass(IconClassLight.CaretRight);
-                                        childrenIcon.addClass(IconClassLight.CaretDown);
+                                        childrenIcon.removeClass(IconClassicLight.CaretRight);
+                                        childrenIcon.addClass(IconClassicLight.CaretDown);
                                         //#endregion
                                     }
                                 }
@@ -2064,26 +2064,26 @@ export class Grid extends VrControl
                                 let iconNormal = puma(puma(this._divBody).find("tr:nth-child(" + indexIcon + ")").find("i")[0]);
                                 if (collapse)
                                 {
-                                    iconNormal.removeClass(IconClassLight.CaretDown);
-                                    iconNormal.addClass(IconClassLight.CaretRight);
+                                    iconNormal.removeClass(IconClassicLight.CaretDown);
+                                    iconNormal.addClass(IconClassicLight.CaretRight);
 
                                     if (options.lockable)
                                     {
                                         let iconLocked = puma(puma(this._divBodyLocked).find("tr:nth-child(" + indexIcon + ")").find("i")[0]);
-                                        iconLocked.removeClass(IconClassLight.CaretDown);
-                                        iconLocked.addClass(IconClassLight.CaretRight);
+                                        iconLocked.removeClass(IconClassicLight.CaretDown);
+                                        iconLocked.addClass(IconClassicLight.CaretRight);
                                     }
                                 }
                                 else
                                 {
-                                    iconNormal.removeClass(IconClassLight.CaretRight);
-                                    iconNormal.addClass(IconClassLight.CaretDown);
+                                    iconNormal.removeClass(IconClassicLight.CaretRight);
+                                    iconNormal.addClass(IconClassicLight.CaretDown);
 
                                     if (options.lockable)
                                     {
                                         let iconLocked = puma(puma(this._divBodyLocked).find("tr:nth-child(" + indexIcon + ")").find("i")[0]);
-                                        iconLocked.removeClass(IconClassLight.CaretRight);
-                                        iconLocked.addClass(IconClassLight.CaretDown);
+                                        iconLocked.removeClass(IconClassicLight.CaretRight);
+                                        iconLocked.addClass(IconClassicLight.CaretDown);
                                     }
                                 }
                                 //#endregion
@@ -2452,7 +2452,7 @@ export class Grid extends VrControl
                             //#endregion
 
                             //#region Icon/Image
-                            let iconClass = (column.type == GridColumnTypeEnum.EditButton) ? IconClassLight.Pencil : "";
+                            let iconClass = (column.type == GridColumnTypeEnum.EditButton) ? IconClassicLight.Pencil : "";
                             let spanIcon = "";
                             if (buttonSettings.icon != null)
                                 iconClass = buttonSettings.icon;
@@ -2788,7 +2788,7 @@ export class Grid extends VrControl
                         {
                             textAlign = GridAlignEnum.Center;
                             if (textHTML.vrIsNotNullOrEmpty())
-                                textHTML = "<i class='" + IconClassSolid.Circle + "' style='height: 20px; color: " + textHTML + "; display: inline-flex; align-items: center;'></i>";
+                                textHTML = "<i class='" + IconClassicSolid.Circle + "' style='height: 20px; color: " + textHTML + "; display: inline-flex; align-items: center;'></i>";
                         }
                         break;
                     //#endregion
@@ -3077,7 +3077,7 @@ export class Grid extends VrControl
                     //#region Previous buttons
                     createButton(
                         {
-                            icon: IconClassLight.Backward,
+                            icon: IconClassicLight.Backward,
                             css: "border-left: none; border-top-left-radius: 5px; border-bottom-left-radius: 5px;",
                             onClick: (e) =>
                             {
@@ -3087,7 +3087,7 @@ export class Grid extends VrControl
 
                     createButton(
                         {
-                            icon: IconClassLight.BackwardStep,
+                            icon: IconClassicLight.BackwardStep,
                             onClick: (e) =>
                             {
                                 let pageToSelect = this.pageSelected() - 1;
@@ -3161,7 +3161,7 @@ export class Grid extends VrControl
                     puma("<button id='" + this._elementId + "_btnNextPage'></button>").vrAppendToPuma(spanPagination);
                     createButton(
                         {
-                            icon: IconClassLight.ForwardStep,
+                            icon: IconClassicLight.ForwardStep,
                             onClick: (e) =>
                             {
                                 let pageToSelect = this.pageSelected() + 1;
@@ -3175,7 +3175,7 @@ export class Grid extends VrControl
                     puma("<button id='" + this._elementId + "_btnLastPage'></button>").vrAppendToPuma(spanPagination);
                     createButton(
                         {
-                            icon: IconClassLight.Forward,
+                            icon: IconClassicLight.Forward,
                             css: "border-top-right-radius: 5px; border-bottom-right-radius: 5px;",
                             onClick: (e) =>
                             {
@@ -4234,8 +4234,8 @@ export class Grid extends VrControl
                     thJq.find(".grid_headerThContent")[0].style.cssText += "color: #000 !important;";
             }
 
-            thJq.find("i").removeClass(IconClassLight.CaretUp);
-            thJq.find("i").removeClass(IconClassLight.CaretDown);
+            thJq.find("i").removeClass(IconClassicLight.CaretUp);
+            thJq.find("i").removeClass(IconClassicLight.CaretDown);
             thJq.removeAttr("sortMode");
             this._actualSortingInfo = null;
 
@@ -4275,18 +4275,18 @@ export class Grid extends VrControl
         this._actualSortingInfo = { field: field, mode: gridSortModeEnum };
         if (gridSortModeEnum == GridSortDirectionEnum.Asc)
         {
-            thJq.find("i").removeClass(IconClassLight.CaretDown);
-            thJq.find("i").removeClass(IconClassLight.CaretUp);
+            thJq.find("i").removeClass(IconClassicLight.CaretDown);
+            thJq.find("i").removeClass(IconClassicLight.CaretUp);
 
-            thJq.find("i").addClass(IconClassLight.CaretUp);
+            thJq.find("i").addClass(IconClassicLight.CaretUp);
             thJq.attr("sortMode", GridSortDirectionEnum.Asc);
         }
         else
         {
-            thJq.find("i").removeClass(IconClassLight.CaretDown);
-            thJq.find("i").removeClass(IconClassLight.CaretUp);
+            thJq.find("i").removeClass(IconClassicLight.CaretDown);
+            thJq.find("i").removeClass(IconClassicLight.CaretUp);
 
-            thJq.find("i").addClass(IconClassLight.CaretDown);
+            thJq.find("i").addClass(IconClassicLight.CaretDown);
             thJq.attr("sortMode", GridSortDirectionEnum.Desc);
         }
         //#endregion
@@ -4885,7 +4885,7 @@ export class Grid extends VrControl
                     [
                         {
                             type: WindowFooterItemTypeEnum.Custom, text: "Reimposta", mode: ButtonModeEnum.Primary,
-                            value: "restoreOriginal", icon: IconClassLight.RotateLeft, align: WindowFooterItemAlignEnum.Left,
+                            value: "restoreOriginal", icon: IconClassicLight.RotateLeft, align: WindowFooterItemAlignEnum.Left,
                             onClick: (e) =>
                             {
                                 let wndTableActionsContainer = puma("#" + this._elementId + "_divWindowTableActionsContainer");
@@ -4902,7 +4902,7 @@ export class Grid extends VrControl
                         },
                         {
                             type: WindowFooterItemTypeEnum.Custom, text: "Seleziona tutti", mode: ButtonModeEnum.Primary,
-                            value: "checkAll", icon: IconClassLight.Check, align: WindowFooterItemAlignEnum.Left,
+                            value: "checkAll", icon: IconClassicLight.Check, align: WindowFooterItemAlignEnum.Left,
                             onClick: (e) =>
                             {
                                 let wndTableActionsContainer = puma("#" + this._elementId + "_divWindowTableActionsContainer");
@@ -4915,7 +4915,7 @@ export class Grid extends VrControl
                             }
                         },
                         {
-                            type: WindowFooterItemTypeEnum.Custom, text: "Deseleziona tutti", icon: IconClassLight.Check,
+                            type: WindowFooterItemTypeEnum.Custom, text: "Deseleziona tutti", icon: IconClassicLight.Check,
                             align: WindowFooterItemAlignEnum.Left,
                             onClick: (e) =>
                             {
@@ -8608,7 +8608,7 @@ export class Grid extends VrControl
             case GridToolbarItemType.Add:
                 {
                     text = (toolbarItem.text != null) ? toolbarItem.text : "Aggiungi";
-                    iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassLight.Plus;
+                    iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassicLight.Plus;
                     buttonClass = (toolbarItem.value != null) ? "grid-" + toolbarItem.value : "grid-add";
                     vrButton = true;
                 }
@@ -8642,7 +8642,7 @@ export class Grid extends VrControl
             case GridToolbarItemType.Delete:
                 {
                     text = (toolbarItem.text != null) ? toolbarItem.text : "Elimina";
-                    iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassRegular.Xmark;
+                    iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassicRegular.Xmark;
                     buttonClass = (toolbarItem.value != null) ? "grid-" + toolbarItem.value : "grid-delete";
                     vrButton = true;
                 }
@@ -8650,7 +8650,7 @@ export class Grid extends VrControl
             case GridToolbarItemType.Excel:
                 {
                     text = (toolbarItem.text != null) ? toolbarItem.text : "Excel";
-                    iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassLight.FileExcel;
+                    iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassicLight.FileExcel;
                     buttonClass = (toolbarItem.value != null) ? "grid-" + toolbarItem.value : "grid-excel";
                     vrButton = true;
                     toolbarItem.backgroundColor = "#008a00";
@@ -8660,7 +8660,7 @@ export class Grid extends VrControl
             case GridToolbarItemType.ExcelWithHiddenColumns:
                 {
                     text = (toolbarItem.text != null) ? toolbarItem.text : "Excel";
-                    iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassLight.FileExcel;
+                    iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassicLight.FileExcel;
                     buttonClass = (toolbarItem.value != null) ? "grid-" + toolbarItem.value : "grid-excelHiddenColumns";
                     vrButton = true;
                     toolbarItem.backgroundColor = "#008a00";
@@ -8677,7 +8677,7 @@ export class Grid extends VrControl
             case GridToolbarItemType.Rebind:
                 {
                     text = (toolbarItem.text != null) ? toolbarItem.text : "Aggiorna";
-                    iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassLight.Refresh;
+                    iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassicLight.Refresh;
                     buttonClass = (toolbarItem.value != null) ? "grid-" + toolbarItem.value : "grid-rebind";
                     vrButton = true;
                 }
@@ -9325,7 +9325,7 @@ export class Grid extends VrControl
                 case GridColumnTypeEnum.Icon:
                     {
                         let iconItems: ComboBoxItem[] = [];
-                        for (let value of Object.values(IconClassLight))
+                        for (let value of Object.values(IconClassicLight))
                             iconItems.push({ text: value, value: value });
 
                         let comboIcons = createComboBox({
@@ -9341,10 +9341,10 @@ export class Grid extends VrControl
                             onAfterChange: (e) => 
                             {
                                 comboIcons.text("");
-                                if (e.value == null) comboIcons.icon(IconClassLight.Pumo)
+                                if (e.value == null) comboIcons.icon(IconClassicLight.Pumo)
                                 else comboIcons.icon(e.value);
                             },
-                            icon: IconClassLight.Pumo
+                            icon: IconClassicLight.Pumo
                         }, autoWindowId, null, this._elementId + "_comboIcons_" + column.field);
                     }
                     break;
@@ -9992,7 +9992,7 @@ export class Grid extends VrControl
                 toolbar:
                     [
                         {
-                            type: GridToolbarItemType.Custom, icon: IconClassRegular.Xmark, text: "Elimina",
+                            type: GridToolbarItemType.Custom, icon: IconClassicRegular.Xmark, text: "Elimina",
                             confirmationMessage: "Confermi di voler eliminare questo layout?",
                             onClick: (e) =>
                             {
@@ -10012,7 +10012,7 @@ export class Grid extends VrControl
                             }
                         },
                         {
-                            type: GridToolbarItemType.Custom, icon: IconClassLight.Plus, text: "Crea nuovo",
+                            type: GridToolbarItemType.Custom, icon: IconClassicLight.Plus, text: "Crea nuovo",
                             onClick: (e) =>
                             {
                                 prompt("Assegna un nome a questo layout", { title: "Nuovo layout" }).then((value) =>

@@ -1,10 +1,10 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, IconClassLight, IconClass, puma, confirm } from "../vr";
+import { ControlTypeEnum, IconClassicLight, IconClass, puma, confirm } from "../vr";
 
 //#region Options
 export class IconOptions extends VrControlOptions
 {
-	value?: string | IconClassLight;
+	value?: string | IconClassicLight;
 	color?: string;
 	fontSize?: number | string;
 	cursorPointer?: boolean;
@@ -68,7 +68,7 @@ export class Icon extends VrControl
 	}
 
 	//#region Methods
-	value(value?: string | IconClassLight)
+	value(value?: string | IconClassicLight)
 	{
 		let options = this.getOptions();
 		if (value != null) 
@@ -145,6 +145,6 @@ export class Icon extends VrControl
 class VrIconClickEvent extends VrControlsEvent
 {
 	sender: Icon;
-	value?: string | IconClassLight;
+	value?: string | IconClassicLight;
 }
 //#endregion

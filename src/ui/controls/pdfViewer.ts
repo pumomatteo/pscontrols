@@ -1,4 +1,4 @@
-import { ControlTypeEnum, createWindow, puma, IconClassLight, IconClass, div, createButton, span, createTextBox, createLabel, TextModeEnum, PdfViewerToolbarAreaEnum, PdfViewerToolbarSettings, ToolbarItemOnClickEvent, PdfViewerToolbarItem, notify, notifyError, OnContentRenderedEvent } from "../vr";
+import { ControlTypeEnum, createWindow, puma, IconClassicLight, IconClass, div, createButton, span, createTextBox, createLabel, TextModeEnum, PdfViewerToolbarAreaEnum, PdfViewerToolbarSettings, ToolbarItemOnClickEvent, PdfViewerToolbarItem, notify, notifyError, OnContentRenderedEvent } from "../vr";
 import { VrControlOptions, VrControl, AttributeSettings } from "../common";
 import { PDFDocumentProxy } from "types/pdfjs";
 import { Window, WindowOpenEvent } from "../controls/window";
@@ -133,13 +133,13 @@ export class PdfViewer extends VrControl
 		if (options.toolbar.navigation)
 		{
 			createButton({
-				icon: IconClassLight.Backward,
+				icon: IconClassicLight.Backward,
 				css: "background: none; border: none;",
 				onClick: (e) => this._txtCurrentPage.value(1)
 			}, spanLeftArea);
 
 			createButton({
-				icon: IconClassLight.CaretLeft,
+				icon: IconClassicLight.CaretLeft,
 				css: "background: none; border: none; margin-right: 5px; font-size: 20px; margin-top: 1px;",
 				onClick: (e) => this._txtCurrentPage.value(this._currentPage - 1)
 			}, spanLeftArea);
@@ -171,13 +171,13 @@ export class PdfViewer extends VrControl
 			}, spanLeftArea);
 
 			createButton({
-				icon: IconClassLight.CaretRight,
+				icon: IconClassicLight.CaretRight,
 				css: "background: none; border: none; font-size: 20px; margin-top: 1px;",
 				onClick: (e) => this._txtCurrentPage.value(this._currentPage + 1)
 			}, spanLeftArea);
 
 			createButton({
-				icon: IconClassLight.Forward,
+				icon: IconClassicLight.Forward,
 				css: "background: none; border: none;",
 				onClick: (e) => this._txtCurrentPage.value(this._state.pdf.numPages)
 			}, spanLeftArea);
@@ -189,7 +189,7 @@ export class PdfViewer extends VrControl
 		if (options.toolbar.zoom)
 		{
 			createButton({
-				icon: IconClassLight.MagnifyingGlassMinus,
+				icon: IconClassicLight.MagnifyingGlassMinus,
 				css: "border: none; background: none; font-size: 16px;",
 				cssContainer: "margin-right: 5px;",
 				tooltip: "Togli zoom",
@@ -201,7 +201,7 @@ export class PdfViewer extends VrControl
 			}, spanCenterArea);
 
 			createButton({
-				icon: IconClassLight.MagnifyingGlassPlus,
+				icon: IconClassicLight.MagnifyingGlassPlus,
 				css: "border: none; background: none; font-size: 16px;",
 				cssContainer: "margin-right: 5px;",
 				tooltip: "Aumenta zoom",
@@ -219,7 +219,7 @@ export class PdfViewer extends VrControl
 		if (options.toolbar.download)
 		{
 			createButton({
-				icon: IconClassLight.Download,
+				icon: IconClassicLight.Download,
 				css: "border: none; background: none; font-size: 16px;",
 				cssContainer: "margin-right: 5px;",
 				tooltip: "Scarica",
@@ -230,7 +230,7 @@ export class PdfViewer extends VrControl
 		if (options.toolbar.print)
 		{
 			createButton({
-				icon: IconClassLight.Print,
+				icon: IconClassicLight.Print,
 				css: "border: none; background: none; font-size: 16px;",
 				tooltip: "Stampa",
 				onClick: (e) => this.print()

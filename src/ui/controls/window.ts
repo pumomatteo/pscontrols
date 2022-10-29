@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, IconClassLight, IconClass, WindowFooterItemTypeEnum as WindowFooterItemTypeEnum, ButtonModeEnum, ColorSettings, WindowFooterItemAlignEnum, createButton, createSplitButton, puma, shadowRoot, WindowAutoSizeDirectionEnum, TextAlignEnum, createLabel, ButtonGroupItem, createSwitch, createButtonGroup, SelectionModeEnum, createCheckBox, createComboBox, createDatePicker, createTextBox, IconClassRegular, IconSettings, createSeparator } from "../vr";
+import { ControlTypeEnum, IconClassicLight, IconClass, WindowFooterItemTypeEnum as WindowFooterItemTypeEnum, ButtonModeEnum, ColorSettings, WindowFooterItemAlignEnum, createButton, createSplitButton, puma, shadowRoot, WindowAutoSizeDirectionEnum, TextAlignEnum, createLabel, ButtonGroupItem, createSwitch, createButtonGroup, SelectionModeEnum, createCheckBox, createComboBox, createDatePicker, createTextBox, IconClassicRegular, IconSettings, createSeparator } from "../vr";
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { SplitButtonItem } from "./splitButton";
 import { ControlManager } from "../../../src/managers/controlManager";
@@ -150,7 +150,7 @@ export class Window extends VrControl
             if (options.closeable || !options.hideCloseIcon)
             {
                 let spanCloseIcon = puma("<span class='vrWindowCloseIcon'></span>").vrAppendToPuma(this._divHeader);
-                puma(UtilityManager.createIcon(IconClassRegular.Xmark)).vrAppendToPuma(spanCloseIcon);
+                puma(UtilityManager.createIcon(IconClassicRegular.Xmark)).vrAppendToPuma(spanCloseIcon);
                 spanCloseIcon.click(() => this.close());
 
                 if (options.hideCloseIcon)
@@ -664,7 +664,7 @@ export class Window extends VrControl
         }
         else if (footerItem.type == WindowFooterItemTypeEnum.Separator)
         {
-            let separator = createSeparator({ 
+            let separator = createSeparator({
                 cssContainer: cssContainer
             }, this._divFooter)
 

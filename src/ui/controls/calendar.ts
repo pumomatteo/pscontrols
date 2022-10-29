@@ -1,5 +1,5 @@
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
-import { ControlTypeEnum, puma, createLabel, createButton, IconClassLight, TextAlignEnum, DateDepthEnum } from "../vr";
+import { ControlTypeEnum, puma, createLabel, createButton, IconClassicLight, TextAlignEnum, DateDepthEnum } from "../vr";
 import { ActualViewEnum } from "./datePicker";
 import { Label } from "./label";
 
@@ -97,7 +97,7 @@ export class Calendar extends VrControl
 
         let prevButton = createButton(
             {
-                icon: IconClassLight.CaretLeft,
+                icon: IconClassicLight.CaretLeft,
                 css: "border: none;",
                 cssContainer: "top: 2px;",
                 width: 30,
@@ -135,7 +135,7 @@ export class Calendar extends VrControl
 
         let nextButton = createButton(
             {
-                icon: IconClassLight.CaretRight,
+                icon: IconClassicLight.CaretRight,
                 css: "border: none;",
                 cssContainer: "top: 2px;",
                 width: 30,

@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, div, puma, confirm, createLabel, icon, IconClassLight, createButton, span, notify, NotifierTypeEnum, IconClassRegular, UploadValidationErrorTypeEnum } from "../vr";
+import { ControlTypeEnum, div, puma, confirm, createLabel, icon, IconClassicLight, createButton, span, notify, NotifierTypeEnum, IconClassicRegular, UploadValidationErrorTypeEnum } from "../vr";
 
 //#region Options
 export class UploadOptions extends VrControlOptions
@@ -203,7 +203,7 @@ export class Upload extends VrControl
 		if (options.multiple)
 			multiple = "multiple";
 
-		let labelInput = puma("<label for='" + this.element().id + "_vrUpload' class='vrUploadInput'><i class='" + IconClassLight.CloudArrowUp + " vrUploadBtnIcon'></i>" + options.uploadButton + "</label>").vrAppendToPuma(uploadContainer);
+		let labelInput = puma("<label for='" + this.element().id + "_vrUpload' class='vrUploadInput'><i class='" + IconClassicLight.CloudArrowUp + " vrUploadBtnIcon'></i>" + options.uploadButton + "</label>").vrAppendToPuma(uploadContainer);
 		this._inputFile = puma("<input " + multiple + " id='" + this.element().id + "_vrUpload' type='file' style='display: none;'/>").vrAppendToPuma(uploadContainer)[0];
 		if (!options.uploadButton)
 			puma(labelInput).hide();
@@ -450,13 +450,13 @@ export class Upload extends VrControl
 				fontSize: 11
 			}, spanPercentageSpinner);
 
-			let iconSpinner = icon(IconClassLight.Spinner, spanPercentageSpinner, { class: "vrUploadFileSpinner" });
+			let iconSpinner = icon(IconClassicLight.Spinner, spanPercentageSpinner, { class: "vrUploadFileSpinner" });
 			if (drawTypeEnum != UploadDrawTypeEnum.TempLoading)
 				puma(iconSpinner).hide();
 			//#endregion
 
 			createButton({
-				icon: (drawTypeEnum == UploadDrawTypeEnum.TempLoading) ? IconClassLight.Trash : IconClassRegular.Xmark,
+				icon: (drawTypeEnum == UploadDrawTypeEnum.TempLoading) ? IconClassicLight.Trash : IconClassicRegular.Xmark,
 				cssContainer: "width: 14px; margin-left: 5px;",
 				css: "border: none; background: none; font-size: 18px; color: red; width: 14px; padding: 0px;",
 				class: "vrUploadFileButtonAction",
@@ -656,10 +656,10 @@ export class Upload extends VrControl
 					for (let iconClass of iconClassList)
 						fileButtonActionIcon.classList.remove(iconClass);
 
-					puma(fileButtonActionIcon).addClass(IconClassRegular.Xmark);
+					puma(fileButtonActionIcon).addClass(IconClassicRegular.Xmark);
 
 					puma(divFile).find(".vrUploadDivFilePercentage").remove();
-					puma(divFile).find(".vrUploadFileName").vrAppendPuma("<i class='" + IconClassLight.Check + "' style='color: green; margin-left: 5px;' title='File caricato correttamente'></i>");
+					puma(divFile).find(".vrUploadFileName").vrAppendPuma("<i class='" + IconClassicLight.Check + "' style='color: green; margin-left: 5px;' title='File caricato correttamente'></i>");
 				}
 				//#endregion
 			}
@@ -697,11 +697,11 @@ export class Upload extends VrControl
 					for (let iconClass of iconClassList)
 						fileButtonActionIcon.classList.remove(iconClass);
 
-					puma(fileButtonActionIcon).addClass(IconClassRegular.Xmark);
+					puma(fileButtonActionIcon).addClass(IconClassicRegular.Xmark);
 
 					let uploadFileIcon = puma(divFile).find("i.vrUploadFileIcon");
 					uploadFileIcon.removeClass();
-					uploadFileIcon.addClass(IconClassLight.TriangleExclamation + " vrUploadFileIcon");
+					uploadFileIcon.addClass(IconClassicLight.TriangleExclamation + " vrUploadFileIcon");
 					uploadFileIcon[0].style.cssText += "color: red; margin-left: -3px;";
 
 					puma(divFile).find(".vrUploadDivFilePercentage").remove();
@@ -783,41 +783,41 @@ export class Upload extends VrControl
 	private getFileInfo(mimeType: string)
 	{
 		//#region Icon
-		let icon = IconClassLight.File;
+		let icon = IconClassicLight.File;
 		let color = "#51B3E1";
 
 		switch (mimeType)
 		{
 			case "application/pdf":
 				{
-					icon = IconClassLight.FilePdf;
+					icon = IconClassicLight.FilePdf;
 					color = "coral";
 				}
 				break;
 			case "image/png":
 			case "image/jpeg":
 				{
-					icon = IconClassLight.FileImage;
+					icon = IconClassicLight.FileImage;
 					color = "#adbd29";
 				}
 				break;
 			case "application/msword":
 			case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
 				{
-					icon = IconClassLight.FileWord;
+					icon = IconClassicLight.FileWord;
 					color = "#01A6F0";
 				}
 				break;
 			case "application/vnd.ms-excel":
 			case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
 				{
-					icon = IconClassLight.FileExcel;
+					icon = IconClassicLight.FileExcel;
 					color = "#1D6F42";
 				}
 				break;
 			case "text/plain":
 				{
-					icon = IconClassLight.FileLines;
+					icon = IconClassicLight.FileLines;
 					color = "#bdbdbd";
 				}
 				break;
@@ -826,7 +826,7 @@ export class Upload extends VrControl
 			case "application/x-compressed":
 			case "multipart/x-zip":
 				{
-					icon = IconClassLight.FileZipper;
+					icon = IconClassicLight.FileZipper;
 					color = "#b1b4d3";
 				}
 				break;
@@ -837,12 +837,12 @@ export class Upload extends VrControl
 			case "video/x-msvideo":
 			case "video/x-ms-wmv":
 				{
-					icon = IconClassLight.FileVideo;
+					icon = IconClassicLight.FileVideo;
 					color = "purple";
 				}
 				break;
 		}
-		return { icon: <IconClassLight>icon, color: color };
+		return { icon: <IconClassicLight>icon, color: color };
 	}
 
 	private getMimeTypeFromExtension(extension: string)

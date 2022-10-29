@@ -1,4 +1,4 @@
-import { ControlTypeEnum, createButton, div, IconClassLight, puma, SpeechRecognizerOptions } from "../vr";
+import { ControlTypeEnum, createButton, div, IconClassicLight, puma, SpeechRecognizerOptions } from "../vr";
 import { VrControl, VrControlsEvent } from "../common";
 import { Button } from "./button";
 
@@ -34,7 +34,7 @@ export class SpeechRecognizer extends VrControl
 
 		//#region Microphone
 		this._btnMicrophone = createButton({
-			icon: IconClassLight.Microphone,
+			icon: IconClassicLight.Microphone,
 			css: "border: none; background: none; border-radius: 20px; font-size: " + options.size + "px;",
 			tag: "deactivated",
 			iconSettings: { fontSize: options.size },
@@ -70,7 +70,7 @@ export class SpeechRecognizer extends VrControl
 		{
 			//#region Browser not supported
 			this._btnMicrophone.disable();
-			this._btnMicrophone.icon(IconClassLight.MicrophoneSlash);
+			this._btnMicrophone.icon(IconClassicLight.MicrophoneSlash);
 			this._btnMicrophone.tooltip("Il browser non supporta questa funzionalità");
 			//#endregion
 		}

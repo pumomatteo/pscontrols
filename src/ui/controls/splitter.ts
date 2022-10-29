@@ -1,5 +1,5 @@
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
-import { ControlTypeEnum, createIcon, IconClassSolid, IconClass, puma, SplitterCollapsableSettings, SplitterCollapseDirectionEnum, SplitterDirectionEnum } from "../vr";
+import { ControlTypeEnum, createIcon, IconClassicSolid, IconClass, puma, SplitterCollapsableSettings, SplitterCollapseDirectionEnum, SplitterDirectionEnum } from "../vr";
 
 //#region Options
 export class SplitterOptions extends VrControlOptions
@@ -67,25 +67,25 @@ export class Splitter extends VrControl
 			{
 				case SplitterCollapseDirectionEnum.Left:
 					{
-						icon = IconClassSolid.CaretLeft;
+						icon = IconClassicSolid.CaretLeft;
 						cssContainer = "left: -5px; top: Calc(50% - 8px);";
 					}
 					break;
 				case SplitterCollapseDirectionEnum.Right:
 					{
-						icon = IconClassSolid.CaretRight;
+						icon = IconClassicSolid.CaretRight;
 						cssContainer = "left: 0px; top: Calc(50% - 8px);";
 					}
 					break;
 				case SplitterCollapseDirectionEnum.Up:
 					{
-						icon = IconClassSolid.CaretUp;
+						icon = IconClassicSolid.CaretUp;
 						cssContainer = "top: -10px; left: Calc(50% - 5px);";
 					}
 					break;
 				case SplitterCollapseDirectionEnum.Down:
 					{
-						icon = IconClassSolid.CaretDown;
+						icon = IconClassicSolid.CaretDown;
 						cssContainer = "top: -5px; left: Calc(50% - 5px)";
 					}
 					break;
@@ -135,7 +135,7 @@ export class Splitter extends VrControl
 								{
 									puma(this._previousDiv).hide();
 									puma(this._nextDiv).width("100%");
-									e.sender.value(IconClassSolid.CaretRight);
+									e.sender.value(IconClassicSolid.CaretRight);
 									e.sender.cssContainer("left: 0px;");
 								}
 								else
@@ -147,7 +147,7 @@ export class Splitter extends VrControl
 										width = "Calc(100% - " + this._previousDiv.style.width.vrGetNumericPart() + "px)";
 									puma(this._nextDiv).width(width);
 
-									e.sender.value(IconClassSolid.CaretLeft);
+									e.sender.value(IconClassicSolid.CaretLeft);
 									e.sender.cssContainer("left: -5px;");
 								}
 								//#endregion
@@ -160,7 +160,7 @@ export class Splitter extends VrControl
 								{
 									puma(this._previousDiv).width("100%");
 									puma(this._nextDiv).hide();
-									e.sender.value(IconClassSolid.CaretLeft);
+									e.sender.value(IconClassicSolid.CaretLeft);
 									e.sender.cssContainer("left: -5px;");
 								}
 								else
@@ -171,7 +171,7 @@ export class Splitter extends VrControl
 									puma(this._previousDiv).width(width);
 
 									puma(this._nextDiv).show();
-									e.sender.value(IconClassSolid.CaretRight);
+									e.sender.value(IconClassicSolid.CaretRight);
 									e.sender.cssContainer("left: 0px;");
 								}
 								//#endregion
@@ -184,7 +184,7 @@ export class Splitter extends VrControl
 								{
 									puma(this._previousDiv).height("100%");
 									puma(this._nextDiv).hide();
-									e.sender.value(IconClassSolid.CaretUp);
+									e.sender.value(IconClassicSolid.CaretUp);
 									e.sender.cssContainer("top: -10px;");
 								}
 								else
@@ -195,7 +195,7 @@ export class Splitter extends VrControl
 									puma(this._previousDiv).height(height);
 
 									puma(this._nextDiv).show();
-									e.sender.value(IconClassSolid.CaretDown);
+									e.sender.value(IconClassicSolid.CaretDown);
 									e.sender.cssContainer("top: -5px;");
 								}
 								//#endregion
@@ -208,7 +208,7 @@ export class Splitter extends VrControl
 								{
 									puma(this._previousDiv).hide();
 									puma(this._nextDiv).height("100%");
-									e.sender.value(IconClassSolid.CaretDown);
+									e.sender.value(IconClassicSolid.CaretDown);
 									e.sender.cssContainer("top: -5px;");
 								}
 								else
@@ -220,7 +220,7 @@ export class Splitter extends VrControl
 										height = "Calc(100% - " + this._previousDiv.style.height.vrGetNumericPart() + "px)";
 									puma(this._nextDiv).height(height);
 
-									e.sender.value(IconClassSolid.CaretUp);
+									e.sender.value(IconClassicSolid.CaretUp);
 									e.sender.cssContainer("top: -10px;");
 								}
 								//#endregion

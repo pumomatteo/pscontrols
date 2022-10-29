@@ -1,6 +1,6 @@
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ComboBoxTypeEnum, ControlTypeEnum, createButton, createComboBox, createLabel, createScheduler, DateModeEnum, DayOfWeekEnum, div, GridLabelUnderlineMode, IconClassLight, IconClass, puma, SchedulerData, SchedulerResource, SchedulerView, SchedulerViewEnum, TextAlignEnum, vrEditorCustomItem } from "../vr";
+import { ComboBoxTypeEnum, ControlTypeEnum, createButton, createComboBox, createLabel, createScheduler, DateModeEnum, DayOfWeekEnum, div, GridLabelUnderlineMode, IconClassicLight, IconClass, puma, SchedulerData, SchedulerResource, SchedulerView, SchedulerViewEnum, TextAlignEnum, vrEditorCustomItem } from "../vr";
 import { ComboBox } from "./comboBox";
 import { Scheduler, SchedulerAppointmentClickEvent, SchedulerAvailabilityClickEvent, SchedulerTimeslotClickEvent } from "./scheduler";
 
@@ -82,7 +82,7 @@ export class MultiScheduler extends VrControl
 			if (options.showNavigateButtons)
 			{
 				createButton({
-					icon: IconClassLight.ChevronLeft,
+					icon: IconClassicLight.ChevronLeft,
 					cssContainer: "position: absolute; left: 10px; z-index: 9999999999999;",
 					css: "border: none; background: none;",
 					onClick: (e) =>
@@ -99,7 +99,7 @@ export class MultiScheduler extends VrControl
 				}, divDates);
 
 				createButton({
-					icon: IconClassLight.ChevronRight,
+					icon: IconClassicLight.ChevronRight,
 					cssContainer: "position: absolute; right: 10px; z-index: 9999999999999;",
 					css: "border: none; background: none;",
 					onClick: (e) =>

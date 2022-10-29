@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, SelectionModeEnum, createCheckBox, puma, ButtonGroupItem, span, createButton, ControlPositionEnum, IconClassLight } from "../vr";
+import { ControlTypeEnum, SelectionModeEnum, createCheckBox, puma, ButtonGroupItem, span, createButton, ControlPositionEnum, IconClassicLight } from "../vr";
 import { UtilityManager } from "../../managers/utilityManager";
 import { Button } from "./button";
 
@@ -43,7 +43,7 @@ export class ButtonGroup extends VrControl
         //#region Back/Forward buttons for horizontal scroll
         let intervalScrolling = 0;
         this._btnScrollBack = createButton({
-            icon: IconClassLight.CaretLeft,
+            icon: IconClassicLight.CaretLeft,
             visible: false,
             enable: false,
             colorSettings: { background: "#f1f1f1" },
@@ -61,7 +61,7 @@ export class ButtonGroup extends VrControl
         puma(this._btnScrollBack.container()).vrInsertBeforePuma(this.element())
 
         this._btnScrollForward = createButton({
-            icon: IconClassLight.CaretRight,
+            icon: IconClassicLight.CaretRight,
             visible: false,
             colorSettings: { background: "#f1f1f1" },
             css: "border-top-left-radius: 0px; border-bottom-left-radius: 0px;",

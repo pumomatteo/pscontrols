@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, createIcon, createTextBox, IconClassLight, IconClass, puma } from "../vr";
+import { ControlTypeEnum, createIcon, createTextBox, IconClassicLight, IconClass, puma } from "../vr";
 import { TextBox } from "./textbox";
 
 //#region Options
@@ -38,7 +38,7 @@ export class SearchBar extends VrControl
 		if (options.placeholder == null) options.placeholder = "Cerca...";
 
 		if (options.icon == null) options.icon = true;
-		if (options.icon == true) options.icon = IconClassLight.Search;
+		if (options.icon == true) options.icon = IconClassicLight.Search;
 		//#endregion
 
 		super(element, options, ControlTypeEnum.SearchBar);

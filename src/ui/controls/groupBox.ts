@@ -1,6 +1,6 @@
 import { ControlManager } from "../../../src/managers/controlManager";
 import { VrControlOptions, VrControl } from "../common";
-import { ControlTypeEnum, createButton, createCheckBox, div, IconClassLight, IconClass, puma } from "../vr";
+import { ControlTypeEnum, createButton, createCheckBox, div, IconClassicLight, IconClass, puma } from "../vr";
 import { Button, ButtonOptions } from "./button";
 import { CheckBox } from "./checkbox";
 
@@ -56,7 +56,7 @@ export class GroupBox extends VrControl
 		if (options.collapsable)
 		{
 			this._btnCollapse = createButton({
-				icon: IconClassLight.CaretUp,
+				icon: IconClassicLight.CaretUp,
 				cssContainer: "float: left; margin-top: -2px;",
 				css: "border: none; background: none;",
 				onClick: (e) =>
@@ -144,7 +144,7 @@ export class GroupBox extends VrControl
 	{
 		this._btnCollapse.tag("collapsed");
 		puma(this._contentContainer).hide();
-		this._btnCollapse.icon(IconClassLight.CaretDown);
+		this._btnCollapse.icon(IconClassicLight.CaretDown);
 
 		let options = this.getOptions();
 		if (options.onCollapse != null) 
@@ -159,7 +159,7 @@ export class GroupBox extends VrControl
 	{
 		this._btnCollapse.tag("");
 		puma(this._contentContainer).show();
-		this._btnCollapse.icon(IconClassLight.CaretUp);
+		this._btnCollapse.icon(IconClassicLight.CaretUp);
 
 		let options = this.getOptions();
 		if (options.onExpand != null) 

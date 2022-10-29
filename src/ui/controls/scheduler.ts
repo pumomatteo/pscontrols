@@ -1,6 +1,6 @@
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { confirm, ButtonGroupItem, ComboBoxTypeEnum, ControlTypeEnum, createButton, createButtonGroup, createComboBox, createDatePicker, DateFormatEnum, DayOfWeekEnum, div, IconClassLight, IconClass, NotifierTypeEnum, notify, puma, SchedulerData, SchedulerNavigateActionEnum, SchedulerResource, SchedulerSlotElement, SchedulerView, SchedulerViewEnum, createSwitch, showLoader, hideLoader, SchedulerSaturationInfo, SchedulerSaturationDay, SchedulerSaturationWeekByResource, SchedulerSaturationFourWeeks, SaturationResource } from "../vr";
+import { confirm, ButtonGroupItem, ComboBoxTypeEnum, ControlTypeEnum, createButton, createButtonGroup, createComboBox, createDatePicker, DateFormatEnum, DayOfWeekEnum, div, IconClassicLight, IconClass, NotifierTypeEnum, notify, puma, SchedulerData, SchedulerNavigateActionEnum, SchedulerResource, SchedulerSlotElement, SchedulerView, SchedulerViewEnum, createSwitch, showLoader, hideLoader, SchedulerSaturationInfo, SchedulerSaturationDay, SchedulerSaturationWeekByResource, SchedulerSaturationFourWeeks, SaturationResource } from "../vr";
 import { Button } from "./button";
 import { ButtonGroup } from "./buttonGroup";
 import { ComboBox } from "./comboBox";
@@ -156,7 +156,7 @@ export class Scheduler extends VrControl
 
 		let timeout = 0;
 		createButton({
-			icon: IconClassLight.CaretLeft,
+			icon: IconClassicLight.CaretLeft,
 			width: 30,
 			onClick: (e) =>
 			{
@@ -173,7 +173,7 @@ export class Scheduler extends VrControl
 		}, divToolbar);
 
 		createButton({
-			icon: IconClassLight.CaretRight,
+			icon: IconClassicLight.CaretRight,
 			width: 30,
 			cssContainer: "margin-left: 5px;",
 			onClick: (e) =>
@@ -230,7 +230,7 @@ export class Scheduler extends VrControl
 		}, divToolbar);
 
 		this._btnExpand = createButton({
-			icon: IconClassLight.Expand,
+			icon: IconClassicLight.Expand,
 			cssContainer: "float: right; margin-left: 5px;",
 			onClick: (e) => 
 			{
@@ -254,7 +254,7 @@ export class Scheduler extends VrControl
 		}, divToolbar);
 
 		this._btnCollapse = createButton({
-			icon: IconClassLight.Collapse,
+			icon: IconClassicLight.Collapse,
 			cssContainer: "float: right; margin-left: 5px;",
 			visible: false,
 			onClick: (e) => 

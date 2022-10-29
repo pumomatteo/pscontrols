@@ -1,4 +1,4 @@
-import { IconClassLight, jqueryVariable, puma, WebApiModeEnum, span, notifyError, IconClass } from "../ui/vr";
+import { IconClassicLight, jqueryVariable, puma, WebApiModeEnum, span, notifyError, IconClass } from "../ui/vr";
 
 export class UtilityManager
 {

@@ -1,6 +1,6 @@
 import { ColorPickerManager } from "../../../src/managers/colorPickerManager";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ColorPickerModeEnum, ColorPickerRgbaValue, ControlTypeEnum, createIcon, div, IconClassLight, IconClass, puma } from "../vr";
+import { ColorPickerModeEnum, ColorPickerRgbaValue, ControlTypeEnum, createIcon, div, IconClassicLight, IconClass, puma } from "../vr";
 
 declare var JSColor: any;
 
@@ -105,7 +105,7 @@ export class ColorPicker extends VrControl
 		{
 			let divOpen = div(this.element(), { class: "vrColorPickerDivOpen", css: "position: absolute; cursor: pointer; text-align: center; bottom: 0px; left: 0px; height: 5px; background-color: rgba(0, 0, 0, 0.2); width: 24px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border: solid 1px #CCC; border-top: none;" })
 			createIcon({
-				value: IconClassLight.CaretUp,
+				value: IconClassicLight.CaretUp,
 				color: "rgba(255, 255, 255, 0.8)",
 				width: "100%",
 				fontSize: 12,
@@ -123,7 +123,7 @@ export class ColorPicker extends VrControl
 			let clearIcon = createIcon({
 				id: element.id + "_someStuff",
 				cssContainer: "background-color: #FFF; width: 20px; height: 20px; cursor: pointer; position: absolute; left: 13px; z-index: 9999999; top: " + ((options.showInput) ? "155" : "152") + "px;",
-				value: IconClassLight.Eraser,
+				value: IconClassicLight.Eraser,
 				classContainer: "vrColorPickerClearIcon",
 				visible: false,
 				onClick: (e) => this.clear(true)

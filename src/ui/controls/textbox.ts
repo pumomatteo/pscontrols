@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, TextAlignEnum, TextModeEnum, TextTransformModeEnum, PositionEnum, ErrorModeEnum, ErrorPositionEnum, ErrorHideModeEnum, puma, IconClassLight, IconClass, KeyEnum, icon, TextBoxLengthSettings, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, TextBoxValidationSettings, TextBoxValidationErrorEnum, TextBoxRegexSettings } from "../vr";
+import { ControlTypeEnum, TextAlignEnum, TextModeEnum, TextTransformModeEnum, PositionEnum, ErrorModeEnum, ErrorPositionEnum, ErrorHideModeEnum, puma, IconClassicLight, IconClass, KeyEnum, icon, TextBoxLengthSettings, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, TextBoxValidationSettings, TextBoxValidationErrorEnum, TextBoxRegexSettings } from "../vr";
 import { UtilityManager } from "../../managers/utilityManager";
 import { DeviceManager } from "../../../src/managers/deviceManager";
 
@@ -176,7 +176,7 @@ export class TextBox extends VrControl
         if (options.mode == TextModeEnum.PasswordViewable)
         {
             this.viewPassword(false);
-            this._passwordViewableIcon = icon(IconClassLight.EyeSlash, this.container(), { css: "position: absolute; right: 5px; bottom: 7px; font-size: 14px; opacity: 0.8; cursor: pointer;" })
+            this._passwordViewableIcon = icon(IconClassicLight.EyeSlash, this.container(), { css: "position: absolute; right: 5px; bottom: 7px; font-size: 14px; opacity: 0.8; cursor: pointer;" })
             puma(this._passwordViewableIcon).on("click", (e: JQuery.ClickEvent) =>
             {
                 this.viewPassword(this.viewPassword());
@@ -644,18 +644,18 @@ export class TextBox extends VrControl
     {
         if (state != null)
         {
-            puma(this._passwordViewableIcon).removeClass(IconClassLight.EyeSlash);
-            puma(this._passwordViewableIcon).removeClass(IconClassLight.Eye);
+            puma(this._passwordViewableIcon).removeClass(IconClassicLight.EyeSlash);
+            puma(this._passwordViewableIcon).removeClass(IconClassicLight.Eye);
 
             if (state) 
             {
                 puma(this.element()).removeClass("noViewablePassword");
-                puma(this._passwordViewableIcon).addClass(IconClassLight.Eye);
+                puma(this._passwordViewableIcon).addClass(IconClassicLight.Eye);
             }
             else 
             {
                 puma(this.element()).addClass("noViewablePassword");
-                puma(this._passwordViewableIcon).addClass(IconClassLight.EyeSlash);
+                puma(this._passwordViewableIcon).addClass(IconClassicLight.EyeSlash);
             }
         }
         return this.element().classList.contains("noViewablePassword");
@@ -707,7 +707,7 @@ export class TextBox extends VrControl
 
         let errorIcon = puma(this.container()).find(".vrTextBoxErrorIcon")[0];
         if (errorIcon == null)
-            errorIcon = puma("<i class='" + IconClassLight.TriangleExclamation + " vrTextBoxErrorIcon'></i>").vrInsertAfterPuma(this.element())[0];
+            errorIcon = puma("<i class='" + IconClassicLight.TriangleExclamation + " vrTextBoxErrorIcon'></i>").vrInsertAfterPuma(this.element())[0];
         puma(errorIcon).show();
 
         if (this.label() != null)

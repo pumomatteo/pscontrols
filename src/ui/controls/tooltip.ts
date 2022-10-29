@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { AnimationHideEnum, AnimationShowEnum, ColorSettings, ControlTypeEnum, div, icon, IconClassLight, IconClass, NotifierOptions, puma, TooltipHideOnEnum, TooltipPositionEnum, TooltipShowOnEnum, TooltipTypeEnum } from "../vr";
+import { AnimationHideEnum, AnimationShowEnum, ColorSettings, ControlTypeEnum, div, icon, IconClassicLight, IconClass, NotifierOptions, puma, TooltipHideOnEnum, TooltipPositionEnum, TooltipShowOnEnum, TooltipTypeEnum } from "../vr";
 import { Notifier } from "./notifier";
 
 //#region Options

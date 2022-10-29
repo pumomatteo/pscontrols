@@ -1,4 +1,4 @@
-import { ControlTypeEnum, ButtonModeEnum, ColorSettings, createButton, IconClassLight, IconClass, PopupSettings, puma, shadowRoot, createSeparator, OrientationEnum } from "../vr";
+import { ControlTypeEnum, ButtonModeEnum, ColorSettings, createButton, IconClassicLight, IconClass, PopupSettings, puma, shadowRoot, createSeparator, OrientationEnum } from "../vr";
 import { VrControlOptions, VrControl } from "../common";
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { Button } from "./button";
@@ -114,7 +114,7 @@ export class SplitButton extends VrControl
 
         //#region Picker icon
         let classPickerIcon = (options.onClick != null) ? "vrDivPickerIconSplitButton" : "vrDivPickerIconSplitButtonFlat";
-        let pickerIcon = UtilityManager.createIcon(IconClassLight.CaretDown);
+        let pickerIcon = UtilityManager.createIcon(IconClassicLight.CaretDown);
         let divPickerIcon = puma("<div class='" + classPickerIcon + "'></div>").vrAppendToPuma(this.element())[0];
         puma(divPickerIcon).vrAppendPuma(pickerIcon);
         puma(divPickerIcon).click(() => 

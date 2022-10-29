@@ -1,5 +1,5 @@
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
-import { ControlTypeEnum, ComboBoxTypeEnum, ComboBoxTreeModeEnum, ComboBoxItem, IconClassLight, IconClass, createTextBox, ControlPositionEnum, TextAlignEnum, PositionEnum, PopupSettings, ComboBoxWebServiceSettings, puma, createCheckBox, CheckboxStateEnum, KeyEnum, WebApiModeEnum, shadowRoot, createButton, ComboBoxTemplateEvent, ComboBoxChangeEvent, ComboBoxChangingEvent, ComboBoxClearEvent, SortDirectionEnum, SortByComboSettings, IconClassRegular, icon, IconClassSolid } from "../vr";
+import { ControlTypeEnum, ComboBoxTypeEnum, ComboBoxTreeModeEnum, ComboBoxItem, IconClassicLight, IconClass, createTextBox, ControlPositionEnum, TextAlignEnum, PositionEnum, PopupSettings, ComboBoxWebServiceSettings, puma, createCheckBox, CheckboxStateEnum, KeyEnum, WebApiModeEnum, shadowRoot, createButton, ComboBoxTemplateEvent, ComboBoxChangeEvent, ComboBoxChangingEvent, ComboBoxClearEvent, SortDirectionEnum, SortByComboSettings, IconClassicRegular, icon, IconClassicSolid } from "../vr";
 import { UtilityManager } from "../../managers/utilityManager";
 import { TextBox } from "./textbox";
 import { CheckBox } from "./checkbox";
@@ -180,7 +180,7 @@ export class ComboBox extends VrControl
         //#endregion
 
         //#region Picker icon
-        let pickerIcon = UtilityManager.createIcon(IconClassLight.CaretDown);
+        let pickerIcon = UtilityManager.createIcon(IconClassicLight.CaretDown);
         let classPickerIcon = "vrDivPickerIconComboBox";
         if (this._isDivElement)
             classPickerIcon = "vrDivPickerIconComboBoxDropDown";
@@ -206,7 +206,7 @@ export class ComboBox extends VrControl
         //#endregion
 
         //#region Clear button
-        let clearIcon = UtilityManager.createIcon(IconClassRegular.Xmark);
+        let clearIcon = UtilityManager.createIcon(IconClassicRegular.Xmark);
         let divClearIcon = puma("<div class='vrDivComboBoxClearIcon' style='display: none;'></div>").vrAppendToPuma(this.container())[0];
         if (options.addButton !== false)
             divClearIcon.style.cssText += "right: 57px;";
@@ -223,7 +223,7 @@ export class ComboBox extends VrControl
         if (options.addButton !== false)
         {
             if (options.addButton === true) options.addButton = new ButtonOptions();
-            if (options.addButton.icon == null) options.addButton.icon = IconClassLight.Plus;
+            if (options.addButton.icon == null) options.addButton.icon = IconClassicLight.Plus;
             options.addButton.cssContainer = options.addButton.cssContainer + "; position: absolute; right: 0px; bottom: 0px;";
             options.addButton.css = options.addButton.css + "; border-top-left-radius: 0px; border-bottom-left-radius: 0px; height: 26px;";
             if (options.addButton.enable == null) options.addButton.enable = options.enable;
@@ -295,7 +295,7 @@ export class ComboBox extends VrControl
 
         //#region Only icons
         if (options.onlyIcon && options.icon != null)
-            this._allCheckedOnlyIcon = icon(IconClassSolid.Check, this._iconCombo, { css: "display: none; position: absolute; z-index: 2; font-size: 9px; top: -5px; right: -7px;" });
+            this._allCheckedOnlyIcon = icon(IconClassicSolid.Check, this._iconCombo, { css: "display: none; position: absolute; z-index: 2; font-size: 9px; top: -5px; right: -7px;" });
         //#endregion
 
         //#region Check all
@@ -661,7 +661,7 @@ export class ComboBox extends VrControl
                 this._txtSearchFilter = createTextBox(
                     {
                         width: "100%",
-                        icon: IconClassLight.Search,
+                        icon: IconClassicLight.Search,
                         placeholder: "Cerca...",
                         class: "vrComboBoxFilter",
                         cssContainer: "margin-bottom: 5px; margin-top: 5px;",
@@ -705,7 +705,7 @@ export class ComboBox extends VrControl
                 }
             }
             //#endregion
-        
+
             if (options.onAfterOpen != null)
             {
                 let afterOpenEvent = new ComboBoxOpenEvent();
@@ -782,9 +782,9 @@ export class ComboBox extends VrControl
                     puma(comboItemText).closest(".vrComboBoxLi").closest(".vrComboBoxUl").show();
 
                     puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").removeClass("caret-right caret-down");
-                    puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").children("i").removeClass(IconClassLight.CaretRight + " " + IconClassLight.CaretDown);
+                    puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").children("i").removeClass(IconClassicLight.CaretRight + " " + IconClassicLight.CaretDown);
                     puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").addClass("caret-down");
-                    puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").children("i").addClass(IconClassLight.CaretDown);
+                    puma(comboItemText).closest(".vrComboBoxLi").find(".vrComboBoxDivIconExpand").children("i").addClass(IconClassicLight.CaretDown);
                 }
             }
         }
@@ -893,28 +893,28 @@ export class ComboBox extends VrControl
             {
                 //#region Icon expand/collapse
                 let iconClassForDiv = "";
-                let iconClass = IconClassLight.CaretRight;
+                let iconClass = IconClassicLight.CaretRight;
                 if (options.treeMode == ComboBoxTreeModeEnum.AllCollapsed)
                 {
-                    iconClass = IconClassLight.CaretRight;
+                    iconClass = IconClassicLight.CaretRight;
                     iconClassForDiv = "caret-right";
                 }
                 else if (options.treeMode == ComboBoxTreeModeEnum.OnlyFirstLevelExpanded)
                 {
                     if (puma(li).parents(".vrComboBoxUl").length == 1)
                     {
-                        iconClass = IconClassLight.CaretDown;
+                        iconClass = IconClassicLight.CaretDown;
                         iconClassForDiv = "caret-down";
                     }
                     else
                     {
-                        iconClass = IconClassLight.CaretRight;
+                        iconClass = IconClassicLight.CaretRight;
                         iconClassForDiv = "caret-right";
                     }
                 }
                 else
                 {
-                    iconClass = IconClassLight.CaretDown;
+                    iconClass = IconClassicLight.CaretDown;
                     iconClassForDiv = "caret-down";
                 }
 
@@ -922,20 +922,20 @@ export class ComboBox extends VrControl
                 puma(UtilityManager.createIcon(iconClass)).vrAppendToPuma(divIcon);
                 puma(divIcon).click((e: any) =>
                 {
-                    puma(e.currentTarget).children("i").removeClass(IconClassLight.CaretRight + " " + IconClassLight.CaretDown);
+                    puma(e.currentTarget).children("i").removeClass(IconClassicLight.CaretRight + " " + IconClassicLight.CaretDown);
                     puma(e.currentTarget).removeClass("caret-right caret-down");
 
                     let ulChildren = puma(e.currentTarget).siblings(".vrComboBoxUl");
                     if (ulChildren.first().is(":visible"))
                     {
                         ulChildren.hide();
-                        puma(e.currentTarget).children("i").addClass(IconClassLight.CaretRight);
+                        puma(e.currentTarget).children("i").addClass(IconClassicLight.CaretRight);
                         puma(e.currentTarget).addClass("caret-right");
                     }
                     else
                     {
                         ulChildren.show();
-                        puma(e.currentTarget).children("i").addClass(IconClassLight.CaretDown);
+                        puma(e.currentTarget).children("i").addClass(IconClassicLight.CaretDown);
                         puma(e.currentTarget).addClass("caret-down");
                     }
                 });

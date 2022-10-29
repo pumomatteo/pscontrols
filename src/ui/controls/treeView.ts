@@ -1,7 +1,7 @@
 import { ControlManager } from "../../../src/managers/controlManager";
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { alert, ButtonModeEnum, ControlPositionEnum, confirm, ControlTypeEnum, createButton, createLabel, createSeparator, createTextBox, DateModeEnum, div, hideLoader, icon, IconClassLight, IconClass, notify, OrientationEnum, puma, shadowRoot, showLoader, span, TextAlignEnum, TreeModeEnum, TreeViewAlignEnum, TreeViewColumn, TreeViewColumnTypeEnum, TreeViewContextMenuItem, TreeViewFilterSettings, TreeViewItem, TreeViewItemExtraCell, TreeViewNumericTypeEnum, TreeViewToolbarClickEvent, TreeViewToolbarItem, TreeViewToolbarItemType, createSplitButton, TreeViewToolbarSwitchEvent, createSwitch, TreeViewToolbarSwitchSettings, createDatePicker, createComboBox, createCheckBox, createButtonGroup, SelectionModeEnum, IconClassSolid, NumberFormatSettings, addCssStyle, UpdateRowRebindSettings } from "../vr";
+import { alert, ButtonModeEnum, ControlPositionEnum, confirm, ControlTypeEnum, createButton, createLabel, createSeparator, createTextBox, DateModeEnum, div, hideLoader, icon, IconClassicLight, IconClass, notify, OrientationEnum, puma, shadowRoot, showLoader, span, TextAlignEnum, TreeModeEnum, TreeViewAlignEnum, TreeViewColumn, TreeViewColumnTypeEnum, TreeViewContextMenuItem, TreeViewFilterSettings, TreeViewItem, TreeViewItemExtraCell, TreeViewNumericTypeEnum, TreeViewToolbarClickEvent, TreeViewToolbarItem, TreeViewToolbarItemType, createSplitButton, TreeViewToolbarSwitchEvent, createSwitch, TreeViewToolbarSwitchSettings, createDatePicker, createComboBox, createCheckBox, createButtonGroup, SelectionModeEnum, IconClassicSolid, NumberFormatSettings, addCssStyle, UpdateRowRebindSettings } from "../vr";
 import { Button } from "./button";
 import { ComboBoxOptions } from "./comboBox";
 import { DatePickerOptions } from "./datePicker";
@@ -115,7 +115,7 @@ export class TreeView extends VrControl
 
 			createButton({
 				text: "Excel",
-				icon: IconClassLight.FileExcel,
+				icon: IconClassicLight.FileExcel,
 				css: "height: 24px;",
 				colorSettings: { background: "#008a00", textColor: "#FFF" },
 				cssContainer: "position: absolute; z-index: 9; top: 3px; left: 5px;",
@@ -171,7 +171,7 @@ export class TreeView extends VrControl
 		this._txtSearchFilter = createTextBox(
 			{
 				width: "100%",
-				icon: IconClassLight.Search,
+				icon: IconClassicLight.Search,
 				placeholder: "Cerca...",
 				class: "vrTreeViewFilter",
 				visible: options.filter !== false,
@@ -410,12 +410,12 @@ export class TreeView extends VrControl
 
 				//#region Icon expand/collapse
 				let iconClassForDiv = "";
-				let iconClass = IconClassLight.CaretRight;
+				let iconClass = IconClassicLight.CaretRight;
 				if (options.treeMode == TreeModeEnum.AllCollapsed)
 				{
 					if (item.parentValue != null)
 					{
-						iconClass = IconClassLight.CaretRight;
+						iconClass = IconClassicLight.CaretRight;
 						iconClassForDiv = "caret-right";
 					}
 				}
@@ -423,18 +423,18 @@ export class TreeView extends VrControl
 				{
 					if (puma(li).parents(".vrTreeViewUl").length == 1)
 					{
-						iconClass = IconClassLight.CaretDown;
+						iconClass = IconClassicLight.CaretDown;
 						iconClassForDiv = "caret-down";
 					}
 					else
 					{
-						iconClass = IconClassLight.CaretRight;
+						iconClass = IconClassicLight.CaretRight;
 						iconClassForDiv = "caret-right";
 					}
 				}
 				else
 				{
-					iconClass = IconClassLight.CaretDown;
+					iconClass = IconClassicLight.CaretDown;
 					iconClassForDiv = "caret-down";
 				}
 
@@ -442,20 +442,20 @@ export class TreeView extends VrControl
 				puma(UtilityManager.createIcon(iconClass)).vrAppendToPuma(divIcon);
 				puma(divIcon).click((e: any) =>
 				{
-					puma(e.currentTarget).children("i").removeClass(IconClassLight.CaretRight + " " + IconClassLight.CaretDown);
+					puma(e.currentTarget).children("i").removeClass(IconClassicLight.CaretRight + " " + IconClassicLight.CaretDown);
 					puma(e.currentTarget).removeClass("caret-right caret-down");
 
 					let ulChildren = puma(e.currentTarget).siblings(".vrTreeViewUl");
 					if (ulChildren.first().is(":visible"))
 					{
 						ulChildren.hide();
-						puma(e.currentTarget).children("i").addClass(IconClassLight.CaretRight);
+						puma(e.currentTarget).children("i").addClass(IconClassicLight.CaretRight);
 						puma(e.currentTarget).addClass("caret-right");
 					}
 					else
 					{
 						ulChildren.show();
-						puma(e.currentTarget).children("i").addClass(IconClassLight.CaretDown);
+						puma(e.currentTarget).children("i").addClass(IconClassicLight.CaretDown);
 						puma(e.currentTarget).addClass("caret-down");
 					}
 
@@ -593,7 +593,7 @@ export class TreeView extends VrControl
 			if (options.showEditButton)
 			{
 				createButton({
-					icon: IconClassLight.Edit,
+					icon: IconClassicLight.Edit,
 					cssContainer: "margin-right: 5px;",
 					css: "background: none; border: none;",
 					onClick: (e) =>
@@ -674,7 +674,7 @@ export class TreeView extends VrControl
 				puma(treeViewDivItemContainer).on("mouseenter", (e: JQuery.MouseEnterEvent) => 
 				{
 					btnContextMenu = createButton({
-						icon: IconClassSolid.EllipsisVertical,
+						icon: IconClassicSolid.EllipsisVertical,
 						css: "background: none; border: none;",
 						cssContainer: "margin-left: 10px; margin-top: 2px; height: 17px;",
 						width: 25,
@@ -841,7 +841,7 @@ export class TreeView extends VrControl
 							{
 								textAlign = TreeViewAlignEnum.Center;
 								if (textHTML.isNotNullOrEmpty())
-									textHTML = "<i class='" + IconClassLight.Circle + "' style='width: 20px; height: 20px; color: " + textHTML + "; display: inline-flex; align-items: center;'></i>";
+									textHTML = "<i class='" + IconClassicLight.Circle + "' style='width: 20px; height: 20px; color: " + textHTML + "; display: inline-flex; align-items: center;'></i>";
 							}
 							break;
 						//#endregion
@@ -1205,9 +1205,9 @@ export class TreeView extends VrControl
 						puma(comboItemText).closest(".vrTreeViewLi").closest(".vrTreeViewUl").show();
 
 						puma(comboItemText).closest(".vrTreeViewLi").find(".vrTreeViewDivIconExpand").removeClass("caret-right caret-down");
-						puma(comboItemText).closest(".vrTreeViewLi").find(".vrTreeViewDivIconExpand").children("i").removeClass(IconClassLight.CaretRight + " " + IconClassLight.CaretDown);
+						puma(comboItemText).closest(".vrTreeViewLi").find(".vrTreeViewDivIconExpand").children("i").removeClass(IconClassicLight.CaretRight + " " + IconClassicLight.CaretDown);
 						puma(comboItemText).closest(".vrTreeViewLi").find(".vrTreeViewDivIconExpand").addClass("caret-down");
-						puma(comboItemText).closest(".vrTreeViewLi").find(".vrTreeViewDivIconExpand").children("i").addClass(IconClassLight.CaretDown);
+						puma(comboItemText).closest(".vrTreeViewLi").find(".vrTreeViewDivIconExpand").children("i").addClass(IconClassicLight.CaretDown);
 					}
 				}
 				//#endregion
@@ -1884,7 +1884,7 @@ export class TreeView extends VrControl
 			case TreeViewToolbarItemType.Excel:
 				{
 					text = (toolbarItem.text != null) ? toolbarItem.text : "Excel";
-					iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassLight.FileExcel;
+					iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassicLight.FileExcel;
 					buttonClass = (toolbarItem.value != null) ? "treeView-" + toolbarItem.value : "treeView-excel";
 					vrButton = true;
 					toolbarItem.backgroundColor = "#008a00";
@@ -1901,7 +1901,7 @@ export class TreeView extends VrControl
 			case TreeViewToolbarItemType.Rebind:
 				{
 					text = (toolbarItem.text != null) ? toolbarItem.text : "Aggiorna";
-					iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassLight.Refresh;
+					iconClass = (toolbarItem.icon != null) ? toolbarItem.icon : IconClassicLight.Refresh;
 					buttonClass = (toolbarItem.value != null) ? "treeView-" + toolbarItem.value : "treeView-rebind";
 					vrButton = true;
 				}

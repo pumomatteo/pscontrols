@@ -1,5 +1,5 @@
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
-import { ControlTypeEnum, IconClassLight, IconClass, createLabel, DefaultDayEnum, DateModeEnum, PositionEnum, puma, shadowRoot, DateFormatEnum, KeyEnum, createCalendar, DateDepthEnum, notify, PopupSettings } from "../vr";
+import { ControlTypeEnum, IconClassicLight, IconClass, createLabel, DefaultDayEnum, DateModeEnum, PositionEnum, puma, shadowRoot, DateFormatEnum, KeyEnum, createCalendar, DateDepthEnum, notify, PopupSettings } from "../vr";
 import { UtilityManager } from "../../../src/managers/utilityManager";
 
 //#region Options
@@ -118,12 +118,12 @@ export class DatePicker extends VrControl
         let pickerIcon = null;
         switch (options.mode)
         {
-            case DateModeEnum.Date: pickerIcon = UtilityManager.createIcon(IconClassLight.Calendar); break;
-            case DateModeEnum.Time: pickerIcon = UtilityManager.createIcon(IconClassLight.Clock); break;
+            case DateModeEnum.Date: pickerIcon = UtilityManager.createIcon(IconClassicLight.Calendar); break;
+            case DateModeEnum.Time: pickerIcon = UtilityManager.createIcon(IconClassicLight.Clock); break;
             case DateModeEnum.DateTime:
                 {
                     let divPickerIcon = puma("<div class='vrDivPickerDateTimeIcon'></div>").vrAppendToPuma(this.container())[0];
-                    let pickerIcon = UtilityManager.createIcon(IconClassLight.Calendar);
+                    let pickerIcon = UtilityManager.createIcon(IconClassicLight.Calendar);
                     puma(divPickerIcon).vrAppendPuma(pickerIcon);
                     puma(divPickerIcon).click(() => 
                     {
@@ -138,7 +138,7 @@ export class DatePicker extends VrControl
                         divPickerIcon.style.cssText += "bottom: 1px; top: inherit;";
 
                     let divPickerTimeIcon = puma("<div class='vrDivPickerIcon'></div>").vrAppendToPuma(this.container())[0];
-                    let pickerTimeIcon = UtilityManager.createIcon(IconClassLight.Clock);
+                    let pickerTimeIcon = UtilityManager.createIcon(IconClassicLight.Clock);
                     puma(divPickerTimeIcon).vrAppendPuma(pickerTimeIcon);
                     puma(divPickerTimeIcon).click((e: any) => 
                     {
