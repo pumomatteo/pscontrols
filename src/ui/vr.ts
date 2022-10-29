@@ -1371,7 +1371,8 @@ export enum CreatorEnum
 //#endregion
 
 //#region Icons
-export type IconClass = IconClassicSolid | IconClassicLight | IconClassicRegular | IconClassicDuotone | IconClassicThin | IconClassicBrands | string;
+export type IconClass = IconClassicSolid | IconClassicLight | IconClassicRegular | IconClassicDuotone | IconClassicThin 
+| IconClassicBrands | IconSharpSolid | IconSharpLight | IconSharpRegular | IconSharpDuotone | IconSharpThin | string;
 
 //#region Icon Classic
 

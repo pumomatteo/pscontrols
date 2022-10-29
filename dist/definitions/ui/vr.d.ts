@@ -254,7 +254,7 @@ export declare enum CreatorEnum {
     PureJqueryTypescript = "PureJqueryTypescript",
     FastestControlsEver = "FastestControlsEver"
 }
-export declare type IconClass = IconClassicSolid | IconClassicLight | IconClassicRegular | IconClassicDuotone | IconClassicThin | IconClassicBrands | string;
+export declare type IconClass = IconClassicSolid | IconClassicLight | IconClassicRegular | IconClassicDuotone | IconClassicThin | IconClassicBrands | IconSharpSolid | IconSharpLight | IconSharpRegular | IconSharpDuotone | IconSharpThin | string;
 export declare enum IconClassicBrands {
     Amazon = "fa-brands fa-amazon",
     Android = "fa-brands fa-android",

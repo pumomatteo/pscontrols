@@ -4031,7 +4031,7 @@ export enum CreatorEnum
     PureJqueryTypescript = "PureJqueryTypescript",
     FastestControlsEver = "FastestControlsEver"
 }
-export type IconClass = IconClassicSolid | IconClassicLight | IconClassicRegular | IconClassicDuotone | IconClassicThin | IconClassicBrands | string;
+export type IconClass = IconClassicSolid | IconClassicLight | IconClassicRegular | IconClassicDuotone | IconClassicThin | IconClassicBrands | IconSharpSolid | IconSharpLight | IconSharpRegular | IconSharpDuotone | IconSharpThin | string;
 export enum IconClassicBrands
 {
     Amazon = "fa-brands fa-amazon",
