@@ -205,6 +205,7 @@ export declare class Grid extends VrControl {
     focus(field?: string): void;
     scrollTo(rowIndex: number): void;
     private isRepeater;
+    private fixValueWithoutSpecialChars;
     getOptions(): GridOptions;
     recalculateWidth(fixColGroup?: boolean): void;
     height(height?: number | string): any;

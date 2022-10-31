@@ -1908,7 +1908,10 @@ export class Grid extends VrControl
                             let trOld = puma(this.element()).find("tbody tr:nth-child(" + (j + rowAdded) + ")")[0] as HTMLTableRowElement;
                             let trGroupBy: HTMLElement | null = null;
 
-                            let newTr = puma("<tr value='" + ((cellValue == null || cellValue === "") ? "nosetted" : String(cellValue).replace(/%/, "").replace(/ /g, "").replace(/\./g, "").replace(/-/g, "").replace(/\//g, "")) + "' level='" + groupByIndex + "' class='grid_trGroupBy p-grid-body'></tr>");
+                            let newTr = puma("<tr value='" + ((cellValue == null || cellValue === "") ? "nosetted" :
+                                this.fixValueWithoutSpecialChars(cellValue))
+                                + "' level='" + groupByIndex + "' class='grid_trGroupBy p-grid-body'></tr>");
+
                             if (trOld == null)
                                 trGroupBy = newTr.vrAppendToPuma(puma(this.element()).find("tbody"))[0];
                             else
@@ -1920,7 +1923,10 @@ export class Grid extends VrControl
                             if (options.lockable)
                             {
                                 let trOldLocked = puma(this._elementLocked).find("tbody tr:nth-child(" + (j + rowAdded) + ")")[0] as HTMLTableRowElement;
-                                let newTr = puma("<tr value='" + ((cellValue == null || cellValue === "") ? "nosetted" : String(cellValue).replace(/%/, "").replace(/ /g, "").replace(/\./g, "").replace(/-/g, "").replace(/\//g, "")) + "' level='" + groupByIndex + "' class='grid_trGroupBy grid_trGroupByLocked p-grid-body'></tr>");
+                                let newTr = puma("<tr value='" + ((cellValue == null || cellValue === "") ? "nosetted" :
+                                    this.fixValueWithoutSpecialChars(cellValue))
+                                    + "' level='" + groupByIndex + "' class='grid_trGroupBy grid_trGroupByLocked p-grid-body'></tr>");
+
                                 if (trOldLocked == null)
                                     trGroupByLocked = newTr.vrAppendToPuma(puma(this._elementLocked).find("tbody"))[0];
                                 else
@@ -3354,7 +3360,7 @@ export class Grid extends VrControl
                 //#region Totals group
                 if (this._showTotals)
                 {
-                    let value = puma(tr).attr("value").replace(/\(/g, "").replace(/\)/g, "").replace(/,/g, "").replace(/\[/g, "").replace(/\]/g, "").replace(/:/g, "");
+                    let value = this.fixValueWithoutSpecialChars(puma(tr).attr("value"));
 
                     let clonedTr = puma(children.vrLast()).clone();
                     clonedTr.addClass("p-grid-totalsGroup");
@@ -3447,7 +3453,10 @@ export class Grid extends VrControl
             {
                 for (let total of totalsGroup.totals)
                 {
-                    let tdList = Array.from<HTMLElement>(puma("." + this._elementId + "_totalGroupBy" + totalsGroup.groupValue).find("td[field='" + total.field + "']"))
+                    let tdList = Array.from<HTMLElement>(puma("." + this._elementId + "_totalGroupBy"
+                        + this.fixValueWithoutSpecialChars(totalsGroup.groupValue))
+                        .find("td[field='" + total.field + "']"))
+
                     for (let td of tdList)
                         this.writeTotals(total, td);
                 }
@@ -4333,6 +4342,20 @@ export class Grid extends VrControl
         let options = this.getOptions();
         let sortingFields: string[] = [];
 
+        //#region Internal group sort
+        if ((options.groupBy as GridGroupBySettings).internalSortBy != null)
+        {
+            let internalSortByField = ((options.groupBy as GridGroupBySettings).internalSortBy as GridSortSettings).field;
+            if (internalSortByField != null)
+            {
+                if (((options.groupBy as GridGroupBySettings).internalSortBy! as GridSortSettings).direction == GridSortDirectionEnum.Desc)
+                    sortingFields.push("-" + internalSortByField);
+                else
+                    sortingFields.push(internalSortByField);
+            }
+        }
+        //#endregion
+
         //#region External group sort
         let sortByField = (options.groupBy as GridGroupBySettings).sortBy != null ? ((options.groupBy as GridGroupBySettings).sortBy! as GridSortSettings).field : null;
         if (sortByField != null)
@@ -4354,20 +4377,6 @@ export class Grid extends VrControl
                     if (!sortingFields.includes((groupByField as GridGroupByItem).field))
                         sortingFields.push((groupByField as GridGroupByItem).field);
                 }
-            }
-        }
-        //#endregion
-
-        //#region Internal group sort
-        if ((options.groupBy as GridGroupBySettings).internalSortBy != null)
-        {
-            let internalSortByField = ((options.groupBy as GridGroupBySettings).internalSortBy as GridSortSettings).field;
-            if (internalSortByField != null)
-            {
-                if (((options.groupBy as GridGroupBySettings).internalSortBy! as GridSortSettings).direction == GridSortDirectionEnum.Desc)
-                    sortingFields.push("-" + internalSortByField);
-                else
-                    sortingFields.push(internalSortByField);
             }
         }
         //#endregion
@@ -7404,6 +7413,13 @@ export class Grid extends VrControl
     private isRepeater()
     {
         return puma(this.container()).hasClass("vrRepeaterContainer");
+    }
+
+    private fixValueWithoutSpecialChars(value: string)
+    {
+        return String(value)
+            .replace(/%/, "").replace(/ /g, "").replace(/\./g, "").replace(/-/g, "").replace(/\//g, "").replace(/&/g, "e")
+            .replace(/\(/g, "").replace(/\)/g, "").replace(/,/g, "").replace(/\[/g, "").replace(/\]/g, "").replace(/:/g, "");
     }
 
     getOptions()
