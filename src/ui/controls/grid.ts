@@ -3344,8 +3344,6 @@ export class Grid extends VrControl
                 else
                     children = this.getChildrenGroupRows(tr, this._divBody).children;
 
-                let level = Number(puma(tr).attr("level"));
-
                 //#region Children number
                 if (!options.serverBinding)
                 {

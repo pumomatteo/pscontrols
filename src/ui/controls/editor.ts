@@ -27,6 +27,7 @@ export class EditorOptions extends VrControlOptions
     browserSpellCheck?: boolean;
     pasteAsText?: boolean;
     replacePtagWithDiv?: boolean;
+    statusbar?: boolean;
 
     onFocus?: (e: EditorOnFocusEvent) => void;
     onBlur?: (e: EditorOnBlurEvent) => void;
@@ -78,6 +79,7 @@ export class Editor extends VrControl
         if (options.enable == null) options.enable = true;
         if (options.pasteAsText == null) options.pasteAsText = true;
         if (options.replacePtagWithDiv == null) options.replacePtagWithDiv = true;
+        if (options.statusbar == null) options.statusbar = false;
 
         if (options.speechRecognizer == null) options.speechRecognizer = true;
         if (options.speechRecognizer !== false) 
@@ -90,7 +92,7 @@ export class Editor extends VrControl
         }
 
         if (options.fontSize == null) options.fontSize = new vrEditorFontSizeSettings();
-        if (options.fontSize.defaultSize == null) options.fontSize.defaultSize = 12;
+        if (options.fontSize.defaultSize == null) options.fontSize.defaultSize = 14;
         if (options.fontSize.formatSizeList == null) options.fontSize.formatSizeList = [8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 24, 36];
         //#endregion
 
@@ -321,12 +323,13 @@ export class Editor extends VrControl
                 language: options.language,
                 menu: menu,
                 menubar: menuBar,
+                statusbar: options.statusbar,
                 toolbar: toolbar + customItemValues,
                 plugins: options.plugins,
                 browser_spellcheck: options.browserSpellCheck,
                 contextmenu: false,
-                font_size_formats: options.fontSize.formatSizeList.join("pt ") + "pt",
-                content_style: "body { font-size: " + options.fontSize.defaultSize + "pt; } p { margin-top: 0px; margin-bottom: 0px; }",
+                font_size_formats: options.fontSize.formatSizeList.join("px ") + "px",
+                content_style: "body { font-size: " + options.fontSize.defaultSize + "px; } p { margin-top: 0px; margin-bottom: 0px; }",
                 forced_root_block: "div",
                 paste_as_text: options.pasteAsText,
                 setup: (editor: any) =>

@@ -1209,6 +1209,7 @@ export class EditorOptions extends VrControlOptions
     browserSpellCheck?: boolean;
     pasteAsText?: boolean;
     replacePtagWithDiv?: boolean;
+    statusbar?: boolean;
     onFocus?: (e: EditorOnFocusEvent) => void;
     onBlur?: (e: EditorOnBlurEvent) => void;
     onCommand?: (e: EditorOnCommandEvent) => void;
@@ -8091,6 +8092,7 @@ export enum vrEditorItemEnum
     FontFamily = "fontfamily",
     FontSelect = "fontfamily",
     FontSize = "fontsize",
+    ForeColor = "forecolor",
     FullScreen = "fullscreen",
     AlignLeft = "alignleft",
     AlignRight = "alignright",

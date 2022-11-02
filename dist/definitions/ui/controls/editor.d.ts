@@ -19,6 +19,7 @@ export declare class EditorOptions extends VrControlOptions {
     browserSpellCheck?: boolean;
     pasteAsText?: boolean;
     replacePtagWithDiv?: boolean;
+    statusbar?: boolean;
     onFocus?: (e: EditorOnFocusEvent) => void;
     onBlur?: (e: EditorOnBlurEvent) => void;
     onCommand?: (e: EditorOnCommandEvent) => void;

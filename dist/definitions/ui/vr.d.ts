@@ -4214,6 +4214,7 @@ export declare enum vrEditorItemEnum {
     FontFamily = "fontfamily",
     FontSelect = "fontfamily",
     FontSize = "fontsize",
+    ForeColor = "forecolor",
     FullScreen = "fullscreen",
     AlignLeft = "alignleft",
     AlignRight = "alignright",
