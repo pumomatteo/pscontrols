@@ -108,6 +108,7 @@ export declare class Grid extends VrControl {
     private _spanFitHeaderSpace;
     private _spanFitFilterSpace;
     private _spanFitTotalsSpace;
+    private _vrDateTimeFields;
     constructor(element: HTMLElement, options?: GridOptions | null);
     rebind(parameters?: any | null, filterWithWebService?: boolean, keepInfo?: boolean, loadingElement?: boolean | HTMLElement | JQuery | string): any;
     rebindSpecificRows(itemIdList: number[], update?: boolean, keepInfo?: boolean, loadingElement?: boolean | HTMLElement | JQuery | string): void;
@@ -199,6 +200,7 @@ export declare class Grid extends VrControl {
     showSticker(): void;
     hideSticker(): void;
     createTotalsFunction(): void;
+    fixDatasourceWithVrDatetime(items: any[]): any[];
     pageSize(pageSize?: number, update?: boolean, triggerDataBound?: boolean): number;
     pageSelected(page?: number, update?: boolean): number;
     checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;

@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, DateTime } from "../vr";
+import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, DateTime, DateTimeTypeEnum } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -154,6 +154,7 @@ export class Grid extends VrControl
     private _spanFitHeaderSpace: HTMLSpanElement;
     private _spanFitFilterSpace: HTMLSpanElement;
     private _spanFitTotalsSpace: HTMLSpanElement;
+    private _vrDateTimeFields: string[];
     //#endregion
 
     //#endregion
@@ -1570,6 +1571,8 @@ export class Grid extends VrControl
 
     clear(triggerChange = false)
     {
+        this._vrDateTimeFields = [];
+
         if (this.dataSource().filter(k => k["defaultRow"] == null || k["defaultRow"] == false).length > 0)
         {
             this.dataSource([]);
@@ -1674,7 +1677,8 @@ export class Grid extends VrControl
             }
             //#endregion
 
-            //#region Manage vrDateTime type
+            //#region Manage vr.DateTime type
+            this._vrDateTimeFields = [];
             let dateTypes = [GridColumnTypeEnum.Date, GridColumnTypeEnum.DateTime, GridColumnTypeEnum.Time, GridColumnTypeEnum.LongDate,
             GridColumnTypeEnum.LongDateTime, GridColumnTypeEnum.LongWeekDate, GridColumnTypeEnum.ShortWeekDate];
             if (options.columns!.vrAny(k => dateTypes.includes(k.type!)))
@@ -1683,7 +1687,13 @@ export class Grid extends VrControl
                 for (let row of dataItems)
                 {
                     for (let column of columnDateTypes)
-                        row[column.field] = new DateTime(row[column.field]).toDate();
+                    {
+                        let date = new DateTime(row[column.field]);
+                        if (!this._vrDateTimeFields.includes(column.field) && date.isCreatedByDateTime())
+                            this._vrDateTimeFields.push(column.field);
+
+                        row[column.field] = date.toDate();
+                    }
                 }
             }
             //#endregion
@@ -7327,6 +7337,22 @@ export class Grid extends VrControl
             });
         this._workerTotals = new Worker(window.URL.createObjectURL(workerTotalsData));
         this._workerTotalsGroup = new Worker(window.URL.createObjectURL(workerTotalsData));
+    }
+
+    fixDatasourceWithVrDatetime(items: any[])
+    {
+        let newItems: any[] = [];
+        if (this._vrDateTimeFields != null && this._vrDateTimeFields.length > 0)
+        {
+            for (let item of items.filter(k => k))
+            {
+                for (let field of this._vrDateTimeFields)
+                    item[field] = new DateTime(item[field]);
+
+                newItems.push(item);
+            }
+        }
+        return newItems;
     }
 
     pageSize(pageSize?: number, update = false, triggerDataBound = false)

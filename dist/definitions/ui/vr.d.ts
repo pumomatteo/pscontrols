@@ -5435,11 +5435,21 @@ export declare class DateTime {
     minutes: number;
     seconds: number;
     milliseconds: number;
+    private _createdByTypeEnum;
     constructor(date?: Date | DateTime | string);
+    createdByTypeEnum(): DateTimeTypeEnum;
+    isCreatedByDateTime(): boolean;
+    isCreatedByDate(): boolean;
+    isCreatedByString(): boolean;
     toDate(): Date;
     static toDate(source: DateTime): Date;
     static toDateNullable(source: DateTime | null): Date | null;
     static fromDateNullable(source: Date | null): DateTime | null;
+}
+export declare enum DateTimeTypeEnum {
+    Date = 0,
+    DateTime = 1,
+    String = 2
 }
 declare global {
     interface DateConstructor {

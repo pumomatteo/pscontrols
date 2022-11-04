@@ -1466,6 +1466,7 @@ export class Grid extends VrControl
     showSticker(): void;
     hideSticker(): void;
     createTotalsFunction(): void;
+    fixDatasourceWithVrDatetime(items: any[]): any[];
     pageSize(pageSize?: number, update?: boolean, triggerDataBound?: boolean): number;
     pageSelected(page?: number, update?: boolean): number;
     checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;
@@ -9424,9 +9425,19 @@ export class DateTime
     seconds: number;
     milliseconds: number;
     constructor(date?: Date | DateTime | string);
+    createdByTypeEnum(): DateTimeTypeEnum;
+    isCreatedByDateTime(): boolean;
+    isCreatedByDate(): boolean;
+    isCreatedByString(): boolean;
     toDate(): Date;
     static toDate(source: DateTime): Date;
     static toDateNullable(source: DateTime | null): Date | null;
     static fromDateNullable(source: Date | null): DateTime | null;
+}
+export enum DateTimeTypeEnum
+{
+    Date = 0,
+    DateTime = 1,
+    String = 2
 }
 }

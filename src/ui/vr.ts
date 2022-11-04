@@ -1371,8 +1371,8 @@ export enum CreatorEnum
 //#endregion
 
 //#region Icons
-export type IconClass = IconClassicSolid | IconClassicLight | IconClassicRegular | IconClassicDuotone | IconClassicThin 
-| IconClassicBrands | IconSharpSolid | IconSharpLight | IconSharpRegular | IconSharpDuotone | IconSharpThin | string;
+export type IconClass = IconClassicSolid | IconClassicLight | IconClassicRegular | IconClassicDuotone | IconClassicThin
+	| IconClassicBrands | IconSharpSolid | IconSharpLight | IconSharpRegular | IconSharpDuotone | IconSharpThin | string;
 
 //#region Icon Classic
 
@@ -7892,12 +7892,17 @@ export class DateTime
 	public seconds: number;
 	public milliseconds: number;
 
+	private _createdByTypeEnum: DateTimeTypeEnum;
+
 	constructor(date?: Date | DateTime | string)
 	{
 		if (date != null)
 		{
 			if (typeof (date) == "string")
+			{
 				date = Date.vrFixDateString(date);
+				this._createdByTypeEnum = DateTimeTypeEnum.String;
+			}
 
 			if (Date.vrIsValidDate(date))
 			{
@@ -7909,9 +7914,11 @@ export class DateTime
 				this.minutes = date.getMinutes();
 				this.seconds = date.getSeconds();
 				this.milliseconds = date.getMilliseconds();
+				this._createdByTypeEnum = DateTimeTypeEnum.Date;
 			}
 			else
 			{
+
 				date = date as DateTime;
 				this.year = date.year;
 				this.month = date.month;
@@ -7920,8 +7927,29 @@ export class DateTime
 				this.minutes = date.minutes;
 				this.seconds = date.seconds;
 				this.milliseconds = date.milliseconds;
+				this._createdByTypeEnum = DateTimeTypeEnum.DateTime;
 			}
 		}
+	}
+
+	public createdByTypeEnum()
+	{
+		return this._createdByTypeEnum;
+	}
+
+	public isCreatedByDateTime()
+	{
+		return this.createdByTypeEnum() == DateTimeTypeEnum.DateTime;
+	}
+
+	public isCreatedByDate()
+	{
+		return this.createdByTypeEnum() == DateTimeTypeEnum.Date;
+	}
+
+	public isCreatedByString()
+	{
+		return this.createdByTypeEnum() == DateTimeTypeEnum.String;
 	}
 
 	public toDate()
@@ -7949,6 +7977,13 @@ export class DateTime
 		else
 			return new DateTime(source);
 	}
+}
+
+export enum DateTimeTypeEnum
+{
+	Date,
+	DateTime,
+	String
 }
 //#endregion
 
