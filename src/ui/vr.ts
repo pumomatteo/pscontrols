@@ -7881,6 +7881,75 @@ export enum RoundingModeEnum
 	HalfTrunc = "halfTrunc",
 	HalfEven = "halfEven"
 }
+
+export class DateTime
+{
+	public year: number;
+	public month: number;
+	public day: number;
+	public hours: number;
+	public minutes: number;
+	public seconds: number;
+	public milliseconds: number;
+
+	constructor(date?: Date | DateTime | string)
+	{
+		if (date != null)
+		{
+			if (typeof (date) == "string")
+				date = Date.vrFixDateString(date);
+
+			if (Date.vrIsValidDate(date))
+			{
+				date = date as Date;
+				this.year = date.getFullYear();
+				this.month = date.getMonth() + 1;
+				this.day = date.getDate();
+				this.hours = date.getHours();
+				this.minutes = date.getMinutes();
+				this.seconds = date.getSeconds();
+				this.milliseconds = date.getMilliseconds();
+			}
+			else
+			{
+				date = date as DateTime;
+				this.year = date.year;
+				this.month = date.month;
+				this.day = date.day;
+				this.hours = date.hours;
+				this.minutes = date.minutes;
+				this.seconds = date.seconds;
+				this.milliseconds = date.milliseconds;
+			}
+		}
+	}
+
+	public toDate()
+	{
+		return DateTime.toDate(this);
+	}
+
+	public static toDate(source: DateTime): Date
+	{
+		return new Date(source.year, source.month - 1, source.day, source.hours, source.minutes, source.seconds, source.milliseconds);
+	}
+
+	public static toDateNullable(source: DateTime | null): Date | null
+	{
+		if (source == null)
+			return null;
+		else
+			return this.toDate(source);
+	}
+
+	public static fromDateNullable(source: Date | null): DateTime | null
+	{
+		if (source == null)
+			return null;
+		else
+			return new DateTime(source);
+	}
+}
 //#endregion
 
 //#region Primitive type extensions

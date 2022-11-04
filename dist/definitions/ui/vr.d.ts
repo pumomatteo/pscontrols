@@ -5427,6 +5427,20 @@ export declare enum RoundingModeEnum {
     HalfTrunc = "halfTrunc",
     HalfEven = "halfEven"
 }
+export declare class DateTime {
+    year: number;
+    month: number;
+    day: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    milliseconds: number;
+    constructor(date?: Date | DateTime | string);
+    toDate(): Date;
+    static toDate(source: DateTime): Date;
+    static toDateNullable(source: DateTime | null): Date | null;
+    static fromDateNullable(source: Date | null): DateTime | null;
+}
 declare global {
     interface DateConstructor {
         vrFixDateString(dateString?: Date | string | null): Date;

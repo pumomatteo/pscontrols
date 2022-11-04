@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, createIcon } from "../vr";
+import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, DateTime } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -903,12 +903,12 @@ export class Grid extends VrControl
             //#endregion
 
             //#region Sort
-            let sorGridColumnTypes = [GridColumnTypeEnum.Currency, GridColumnTypeEnum.Date, GridColumnTypeEnum.DateTime,
+            let sortGridColumnTypes = [GridColumnTypeEnum.Currency, GridColumnTypeEnum.Date, GridColumnTypeEnum.DateTime,
             GridColumnTypeEnum.Duration, GridColumnTypeEnum.Label, GridColumnTypeEnum.Number, GridColumnTypeEnum.Percentage,
             GridColumnTypeEnum.String, GridColumnTypeEnum.Time, GridColumnTypeEnum.LongDate, GridColumnTypeEnum.LongDateTime,
             GridColumnTypeEnum.LongWeekDate, GridColumnTypeEnum.ShortWeekDate];
 
-            if (sorGridColumnTypes.includes(column.type!))
+            if (sortGridColumnTypes.includes(column.type!))
             {
                 puma(th).css("cursor", "pointer");
                 puma(th).click(() =>
@@ -1664,7 +1664,6 @@ export class Grid extends VrControl
             //#region DataSourceFieldId not defined
             if (dataItems.length > 0 && dataItems[0][options.dataSourceFieldId!] == null)					
             {
-                //console.log("Grid null Id!! (" + options.dataSourceFieldId!) + "): " + this.element().id;
                 let index = -1;
                 for (let item of dataItems)
                 {
@@ -1672,6 +1671,20 @@ export class Grid extends VrControl
                     index--;
                 }
                 this._lastIndexAdded = index;
+            }
+            //#endregion
+
+            //#region Manage vrDateTime type
+            let dateTypes = [GridColumnTypeEnum.Date, GridColumnTypeEnum.DateTime, GridColumnTypeEnum.Time, GridColumnTypeEnum.LongDate,
+            GridColumnTypeEnum.LongDateTime, GridColumnTypeEnum.LongWeekDate, GridColumnTypeEnum.ShortWeekDate];
+            if (options.columns!.vrAny(k => dateTypes.includes(k.type!)))
+            {
+                let columnDateTypes = options.columns!.filter(k => dateTypes.includes(k.type!));
+                for (let row of dataItems)
+                {
+                    for (let column of columnDateTypes)
+                        row[column.field] = new DateTime(row[column.field]).toDate();
+                }
             }
             //#endregion
 
@@ -2389,7 +2402,8 @@ export class Grid extends VrControl
                     case GridColumnTypeEnum.ShortWeekDate:
                         {
                             textAlign = GridAlignEnum.Center;
-                            let valueFormatted = this.formatValue(new Date(textHTML), column.type, undefined, undefined, column.showSeconds);
+                            let date = new Date(textHTML);
+                            let valueFormatted = this.formatValue(date, column.type, undefined, undefined, column.showSeconds);
                             textHTML = valueFormatted;
                         }
                         break;
@@ -9512,7 +9526,7 @@ export class Grid extends VrControl
                         datePicker.clear();
 
                         if (columnValue != null)
-                            datePicker.value(columnValue);
+                            datePicker.value(new Date(columnValue));
                         else if (column.defaultValue != null)
                             datePicker.value(new Date(column.defaultValue));
 
@@ -9532,7 +9546,7 @@ export class Grid extends VrControl
                         dateTimePicker.clear();
 
                         if (columnValue != null)
-                            dateTimePicker.value(columnValue);
+                            dateTimePicker.value(new Date(columnValue));
                         else if (column.defaultValue != null)
                             dateTimePicker.value(new Date(column.defaultValue));
 

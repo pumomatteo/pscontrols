@@ -468,6 +468,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/DatePickerOptions.html" data-type="entity-link" >DatePickerOptions</a>
                             </li>
                             <li class="link">
+                                <a href="classes/DateTime.html" data-type="entity-link" >DateTime</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/DateTimePicker.html" data-type="entity-link" >DateTimePicker</a>
                             </li>
                             <li class="link">
