@@ -925,6 +925,7 @@ export class ComboBox extends VrControl
     placeholder(text?: string): string;
     value<T extends string | string[] | number>(value?: ComboBoxItem | string | number | string[] | number[] | null, triggerChange?: boolean, callback?: null | ((e: ComboBoxChangeEvent) => void)): T | null;
     unCheck(value: string, triggerChange?: boolean): void;
+    allChecked(): boolean;
     select(index?: number, triggerChange?: boolean): void;
     index(index?: number, triggerChange?: boolean): void;
     icon(icon?: IconClass | string | null): HTMLElement | null;

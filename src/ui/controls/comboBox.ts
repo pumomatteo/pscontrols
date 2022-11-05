@@ -1275,11 +1275,11 @@ export class ComboBox extends VrControl
         return this.items().filter(k => k.parentValue != null && k.parentValue == parentItem.value);
     }
 
-    private getAllChildrenItems(parentItem: ComboBoxItem): ComboBoxItem[]
+    private getAllChildrenItems(parentItem?: ComboBoxItem | null): ComboBoxItem[]
     {
         return this.getDataChildrenItems(parentItem);
     }
-    private getAllChildrenValues(parentItem: ComboBoxItem): string[]
+    private getAllChildrenValues(parentItem?: ComboBoxItem | null): string[]
     {
         return this.getAllChildrenItems(parentItem).map(k => String(k.value));
     }
@@ -1726,6 +1726,11 @@ export class ComboBox extends VrControl
             this._checkedValues.vrDelete(value);
             this.value(this.getCheckedValues(), triggerChange);
         }
+    }
+
+    allChecked()
+    {
+        return this.getCheckedValues().length == this.getAllChildrenValues().vrDistinct().length;
     }
 
     select(index = 0, triggerChange = true): void

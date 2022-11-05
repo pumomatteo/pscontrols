@@ -1688,11 +1688,11 @@ export class Grid extends VrControl
                 {
                     for (let column of columnDateTypes)
                     {
-                        let date = new DateTime(row[column.field]);
-                        if (!this._vrDateTimeFields.includes(column.field) && date.isCreatedByDateTime())
+                        let dateTime = new DateTime(row[column.field]);
+                        if (!this._vrDateTimeFields.includes(column.field) && dateTime.isCreatedByDateTime())
                             this._vrDateTimeFields.push(column.field);
 
-                        row[column.field] = date.toDate();
+                        row[column.field] = dateTime.toDate();
                     }
                 }
             }

@@ -104,6 +104,7 @@ export declare class ComboBox extends VrControl {
     private manageCallbackAfterValue;
     private writeTextByValue;
     unCheck(value: string, triggerChange?: boolean): void;
+    allChecked(): boolean;
     select(index?: number, triggerChange?: boolean): void;
     index(index?: number, triggerChange?: boolean): void;
     icon(icon?: IconClass | string | null): HTMLElement | null;
