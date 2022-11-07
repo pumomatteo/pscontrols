@@ -1688,11 +1688,14 @@ export class Grid extends VrControl
                 {
                     for (let column of columnDateTypes)
                     {
-                        let dateTime = new DateTime(row[column.field]);
-                        if (!this._vrDateTimeFields.includes(column.field) && dateTime.isCreatedByDateTime())
-                            this._vrDateTimeFields.push(column.field);
+                        if (row[column.field] != null)
+                        {
+                            let dateTime = new DateTime(row[column.field]);
+                            if (!this._vrDateTimeFields.includes(column.field) && dateTime.isCreatedByDateTime())
+                                this._vrDateTimeFields.push(column.field);
 
-                        row[column.field] = dateTime.toDate();
+                            row[column.field] = dateTime.toDate();
+                        }
                     }
                 }
             }
@@ -1708,7 +1711,7 @@ export class Grid extends VrControl
                 this.sort(sortByField, (options.sortBy as GridSortSettings).direction, false);
             }
 
-            this._originalDataSource = JSON.parse(JSON.stringify(dataItems));
+            this._originalDataSource = UtilityManager.duplicate(dataItems);
             if (options.filterable)
             {
                 this._dictionaryDataValues.clear();
@@ -3336,7 +3339,7 @@ export class Grid extends VrControl
                         roundingSettings: k.roundingSettings
                     }
                 });
-                this._workerTotals.postMessage(workerTotalsRequest);
+                this._workerTotals.postMessage(JSON.parse(JSON.stringify(workerTotalsRequest)));
                 //#endregion
 
                 //#region Worker totals response
@@ -3426,7 +3429,7 @@ export class Grid extends VrControl
                         roundingSettings: k.roundingSettings
                     }
                 });
-                this._workerTotalsGroup.postMessage(workerTotalsGroupRequest);
+                this._workerTotalsGroup.postMessage(JSON.parse(JSON.stringify(workerTotalsGroupRequest)));
                 //#endregion
 
                 //#region WorkerTotalsGroupResponse
@@ -6714,7 +6717,7 @@ export class Grid extends VrControl
 
         if (applyFilters)
         {
-            this._dataSource = JSON.parse(JSON.stringify(filteredArray));
+            this._dataSource = UtilityManager.duplicate(filteredArray);
             if (options.groupBy != null)
                 this.sortingGroupFields(this.dataSource());
 
@@ -7347,8 +7350,10 @@ export class Grid extends VrControl
             for (let item of items.filter(k => k))
             {
                 for (let field of this._vrDateTimeFields)
-                    item[field] = new DateTime(item[field]);
-
+                {
+                    if (item[field] != null)
+                        item[field] = new DateTime(item[field]);
+                }
                 newItems.push(item);
             }
         }

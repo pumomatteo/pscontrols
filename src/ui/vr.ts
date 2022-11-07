@@ -7959,23 +7959,26 @@ export class DateTime
 
 	public static toDate(source: DateTime): Date
 	{
+		if (source == null || Date.vrIsValidDate(source))
+			return source as any;
+
 		return new Date(source.year, source.month - 1, source.day, source.hours, source.minutes, source.seconds, source.milliseconds);
 	}
 
 	public static toDateNullable(source: DateTime | null): Date | null
 	{
-		if (source == null)
-			return null;
-		else
-			return this.toDate(source);
+		if (source == null || Date.vrIsValidDate(source))
+			return source as any;
+
+		return this.toDate(source);
 	}
 
 	public static fromDateNullable(source: Date | null): DateTime | null
 	{
 		if (source == null)
 			return null;
-		else
-			return new DateTime(source);
+
+		return new DateTime(source);
 	}
 }
 

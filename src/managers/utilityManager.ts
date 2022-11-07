@@ -31,13 +31,16 @@ export class UtilityManager
         return puma("<i class='" + icon + " vrIcon' aria-hidden='true'></i>")[0];
     }
 
-    static duplicate(element: any)
+    static duplicate(element: any): any
     {
         if (element != null)
         {
-            let newElement = JSON.parse(JSON.stringify(element));
-            return newElement;
+            if (Array.isArray(element))
+                return element.map(k => k);
+            else
+                return JSON.parse(JSON.stringify(element));
         }
+        return null;
     }
 
     static equals(item1: any, item2: any) // Only primitive types
