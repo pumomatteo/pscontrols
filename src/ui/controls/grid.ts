@@ -1678,27 +1678,7 @@ export class Grid extends VrControl
             //#endregion
 
             //#region Manage vr.DateTime type
-            this._vrDateTimeFields = [];
-            let dateTypes = [GridColumnTypeEnum.Date, GridColumnTypeEnum.DateTime, GridColumnTypeEnum.Time, GridColumnTypeEnum.LongDate,
-            GridColumnTypeEnum.LongDateTime, GridColumnTypeEnum.LongWeekDate, GridColumnTypeEnum.ShortWeekDate];
-            if (options.columns!.vrAny(k => dateTypes.includes(k.type!)))
-            {
-                let columnDateTypes = options.columns!.filter(k => dateTypes.includes(k.type!));
-                for (let row of dataItems)
-                {
-                    for (let column of columnDateTypes)
-                    {
-                        if (row[column.field] != null)
-                        {
-                            let dateTime = new DateTime(row[column.field]);
-                            if (!this._vrDateTimeFields.includes(column.field) && dateTime.isCreatedByDateTime())
-                                this._vrDateTimeFields.push(column.field);
-
-                            row[column.field] = dateTime.toDate();
-                        }
-                    }
-                }
-            }
+            this.fixDatasourceWithDate(dataItems);
             //#endregion
 
             //#region GroupBy & Filterable
@@ -3600,6 +3580,7 @@ export class Grid extends VrControl
         let itemDatasourceIndex = this.dataSource().indexOf(itemDatasource);
         if (itemOriginalDatasource != null)
         {
+            this.fixDatasourceWithDate([dataItem]);
             this.originalDataSource()[itemOriginalDatasourceIndex] = dataItem;
             this.dataSource()[itemDatasourceIndex] = dataItem;
 
@@ -3626,6 +3607,7 @@ export class Grid extends VrControl
 
     addRows(dataItems: any[], rebind = true)
     {
+        this.fixDatasourceWithDate(dataItems);
         let options = this.getOptions();
         for (let dataItem of dataItems)
         {
@@ -6625,6 +6607,7 @@ export class Grid extends VrControl
                     && (valueFilterSettings.stringFilterSettings.specificValues == null || valueFilterSettings.stringFilterSettings.specificValues.length == 0))
                     return;
 
+                let textBox = ControlManager.get<TextBox>(this._elementId + "_StringFilter_" + column.field);
                 let filterButton: Button | null = null;
                 if ((valueFilterSettings.stringFilterSettings.specificValues != null && valueFilterSettings.stringFilterSettings.specificValues.length > 0)
                     || valueFilterSettings.stringFilterSettings.filterTypeEnum != GridStringFilterTypeEnum.IncludesFromSimpleSearch)
@@ -6637,9 +6620,10 @@ export class Grid extends VrControl
                     filterButtonRemove.show();
                     this.recalculateHeight(true);
 
-                    let textBox = ControlManager.get<TextBox>(this._elementId + "_StringFilter_" + column.field);
                     textBox.width("Calc(100% - 60px)");
                 }
+                else if (valueFilterSettings.stringFilterSettings.filterTypeEnum == GridStringFilterTypeEnum.IncludesFromSimpleSearch)
+                    textBox.value(valueFilterSettings.stringFilterSettings.text, false);
 
                 if (valueFilterSettings.stringFilterSettings.specificValues != null && valueFilterSettings.stringFilterSettings.specificValues.length > 0)
                 {
@@ -7358,6 +7342,32 @@ export class Grid extends VrControl
             }
         }
         return newItems;
+    }
+
+    fixDatasourceWithDate(items: any[])
+    {
+        let options = this.getOptions();
+        this._vrDateTimeFields = [];
+        let dateTypes = [GridColumnTypeEnum.Date, GridColumnTypeEnum.DateTime, GridColumnTypeEnum.Time, GridColumnTypeEnum.LongDate,
+        GridColumnTypeEnum.LongDateTime, GridColumnTypeEnum.LongWeekDate, GridColumnTypeEnum.ShortWeekDate];
+        if (options.columns!.vrAny(k => dateTypes.includes(k.type!)))
+        {
+            let columnDateTypes = options.columns!.filter(k => dateTypes.includes(k.type!));
+            for (let column of columnDateTypes)
+            {
+                for (let row of items)
+                {
+                    if (row[column.field] != null)
+                    {
+                        let dateTime = new DateTime(row[column.field]);
+                        if (!this._vrDateTimeFields.includes(column.field) && dateTime.isCreatedByDateTime())
+                            this._vrDateTimeFields.push(column.field);
+
+                        row[column.field] = dateTime.toDate();
+                    }
+                }
+            }
+        }
     }
 
     pageSize(pageSize?: number, update = false, triggerDataBound = false)

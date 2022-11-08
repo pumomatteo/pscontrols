@@ -201,6 +201,7 @@ export declare class Grid extends VrControl {
     hideSticker(): void;
     createTotalsFunction(): void;
     fixDatasourceWithVrDatetime(items: any[]): any[];
+    fixDatasourceWithDate(items: any[]): void;
     pageSize(pageSize?: number, update?: boolean, triggerDataBound?: boolean): number;
     pageSelected(page?: number, update?: boolean): number;
     checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;
