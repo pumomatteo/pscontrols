@@ -3475,7 +3475,7 @@ export class Grid extends VrControl
         {
             let valueFormatted = this.formatValue(total.total, total.type, total.decimalDigits, total.roundingSettings);
             td.innerHTML = valueFormatted;
-            puma(td).attr("title", td.innerHTML);
+            puma(td).attr("title", td.innerText);
         }
     }
 
@@ -7341,6 +7341,9 @@ export class Grid extends VrControl
                 newItems.push(item);
             }
         }
+        else
+            newItems.vrPushRange(items);
+
         return newItems;
     }
 
