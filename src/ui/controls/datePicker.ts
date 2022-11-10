@@ -425,6 +425,7 @@ export class DatePicker extends VrControl
             this._value = null;
             if (!onlyFormat)
                 this.change();
+
             return;
         }
 
@@ -511,25 +512,34 @@ export class DatePicker extends VrControl
         let todayMonth = new Date().getMonth();
 
         //#region Special
-        switch (inputText.toLowerCase())
+        let specialDates = ["oggi", "adesso", "ieri", "domani", "dopodomani", "natale", "vettore", "pumo", "pumetta", "pumettina",
+            "sanvalentino", "fineanno", "inizioanno"];
+        if (specialDates.includes(inputText.toLowerCase()))
         {
-            case "oggi":
-                {
-                    let today = new Date();
-                    today.setHours(0, 0);
-                    this.value(today);
-                }
-                return;
-            case "adesso": this.value(new Date()); return;
-            case "ieri": this.value(new Date().vrAddDays(-1)); return;
-            case "domani": this.value(new Date().vrAddDays(1)); return;
-            case "dopodomani": this.value(new Date().vrAddDays(2)); return;
-            case "natale": this.value(new Date(new Date().getFullYear(), 11, 25)); return;
-            case "vettore": this.value(new Date(2013, 0, 1)); return;
-            case "pumo": { this.value(new Date(1993, 9, 10)); } return;
-            case "sanvalentino": this.value(new Date(todayYear, 1, 14)); return;
-            case "fineanno": this.value(new Date(todayYear, 12, 31)); return;
-            case "inizioanno": this.value(new Date(todayYear, 1, 1)); return;
+            switch (inputText.toLowerCase())
+            {
+                case "oggi":
+                    {
+                        let today = new Date();
+                        today.setHours(0, 0);
+                        this.value(today);
+                    }
+                    break;
+                case "adesso": this.value(new Date()); break;
+                case "ieri": this.value(new Date().vrAddDays(-1)); break;
+                case "domani": this.value(new Date().vrAddDays(1)); break;
+                case "dopodomani": this.value(new Date().vrAddDays(2)); break;
+                case "natale": this.value(new Date(todayYear, 11, 25)); break;
+                case "vettore": this.value(new Date(2013, 0, 1)); break;
+                case "doctolib": this.value(new Date(2022, 9, 1)); break;
+                case "pumo": { this.value(new Date(1993, 9, 10)); } break;
+                case "pumetta": { this.value(new Date(1992, 6, 9)); } break;
+                case "pumettina": { this.value(new Date(2022, 8, 24)); } break;
+                case "sanvalentino": this.value(new Date(todayYear, 1, 14)); break;
+                case "fineanno": this.value(new Date(todayYear, 12, 31)); break;
+                case "inizioanno": this.value(new Date(todayYear, 1, 1)); break;
+            }
+            return this.value()!;
         }
         //#endregion
 
@@ -779,11 +789,10 @@ export class DatePicker extends VrControl
                 this.value(this.value(), false);
                 return;
             }
-            {
-                this._value = null;
-                this.change();
-                return;
-            }
+
+            this._value = null;
+            this.change();
+            return;
         }
 
         inputText = inputText.replace(/[^\w\s]/gi, '');
