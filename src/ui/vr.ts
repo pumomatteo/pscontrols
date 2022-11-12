@@ -7957,7 +7957,16 @@ export class DateTime
 		return DateTime.toDate(this);
 	}
 
-	public static toDate(source: DateTime): Date
+	public isEqualsTo(source: DateTime, ignoreHours = false)
+	{
+		if (ignoreHours)
+			return this.year == source.year && this.month == source.month && this.day == source.day;
+		else
+			return this.year == source.year && this.month == source.month && this.day == source.day && this.hours == source.hours
+				&& this.minutes == source.minutes && this.seconds == source.seconds && this.milliseconds == source.milliseconds;
+	}
+
+	public static toDate(source?: DateTime | null): Date
 	{
 		if (source == null || Date.vrIsValidDate(source))
 			return source as any;
@@ -7965,20 +7974,20 @@ export class DateTime
 		return new Date(source.year, source.month - 1, source.day, source.hours, source.minutes, source.seconds, source.milliseconds);
 	}
 
-	public static toDateNullable(source: DateTime | null): Date | null
-	{
-		if (source == null || Date.vrIsValidDate(source))
-			return source as any;
-
-		return this.toDate(source);
-	}
-
-	public static fromDateNullable(source: Date | null): DateTime | null
+	public static fromDate(source?: Date | null): DateTime
 	{
 		if (source == null)
-			return null;
+			return null as any;
 
 		return new DateTime(source);
+	}
+
+	public static equals(first: DateTime, second: DateTime, ignoreHours = false)
+	{
+		if (first == null || second == null)
+			return false;
+
+		return first.isEqualsTo(second, ignoreHours);
 	}
 }
 

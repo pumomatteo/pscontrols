@@ -9432,9 +9432,10 @@ export class DateTime
     isCreatedByDate(): boolean;
     isCreatedByString(): boolean;
     toDate(): Date;
-    static toDate(source: DateTime): Date;
-    static toDateNullable(source: DateTime | null): Date | null;
-    static fromDateNullable(source: Date | null): DateTime | null;
+    isEqualsTo(source: DateTime, ignoreHours?: boolean): boolean;
+    static toDate(source?: DateTime | null): Date;
+    static fromDate(source?: Date | null): DateTime;
+    static equals(first: DateTime, second: DateTime, ignoreHours?: boolean): boolean;
 }
 export enum DateTimeTypeEnum
 {
