@@ -103,8 +103,6 @@ export declare class ComboBox extends VrControl {
     value<T extends string | string[] | number>(value?: ComboBoxItem | string | number | string[] | number[] | null, triggerChange?: boolean, callback?: null | ((e: ComboBoxChangeEvent) => void)): T | null;
     private manageCallbackAfterValue;
     private writeTextByValue;
-    unCheck(value: string, triggerChange?: boolean): void;
-    allChecked(): boolean;
     select(index?: number, triggerChange?: boolean): void;
     index(index?: number, triggerChange?: boolean): void;
     icon(icon?: IconClass | string | null): HTMLElement | null;
@@ -113,6 +111,9 @@ export declare class ComboBox extends VrControl {
     hideError(): void;
     checkAll(triggerChange?: boolean): void;
     unCheckAll(triggerChange?: boolean): void;
+    check(value: string, triggerChange?: boolean): void;
+    unCheck(value: string, triggerChange?: boolean): void;
+    allChecked(): boolean;
     clear(triggerChange?: boolean): void;
     clearItems(): void;
     popup(): any;

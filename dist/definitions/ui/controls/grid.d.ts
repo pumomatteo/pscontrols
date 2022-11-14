@@ -228,6 +228,7 @@ export declare class Grid extends VrControl {
     enableToolbarItem<T extends VrControl>(value: string): void;
     disableToolbarItem<T extends VrControl>(value: string): void;
     removeToolbarItem(value: string): void;
+    addToolbarItems(toolbarItems: GridToolbarItem[]): void;
     addToolbarItem(toolbarItem: GridToolbarItem): void;
     private createAutoWindow;
     private createControlsAutoWindow;

@@ -8079,6 +8079,7 @@ declare global
 		vrToStringArrayList(): string[];
 		vrToCommaSeparatedList(): string;
 		vrPushRange(arrayToAdd: any[]): void;
+		vrAll<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): boolean;
 		vrAny<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): boolean;
 		vrSum<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): number;
 		vrMax<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): number;
@@ -8807,6 +8808,14 @@ function internalSortWithoutProperties(array: any[], ascending: boolean)
 			return 0;
 		}
 	});
+}
+
+Array.prototype.vrAll = function (callbackfn: (value: any, index: number, array: any[]) => any)
+{
+	if (Array.isArray(this))
+		return this.every(callbackfn);
+
+	return false;
 }
 
 Array.prototype.vrAny = function (callbackfn: (value: any, index: number, array: any[]) => any)

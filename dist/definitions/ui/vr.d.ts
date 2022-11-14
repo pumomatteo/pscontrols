@@ -5519,6 +5519,7 @@ declare global {
         vrToStringArrayList(): string[];
         vrToCommaSeparatedList(): string;
         vrPushRange(arrayToAdd: any[]): void;
+        vrAll<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): boolean;
         vrAny<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): boolean;
         vrSum<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): number;
         vrMax<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): number;

@@ -1655,7 +1655,14 @@ export class ComboBox extends VrControl
                     //#endregion
                 }
 
-                let toWriteElements = selectedItems.vrDistinctBy(k => k.value);
+                selectedItems = selectedItems.vrDistinctBy(k => k.value);
+                let toWriteElements: ComboBoxItem[] = [];
+                for (let selectedItem of selectedItems)
+                {
+                    if (this.getChildrenValues().includes(selectedItem.value))
+                        toWriteElements.push(selectedItem)
+                }
+
                 let spanSelectedValues = puma("<span class='vrComboBoxSelectedValues'>" + ((options.onlyIcon) ? "" : toWriteElements.map(k => k.text).vrToCommaSeparatedList()) + "</span>").vrAppendToPuma(this.element())[0];
                 if (!options.onlyIcon)
                 {
@@ -1694,43 +1701,6 @@ export class ComboBox extends VrControl
                     this._chkCheckAll.checked(false, false);
             }
         }
-    }
-
-    unCheck(value: string, triggerChange = true): void
-    {
-        let item = this.items().filter(k => k.value == value)[0];
-        if (item != null)
-        {
-            let comboItemTexts: HTMLSpanElement[] = [];
-            let liList = this._dictionaryValueLi.get(value)!;
-            if (liList != null)
-            {
-                for (let li of liList)
-                {
-                    let comboItemText = puma(li).find(".vrComboBoxItemText")[0];
-                    comboItemTexts.push(comboItemText);
-                }
-
-                for (let comboItemText of comboItemTexts)
-                {
-                    if (comboItemText == null)
-                        continue;
-
-                    let checkBox = puma(comboItemText).siblings("input");
-                    puma(checkBox).removeClass("indeterminateVrCheckbox");
-                    puma(checkBox).prop("checked", false);
-                    checkBox[0].checked = false;
-                }
-            }
-
-            this._checkedValues.vrDelete(value);
-            this.value(this.getCheckedValues(), triggerChange);
-        }
-    }
-
-    allChecked()
-    {
-        return this.getCheckedValues().length == this.getAllChildrenValues().vrDistinct().length;
     }
 
     select(index = 0, triggerChange = true): void
@@ -1802,6 +1772,50 @@ export class ComboBox extends VrControl
         let options = this.getOptions();
         if (options.onlyIcon)
             puma(this._allCheckedOnlyIcon).hide();
+    }
+
+    check(value: string, triggerChange = true)
+    {
+        let checkedValues = this.getCheckedValues();
+        checkedValues.push(value);
+        this.value(checkedValues, triggerChange);
+    }
+
+    unCheck(value: string, triggerChange = true): void
+    {
+        let item = this.items().filter(k => k.value == value)[0];
+        if (item != null)
+        {
+            let comboItemTexts: HTMLSpanElement[] = [];
+            let liList = this._dictionaryValueLi.get(value)!;
+            if (liList != null)
+            {
+                for (let li of liList)
+                {
+                    let comboItemText = puma(li).find(".vrComboBoxItemText")[0];
+                    comboItemTexts.push(comboItemText);
+                }
+
+                for (let comboItemText of comboItemTexts)
+                {
+                    if (comboItemText == null)
+                        continue;
+
+                    let checkBox = puma(comboItemText).siblings("input");
+                    puma(checkBox).removeClass("indeterminateVrCheckbox");
+                    puma(checkBox).prop("checked", false);
+                    checkBox[0].checked = false;
+                }
+            }
+
+            this._checkedValues.vrDelete(value);
+            this.value(this.getCheckedValues(), triggerChange);
+        }
+    }
+
+    allChecked()
+    {
+        return this.getCheckedValues().length == this.getAllChildrenValues().vrDistinct().length;
     }
     //#endregion
 

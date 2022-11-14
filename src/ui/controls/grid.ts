@@ -8659,6 +8659,12 @@ export class Grid extends VrControl
             puma(toolbarItem.container()).remove();
     }
 
+    addToolbarItems(toolbarItems: GridToolbarItem[])
+    {
+        for (let toolbarItem of toolbarItems)
+            this.addToolbarItem(toolbarItem);
+    }
+
     addToolbarItem(toolbarItem: GridToolbarItem)
     {
         if (toolbarItem.visible == null) toolbarItem.visible = true;
