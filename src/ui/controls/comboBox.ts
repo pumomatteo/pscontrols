@@ -1657,9 +1657,10 @@ export class ComboBox extends VrControl
 
                 selectedItems = selectedItems.vrDistinctBy(k => k.value);
                 let toWriteElements: ComboBoxItem[] = [];
+                let childrenValues = this.getChildrenValues();
                 for (let selectedItem of selectedItems)
                 {
-                    if (this.getChildrenValues().includes(selectedItem.value))
+                    if (childrenValues.includes(selectedItem.value))
                         toWriteElements.push(selectedItem)
                 }
 
@@ -1748,7 +1749,7 @@ export class ComboBox extends VrControl
     {
         this._checkedValues = this.items().map(k => String(k.value));
         this._checkedValues = this._checkedValues.vrDistinct();
-        this.valueInternal(this.items().map(k => String(k.value)), triggerChange);
+        this.valueInternal(this._checkedValues, triggerChange);
 
         if (this._chkCheckAll != null)
             this._chkCheckAll.checked(true, false);
