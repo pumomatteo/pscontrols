@@ -5323,6 +5323,7 @@ declare class PageErrorEvent {
     columnNumber?: number;
     error?: Error;
 }
+export declare function filesToBase64(files: File[]): Promise<string[]>;
 export declare function isEquals(item1: any, item2: any): boolean;
 export declare function isLocalhost(): boolean;
 export declare function interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;

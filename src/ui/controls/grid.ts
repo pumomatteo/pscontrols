@@ -759,7 +759,7 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Toolbar
-        if (options.toolbar != null && options.toolbar.length > 0)
+        if (options.toolbar != null)
         {
             this._divToolbar = puma("<div id='" + element.id + "Toolbar' class='grid_divToolbar'></div>").vrPrependToPuma("#" + element.id + "_divContainer")[0] as HTMLDivElement;
 

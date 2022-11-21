@@ -3557,6 +3557,7 @@ export class Upload extends VrControl
     addFile(file: File): void;
     addFiles(files: File[]): void;
     getFiles(): File[];
+    getBase64Files(files: File[]): Promise<string[]>;
     removeFileAtIndex(index: number): void;
     dropArea(): HTMLElement | null;
     divFileList(): HTMLElement;
@@ -9303,6 +9304,7 @@ class PageErrorEvent
     columnNumber?: number;
     error?: Error;
 }
+export function filesToBase64(files: File[]): Promise<string[]>;
 export function isEquals(item1: any, item2: any): boolean;
 export function isLocalhost(): boolean;
 export function interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;

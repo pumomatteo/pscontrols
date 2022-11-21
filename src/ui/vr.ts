@@ -7611,6 +7611,29 @@ class PageErrorEvent
 	public error?: Error;
 }
 
+export async function filesToBase64(files: File[])
+{
+	const filePathsPromises: any[] = [];
+	files.forEach(file =>
+	{
+		filePathsPromises.push(fileToBase64(file));
+	});
+	const filePaths = await Promise.all(filePathsPromises);
+	const mappedFiles: string[] = filePaths.map((base64File) => base64File);
+	return mappedFiles;
+}
+
+function fileToBase64(file: File)
+{
+	let promise = new Promise((resolve: (e: string) => void) =>
+	{
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = () => resolve(String(reader.result!));
+	});
+	return promise;
+};
+
 export function isEquals(item1: any, item2: any)
 {
 	return UtilityManager.equals(item1, item2);

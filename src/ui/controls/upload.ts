@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, div, puma, confirm, createLabel, icon, IconClassicLight, createButton, span, notify, NotifierTypeEnum, IconClassicRegular, UploadValidationErrorTypeEnum } from "../vr";
+import { ControlTypeEnum, div, puma, confirm, createLabel, icon, IconClassicLight, createButton, span, notify, NotifierTypeEnum, IconClassicRegular, UploadValidationErrorTypeEnum, filesToBase64 } from "../vr";
 
 //#region Options
 export class UploadOptions extends VrControlOptions
@@ -259,6 +259,11 @@ export class Upload extends VrControl
 	getFiles()
 	{
 		return this._files;
+	}
+
+	getBase64Files(files: File[])
+	{
+		return filesToBase64(files);
 	}
 
 	removeFileAtIndex(index: number)

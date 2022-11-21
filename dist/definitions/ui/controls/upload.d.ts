@@ -39,6 +39,7 @@ export declare class Upload extends VrControl {
     addFile(file: File): void;
     addFiles(files: File[]): void;
     getFiles(): File[];
+    getBase64Files(files: File[]): Promise<string[]>;
     removeFileAtIndex(index: number): void;
     private manageLoadingFiles;
     private drawFile;
