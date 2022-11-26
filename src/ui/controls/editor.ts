@@ -271,7 +271,7 @@ export class Editor extends VrControl
                     {
                         if ((this._wndTempMessage == null || !this._wndTempMessage.visible()) && !e.sender.isRecording())
                             this.openWindowTempMessage();
-                        else
+                        else if (this._wndTempMessage != null)
                             this._wndTempMessage.close();
                     }
                 },
@@ -280,7 +280,7 @@ export class Editor extends VrControl
                     if (e.interimResults.length > 0)
                     {
                         let interimResults = this.parseInput(e.interimResults, true);
-                        if ((options!.speechRecognizer! as vrEditorSpeechRecognizerSettings).mode == EditorSpeechRecognizerModeEnum.Popup)
+                        if (this._txtTempMessage != null && (options!.speechRecognizer! as vrEditorSpeechRecognizerSettings).mode == EditorSpeechRecognizerModeEnum.Popup)
                             this._txtTempMessage.value(interimResults);
                         else
                             this.value(this._finalTextSpeeched + interimResults);
@@ -292,7 +292,7 @@ export class Editor extends VrControl
                             e.sender.stop();
 
                         let finalResults = this.parseInput(e.finalResults);
-                        if ((options!.speechRecognizer! as vrEditorSpeechRecognizerSettings).mode == EditorSpeechRecognizerModeEnum.Popup)
+                        if (this._txtTempMessage != null && (options!.speechRecognizer! as vrEditorSpeechRecognizerSettings).mode == EditorSpeechRecognizerModeEnum.Popup)
                         {
                             this._txtTempMessage.clear();
                             this.insertTextAtCursor(finalResults);
