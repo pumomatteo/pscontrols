@@ -126,6 +126,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/AutoWindowEvent.html" data-type="entity-link" >AutoWindowEvent</a>
                             </li>
                             <li class="link">
+                                <a href="classes/BadgeClickEvent.html" data-type="entity-link" >BadgeClickEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/BadgeSettings.html" data-type="entity-link" >BadgeSettings</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/BarChart.html" data-type="entity-link" >BarChart</a>
                             </li>
                             <li class="link">
@@ -136,12 +142,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/Button.html" data-type="entity-link" >Button</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/ButtonBadgeClickEvent.html" data-type="entity-link" >ButtonBadgeClickEvent</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/ButtonBadgeSettings.html" data-type="entity-link" >ButtonBadgeSettings</a>
                             </li>
                             <li class="link">
                                 <a href="classes/ButtonBlurEvent.html" data-type="entity-link" >ButtonBlurEvent</a>

@@ -49,7 +49,7 @@ import { TabStrip, TabStripOptions } from "./controls/tabStrip";
 import { Tooltip, TooltipOptions } from "./controls/tooltip";
 import { SpeechRecognizer, SpeechRecognizerAudioEndEvent, SpeechRecognizerAudioStartEvent, SpeechRecognizerClickEvent, SpeechRecognizerEndEvent, SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecognizerResultEvent, SpeechRecognizerSoundEndEvent, SpeechRecognizerSoundStartEvent, SpeechRecognizerSpeechEndEvent, SpeechRecognizerSpeechStartEvent, SpeechRecognizerStartEvent } from "./controls/speechRecognizer";
 import { Div, DivOptions } from "./controls/div";
-import { Button, ButtonBadgeSettings, ButtonOptions } from "./controls/button";
+import { Button, ButtonOptions } from "./controls/button";
 import { Legend, LegendOptions } from "./controls/legend";
 //#endregion
 
@@ -6747,7 +6747,7 @@ export class GridToolbarItem
 	css?: string;
 	cssContainer?: string;
 	classContainer?: string;
-	badge?: ButtonBadgeSettings;
+	badge?: BadgeSettings;
 	primary?: boolean;
 	enable?: boolean;
 
@@ -6840,6 +6840,7 @@ export class SwitchLabelSettings
 	color?: string;
 	bold?: boolean;
 	css?: string;
+	badgeSettings?: BadgeSettings;
 	onClick?: (e: SwitchLabelSettingsOnClickEvent) => void;
 }
 
@@ -6847,6 +6848,27 @@ export class SwitchLabelSettingsOnClickEvent extends VrControlsEvent
 {
 	sender: Switch;
 	checked: boolean;
+}
+//#endregion
+
+//#region Badge
+export class BadgeSettings
+{
+	text?: string | number;
+	color?: string;
+	backgroundColor?: string;
+	visible?: boolean;
+	css?: string;
+	click?: (e: BadgeClickEvent) => void;
+}
+
+export class BadgeClickEvent
+{
+	sender: VrControl;
+	text: string;
+	leftButton?: boolean;
+	middleButton?: boolean;
+	rightButton?: boolean;
 }
 //#endregion
 
@@ -7134,7 +7156,7 @@ export class TreeViewToolbarItem
 	css?: string;
 	cssContainer?: string;
 	classContainer?: string;
-	badge?: ButtonBadgeSettings;
+	badge?: BadgeSettings;
 	primary?: boolean;
 
 	splitButtonItems?: SplitButtonItem[];

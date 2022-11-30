@@ -1,4 +1,4 @@
-import { ButtonModeEnum, ColorSettings, IconClass, PositionEnum, ControlTypeEnum, confirm, puma, span, IconSettings } from "../vr";
+import { ButtonModeEnum, ColorSettings, IconClass, PositionEnum, ControlTypeEnum, confirm, puma, span, IconSettings, BadgeClickEvent, BadgeSettings } from "../vr";
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
 
 //#region Options
@@ -13,7 +13,7 @@ export class ButtonOptions extends VrControlOptions
     imageUrl?: string;
     iconSettings?: IconSettings;
     confirmationMessage?: string;
-    badgeSettings?: ButtonBadgeSettings;
+    badgeSettings?: BadgeSettings;
 
     onContextMenu?: boolean | ((e: ContextMenuEvent) => void);
     onClick?: (e: ButtonClickEvent) => void;
@@ -102,7 +102,7 @@ export class Button extends VrControl
             if (options.badgeSettings.visible != null) badgeVisible = options.badgeSettings.visible;
         }
 
-        let badge = puma("<span class='vrButtonBadgeClass'>" + badgeText + "</span>")[0];
+        let badge = puma("<span class='vrBadgeClass vrButtonBadgeClass'>" + badgeText + "</span>")[0];
         badge.innerHTML = badgeText;
         puma(element).after(badge);
 
@@ -120,7 +120,7 @@ export class Button extends VrControl
         {
             puma(badge).on("mousedown", (e: JQuery.MouseDownEvent) =>
             {
-                let badgeClickEvent = new ButtonBadgeClickEvent();
+                let badgeClickEvent = new BadgeClickEvent();
                 badgeClickEvent.sender = this;
                 badgeClickEvent.text = this.badge();
 
@@ -273,7 +273,7 @@ export class Button extends VrControl
         if (text != null)
         {
             puma(this.container()).find(".vrButtonBadgeClass").html(text);
-            this.showBadge();
+            this.visibleBadge(text != "");
         }
         return puma(this.container()).find(".vrButtonBadgeClass").html();
     }
@@ -296,6 +296,12 @@ export class Button extends VrControl
     hideBadge()
     {
         puma(this.container()).find(".vrButtonBadgeClass").hide();
+    }
+
+    visibleBadge(state: boolean)
+    {
+        if (state) this.showBadge();
+        else this.hideBadge();
     }
     //#endregion
 
@@ -566,23 +572,4 @@ class ButtonMouseDownEvent extends ButtonEvent
 
 class ButtonMouseUpEvent extends ButtonEvent
 { }
-
-export class ButtonBadgeSettings
-{
-    text?: string | number;
-    color?: string;
-    backgroundColor?: string;
-    visible?: boolean;
-    css?: string;
-    click?: (e: ButtonBadgeClickEvent) => void;
-}
-
-class ButtonBadgeClickEvent
-{
-    sender: Button;
-    text: string;
-    leftButton?: boolean;
-    middleButton?: boolean;
-    rightButton?: boolean;
-}
 //#endregion

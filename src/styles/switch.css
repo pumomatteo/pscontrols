@@ -57,6 +57,7 @@ input:checked+.vrSwitchSlider:before {
     border-bottom: solid 2px #51B3E1;
     cursor: pointer;
     user-select: none;
+    position: relative;
 }
 
 .vrSwitchLabelOn {
@@ -65,6 +66,7 @@ input:checked+.vrSwitchSlider:before {
     border-bottom: solid 2px transparent;
     cursor: pointer;
     user-select: none;
+    position: relative;
 }
 
 .vrSwitchContainer {

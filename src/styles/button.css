@@ -21,19 +21,8 @@
 }
 
 .vrButtonBadgeClass {
-    cursor: pointer;
-    font-size: 11px;
-    border-radius: 7px;
-    font-weight: 500;
-    width: 15px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    display: inline-block;
-    text-align: center;
     top: -4px;
     right: -6px;
-    position: absolute;
-    z-index: 1;
 }
 
 .vrButtonSpanText {

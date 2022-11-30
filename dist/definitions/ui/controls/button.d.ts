@@ -1,4 +1,4 @@
-import { ButtonModeEnum, ColorSettings, IconClass, PositionEnum, IconSettings } from "../vr";
+import { ButtonModeEnum, ColorSettings, IconClass, PositionEnum, IconSettings, BadgeSettings } from "../vr";
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
 export declare class ButtonOptions extends VrControlOptions {
     text?: string;
@@ -10,7 +10,7 @@ export declare class ButtonOptions extends VrControlOptions {
     imageUrl?: string;
     iconSettings?: IconSettings;
     confirmationMessage?: string;
-    badgeSettings?: ButtonBadgeSettings;
+    badgeSettings?: BadgeSettings;
     onContextMenu?: boolean | ((e: ContextMenuEvent) => void);
     onClick?: (e: ButtonClickEvent) => void;
     onRightClick?: (e: ButtonRightClickEvent) => void;
@@ -32,6 +32,7 @@ export declare class Button extends VrControl {
     badgeColor(color: string): void;
     showBadge(): void;
     hideBadge(): void;
+    visibleBadge(state: boolean): void;
     hide(): void;
     mode(mode?: ButtonModeEnum): ButtonModeEnum;
     colorSettings(settings?: ColorSettings): ColorSettings | undefined;
@@ -72,20 +73,5 @@ declare class ContextMenuEvent extends ButtonEvent {
 declare class ButtonMouseDownEvent extends ButtonEvent {
 }
 declare class ButtonMouseUpEvent extends ButtonEvent {
-}
-export declare class ButtonBadgeSettings {
-    text?: string | number;
-    color?: string;
-    backgroundColor?: string;
-    visible?: boolean;
-    css?: string;
-    click?: (e: ButtonBadgeClickEvent) => void;
-}
-declare class ButtonBadgeClickEvent {
-    sender: Button;
-    text: string;
-    leftButton?: boolean;
-    middleButton?: boolean;
-    rightButton?: boolean;
 }
 export {};

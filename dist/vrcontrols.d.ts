@@ -474,7 +474,7 @@ export class ButtonOptions extends VrControlOptions
     imageUrl?: string;
     iconSettings?: IconSettings;
     confirmationMessage?: string;
-    badgeSettings?: ButtonBadgeSettings;
+    badgeSettings?: BadgeSettings;
     onContextMenu?: boolean | ((e: ContextMenuEvent) => void);
     onClick?: (e: ButtonClickEvent) => void;
     onRightClick?: (e: ButtonRightClickEvent) => void;
@@ -496,6 +496,7 @@ export class Button extends VrControl
     badgeColor(color: string): void;
     showBadge(): void;
     hideBadge(): void;
+    visibleBadge(state: boolean): void;
     hide(): void;
     mode(mode?: ButtonModeEnum): ButtonModeEnum;
     colorSettings(settings?: ColorSettings): ColorSettings | undefined;
@@ -543,23 +544,6 @@ class ButtonMouseDownEvent extends ButtonEvent
 }
 class ButtonMouseUpEvent extends ButtonEvent
 {
-}
-export class ButtonBadgeSettings
-{
-    text?: string | number;
-    color?: string;
-    backgroundColor?: string;
-    visible?: boolean;
-    css?: string;
-    click?: (e: ButtonBadgeClickEvent) => void;
-}
-class ButtonBadgeClickEvent
-{
-    sender: Button;
-    text: string;
-    leftButton?: boolean;
-    middleButton?: boolean;
-    rightButton?: boolean;
 }
 export
 {};
@@ -3098,6 +3082,18 @@ export class Switch extends VrControl
     clear(triggerChange?: boolean): void;
     labelOff(text?: string): string;
     labelOn(text?: string): string;
+    badgeLabelOff(text?: string | number): any;
+    badgeBackgroundColorLabelOff(color: string): void;
+    badgeColorLabelOff(color: string): void;
+    showBadgeLabelOff(): void;
+    hideBadgeLabelOff(): void;
+    visibleBadgeLabelOff(state: boolean): void;
+    badgeLabelOn(text?: string | number): any;
+    badgeBackgroundColorLabelOn(color: string): void;
+    badgeColorLabelOn(color: string): void;
+    showBadgeLabelOn(): void;
+    hideBadgeLabelOn(): void;
+    visibleBadgeLabelOn(state: boolean): void;
     getOptions(): SwitchOptions;
     enable(): void;
     disable(): void;
@@ -8563,7 +8559,7 @@ export class GridToolbarItem
     css?: string;
     cssContainer?: string;
     classContainer?: string;
-    badge?: ButtonBadgeSettings;
+    badge?: BadgeSettings;
     primary?: boolean;
     enable?: boolean;
     splitButtonItems?: SplitButtonItem[];
@@ -8637,12 +8633,30 @@ export class SwitchLabelSettings
     color?: string;
     bold?: boolean;
     css?: string;
+    badgeSettings?: BadgeSettings;
     onClick?: (e: SwitchLabelSettingsOnClickEvent) => void;
 }
 export class SwitchLabelSettingsOnClickEvent extends VrControlsEvent
 {
     sender: Switch;
     checked: boolean;
+}
+export class BadgeSettings
+{
+    text?: string | number;
+    color?: string;
+    backgroundColor?: string;
+    visible?: boolean;
+    css?: string;
+    click?: (e: BadgeClickEvent) => void;
+}
+export class BadgeClickEvent
+{
+    sender: VrControl;
+    text: string;
+    leftButton?: boolean;
+    middleButton?: boolean;
+    rightButton?: boolean;
 }
 export class SchedulerSaturationInfo
 {
@@ -8886,7 +8900,7 @@ export class TreeViewToolbarItem
     css?: string;
     cssContainer?: string;
     classContainer?: string;
-    badge?: ButtonBadgeSettings;
+    badge?: BadgeSettings;
     primary?: boolean;
     splitButtonItems?: SplitButtonItem[];
     switchSettings?: TreeViewToolbarSwitchSettings;

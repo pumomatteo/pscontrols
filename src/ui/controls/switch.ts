@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, puma, SwitchLabelSettings, SwitchLabelSettingsOnClickEvent } from "../vr";
+import { BadgeClickEvent, ControlTypeEnum, puma, SwitchLabelSettings, SwitchLabelSettingsOnClickEvent } from "../vr";
 
 //#region Options
 export class SwitchOptions extends VrControlOptions
@@ -15,6 +15,9 @@ export class SwitchOptions extends VrControlOptions
 //#region Control
 export class Switch extends VrControl
 {
+    private _badgeLabelOff: HTMLElement;
+    private _badgeLabelOn: HTMLElement;
+
     constructor(element: HTMLElement, options?: SwitchOptions | null)
     {
         //#region Options
@@ -45,8 +48,9 @@ export class Switch extends VrControl
         //#region Label off
         let colorOff = (options.labelOff.color != null) ? "color: " + options.labelOff.color + ";" : "";
         let boldOff = (options.labelOff.bold) ? "font-weight: 600;" : "";
+        let tooltipOff = (options.labelOff.tooltip != null) ? "title='" + options.labelOff.tooltip + "'" : "";
 
-        let labelOff = puma("<label title='" + options.labelOff.tooltip + "'"
+        let labelOff = puma("<label " + tooltipOff
             + " style='" + colorOff + boldOff + options.labelOff.css + ";'"
             + " class='vrSwitchLabelOff'>"
             + options.labelOff.text
@@ -71,6 +75,44 @@ export class Switch extends VrControl
             if (this.enabled())
                 this.checked(false);
         });
+
+        //#region Badge Label off
+        let badgeColorLabelOff = "#FFF";
+        let badgeBackgroundColorLabelOff = "red";
+        let badgeTextLabelOff = "";
+        let badgeVisibleLabelOff = false;
+        if (options.labelOff.badgeSettings != null)
+        {
+            if (options.labelOff.badgeSettings.text != null) badgeTextLabelOff = String(options.labelOff.badgeSettings.text);
+            if (options.labelOff.badgeSettings.color != null) badgeColorLabelOff = options.labelOff.badgeSettings.color;
+            if (options.labelOff.badgeSettings.backgroundColor != null) badgeBackgroundColorLabelOff = String(options.labelOff.badgeSettings.backgroundColor);
+            if (options.labelOff.badgeSettings.visible != null) badgeVisibleLabelOff = options.labelOff.badgeSettings.visible;
+        }
+
+        this._badgeLabelOff = puma("<span class='vrBadgeClass' style='left: -15px; top: -4px;'>" + badgeTextLabelOff + "</span>")[0];
+        this._badgeLabelOff.innerHTML = badgeTextLabelOff;
+        puma(labelOff).append(this._badgeLabelOff);
+
+        if (options.labelOff.tooltip != null)
+            this._badgeLabelOff.title = options.labelOff.tooltip;
+
+        this._badgeLabelOff.style.cssText += "color: " + badgeColorLabelOff + "; background-color: " + badgeBackgroundColorLabelOff + ";";
+        if ((badgeTextLabelOff == "" || badgeTextLabelOff == null) && !badgeVisibleLabelOff)
+            puma(this._badgeLabelOff).hide();
+
+        if (options.labelOff.badgeSettings != null && options.labelOff.badgeSettings.css != null)
+            this._badgeLabelOff.style.cssText += options.labelOff.badgeSettings.css;
+
+        if (options.labelOff.onClick != null)
+        {
+            puma(this._badgeLabelOff).on("click", (e: JQuery.MouseDownEvent) => 
+            {
+                labelOff.click();
+                return false;
+            });
+        }
+        //#endregion
+
         //#endregion
 
         //#region Switch slider
@@ -82,8 +124,9 @@ export class Switch extends VrControl
         //#region Label on
         let colorOn = (options.labelOn.color != null) ? "color: " + options.labelOn.color + ";" : "";
         let boldOn = (options.labelOn.bold) ? "font-weight: 600;" : "";
+        let tooltipOn = (options.labelOn.tooltip != null) ? "title='" + options.labelOn.tooltip + "'" : "";
 
-        let labelOn = puma("<label title='" + options.labelOn.tooltip + "'"
+        let labelOn = puma("<label " + tooltipOn
             + " style='" + colorOn + boldOn + options.labelOn.css + ";'"
             + " class='vrSwitchLabelOn'>"
             + options.labelOn.text
@@ -108,6 +151,44 @@ export class Switch extends VrControl
             if (this.enabled())
                 this.checked(true);
         });
+
+        //#region Badge Label on
+        let badgeColorLabelOn = "#FFF";
+        let badgeBackgroundColorLabelOn = "red";
+        let badgeTextLabelOn = "";
+        let badgeVisibleLabelOn = false;
+        if (options.labelOn.badgeSettings != null)
+        {
+            if (options.labelOn.badgeSettings.text != null) badgeTextLabelOn = String(options.labelOn.badgeSettings.text);
+            if (options.labelOn.badgeSettings.color != null) badgeColorLabelOn = options.labelOn.badgeSettings.color;
+            if (options.labelOn.badgeSettings.backgroundColor != null) badgeBackgroundColorLabelOn = String(options.labelOn.badgeSettings.backgroundColor);
+            if (options.labelOn.badgeSettings.visible != null) badgeVisibleLabelOn = options.labelOn.badgeSettings.visible;
+        }
+
+        this._badgeLabelOn = puma("<span class='vrBadgeClass' style='right: -15px; top: -4px;'>" + badgeTextLabelOn + "</span>")[0];
+        this._badgeLabelOn.innerHTML = badgeTextLabelOn;
+        puma(labelOn).append(this._badgeLabelOn);
+
+        if (options.labelOn.tooltip != null)
+            this._badgeLabelOn.title = options.labelOn.tooltip;
+
+        this._badgeLabelOn.style.cssText += "color: " + badgeColorLabelOn + "; background-color: " + badgeBackgroundColorLabelOn + ";";
+        if ((badgeTextLabelOn == "" || badgeTextLabelOn == null) && !badgeVisibleLabelOn)
+            puma(this._badgeLabelOn).hide();
+
+        if (options.labelOn.badgeSettings != null && options.labelOn.badgeSettings.css != null)
+            this._badgeLabelOn.style.cssText += options.labelOn.badgeSettings.css;
+
+        if (options.labelOn.onClick != null)
+        {
+            puma(this._badgeLabelOn).on("click", (e: JQuery.MouseDownEvent) => 
+            {
+                labelOn.click();
+                return false;
+            });
+        }
+        //#endregion
+
         //#endregion
 
         //#region Checked
@@ -177,6 +258,80 @@ export class Switch extends VrControl
 
         return puma(this.element()).find(".vrSwitchLabelOn").html();
     }
+
+    //#region Badge
+    badgeLabelOff(text?: string | number)
+    {
+        if (text != null)
+        {
+            puma(this._badgeLabelOff).html(text);
+            this.visibleBadgeLabelOff(text != "");
+        }
+        return puma(this._badgeLabelOff).html();
+    }
+
+    badgeBackgroundColorLabelOff(color: string)
+    {
+        puma(this._badgeLabelOff).css("background-color", color)
+    }
+
+    badgeColorLabelOff(color: string)
+    {
+        puma(this._badgeLabelOff).css("color", color)
+    }
+
+    showBadgeLabelOff()
+    {
+        puma(this._badgeLabelOff).show();
+    }
+
+    hideBadgeLabelOff()
+    {
+        puma(this._badgeLabelOff).hide();
+    }
+
+    visibleBadgeLabelOff(state: boolean)
+    {
+        if (state) this.showBadgeLabelOff();
+        else this.hideBadgeLabelOff();
+    }
+
+    badgeLabelOn(text?: string | number)
+    {
+        if (text != null)
+        {
+            puma(this._badgeLabelOn).html(text);
+            this.visibleBadgeLabelOn(text != "");
+        }
+        return puma(this._badgeLabelOn).html();
+    }
+
+    badgeBackgroundColorLabelOn(color: string)
+    {
+        puma(this._badgeLabelOn).css("background-color", color)
+    }
+
+    badgeColorLabelOn(color: string)
+    {
+        puma(this._badgeLabelOn).css("color", color)
+    }
+
+    showBadgeLabelOn()
+    {
+        puma(this._badgeLabelOn).show();
+    }
+
+    hideBadgeLabelOn()
+    {
+        puma(this._badgeLabelOn).hide();
+    }
+
+    visibleBadgeLabelOn(state: boolean)
+    {
+        if (state) this.showBadgeLabelOn();
+        else this.hideBadgeLabelOn();
+    }
+    //#endregion
 
     getOptions(): SwitchOptions
     {
