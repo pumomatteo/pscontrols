@@ -181,6 +181,7 @@ module.exports = function (grunt)
                 path.resolve("N://Vettore.Web/trunk/Vettore.Web/Vettore.Web/Scripts/"),
                 path.resolve("N://Vettore.Web/24.prod/Vettore.Web/Vettore.Web/Scripts/"),
                 path.resolve("N://Vettore.Web/24.dev/Vettore.Web/Vettore.Web/Scripts/"),
+                path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/Scripts/"),
             ];
 
         for (let path of productionDefitinionFolders)
@@ -209,6 +210,7 @@ module.exports = function (grunt)
                 path.resolve("N://Vettore.Web/trunk/Vettore.Web/Vettore.Web/Scripts/"),
                 path.resolve("N://Vettore.Web/24.prod/Vettore.Web/Vettore.Web/Scripts/"),
                 path.resolve("N://Vettore.Web/24.dev/Vettore.Web/Vettore.Web/Scripts/"),
+                path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/Scripts/"),
             ];
         for (let path of productionJsFiles)
         {
@@ -233,6 +235,7 @@ module.exports = function (grunt)
                 path.resolve("N://Vettore.Web/trunk/Vettore.Web/Vettore.Web/styles/"),
                 path.resolve("N://Vettore.Web/24.prod/Vettore.Web/Vettore.Web/styles/"),
                 path.resolve("N://Vettore.Web/24.dev/Vettore.Web/Vettore.Web/styles/"),
+                path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/styles/"),
             ];
         for (let path of productionCssFiles)
         {

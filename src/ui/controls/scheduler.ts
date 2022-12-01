@@ -1122,6 +1122,8 @@ export class Scheduler extends VrControl
 				return datasource;
 			}
 
+			let options = this.getOptions();
+
 			//#region Appointments on several days
 			let realDatasource = [];
 			for (let appointment of datasource)
@@ -1164,6 +1166,8 @@ export class Scheduler extends VrControl
 			let appointmentFragment = document.createDocumentFragment();
 			let slotWidthList: number[] = Array.from(puma(this.container()).find(".vrSchedulerDivContent table tr:first-child td")).map(k => { return puma(k).outerWidth() });
 			let slotWidth = slotWidthList[0];
+
+			let schedulerStart = new Date(options.startTime!);
 
 			//#region Draw appointments
 			let dictionaryResourceAppointments: any = datasource.vrGroupBy(k => k.resourceId);
@@ -1226,8 +1230,15 @@ export class Scheduler extends VrControl
 					let slotFiltered: SchedulerSlotElement = (apt as InternalSchedulerAppointment).slotsOccupied![0];
 					if (slotFiltered != null)
 					{
+						//#region If appointment starts before the scheduler's start time
+						let differenceFromStartTime = 0;
+						schedulerStart.setDate(start.getDate());
+						if (start.vrIsLessThan(schedulerStart))
+							differenceFromStartTime = Date.vrDifferenceBetweenDatesInMinutes(start, schedulerStart);
+						//#endregion
+
 						//#region Position appointment
-						let duration = Date.vrDifferenceBetweenDatesInMinutes(start, end);
+						let duration = Date.vrDifferenceBetweenDatesInMinutes(start, end) - differenceFromStartTime;
 						let timeslotInterval = this.timeslotInterval();
 						let height = Math.round(duration / timeslotInterval) * 33 + duration / timeslotInterval - 6;
 						height -= Math.round(duration / timeslotInterval);
@@ -1286,7 +1297,6 @@ export class Scheduler extends VrControl
 						//#endregion
 
 						//#region Move appointment
-						let options = this.getOptions();
 						puma(divAppointment).on("mousedown", (emd: JQuery.MouseDownEvent) =>
 						{
 							if (!this.enabled() || !options.editable!.move || this._isResizing)
