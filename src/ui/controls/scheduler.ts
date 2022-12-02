@@ -1233,6 +1233,8 @@ export class Scheduler extends VrControl
 						//#region If appointment starts before the scheduler's start time
 						let differenceFromStartTime = 0;
 						schedulerStart.setDate(start.getDate());
+						schedulerStart.setMonth(start.getMonth());
+						schedulerStart.setFullYear(start.getFullYear());
 						if (start.vrIsLessThan(schedulerStart))
 							differenceFromStartTime = Date.vrDifferenceBetweenDatesInMinutes(start, schedulerStart);
 						//#endregion
