@@ -37,6 +37,7 @@ export class GridOptions extends VrControlOptions
     alternateRowColors?: boolean | string;
     hoverRowColor?: boolean;
     rowColorProperty?: string;
+    rowTextColorProperty?: string;
     pageSize?: number | boolean;
     largePageSize?: boolean;
     footer?: boolean | GridFooterSettings;
@@ -2849,6 +2850,12 @@ export class Grid extends VrControl
                 {
                     puma(td).css("background-color", row[options.rowColorProperty]);
                     if (options.lockable) puma(tdLocked).css("background-color", row[options.rowColorProperty]);
+                }
+
+                if (options.rowTextColorProperty != null && row[options.rowTextColorProperty] != null && row[options.rowTextColorProperty] !== "")
+                {
+                    puma(td).css("color", row[options.rowTextColorProperty]);
+                    if (options.lockable) puma(tdLocked).css("color", row[options.rowTextColorProperty]);
                 }
                 //#endregion
 

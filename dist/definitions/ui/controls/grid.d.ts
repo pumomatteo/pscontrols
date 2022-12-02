@@ -22,6 +22,7 @@ export declare class GridOptions extends VrControlOptions {
     alternateRowColors?: boolean | string;
     hoverRowColor?: boolean;
     rowColorProperty?: string;
+    rowTextColorProperty?: string;
     pageSize?: number | boolean;
     largePageSize?: boolean;
     footer?: boolean | GridFooterSettings;
