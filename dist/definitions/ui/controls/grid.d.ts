@@ -37,6 +37,7 @@ export declare class GridOptions extends VrControlOptions {
     serverBinding?: boolean | GridServerBindSettings;
     roundingSettings?: NumberFormatRoundingSettings;
     sticker?: string | GridStickerSettings;
+    fixDatasourceWithDate?: boolean;
     layoutSettings?: GridLayoutSettings | boolean;
     onDataSourceChanged?: () => void;
     onDataBound?: (e: GridOnDataBoundEvent) => void;
