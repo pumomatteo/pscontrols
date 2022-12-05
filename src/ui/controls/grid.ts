@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, DateTime, DateTimeTypeEnum } from "../vr";
+import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, DateTime, DateTimeTypeEnum, span } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -94,6 +94,7 @@ export class Grid extends VrControl
     private _timeoutFilterText: number;
     private _workerTotals: Worker;
     private _workerTotalsGroup: Worker;
+    private _firstDraw: boolean;
 
     //#region DataSource
     private _dataSource: any[] | null;
@@ -187,7 +188,9 @@ export class Grid extends VrControl
         if (options.largePageSize == null) options.largePageSize = false;
         if (options.enable == null) options.enable = true;
         if (options.excel == null) options.excel = options.rebind;
-        if (options.lockable == null) options.lockable = true;
+        if (options.lockable == null) options.lockable = false;
+        if (!options.lockable && options.columns!.vrAny(k => k.locked === true))
+            options.lockable = true;
 
         if (options.checkboxes == null || options.checkboxes === false) options.checkboxes = GridCheckboxModeEnum.None;
         if (options.checkboxes === true) options.checkboxes = GridCheckboxModeEnum.MultiCheck;
@@ -418,7 +421,10 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Structure
-        let divContainer = puma(element).vrBeforePuma("<div id='" + element.id + "_divContainer' class='p-grid-container'></div>");
+        let divContainer = document.createElement("div");
+        divContainer.id = element.id + "_divContainer";
+        divContainer.classList.add("p-grid-container");
+        element.parentNode!.insertBefore(divContainer, element);
 
         //#region Sticker
         this._lblSticker = createLabel({
@@ -444,16 +450,31 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Header
-        this._divHeaderContainer = div("#" + element.id + "_divContainer", { css: "height: 35px;" })
-        if (options.lockable)
-            this._divHeaderLocked = puma("<div class='grid_Header grid_Header_locked' style='overflow-x: hidden; display: inline-block;'></div>").vrAppendToPuma(this._divHeaderContainer)[0] as HTMLDivElement;
+        this._divHeaderContainer = document.createElement("div");
+        this._divHeaderContainer.style.cssText += "height: 35px;";
+        divContainer.appendChild(this._divHeaderContainer);
 
-        this._divHeader = puma("<div id='" + element.id + "Header' class='grid_Header' style='overflow-x: hidden; display: inline-block;'></div>").vrAppendToPuma(this._divHeaderContainer)[0] as HTMLDivElement;
+        if (options.lockable)
+        {
+            this._divHeaderLocked = document.createElement("div");
+            this._divHeaderLocked.classList.add("grid_Header", "grid_Header_locked");
+            this._divHeaderLocked.style.cssText += "overflow-x: hidden; display: inline-block;";
+            this._divHeaderContainer.appendChild(this._divHeaderLocked);
+        }
+
+        this._divHeader = document.createElement("div");
+        this._divHeader.id = element.id + "Header";
+        this._divHeader.classList.add("grid_Header");
+        this._divHeader.style.cssText += "overflow-x: hidden; display: inline-block;";
+        this._divHeaderContainer.appendChild(this._divHeader);
+
         if (!options.header)
         {
             this._divHeaderContainer.style.cssText += "display: none;";
             this._divHeader.style.cssText += "display: none;";
-            this._divHeaderLocked.style.cssText += "display: none;";
+
+            if (this._divHeaderLocked != null)
+                this._divHeaderLocked.style.cssText += "display: none;";
         }
 
         this._spanFitHeaderSpace = puma("<span id='" + element.id + "FitHeaderSpace' class='grid_fitHeaderSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
@@ -528,6 +549,10 @@ export class Grid extends VrControl
         if (options.footer !== false)
         {
             this._divFooter = puma("<div id='" + element.id + "Footer' class='p-grid-footer'></div>").vrAppendToPuma("#" + element.id + "_divContainer")[0] as HTMLDivElement;
+
+            let divPagination = document.createElement("div");
+            divPagination.id = element.id + "_footerPagination";
+            this._divFooter.appendChild(divPagination);
 
             //#region Footer page size
             if (options.footer.showPageSize && typeof (options.pageSize) != "boolean")
@@ -703,7 +728,7 @@ export class Grid extends VrControl
 
         if (options.lockable)
         {
-            this._elementLocked = puma("<table class='p-grid p-grid-locked' style='border-collapse: collapse;'></table>");
+            this._elementLocked = puma("<table class='p-grid p-grid-locked' style='border-collapse: collapse;'></table>")[0];
             if (options.alternateRowColors === true) puma(this._elementLocked).addClass("alternateRowsColor");
             if (options.hoverRowColor) puma(this._elementLocked).addClass("p-grid-hover")
             puma(this._divBodyLocked).vrAppendPuma(this._elementLocked);
@@ -788,16 +813,35 @@ export class Grid extends VrControl
 
         if (options.groupable! || options.groupBy != null)
         {
+            let tdHeaderFragment = document.createDocumentFragment();
+            let tdHeaderLockedFragment = document.createDocumentFragment();
             for (let column of options.columns!)
             {
                 let display = "";
                 if (options.groupBy == null || (!(options.groupBy.fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                     display = "display: none;";
 
-                puma(this._divHeader).find(".p-grid-headerColumn").vrAppendPuma("<th width=16 style='border: 1px solid rgb(221, 221, 221); background-color: #51B3E1; " + display + "' value='groupBy" + column.field + "' class='groupBy" + column.field + "'></th>");
+                let thHeader = document.createElement("th");
+                thHeader.setAttribute("width", "16");
+                thHeader.setAttribute("value", "groupBy" + column.field);
+                thHeader.classList.add("groupBy" + column.field);
+                thHeader.style.cssText += "border: 1px solid rgb(221, 221, 221); background-color: #51B3E1; " + display + ";";
+                tdHeaderFragment.appendChild(thHeader);
+
                 if (options.lockable)
-                    puma(this._divHeaderLocked).find(".p-grid-headerColumn").vrAppendPuma("<th width=16 style='border: 1px solid rgb(221, 221, 221); background-color: #51B3E1; " + display + "' value='groupBy" + column.field + "' class='groupBy" + column.field + "'></th>");
+                {
+                    let thHeaderLocked = document.createElement("th");
+                    thHeaderLocked.setAttribute("width", "16");
+                    thHeaderLocked.setAttribute("value", "groupBy" + column.field);
+                    thHeaderLocked.classList.add("groupBy" + column.field);
+                    thHeaderLocked.style.cssText += "border: 1px solid rgb(221, 221, 221); background-color: #51B3E1; " + display + ";";
+                    tdHeaderLockedFragment.appendChild(thHeaderLocked);
+                }
             }
+
+            puma(this._divHeader).find(".p-grid-headerColumn")[0].appendChild(tdHeaderFragment)
+            if (options.lockable)
+                puma(this._divHeaderLocked).find(".p-grid-headerColumn")[0].appendChild(tdHeaderLockedFragment)
         }
 
         //#region Checkbox column
@@ -838,14 +882,16 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Columns
+        let thColumnHeaderFragment = document.createDocumentFragment();
+        let thColumnHeaderLockedFragment = document.createDocumentFragment();
         for (let column of options.columns)
         {
             let th = document.createElement("th");
-            puma(th).attr("value", column.field);
+            th.setAttribute("value", column.field);
             th.style.cssText += "border: 1px solid #dddddd;";
 
             let title = (column.title != null) ? column.title : "";
-            puma(th).attr("title", title);
+            th.setAttribute("title", title);
 
             //#region Icon
             if (column.headerSettings != null && column.headerSettings.icon != null)
@@ -854,7 +900,7 @@ export class Grid extends VrControl
 
             //#region Bold
             if (column.bold === true)
-                puma(th).css("font-weight", "500");
+                th.style.cssText += "font-weight: 600;";
             //#endregion
 
             //#region Css
@@ -864,9 +910,9 @@ export class Grid extends VrControl
 
             th.innerHTML = "<div class='grid_headerTh'><span class='grid_headerThContent'>" + title + "</span><i style='position: absolute; top: 10px; right: 5px;'></i></div>";
 
-            puma(th).attr("width", (column.width != null) ? column.width : ((column.fitSpace == true) ? fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100));
+            th.setAttribute("width", String((column.width != null) ? column.width : ((column.fitSpace == true) ? fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100)));
             if (column.fitSpace == true)
-                puma(th).attr("fitSpace", "true");
+                th.setAttribute("fitSpace", "true");
 
             //#region Color
             let backgroundColor = "#51B3E1";
@@ -876,15 +922,15 @@ export class Grid extends VrControl
                 backgroundColor = (column.headerSettings.backgroundColor != null) ? column.headerSettings.backgroundColor : backgroundColor;
                 color = (column.headerSettings.color != null) ? column.headerSettings.color : "#000";
             }
-            puma(th).css("background-color", backgroundColor);
-            puma(th).css("color", color);
+            th.style.cssText += "background-color: " + backgroundColor + "; color: " + color + ";";
             //#endregion
 
             //#region Text align
             let textAlign = GridAlignEnum.Left;
             if (column.headerSettings != null && column.headerSettings.textAlign != null)
                 textAlign = column.headerSettings.textAlign;
-            puma(th).css("text-align", textAlign);
+
+            th.style.cssText += "text-align: " + textAlign + ";";
             //#endregion
 
             //#region Tooltip
@@ -900,7 +946,7 @@ export class Grid extends VrControl
                 }
 
                 if (tooltip.length > 0)
-                    puma(th).attr("title", tooltip);
+                    th.setAttribute("title", tooltip);
             }
             //#endregion
 
@@ -912,8 +958,8 @@ export class Grid extends VrControl
 
             if (sortGridColumnTypes.includes(column.type!))
             {
-                puma(th).css("cursor", "pointer");
-                puma(th).click(() =>
+                th.style.cssText += "cursor: pointer;"
+                th.onclick = (() =>
                 {
                     if (this._isResizing === true || this._isDragging === true)
                         return;
@@ -931,21 +977,25 @@ export class Grid extends VrControl
                 });
             }
             else
-                puma(th).css("cursor", "grab");
+                th.style.cssText += "cursor: grab;"
             //#endregion
 
             // Append th
             if (options.lockable && column.locked)
             {
                 th.setAttribute("locked", "locked");
-                puma(this._divHeaderLocked).find(".p-grid-headerColumn").vrAppendPuma(th);
+                thColumnHeaderLockedFragment.appendChild(th);
             }
             else
-                puma(this._divHeader).find(".p-grid-headerColumn").vrAppendPuma(th);
+                thColumnHeaderFragment.appendChild(th);
 
             if (column.hidden == true)
-                puma(th).hide();
+                th.style.display = "none";
         }
+
+        puma(this._divHeader).find(".p-grid-headerColumn")[0].appendChild(thColumnHeaderFragment)
+        if (options.lockable)
+            puma(this._divHeaderLocked).find(".p-grid-headerColumn")[0].appendChild(thColumnHeaderLockedFragment)
 
         if (options.lockable && this.thereAreLockedColumns())
             puma(this._divHeader).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
@@ -968,16 +1018,35 @@ export class Grid extends VrControl
 
             if (options.groupable! || options.groupBy != null)
             {
+                let tdFilterFragment = document.createDocumentFragment();
+                let tdFilterLockedFragment = document.createDocumentFragment();
                 for (let column of options.columns!)
                 {
                     let display = "";
                     if (options.groupBy == null || (!(options.groupBy.fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                         display = "display: none;";
 
-                    puma(this._divFilters).find(".p-grid-filters").vrAppendPuma("<td style='border: 1px solid rgb(221, 221, 221); " + display + "' value='groupBy" + column.field + "' width=16 class='groupBy" + column.field + "'></td>");
+                    let tdFilter = document.createElement("td");
+                    tdFilter.setAttribute("width", "16");
+                    tdFilter.setAttribute("value", "groupBy" + column.field);
+                    tdFilter.classList.add("groupBy" + column.field);
+                    tdFilter.style.cssText += "border: 1px solid rgb(221, 221, 221); " + display + ";";
+                    tdFilterFragment.appendChild(tdFilter);
+
                     if (options.lockable)
-                        puma(this._divFiltersLocked).find(".p-grid-filters").vrAppendPuma("<td style='border: 1px solid rgb(221, 221, 221); " + display + "' width=16 class='groupBy" + column.field + "'></td>");
+                    {
+                        let tdFilterLocked = document.createElement("td");
+                        tdFilterLocked.setAttribute("width", "16");
+                        tdFilterLocked.setAttribute("value", "groupBy" + column.field);
+                        tdFilterLocked.classList.add("groupBy" + column.field);
+                        tdFilterLocked.style.cssText += "border: 1px solid rgb(221, 221, 221); " + display + ";";
+                        tdFilterLockedFragment.appendChild(tdFilterLocked);
+                    }
                 }
+
+                puma(this._divFilters).find(".p-grid-filters")[0].appendChild(tdFilterFragment)
+                if (options.lockable)
+                    puma(this._divFiltersLocked).find(".p-grid-filters")[0].appendChild(tdFilterLockedFragment)
             }
 
             //#region Checkbox column
@@ -996,6 +1065,8 @@ export class Grid extends VrControl
             //#endregion
 
             //#region Columns
+            let tdColumnFilterFragment = document.createDocumentFragment();
+            let tdColumnFilterLockedFragment = document.createDocumentFragment();
             for (let column of options.columns)
             {
                 //#region Create dictionary
@@ -1004,18 +1075,12 @@ export class Grid extends VrControl
                 //#endregion
 
                 let td = document.createElement("td");
-                puma(td).attr("value", column.field);
+                td.setAttribute("value", column.field);
                 td.style.cssText += "border: 1px solid #dddddd;";
 
-                puma(td).attr("width", (column.width != null) ? column.width : ((column.fitSpace == true) ? fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100));
+                td.setAttribute("width", String((column.width != null) ? column.width : ((column.fitSpace == true) ? fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100)));
                 if (column.fitSpace == true)
-                    puma(td).attr("fitSpace", "true");
-
-                // Append th
-                if (options.lockable && column.locked)
-                    puma(this._divFiltersLocked).find(".p-grid-filters").vrAppendPuma(td);
-                else
-                    puma(this._divFilters).find(".p-grid-filters").vrAppendPuma(td);
+                    td.setAttribute("fitSpace", "true");
 
                 //#region Filter type
                 if ((column.type == GridColumnTypeEnum.Custom && column.filterable == null) || column.type == GridColumnTypeEnum.Color)
@@ -1028,16 +1093,22 @@ export class Grid extends VrControl
                         case GridColumnTypeEnum.Checkbox:
                         case GridColumnTypeEnum.Boolean:
                             {
-                                puma(td).css("text-align", "center");
-                                td.innerHTML = "<input id='" + element.id + "_CheckboxFilter_" + column.field + "' class='vrCheckBox' type='checkbox'></input>"
-                                    + "<label class='vrLabel vr-checkboxFilter-label' for='" + element.id + "_CheckboxFilter_" + column.field + "'></label>";
+                                td.style.cssText += "text-align: center;";
+
+                                let checkbox = document.createElement("input");
+                                checkbox.id = element.id + "_CheckboxFilter_" + column.field;
+                                checkbox.classList.add("vrCheckBox", "indeterminateVrCheckbox");
+                                checkbox.setAttribute("type", "checkbox");
+                                td.appendChild(checkbox);
+
+                                let lblCheckbox = document.createElement("label");
+                                lblCheckbox.classList.add("vrLabel", "vr-checkboxFilter-label");
+                                lblCheckbox.setAttribute("for", element.id + "_CheckboxFilter_" + column.field);
+                                td.appendChild(lblCheckbox);
 
                                 //#region Create filter
-                                let checkboxJq = puma("#" + element.id + "_CheckboxFilter_" + column.field);
-                                checkboxJq.addClass("indeterminateVrCheckbox");
-                                checkboxJq.click((e: any) =>
+                                checkbox.onclick = ((e: any) =>
                                 {
-                                    let checkbox = checkboxJq[0] as HTMLInputElement;
                                     if (checkbox.checked && !puma(checkbox).hasClass("indeterminateVrCheckbox"))
                                     {
                                         puma(checkbox).addClass("indeterminateVrCheckbox");
@@ -1067,23 +1138,23 @@ export class Grid extends VrControl
                         case GridColumnTypeEnum.LongWeekDate:
                         case GridColumnTypeEnum.ShortWeekDate:
                             {
-                                puma(td).css("text-align", "center");
-                                td.innerHTML = "<button id='" + this._elementId + "_DateFilter_" + column.field + "'></button>" +
-                                    "<button id='" + this._elementId + "_DateFilterRemove_" + column.field + "'></button>";
+                                td.style.cssText += "text-align: center;";
 
                                 //#region Create filter
                                 let dateFilter = createButton(
                                     {
+                                        id: this._elementId + "_DateFilter_" + column.field,
                                         icon: IconClassicLight.Filter,
                                         tooltip: "Applica filtro",
                                         onClick: (e) =>
                                         {
                                             this.openWindowFiltering(column);
                                         }
-                                    }, null, null, this._elementId + "_DateFilter_" + column.field);
+                                    }, td);
 
                                 let dateFilterRemove = createButton(
                                     {
+                                        id: this._elementId + "_DateFilterRemove_" + column.field,
                                         icon: IconClassicRegular.Xmark,
                                         tooltip: "Rimuovi filtro",
                                         colorSettings: { background: "#CCC" },
@@ -1099,7 +1170,7 @@ export class Grid extends VrControl
                                             dateFilterRemove.hide();
                                             this.recalculateHeight(true);
                                         }
-                                    }, null, null, this._elementId + "_DateFilterRemove_" + column.field);
+                                    }, td);
                                 //#endregion
                             }
                             break;
@@ -1108,23 +1179,23 @@ export class Grid extends VrControl
                         case GridColumnTypeEnum.Percentage:
                         case GridColumnTypeEnum.Duration:
                             {
-                                puma(td).css("text-align", "center");
-                                td.innerHTML = "<button id='" + this._elementId + "_NumberFilter_" + column.field + "'></button>" +
-                                    "<button id='" + this._elementId + "_NumberFilterRemove_" + column.field + "'></button>";
+                                td.style.cssText += "text-align: center;";
 
                                 //#region Create filter
                                 let numberFilter = createButton(
                                     {
+                                        id: this._elementId + "_NumberFilter_" + column.field,
                                         icon: IconClassicLight.Filter,
                                         tooltip: "Applica filtro",
                                         onClick: (e) =>
                                         {
                                             this.openWindowFiltering(column);
                                         }
-                                    }, null, null, this._elementId + "_NumberFilter_" + column.field);
+                                    }, td);
 
                                 let numberFilterRemove = createButton(
                                     {
+                                        id: this._elementId + "_NumberFilterRemove_" + column.field,
                                         icon: IconClassicRegular.Xmark,
                                         tooltip: "Rimuovi filtro",
                                         colorSettings: { background: "#CCC" },
@@ -1140,7 +1211,7 @@ export class Grid extends VrControl
                                             numberFilterRemove.hide();
                                             this.recalculateHeight(true);
                                         }
-                                    }, null, null, this._elementId + "_NumberFilterRemove_" + column.field);
+                                    }, td);
                                 //#endregion
                             }
                             break;
@@ -1258,9 +1329,19 @@ export class Grid extends VrControl
                 }
                 //#endregion
 
+                // Append td
+                if (options.lockable && column.locked)
+                    tdColumnFilterLockedFragment.appendChild(td);
+                else
+                    tdColumnFilterFragment.appendChild(td);
+
                 if (column.hidden === true)
-                    puma(td).hide();
+                    td.style.display = "none";
             }
+
+            puma(this._divFilters).find(".p-grid-filters")[0].appendChild(tdColumnFilterFragment)
+            if (options.lockable)
+                puma(this._divFiltersLocked).find(".p-grid-filters")[0].appendChild(tdColumnFilterLockedFragment)
             //#endregion
 
             if (options.lockable && this.thereAreLockedColumns())
@@ -1283,16 +1364,35 @@ export class Grid extends VrControl
 
             if (options.groupable! || options.groupBy != null)
             {
+                let tdTotalsFragment = document.createDocumentFragment();
+                let tdTotalsLockedFragment = document.createDocumentFragment();
                 for (let column of options.columns!)
                 {
                     let display = "";
                     if (options.groupBy == null || (!(options.groupBy.fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                         display = "display: none;";
 
-                    puma(this._divTotals).find(".p-grid-totals").vrAppendPuma("<td style='border: 1px solid rgb(221, 221, 221); " + display + "' width=16 class='groupBy" + column.field + "'></td>");
+                    let tdTotals = document.createElement("td");
+                    tdTotals.setAttribute("width", "16");
+                    tdTotals.setAttribute("value", "groupBy" + column.field);
+                    tdTotals.classList.add("groupBy" + column.field);
+                    tdTotals.style.cssText += "border: 1px solid rgb(221, 221, 221); " + display + ";";
+                    tdTotalsFragment.appendChild(tdTotals);
+
                     if (options.lockable)
-                        puma(this._divTotalsLocked).find(".p-grid-totals").vrAppendPuma("<td style='border: 1px solid rgb(221, 221, 221); " + display + "' width=16 class='groupBy" + column.field + "'></td>");
+                    {
+                        let tdTotalsLocked = document.createElement("td");
+                        tdTotalsLocked.setAttribute("width", "16");
+                        tdTotalsLocked.setAttribute("value", "groupBy" + column.field);
+                        tdTotalsLocked.classList.add("groupBy" + column.field);
+                        tdTotalsLocked.style.cssText += "border: 1px solid rgb(221, 221, 221); " + display + ";";
+                        tdTotalsLockedFragment.appendChild(tdTotalsLocked);
+                    }
                 }
+
+                puma(this._divTotals).find(".p-grid-totals")[0].appendChild(tdTotalsFragment)
+                if (options.lockable)
+                    puma(this._divTotalsLocked).find(".p-grid-totals")[0].appendChild(tdTotalsLockedFragment)
             }
 
             //#region Checkbox column
@@ -1311,15 +1411,17 @@ export class Grid extends VrControl
             //#endregion
 
             //#region Columns
+            let tdColumnTotalsFragment = document.createDocumentFragment();
+            let tdColumnTotalsLockedFragment = document.createDocumentFragment();
             for (let column of options.columns!)
             {
                 let td = document.createElement("td");
-                puma(td).attr("value", column.field);
+                td.setAttribute("value", column.field);
                 td.style.cssText += "border: 1px solid #dddddd;";
 
-                puma(td).attr("width", (column.width != null) ? column.width : ((column.fitSpace == true) ? this._fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100));
+                td.setAttribute("width", String((column.width != null) ? column.width : ((column.fitSpace == true) ? this._fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100)));
                 if (column.fitSpace == true)
-                    puma(td).attr("fitSpace", "true");
+                    td.setAttribute("fitSpace", "true");
 
                 //#region TextAlign
                 let textAlign = GridAlignEnum.Right;
@@ -1350,19 +1452,12 @@ export class Grid extends VrControl
                 if (column.cellSettings != null)
                     textAlign = (column.cellSettings.textAlign != null) ? column.cellSettings.textAlign : textAlign;
 
-                puma(td).css("text-align", textAlign);
+                td.style.cssText += "text-align: " + textAlign + ";";
                 //#endregion
-
-                //Append th
-                if (options.lockable && column.locked)
-                    puma(this._divTotalsLocked).find(".p-grid-totals").vrAppendPuma(td);
-                else
-                    puma(this._divTotals).find(".p-grid-totals").vrAppendPuma(td);
 
                 //#region Format
                 if (column.aggregate != null && column.aggregate !== false)
                 {
-                    let decimalDigits = 0;
                     if (typeof (column.aggregate) == "boolean")
                     {
                         switch (column.type)
@@ -1378,33 +1473,41 @@ export class Grid extends VrControl
                     switch (column.type)
                     {
                         case GridColumnTypeEnum.Number:
-                            decimalDigits = (column.decimalDigits != null) ? column.decimalDigits : 0;
+                            column.decimalDigits = (column.decimalDigits != null) ? column.decimalDigits : 0;
                             break;
                         case GridColumnTypeEnum.Currency:
-                            decimalDigits = (column.decimalDigits != null) ? column.decimalDigits : 2;
+                            column.decimalDigits = (column.decimalDigits != null) ? column.decimalDigits : 2;
                             break;
                         case GridColumnTypeEnum.Duration:
-                            decimalDigits = (column.decimalDigits != null) ? column.decimalDigits : 0;
+                            column.decimalDigits = (column.decimalDigits != null) ? column.decimalDigits : 0;
                             break;
                         case GridColumnTypeEnum.Percentage:
-                            decimalDigits = (column.decimalDigits != null) ? column.decimalDigits : 2;
+                            column.decimalDigits = (column.decimalDigits != null) ? column.decimalDigits : 2;
                             break;
                     }
                     //#endregion						
 
-                    puma(td).attr("field", column.field);
-                    puma(td).attr("decimalDigits", decimalDigits);
-                    puma(td).attr("aggregate", String(column.aggregate));
+                    td.setAttribute("field", column.field);
                 }
                 //#endregion
 
                 if (column.type == GridColumnTypeEnum.Custom && column.exportable == null)
                     column.exportable = false;
 
+                //Append th
+                if (options.lockable && column.locked)
+                    tdColumnTotalsLockedFragment.appendChild(td);
+                else
+                    tdColumnTotalsFragment.appendChild(td);
+
                 //Hidden
                 if (column.hidden == true)
-                    puma(td).hide();
+                    td.style.display = "none";
             }
+
+            puma(this._divTotals).find(".p-grid-totals")[0].appendChild(tdColumnTotalsFragment)
+            if (options.lockable)
+                puma(this._divTotalsLocked).find(".p-grid-totals")[0].appendChild(tdColumnTotalsLockedFragment)
             //#endregion
 
             if (this.thereAreLockedColumns())
@@ -1795,30 +1898,33 @@ export class Grid extends VrControl
             options.pageSize = dataItems.length;
 
         //#region Body
-        if (puma(this.element()).find("tbody").length == 0)
-            puma(this.element()).vrAppendPuma("<tbody></tbody>");
-        else
+        let tbody = this.element().getElementsByTagName("tbody")[0];
+        if (this.element().getElementsByTagName("tbody").length == 0)
         {
-            puma(this.element()).find("tbody tr").empty();
-            puma(this.element()).find("tbody td").css("background-color", "");
+            tbody = document.createElement("tbody");
+            this.element().appendChild(tbody);
         }
 
+        tbody.innerHTML = "";
+
+        let tbodyLocked = null;
         if (options.lockable)
         {
-            if (puma(this._elementLocked).find("tbody").length == 0)
-                puma(this._elementLocked).vrAppendPuma("<tbody></tbody>");
-            else
+            tbodyLocked = this._elementLocked.getElementsByTagName("tbody")[0];
+            if (this._elementLocked.getElementsByTagName("tbody").length == 0)
             {
-                puma(this._elementLocked).find("tbody tr").empty();
-                puma(this._elementLocked).find("tbody td").css("background-color", "");
+                tbodyLocked = document.createElement("tbody");
+                this._elementLocked.appendChild(tbodyLocked);
             }
+
+            tbodyLocked.innerHTML = "";
         }
         //#endregion
 
         //#region Rows
         let items: any[];
-        let firstIndex;
-        let lastIndex;
+        let firstIndex: number;
+        let lastIndex: number;
         if (!options.serverBinding)
         {
             firstIndex = (this.pageSelected() - 1) * options.pageSize!;
@@ -1848,13 +1954,6 @@ export class Grid extends VrControl
         }
         else
         {
-            let defaultRow = puma(this._divBody).find("table tr[defaultrow='defaultrow']");
-            if (defaultRow.length > 0)
-            {
-                defaultRow.find("td").empty();
-                defaultRow.removeAttr("defaultRow");
-            }
-
             if (items.filter(k => k["defaultRow"] != null).length > 0)
                 items.splice(0, 1);
 
@@ -1867,8 +1966,6 @@ export class Grid extends VrControl
         let visibleColumns = [];
         if (options.groupable! || options.groupBy != null)
         {
-            puma(this.container()).find(".grid_trGroupBy").remove();
-            puma(this.container()).find(".p-grid-totalsGroup").remove();
             this._groupByActualValue = {};
             visibleColumns = options.columns!.filter(k => k.hidden !== true);
         }
@@ -1881,7 +1978,8 @@ export class Grid extends VrControl
             this.pageSelected(1, false);
         }
 
-        let j = 1;
+        let rowFragment = document.createDocumentFragment();
+        let rowFragmentLocked = document.createDocumentFragment();
         for (let row of items)
         {
             let dataItem = dataItems[i];
@@ -1912,34 +2010,22 @@ export class Grid extends VrControl
                             }
 
                             //#region Add tr groupBy
-                            let trOld = puma(this.element()).find("tbody tr:nth-child(" + (j + rowAdded) + ")")[0] as HTMLTableRowElement;
-                            let trGroupBy: HTMLElement | null = null;
-
-                            let newTr = puma("<tr value='" + ((cellValue == null || cellValue === "") ? "nosetted" :
-                                this.fixValueWithoutSpecialChars(cellValue))
-                                + "' level='" + groupByIndex + "' class='grid_trGroupBy p-grid-body'></tr>");
-
-                            if (trOld == null)
-                                trGroupBy = newTr.vrAppendToPuma(puma(this.element()).find("tbody"))[0];
-                            else
-                                trGroupBy = newTr.vrInsertBeforePuma(trOld)[0];
-
-                            puma(trGroupBy).height(options.rowHeight!);
+                            let trGroupBy = document.createElement("tr");
+                            trGroupBy.setAttribute("value", (cellValue == null || cellValue === "") ? "nosetted" : this.fixValueWithoutSpecialChars(cellValue));
+                            trGroupBy.setAttribute("level", String(groupByIndex));
+                            trGroupBy.classList.add("grid_trGroupBy", "p-grid-body");
+                            trGroupBy.style.cssText += "height: " + options.rowHeight! + "px;";
+                            rowFragment.appendChild(trGroupBy);
 
                             let trGroupByLocked = null;
                             if (options.lockable)
                             {
-                                let trOldLocked = puma(this._elementLocked).find("tbody tr:nth-child(" + (j + rowAdded) + ")")[0] as HTMLTableRowElement;
-                                let newTr = puma("<tr value='" + ((cellValue == null || cellValue === "") ? "nosetted" :
-                                    this.fixValueWithoutSpecialChars(cellValue))
-                                    + "' level='" + groupByIndex + "' class='grid_trGroupBy grid_trGroupByLocked p-grid-body'></tr>");
-
-                                if (trOldLocked == null)
-                                    trGroupByLocked = newTr.vrAppendToPuma(puma(this._elementLocked).find("tbody"))[0];
-                                else
-                                    trGroupByLocked = newTr.vrInsertBeforePuma(trOldLocked)[0];
-
-                                puma(trGroupByLocked).height(options.rowHeight!);
+                                trGroupByLocked = document.createElement("tr");
+                                trGroupByLocked.setAttribute("value", (cellValue == null || cellValue === "") ? "nosetted" : this.fixValueWithoutSpecialChars(cellValue));
+                                trGroupByLocked.setAttribute("level", String(groupByIndex));
+                                trGroupByLocked.classList.add("grid_trGroupBy", "grid_trGroupByLocked", "p-grid-body");
+                                trGroupByLocked.style.cssText += "height: " + options.rowHeight! + "px;";
+                                rowFragmentLocked!.appendChild(trGroupByLocked);
                             }
                             //#endregion
 
@@ -1948,8 +2034,20 @@ export class Grid extends VrControl
                             {
                                 for (let p = 0; p < groupByIndex; p++)
                                 {
-                                    puma(trGroupBy!).vrAppendPuma("<td width=16 class='groupBy" + groupByField + "'></td>");
-                                    if (options.lockable) puma(trGroupByLocked!).vrAppendPuma("<td width=16 class='groupBy" + groupByField + "'></td>");
+                                    let groupByFieldValue = typeof (groupByField) == "string" ? groupByField : groupByField.field;
+
+                                    let td = document.createElement("td");
+                                    td.setAttribute("width", "16");
+                                    td.classList.add("groupBy" + groupByFieldValue);
+                                    trGroupBy.appendChild(td);
+
+                                    if (options.lockable)
+                                    {
+                                        let td = document.createElement("td");
+                                        td.setAttribute("width", "16");
+                                        td.classList.add("groupBy" + groupByFieldValue);
+                                        trGroupByLocked!.appendChild(td);
+                                    }
                                 }
                             }
 
@@ -1984,22 +2082,70 @@ export class Grid extends VrControl
                             if (groupByDisplayText == null) groupByDisplayText = cellText;
 
                             let groupByCaret = IconClassicLight.CaretDown;
-                            let childrenRows = this.getChildrenGroupRows(trGroupBy!, this._divBody);
-                            if (this.thereAreLockedColumns())
-                                childrenRows = this.getChildrenGroupRows(trGroupBy!, this._divBodyLocked);
+                            let groupByFieldValue = typeof (groupByField) == "string" ? groupByField : groupByField.field;
 
-                            if (this.pageSelected() > 1 && !puma(childrenRows.allRows.vrFirst()).is(":visible"))
-                                groupByCaret = IconClassicLight.CaretRight;
+                            let tdExpandCollapse = document.createElement("td");
+                            tdExpandCollapse.setAttribute("width", "16");
+                            tdExpandCollapse.classList.add("grid_tdGroupByCollapse", "groupBy" + groupByFieldValue);
+                            tdExpandCollapse.style.cssText += "border-right-color: transparent !important;";
+                            tdExpandCollapse.innerHTML = "<i class='grid_tdGroupByCollapse " + groupByCaret + "'></i>";
+                            trGroupBy.appendChild(tdExpandCollapse);
 
-                            let text = "<td width=16 class='grid_tdGroupByCollapse groupBy" + groupByField + "' style='border-right-color: transparent !important;'>"
-                                + "<i class='grid_tdGroupByCollapse " + groupByCaret + "'></i></td>"
-                                + "<td class='grid_tdGroupByName' style='font-weight: 500;' colspan=" + colspan + "><div class='grid_divGroupByName'>"
-                                + ((dataItems.length == 1 && dataItems[0]["defaultRow"] != null) ? "Nessun gruppo o elemento presente" : (groupByDisplayText == null || groupByDisplayText === "" || groupByDisplayText == "null") ? "Non impostato" : groupByDisplayText)
-                                + "</div>"
-                                + ((options.onGroupEditClick != null || (groupByField as GridGroupByItem).onEditClick != null) ? "<div style='position: relative; display: inline-flex; margin-left: 6px;" + ((options.checkboxes !== false) ? "top: -4px;" : "") + "'><i class='grid_groupByEdit " + IconClassicLight.Pencil + "' style='cursor: pointer;'></div></i>" : "")
-                                + "</td>";
-                            puma(trGroupBy).vrAppendPuma(text);
-                            if (options.lockable) puma(trGroupByLocked).vrAppendPuma(text);
+                            let tdGroupByName = document.createElement("td");
+                            tdGroupByName.classList.add("grid_tdGroupByName");
+                            tdGroupByName.style.cssText += "font-weight: 600;";
+                            tdGroupByName.setAttribute("colspan", String(colspan));
+                            trGroupBy.appendChild(tdGroupByName);
+
+                            let divGroupByName = document.createElement("div");
+                            divGroupByName.classList.add("grid_divGroupByName");
+                            if (dataItems.length == 1 && dataItems[0]["defaultRow"] != null)
+                                divGroupByName.innerHTML = "Nessun gruppo o elemento presente";
+                            else
+                            {
+                                if (groupByDisplayText == null || groupByDisplayText === "" || groupByDisplayText == "null")
+                                    divGroupByName.innerHTML = "Non impostato";
+                                else
+                                    divGroupByName.innerHTML = groupByDisplayText;
+                            }
+                            tdGroupByName.appendChild(divGroupByName);
+
+                            if (options.lockable)
+                            {
+                                let tdExpandCollapse = document.createElement("td");
+                                tdExpandCollapse.setAttribute("width", "16");
+                                tdExpandCollapse.classList.add("grid_tdGroupByCollapse", "groupBy" + groupByFieldValue);
+                                tdExpandCollapse.style.cssText += "border-right-color: transparent !important;";
+                                tdExpandCollapse.innerHTML = "<i class='grid_tdGroupByCollapse " + groupByCaret + "'></i>";
+                                trGroupByLocked!.appendChild(tdExpandCollapse);
+
+                                let tdGroupByName = document.createElement("td");
+                                tdGroupByName.classList.add("grid_tdGroupByName");
+                                tdGroupByName.style.cssText += "font-weight: 600;";
+                                tdGroupByName.setAttribute("colspan", String(colspan));
+                                trGroupByLocked!.appendChild(tdGroupByName);
+
+                                let divGroupByName = document.createElement("div");
+                                divGroupByName.classList.add("grid_divGroupByName");
+                                if (dataItems.length == 1 && dataItems[0]["defaultRow"] != null)
+                                    divGroupByName.innerHTML = "Nessun gruppo o elemento presente";
+                                else
+                                {
+                                    if (groupByDisplayText == null || groupByDisplayText === "" || groupByDisplayText == "null")
+                                        divGroupByName.innerHTML = "Non impostato";
+                                    else
+                                        divGroupByName.innerHTML = groupByDisplayText;
+                                }
+                                tdGroupByName.appendChild(divGroupByName);
+                            }
+
+                            if (options.onGroupEditClick != null || (groupByField as GridGroupByItem).onEditClick != null)
+                            {
+                                let divEdit = document.createElement("div");
+                                divEdit.style.cssText += "position: relative; display: inline-flex; margin-left: 6px; " + ((options.checkboxes !== false) ? "top: -4px;" : "");
+                                divEdit.innerHTML = "<i class='grid_groupByEdit " + IconClassicLight.Pencil + "' style='cursor: pointer;'></i>";
+                            }
+
                             this._groupByActualValue[(groupByField as GridGroupByItem).field] = cellValue;
 
                             if (this.thereAreLockedColumns())
@@ -2168,75 +2314,42 @@ export class Grid extends VrControl
                     }
                 }
             }
-            j += rowAdded;
             //#endregion
 
-            let isNewRow = false;
-            let tr = puma(this.element()).find(">tbody>tr:nth-child(" + j + ")")[0] as HTMLTableRowElement;
-            if (tr == null)
-            {
-                tr = document.createElement("tr");
-                isNewRow = true;
-            }
-            puma(tr).addClass("p-grid-body");
-            puma(tr).attr("id", rowId);
-            puma(tr).attr("dataItemId", dataItemId);
-            puma(tr).attr("row", i);
+            let tr = document.createElement("tr");
+            tr.id = rowId;
+            tr.classList.add("p-grid-body");
+            tr.setAttribute("dataItemId", dataItemId)
+            tr.setAttribute("row", String(i));
 
             let trLocked = null;
-            let isNewRowLocked = false;
             if (options.lockable)
             {
-                trLocked = puma(this._elementLocked).find(">tbody>tr:nth-child(" + j + ")")[0] as HTMLTableRowElement;
-                if (trLocked == null)
-                {
-                    trLocked = document.createElement("tr");
-                    isNewRowLocked = true;
-                }
-                puma(trLocked).addClass("p-grid-body");
-                puma(trLocked).attr("id", rowId);
-                puma(trLocked).attr("dataItemId", dataItemId);
-                puma(trLocked).attr("row", i);
+                trLocked = document.createElement("tr");
+                trLocked.id = rowId;
+                trLocked.classList.add("p-grid-body");
+                trLocked.setAttribute("dataItemId", dataItemId)
+                trLocked.setAttribute("row", String(i))
             }
 
             //#region Checkbox column
             if (options.checkboxes != GridCheckboxModeEnum.None)
             {
-                let index = (options.groupable! || options.groupBy != null) ? (1 + options.columns!.length) : 1;
-                let isNewCellCheckbox = false;
-                let tdCheckbox = null;
-
-                if (this.thereAreLockedColumns())
-                    tdCheckbox = puma(trLocked).find(">td:nth-child(" + index + ")")[0] as HTMLTableCellElement;
-                else
-                    tdCheckbox = puma(tr).find(">td:nth-child(" + index + ")")[0] as HTMLTableCellElement;
-
-                if (tdCheckbox == null)
-                {
-                    tdCheckbox = document.createElement("td");
-                    isNewCellCheckbox = true;
-                }
-                tdCheckbox.style.cssText += "border-left: none !important;";
-
-                puma(tdCheckbox).attr("width", 20);
-                puma(tdCheckbox).addClass("vrGridTdCheckboxColumn");
-                puma(tdCheckbox).attr("value", "vrGridCheckboxColumn");
+                let tdCheckbox = document.createElement("td");
+                tdCheckbox.style.cssText += "text-align: center;";
+                tdCheckbox.classList.add("vrGridTdCheckboxColumn");
+                tdCheckbox.setAttribute("width", "20");
+                tdCheckbox.setAttribute("value", "vrGridCheckboxColumn");
 
                 let textHTML = "<input dataItemId='" + dataItemId + "' id='" + rowId + "_CheckboxColumn' class='vrCheckBox vr-checkbox-column' type='checkbox'></input>"
                     + "<label style='display: none;' class='vrLabel vrCheckBoxLabel vr-checkboxColumn-label' for='" + rowId + "_CheckboxColumn'></label>";
                 tdCheckbox.innerHTML = textHTML;
 
-                puma(tdCheckbox).css("text-align", "center");
+                if (this.thereAreLockedColumns())
+                    trLocked!.appendChild(tdCheckbox);
+                else
+                    tr.appendChild(tdCheckbox);
 
-                if (isNewCellCheckbox)
-                {
-                    if (this.thereAreLockedColumns())
-                        puma(trLocked).vrAppendPuma(tdCheckbox);
-                    else
-                        puma(tr).vrAppendPuma(tdCheckbox);
-                }
-
-                puma(tdCheckbox).off("click");
                 puma(tdCheckbox).click((e: JQuery.ClickEvent) =>
                 {
                     if (e.shiftKey && options.checkboxes == GridCheckboxModeEnum.MultiCheck)
@@ -2254,62 +2367,44 @@ export class Grid extends VrControl
 
             for (let column of options.columns!)
             {
-                let isNewCell = false;
-                let td = puma(tr).find(">td:nth-child(" + k + ")")[0] as HTMLTableCellElement;
-                if (td == null)
-                {
-                    td = document.createElement("td");
-                    isNewCell = true;
-                }
+                let td = document.createElement("td");
 
                 let tdLocked = null;
-                let isNewCellLocked = false;
                 if (options.lockable)
-                {
-                    tdLocked = puma(trLocked).find(">td:nth-child(" + k + ")")[0] as HTMLTableCellElement;
-                    if (tdLocked == null)
-                    {
-                        tdLocked = document.createElement("td");
-                        isNewCellLocked = true;
-                    }
-                }
+                    tdLocked = document.createElement("td");
 
                 let field = column.field;
-                puma(td).attr("value", column.field);
-                puma(td).attr("field", field);
-                td.style.cssText += "border-left: none !important;";
+                td.setAttribute("value", column.field);
+                td.setAttribute("field", field);
 
                 if (options.lockable)
                 {
-                    puma(tdLocked).attr("value", column.field);
-                    puma(tdLocked).attr("field", field);
-                    tdLocked!.style.cssText += "border-left: none !important;";
+                    tdLocked!.setAttribute("value", column.field);
+                    tdLocked!.setAttribute("field", field);
                 }
 
                 //#region Width
                 let width = (column.width != null) ? (column.width) : ((column.fitSpace == true) ? this._fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100);
-                puma(td).attr("width", width);
-                if (options.lockable) puma(tdLocked).attr("width", width);
+                td.setAttribute("width", String(width));
+                if (options.lockable) tdLocked!.setAttribute("width", String(width));
 
                 if (column.fitSpace == true)
                 {
-                    puma(td).attr("fitSpace", "true");
-                    if (options.lockable) puma(tdLocked).attr("fitSpace", "true");
+                    td.setAttribute("fitspace", "true");
+                    if (options.lockable) tdLocked!.setAttribute("fitSpace", "true");
                 }
                 //#endregion
 
                 //#region Hidden
                 if (column.hidden === true)
                 {
-                    td.style.display = "none"
-                    if (isNewCell)
-                        puma(tr).vrAppendPuma(td);
+                    td.style.display = "none";
+                    tr.appendChild(td);
 
                     if (options.lockable)
                     {
                         tdLocked!.style.display = "none"
-                        if (isNewCellLocked)
-                            puma(trLocked).vrAppendPuma(tdLocked);
+                        trLocked!.appendChild(tdLocked!);
                     }
 
                     k++;
@@ -2324,8 +2419,8 @@ export class Grid extends VrControl
 
                 if (!options.multilineRows)
                 {
-                    puma(td).addClass("grid_singleLineGridRow");
-                    if (options.lockable) puma(tdLocked).addClass("grid_singleLineGridRow");
+                    td.classList.add("grid_singleLineGridRow");
+                    if (options.lockable) tdLocked!.classList.add("grid_singleLineGridRow");
                 }
 
                 //#region Cell
@@ -2813,8 +2908,8 @@ export class Grid extends VrControl
                 if (row["defaultRow"] === true)
                 {
                     textHTML = "";
-                    if (puma(tr).attr("defaultrow") == null)
-                        puma(tr).attr("defaultrow", "defaultrow");
+                    if (tr.getAttribute("defaultrow") == null)
+                        tr.setAttribute("defaultrow", "defaultrow");
                 }
 
                 if (td.innerHTML === "")
@@ -2829,33 +2924,33 @@ export class Grid extends VrControl
                 {
                     if (column.cellSettings.backgroundColor != null)
                     {
-                        puma(td).css("background-color", column.cellSettings.backgroundColor);
-                        if (options.lockable) puma(tdLocked).css("background-color", column.cellSettings.backgroundColor);
+                        td.style.cssText += "background-color: " + column.cellSettings.backgroundColor + ";";
+                        if (options.lockable) tdLocked!.style.cssText += "background-color: " + column.cellSettings.backgroundColor + ";";
                     }
 
                     if (column.cellSettings.color != null)
                     {
-                        puma(td).css("color", column.cellSettings.color);
-                        if (options.lockable) puma(tdLocked).css("color", column.cellSettings.color);
+                        td.style.cssText += "color: " + column.cellSettings.color + ";";
+                        if (options.lockable) tdLocked!.style.cssText += "color: " + column.cellSettings.color + ";";
                     }
 
                     if (column.cellSettings.css != null)
                     {
-                        td.style.cssText += column.cellSettings.css;
-                        if (options.lockable) tdLocked!.style.cssText += column.cellSettings.css;
+                        td.style.cssText += column.cellSettings.css + ";";
+                        if (options.lockable) tdLocked!.style.cssText += column.cellSettings.css + ";";
                     }
                 }
 
                 if (options.rowColorProperty != null && row[options.rowColorProperty] != null && row[options.rowColorProperty] !== "")
                 {
-                    puma(td).css("background-color", row[options.rowColorProperty]);
-                    if (options.lockable) puma(tdLocked).css("background-color", row[options.rowColorProperty]);
+                    td.style.cssText += "background-color: " + row[options.rowColorProperty] + ";";
+                    if (options.lockable) tdLocked!.style.cssText += "background-color: " + row[options.rowColorProperty] + ";";
                 }
 
                 if (options.rowTextColorProperty != null && row[options.rowTextColorProperty] != null && row[options.rowTextColorProperty] !== "")
                 {
-                    puma(td).css("color", row[options.rowTextColorProperty]);
-                    if (options.lockable) puma(tdLocked).css("color", row[options.rowTextColorProperty]);
+                    td.style.cssText += "color: " + row[options.rowTextColorProperty] + ";";
+                    if (options.lockable) tdLocked!.style.cssText += "color: " + row[options.rowTextColorProperty] + ";";
                 }
                 //#endregion
 
@@ -2863,8 +2958,8 @@ export class Grid extends VrControl
                 if (column.cellSettings != null)
                     textAlign = (column.cellSettings.textAlign != null) ? column.cellSettings.textAlign : textAlign;
 
-                puma(td).css("text-align", textAlign);
-                if (options.lockable) puma(tdLocked).css("text-align", textAlign);
+                td.style.cssText += "text-align: " + textAlign + ";";
+                if (options.lockable) tdLocked!.style.cssText += "text-align: " + textAlign + ";";
                 //#endregion
 
                 //#region Tooltip
@@ -2892,8 +2987,8 @@ export class Grid extends VrControl
 
                     if (tooltip != null && tooltip.length > 0)
                     {
-                        puma(td).attr("title", puma("<span>" + tooltip + "</span>").text());
-                        if (options.lockable) puma(tdLocked).attr("title", puma("<span>" + tooltip + "</span>").text());
+                        td.setAttribute("title", puma("<span>" + tooltip + "</span>").text())
+                        if (options.lockable) tdLocked!.setAttribute("title", puma("<span>" + tooltip + "</span>").text())
                     }
                 }
                 //#endregion
@@ -2901,29 +2996,22 @@ export class Grid extends VrControl
                 //#region Bold
                 if (column.bold === true)
                 {
-                    puma(td).css("font-weight", "500");
-                    if (options.lockable) puma(tdLocked).css("font-weight", "500");
+                    td.style.cssText += "font-weight: 600;";
+                    if (options.lockable) tdLocked!.style.cssText += "font-weight: 600;";
                 }
                 //#endregion
 
                 //#endregion
 
                 // Append td
-                if (options.lockable && isNewCellLocked && column.locked)
-                    puma(trLocked).vrAppendPuma(tdLocked)
-                else if (isNewCell)
-                    puma(tr).vrAppendPuma(td);
+                if (options.lockable && column.locked)
+                    trLocked!.appendChild(tdLocked!)
+                else
+                    tr.appendChild(td);
 
                 k++;
             }
             //#endregion
-
-            // Append tr
-            if (isNewRow)
-                puma(this.element()).find(">tbody").vrAppendPuma(tr);
-
-            if (options.lockable && isNewRowLocked)
-                puma(this._elementLocked).find(">tbody").vrAppendPuma(trLocked);
 
             //#region GroupBy
             if (options.groupable! || options.groupBy != null)
@@ -2936,35 +3024,25 @@ export class Grid extends VrControl
                     if (options.groupBy == null || (options.groupBy as GridGroupBySettings).fields == null || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
                         display = "display: none;";
 
-                    let tdGroupBy = puma(tr).find("td.groupBy" + column.field);
-                    if (tdGroupBy.length == 0)
-                        puma(tr).prepend("<td width=16 style='border-left: none !important;" + display + "' class='groupBy" + column.field + "'></td>");
-                    else
-                    {
-                        if (options.groupBy == null || (options.groupBy as GridGroupBySettings).fields == null)
-                            tdGroupBy[0].style.display = "none";
-                        else if (((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field))
-                            tdGroupBy[0].style.display = "table-cell";
-                    }
+                    let tdGroupBy = document.createElement("td");
+                    tdGroupBy.setAttribute("width", "16");
+                    tdGroupBy.style.cssText += display;
+                    tdGroupBy.classList.add("groupBy" + column.field);
+                    tr.insertBefore(tdGroupBy, tr.firstChild);
 
                     if (options.lockable)
                     {
-                        let tdGroupByLocked = puma(trLocked).find("td.groupBy" + column.field);
-                        if (tdGroupByLocked.length == 0)
-                            puma(trLocked).prepend("<td width=16 style='border-left: none !important;" + display + "' class='groupBy" + column.field + "'></td>");
-                        else
-                        {
-                            if (options.groupBy == null || (options.groupBy as GridGroupBySettings).fields == null)
-                                tdGroupByLocked[0].style.display = "none";
-                            else if (((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field))
-                                tdGroupByLocked[0].style.display = "table-cell";
-                        }
+                        let tdGroupByLocked = document.createElement("td");
+                        tdGroupByLocked.setAttribute("width", "16");
+                        tdGroupByLocked.style.cssText += display;
+                        tdGroupByLocked.classList.add("groupBy" + column.field);
+                        trLocked!.insertBefore(tdGroupByLocked, trLocked!.firstChild);
                     }
                 }
             }
             //#endregion
 
-            puma(tr).height(options.rowHeight!);
+            tr.style.cssText += "height: " + options.rowHeight! + "px;";
 
             //#region Select row
             if (options.checkboxes != GridCheckboxModeEnum.None)
@@ -3020,51 +3098,24 @@ export class Grid extends VrControl
                 let backgroundColor = options.onRowDataBound(onRowDataBoundEvent);
                 if (backgroundColor != null && backgroundColor.length > 0)
                 {
-                    puma(tr).find("td").css("background-color", backgroundColor);
+                    Array.from(tr.getElementsByTagName("td")).forEach((td) => td.style.cssText += "background-color: " + backgroundColor + ";");
                     if (options.lockable)
-                        puma(trLocked).find("td").css("background-color", backgroundColor);
+                        Array.from(trLocked!.getElementsByTagName("td")).forEach((td) => td.style.cssText += "background-color: " + backgroundColor + ";");
                 }
             }
             //#endregion
 
+            // Append tr
+            rowFragment.appendChild(tr);
+            if (options.lockable)
+                rowFragmentLocked.appendChild(trLocked!);
+
             i++;
-            j++;
-        }
-        //#endregion
-
-        //#region Remove empty rows
-        if (items.length < options.pageSize!)
-        {
-            let trGroupByNumber = puma(this.element()).find(".grid_trGroupBy").length;
-            let to = (options.groupable && options.groupBy != null) ? options.pageSize! + trGroupByNumber : options.pageSize!;
-            let from = (options.groupable && options.groupBy != null) ? items.length + 1 + trGroupByNumber : items.length + 1;
-            for (let i = from; i <= to; i++)
-                puma(this._divBody).find("tbody tr:nth-child(" + from + ")").remove();
-
-            if (options.lockable)
-            {
-                let trGroupByNumber = puma(this._elementLocked).find(".grid_trGroupBy").length;
-                let to = (options.groupable && options.groupBy != null) ? options.pageSize! + trGroupByNumber : options.pageSize!;
-                let from = (options.groupable && options.groupBy != null) ? items.length + 1 + trGroupByNumber : items.length + 1;
-                for (let i = from; i <= to; i++)
-                    puma(this._divBodyLocked).find("tbody tr:nth-child(" + from + ")").remove();
-            }
         }
 
-        if (this._actualPageSize > options.pageSize!)
-        {
-            let trGroupByNumber = puma(this.element()).find(".grid_trGroupBy").length;
-            for (let i = options.pageSize! + 1 + trGroupByNumber; i <= this._actualPageSize + trGroupByNumber; i++)
-                puma(this._divBody).find("tbody tr:nth-child(" + (options.pageSize! + 1 + trGroupByNumber) + ")").remove();
-
-            if (options.lockable)
-            {
-                let trGroupByNumber = puma(this._elementLocked).find(".grid_trGroupBy").length;
-                for (let i = options.pageSize! + 1 + trGroupByNumber; i <= this._actualPageSize + trGroupByNumber; i++)
-                    puma(this._divBodyLocked).find("tbody tr:nth-child(" + (options.pageSize! + 1 + trGroupByNumber) + ")").remove();
-            }
-        }
-        this._actualPageSize = options.pageSize!;
+        tbody.appendChild(rowFragment);
+        if (options.lockable)
+            tbodyLocked!.appendChild(rowFragmentLocked);
         //#endregion
 
         //#region OnDataBound
@@ -3076,268 +3127,287 @@ export class Grid extends VrControl
         }
         //#endregion
 
-        //#region Footer
-        if (options.footer !== false)
+        this._actualPageSize = options.pageSize!;
+        window.setTimeout(() =>
         {
-            let footer = options.footer as GridFooterSettings;
-            let maxLength = (options.serverBinding !== false) ? this._responseForServerBinding[(options.serverBinding! as GridServerBindSettings).itemCountPropertyName!] : dataItems.length;
-            if (options.pageSize! < maxLength)
+            //#region Footer
+            if (options.footer !== false)
             {
-                let pageSelected = this.pageSelected();
-                let numberOfPages = Math.trunc(maxLength / options.pageSize!);
-                if (maxLength % options.pageSize! > 0)
-                    numberOfPages += 1;
+                let divPagination = document.getElementById(this._elementId + "_footerPagination")!;
+                divPagination.innerHTML = "";
+                let footer = options.footer as GridFooterSettings;
 
-                //#region Pages
-                if (footer.showPagination && options.pageSize! != 0)
+                let maxLength = (options.serverBinding !== false) ? this._responseForServerBinding[(options.serverBinding! as GridServerBindSettings).itemCountPropertyName!] : dataItems.length;
+                if (options.pageSize! < maxLength)
                 {
-                    puma("#" + this._elementId + "_divPagination").remove();
-                    let spanPagination = puma("<span id='" + this._elementId + "_divPagination' class='p-grid-pagination'></span>").prependTo(this._divFooter);
+                    let pageSelected = this.pageSelected();
+                    let numberOfPages = Math.trunc(maxLength / Number(options.pageSize!));
+                    if (maxLength % Number(options.pageSize!) > 0)
+                        numberOfPages += 1;
 
-                    //#region Previous buttons
-                    createButton(
-                        {
-                            icon: IconClassicLight.Backward,
-                            css: "border-left: none; border-top-left-radius: 5px; border-bottom-left-radius: 5px;",
-                            onClick: (e) =>
-                            {
-                                this.pageSelected(1);
-                            }
-                        }, spanPagination, null, this._elementId + "_btnFirstPage");
-
-                    createButton(
-                        {
-                            icon: IconClassicLight.BackwardStep,
-                            onClick: (e) =>
-                            {
-                                let pageToSelect = this.pageSelected() - 1;
-                                if (pageToSelect < 1)
-                                    pageToSelect = 1;
-
-                                this.pageSelected(pageToSelect);
-                            }
-                        }, spanPagination, null, this._elementId + "_btnPreviousPage");
-                    //#endregion
-
-                    //#region Index
-                    let maxVisiblePages = (options.footer! as GridFooterSettings).maxVisiblePages!;
-                    let startingIndex = 1;
-                    if (pageSelected % maxVisiblePages == 0)
-                        startingIndex = (((pageSelected / maxVisiblePages) - 1) * maxVisiblePages) + 1;
-                    else
-                        startingIndex = (Math.trunc(pageSelected / maxVisiblePages) * maxVisiblePages) + 1;
-
-                    let endIndex = 0;
-                    let noMore = false;
-                    if (numberOfPages <= maxVisiblePages)
+                    //#region Pages
+                    if (footer.showPagination && options.pageSize! != 0)
                     {
-                        endIndex = startingIndex + numberOfPages;
-                        noMore = true;
-                    }
-                    else
-                        endIndex = startingIndex + maxVisiblePages;
+                        let spanPagination = document.createElement("span");
+                        spanPagination.id = this._elementId + "_divPagination";
+                        spanPagination.classList.add("p-grid-pagination");
+                        divPagination.appendChild(spanPagination);
 
-                    if (endIndex >= (numberOfPages + 1))
-                    {
-                        endIndex = (numberOfPages + 1);
-                        noMore = true;
-                    }
-                    //#endregion
-
-                    //#region Page numbers
-                    if (startingIndex > 1)
-                    {
-                        puma("<button id='" + this._elementId + "_btnPage_" + (startingIndex - 1) + "'></button>").vrAppendToPuma(spanPagination);
+                        //#region Previous buttons
                         createButton(
                             {
-                                text: "...",
+                                icon: IconClassicLight.Backward,
+                                css: "border-left: none; border-top-left-radius: 5px; border-bottom-left-radius: 5px;",
                                 onClick: (e) =>
                                 {
-                                    this.pageSelected(startingIndex - 1);
+                                    this.pageSelected(1);
                                 }
-                            }, null, null, this._elementId + "_btnPage_" + (startingIndex - 1));
-                    }
+                            }, spanPagination);
 
-                    for (let i = startingIndex; i <= endIndex; i++)
-                    {
-                        if (i == endIndex && noMore)
-                            break;
-
-                        puma("<button id='" + this._elementId + "_btnPage_" + i + "'></button>").vrAppendToPuma(spanPagination);
                         createButton(
                             {
-                                text: (i == endIndex) ? ((startingIndex == endIndex) ? String(i) : "...") : String(i),
-                                class: (i == pageSelected) ? "p-grid-pageSelected" : undefined,
+                                icon: IconClassicLight.BackwardStep,
                                 onClick: (e) =>
                                 {
-                                    let index = Number(puma(e.sender.element()).attr("id").split("_").last());
-                                    this.pageSelected(index);
+                                    let pageToSelect = this.pageSelected() - 1;
+                                    if (pageToSelect < 1)
+                                        pageToSelect = 1;
+
+                                    this.pageSelected(pageToSelect);
                                 }
-                            }, null, null, this._elementId + "_btnPage_" + i);
+                            }, spanPagination);
+                        //#endregion
+
+                        //#region Index
+                        let maxVisiblePages = (options.footer! as GridFooterSettings).maxVisiblePages!;
+                        let startingIndex = 1;
+                        if (pageSelected % maxVisiblePages == 0)
+                            startingIndex = (((pageSelected / maxVisiblePages) - 1) * maxVisiblePages) + 1;
+                        else
+                            startingIndex = (Math.trunc(pageSelected / maxVisiblePages) * maxVisiblePages) + 1;
+
+                        let endIndex = 0;
+                        let noMore = false;
+                        if (numberOfPages <= maxVisiblePages)
+                        {
+                            endIndex = startingIndex + numberOfPages;
+                            noMore = true;
+                        }
+                        else
+                            endIndex = startingIndex + maxVisiblePages;
+
+                        if (endIndex >= (numberOfPages + 1))
+                        {
+                            endIndex = (numberOfPages + 1);
+                            noMore = true;
+                        }
+                        //#endregion
+
+                        //#region Page numbers
+                        if (startingIndex > 1)
+                        {
+                            let button = document.createElement("button");
+                            button.id = this._elementId + "_btnPage_" + (startingIndex - 1);
+                            button.innerHTML = "...";
+                            button.onclick = (e) => 
+                            {
+                                this.pageSelected(startingIndex - 1);
+                                return false;
+                            }
+                            spanPagination.appendChild(button);
+                        }
+
+                        let buttonsFragment = document.createDocumentFragment();
+                        for (let i = startingIndex; i <= endIndex; i++)
+                        {
+                            if (i == endIndex && noMore)
+                                break;
+
+                            let button = document.createElement("button");
+                            button.id = this._elementId + "_btnPage_" + i;
+                            button.innerHTML = (i == endIndex) ? ((startingIndex == endIndex) ? String(i) : "...") : String(i);
+                            if (i == pageSelected)
+                                button.classList.add("p-grid-pageSelected");
+
+                            button.onclick = (e) =>
+                            {
+                                this.pageSelected(i);
+                                return false;
+                            };
+                            buttonsFragment.appendChild(button);
+                        }
+                        spanPagination.appendChild(buttonsFragment);
+                        //#endregion
+
+                        //#region Next buttons
+                        createButton(
+                            {
+                                icon: IconClassicLight.ForwardStep,
+                                onClick: (e) =>
+                                {
+                                    let pageToSelect = this.pageSelected() + 1;
+                                    if (pageToSelect > numberOfPages)
+                                        pageToSelect = numberOfPages;
+
+                                    this.pageSelected(pageToSelect);
+                                }
+                            }, spanPagination);
+
+                        createButton(
+                            {
+                                icon: IconClassicLight.Forward,
+                                css: "border-top-right-radius: 5px; border-bottom-right-radius: 5px;",
+                                onClick: (e) =>
+                                {
+                                    this.pageSelected(numberOfPages);
+                                }
+                            }, spanPagination);
+                        //#endregion
                     }
                     //#endregion
 
-                    //#region Next buttons
-                    puma("<button id='" + this._elementId + "_btnNextPage'></button>").vrAppendToPuma(spanPagination);
-                    createButton(
-                        {
-                            icon: IconClassicLight.ForwardStep,
-                            onClick: (e) =>
-                            {
-                                let pageToSelect = this.pageSelected() + 1;
-                                if (pageToSelect > numberOfPages)
-                                    pageToSelect = numberOfPages;
-
-                                this.pageSelected(pageToSelect);
-                            }
-                        }, null, null, this._elementId + "_btnNextPage");
-
-                    puma("<button id='" + this._elementId + "_btnLastPage'></button>").vrAppendToPuma(spanPagination);
-                    createButton(
-                        {
-                            icon: IconClassicLight.Forward,
-                            css: "border-top-right-radius: 5px; border-bottom-right-radius: 5px;",
-                            onClick: (e) =>
-                            {
-                                this.pageSelected(numberOfPages);
-                            }
-                        }, null, null, this._elementId + "_btnLastPage");
-                    //#endregion
-                }
-                //#endregion
-
-                //#region Total elements
-                if (footer.totalElements)
-                {
-                    puma("#" + this._elementId + "TotalsLabel").remove();
-                    puma("<span id='" + this._elementId + "TotalsLabel' class='p-grid-totalElements'></span>").vrAppendToPuma(this._divFooter);
-
-                    if (typeof (footer.totalElements) == "boolean" && footer.totalElements === true)
+                    //#region Total elements
+                    if (footer.totalElements)
                     {
-                        if (options.pageSize == 0)
-                            puma("#" + this._elementId + "TotalsLabel").html("Nessun elemento");
+                        let spanTotalElements = document.createElement("span");
+                        spanTotalElements.id = this._elementId + "TotalsLabel";
+                        spanTotalElements.classList.add("p-grid-totalElements");
+                        divPagination.appendChild(spanTotalElements);
+
+                        if (typeof (footer.totalElements) == "boolean" && footer.totalElements === true)
+                        {
+                            if (options.pageSize == 0)
+                                spanTotalElements.innerHTML = "Nessun elemento";
+                            else
+                            {
+                                if (lastIndex > maxLength)
+                                    lastIndex = maxLength;
+
+                                let pagesText = firstIndex + " - " + lastIndex + " di " + maxLength + ((maxLength == 1) ? " elemento" : " elementi") +
+                                    " - " + pageSelected + " di " + numberOfPages + " pagine";
+
+                                if (options.serverBinding !== false)
+                                {
+                                    let indexFrom = Number(options.pageSize!) * (this.pageSelected() - 1) + 1;
+                                    let indexTo = Number(options.pageSize!) * (this.pageSelected() - 1) + dataItems.length;
+
+                                    pagesText = indexFrom + " - " + indexTo + " di " + maxLength + ((maxLength == 1) ? " elemento" : " elementi") +
+                                        " - " + pageSelected + " di " + numberOfPages + " pagine";
+                                }
+
+                                spanTotalElements.innerHTML = pagesText;
+                            }
+                        }
                         else
                         {
-                            if (lastIndex > maxLength)
-                                lastIndex = maxLength;
+                            let totalElementTemplateEvent = new GridTotalElementTemplateEvent();
+                            totalElementTemplateEvent.dataItems = dataItems;
+                            totalElementTemplateEvent.firstIndex = firstIndex;
+                            totalElementTemplateEvent.lastIndex = lastIndex;
+                            totalElementTemplateEvent.numberOfPages = numberOfPages;
+                            totalElementTemplateEvent.pageSelected = pageSelected;
+                            let totalElementsText = footer.totalElements(totalElementTemplateEvent);
 
-                            let pagesText = firstIndex + " - " + lastIndex + " di " + maxLength + ((maxLength == 1) ? " elemento" : " elementi") +
-                                " - " + pageSelected + " di " + numberOfPages + " pagine";
-
-                            if (options.serverBinding !== false)
-                            {
-                                let indexFrom = options.pageSize! * (this.pageSelected() - 1) + 1;
-                                let indexTo = options.pageSize! * (this.pageSelected() - 1) + dataItems.length;
-
-                                pagesText = indexFrom + " - " + indexTo + " di " + maxLength + ((maxLength == 1) ? " elemento" : " elementi") +
-                                    " - " + pageSelected + " di " + numberOfPages + " pagine";
-                            }
-
-                            puma("#" + this._elementId + "TotalsLabel").html(pagesText);
+                            spanTotalElements.innerHTML = String(totalElementsText);
                         }
                     }
-                    else
-                    {
-                        let totalElementTemplateEvent = new GridTotalElementTemplateEvent();
-                        totalElementTemplateEvent.dataItems = dataItems;
-                        totalElementTemplateEvent.firstIndex = firstIndex;
-                        totalElementTemplateEvent.lastIndex = lastIndex;
-                        totalElementTemplateEvent.numberOfPages = numberOfPages;
-                        totalElementTemplateEvent.pageSelected = pageSelected;
-                        let totalElementsText = footer.totalElements(totalElementTemplateEvent);
-
-                        puma("#" + this._elementId + "TotalsLabel").html(totalElementsText);
-                    }
+                    //#endregion                
                 }
-                //#endregion                
-            }
-            else
-            {
-                //#region Clear footer
-                if (footer.showPagination)
-                    puma("#" + this._elementId + "_divPagination").remove();
-
-                if (footer.totalElements)
+                else
                 {
-                    puma("#" + this._elementId + "TotalsLabel").remove();
-                    puma("<span id='" + this._elementId + "TotalsLabel' class='p-grid-totalElements'></span>").vrAppendToPuma(this._divFooter);
-                    let realDataItems = dataItems.filter(k => k["defaultRow"] == null || k["defaultRow"] == false);
-
-                    if (typeof (footer.totalElements) == "boolean" && footer.totalElements === true)
+                    //#region Clear footer
+                    if (footer.totalElements)
                     {
-                        if (realDataItems.length == 0)
-                            puma("#" + this._elementId + "TotalsLabel").html("Nessun elemento");
+                        let spanTotalElements = document.createElement("span");
+                        spanTotalElements.id = this._elementId + "TotalsLabel";
+                        spanTotalElements.classList.add("p-grid-totalElements");
+                        divPagination.appendChild(spanTotalElements);
+
+                        let realDataItems = dataItems.filter(k => k["defaultRow"] == null || k["defaultRow"] == false);
+
+                        if (typeof (footer.totalElements) == "boolean" && footer.totalElements === true)
+                        {
+                            if (realDataItems.length == 0)
+                                spanTotalElements.innerHTML = "Nessun elemento";
+                            else
+                                spanTotalElements.innerHTML = dataItems.length + ((realDataItems.length == 1) ? " elemento" : " elementi");
+                        }
                         else
-                            puma("#" + this._elementId + "TotalsLabel").html(dataItems.length + ((realDataItems.length == 1) ? " elemento" : " elementi"));
+                        {
+                            let totalElementTemplateEvent = new GridTotalElementTemplateEvent();
+                            totalElementTemplateEvent.dataItems = realDataItems;
+                            totalElementTemplateEvent.firstIndex = firstIndex;
+                            totalElementTemplateEvent.lastIndex = lastIndex;
+                            let totalElementsText = footer.totalElements(totalElementTemplateEvent);
+
+                            spanTotalElements.innerHTML = String(totalElementsText);
+                        }
                     }
-                    else
+
+                    if (!footer.showPageSize)
                     {
-                        let totalElementTemplateEvent = new GridTotalElementTemplateEvent();
-                        totalElementTemplateEvent.dataItems = realDataItems;
-                        totalElementTemplateEvent.firstIndex = firstIndex;
-                        totalElementTemplateEvent.lastIndex = lastIndex;
-                        let totalElementsText = footer.totalElements(totalElementTemplateEvent);
-
-                        puma("#" + this._elementId + "TotalsLabel").html(totalElementsText);
+                        let ddlPageSize = ControlManager.get<ComboBox>(this._elementId + "_ddlPageSize");
+                        if (ddlPageSize != null)
+                            ddlPageSize.hide();
                     }
+                    //#endregion
                 }
-
-                if (!footer.showPageSize)
-                {
-                    let ddlPageSize = ControlManager.get<ComboBox>(this._elementId + "_ddlPageSize");
-                    if (ddlPageSize != null)
-                        ddlPageSize.hide();
-                }
-                //#endregion
             }
-        }
-        //#endregion
+            //#endregion
 
-        //#region Totals
-        if (this._showTotals && options.columns!.filter(k => k.aggregate != null && k.aggregate !== false).length > 0)
-        {
-            if (options.serverBinding !== false)
-                this.createTotals(this._responseForServerBinding[(options.serverBinding as GridServerBindSettings).totalsPropertyName!], false);
-            else
+            //#region Totals
+            if (this._showTotals && options.columns!.filter(k => k.aggregate != null && k.aggregate !== false).length > 0)
             {
-                //#region Worker totals request
-                puma(this._divTotals).find("td").empty();
-                if (options.lockable)
-                    puma(this._divTotalsLocked).find("td").empty();
-
-                let workerTotalsRequest = new WorkerTotalsRequest();
-                workerTotalsRequest.isGroup = false;
-                workerTotalsRequest.dataItems = dataItems;
-                workerTotalsRequest.columnOptions = options.columns!.filter(k => k.aggregate != null && k.aggregate !== false && k.hidden !== true).map(k => 
+                if (options.serverBinding !== false)
+                    this.createTotals(this._responseForServerBinding[(options.serverBinding as GridServerBindSettings).totalsPropertyName!], false);
+                else
                 {
-                    let td = puma(this._divTotals).find("td[field='" + k.field + "']")[0];
-                    if (options.lockable && td == null)
-                        td = puma(this._divTotalsLocked).find("td[field='" + k.field + "']")[0];
+                    //#region Worker totals request
+                    Array.from(this._divTotals.getElementsByTagName("td")).forEach((td) => td.innerHTML = "");
+                    if (options.lockable)
+                        Array.from(this._divTotalsLocked!.getElementsByTagName("td")).forEach((td) => td.innerHTML = "");
 
-                    let decimalDigits = puma(td).attr("decimalDigits");
-                    let aggregateMode = Number(puma(td).attr("aggregate"));
+                    let workerTotalsRequest = new WorkerTotalsRequest();
+                    workerTotalsRequest.isGroup = false;
+                    workerTotalsRequest.dataItems = dataItems;
+                    workerTotalsRequest.columnOptions = options.columns!.filter(k => k.aggregate != null && k.aggregate !== false && k.hidden !== true).map(k => 
+                    {
+                        return {
+                            field: k.field,
+                            decimalDigits: k.decimalDigits!,
+                            aggregateMode: Number(k.aggregate),
+                            type: k.type!,
+                            countZeroInAverage: k.countZeroInAverage,
+                            roundingSettings: k.roundingSettings
+                        }
+                    });
+                    this._workerTotals.postMessage(JSON.parse(JSON.stringify(workerTotalsRequest)));
+                    //#endregion
 
-                    return {
-                        field: k.field,
-                        decimalDigits: decimalDigits,
-                        aggregateMode: aggregateMode,
-                        type: k.type!,
-                        countZeroInAverage: k.countZeroInAverage,
-                        roundingSettings: k.roundingSettings
-                    }
-                });
-                this._workerTotals.postMessage(JSON.parse(JSON.stringify(workerTotalsRequest)));
-                //#endregion
-
-                //#region Worker totals response
-                this._workerTotals.onmessage = (e) =>
-                {
-                    this.createTotals(e.data, false);
-                };
-                //#endregion
+                    //#region Worker totals response
+                    this._workerTotals.onmessage = (e) =>
+                    {
+                        this.createTotals(e.data, false);
+                    };
+                    //#endregion
+                }
             }
-        }
+            //#endregion
+        })
+
+        //#region Recalculate Width/Height & AdjustTrHeight
+        if (!this._firstDraw)
+            this.recalculateHeightWidth();
+        else
+            window.setTimeout(() => this.recalculateHeightWidth());
+
+        this._firstDraw = true;
+        this.adjustTrHeight();
         //#endregion
+
+        this._deletedItems = [];
+        if (this._checkedItemsForFiltering != null && this._checkedItemsForFiltering.length > 0)
+            this.selectRows(this._checkedItemsForFiltering.map(k => k[options.dataSourceFieldId!]), undefined, false);
 
         //#region GroupBy
         if (options.groupable! && options.groupBy != null)
@@ -3347,8 +3417,9 @@ export class Grid extends VrControl
             workerTotalsGroupRequest.groupItems = [];
             workerTotalsGroupRequest.isGroup = true;
 
-            let trGroupByList = Array.from<HTMLElement>(puma(this.element()).find(".grid_trGroupBy"));
-            trGroupByList.vrPushRange(Array.from<HTMLElement>(puma(this._elementLocked).find(".grid_trGroupByLocked")))
+            let trGroupByList = Array.from(this.element().getElementsByClassName("grid_trGroupBy")) as HTMLElement[];
+            if (options.lockable)
+                trGroupByList.vrPushRange(Array.from(this._elementLocked.getElementsByClassName("grid_trGroupByLocked")))
 
             for (let tr of trGroupByList)
             {
@@ -3361,11 +3432,17 @@ export class Grid extends VrControl
                 //#region Children number
                 if (!options.serverBinding)
                 {
-                    let td = puma(tr).find("td.grid_tdGroupByName");
+                    let td = tr.getElementsByClassName("grid_tdGroupByName")[0];
                     let childrenNumber = children.length;
 
                     if (this.dataSource().length > 1)
-                        td.find("div.grid_divGroupByName").vrAppendPuma("<span style='margin-left: 5px;'>(" + childrenNumber + ")</span>");
+                    {
+                        let divGroupByName = td.getElementsByClassName("grid_divGroupByName")[0];
+                        let spanChildrenNumber = document.createElement("span");
+                        spanChildrenNumber.style.cssText += "margin-left: 5px;";
+                        spanChildrenNumber.innerHTML = "(" + childrenNumber + ")";
+                        divGroupByName.appendChild(spanChildrenNumber);
+                    }
                 }
                 //#endregion
 
@@ -3400,17 +3477,10 @@ export class Grid extends VrControl
                 //#region WorkerTotalsGroupRequest
                 workerTotalsGroupRequest.columnOptions = options.columns!.filter(k => k.aggregate != null && k.aggregate !== false && k.hidden !== true).map(k =>
                 {
-                    let td = puma(this._divTotals).find("td[field='" + k.field + "']")[0];
-                    if (options.lockable && td == null)
-                        td = puma(this._divTotalsLocked).find("td[field='" + k.field + "']")[0];
-
-                    let decimalDigits = puma(td).attr("decimalDigits");
-                    let aggregateMode = Number(puma(td).attr("aggregate"));
-
                     return {
                         field: k.field,
-                        decimalDigits: decimalDigits,
-                        aggregateMode: aggregateMode,
+                        decimalDigits: k.decimalDigits!,
+                        aggregateMode: Number(k.aggregate),
                         type: k.type!,
                         countZeroInAverage: k.countZeroInAverage,
                         roundingSettings: k.roundingSettings
@@ -3430,18 +3500,6 @@ export class Grid extends VrControl
             //#endregion
         }
         //#endregion
-
-        //#region Recalculate Width/Height & AdjustTrHeight
-        this.recalculateHeight();
-        this.recalculateWidth();
-        this.recalculateHeight();
-
-        this.adjustTrHeight();
-        //#endregion
-
-        this._deletedItems = [];
-        if (this._checkedItemsForFiltering != null && this._checkedItemsForFiltering.length > 0)
-            this.selectRows(this._checkedItemsForFiltering.map(k => k[options.dataSourceFieldId!]), undefined, false);
     }
 
     private createTotals(data: any[], isGroup: boolean)
@@ -3450,11 +3508,11 @@ export class Grid extends VrControl
         {
             for (let total of data)
             {
-                let td = puma(this._divTotals).find("td[field='" + total.field + "']")[0];
+                let td = this._divTotals.querySelector<HTMLElement>("td[field = '" + total.field + "']")!;
 
                 let options = this.getOptions();
                 if (options.lockable && td == null)
-                    td = puma(this._divTotalsLocked).find("td[field='" + total.field + "']")[0];
+                    td = this._divTotalsLocked.querySelector<HTMLElement>("td[field = '" + total.field + "']")!;
 
                 this.writeTotals(total, td);
             }
@@ -3465,11 +3523,10 @@ export class Grid extends VrControl
             {
                 for (let total of totalsGroup.totals)
                 {
-                    let tdList = Array.from<HTMLElement>(puma("." + this._elementId + "_totalGroupBy"
-                        + this.fixValueWithoutSpecialChars(totalsGroup.groupValue))
-                        .find("td[field='" + total.field + "']"))
+                    let tdList = this.element().querySelector("." + this._elementId + "_totalGroupBy"
+                        + this.fixValueWithoutSpecialChars(totalsGroup.groupValue))!.querySelectorAll<HTMLElement>("td[field='" + total.field + "']");
 
-                    for (let td of tdList)
+                    for (let td of Array.from(tdList))
                         this.writeTotals(total, td);
                 }
             }
@@ -3482,7 +3539,7 @@ export class Grid extends VrControl
         {
             let valueFormatted = this.formatValue(total.total, total.type, total.decimalDigits, total.roundingSettings);
             td.innerHTML = valueFormatted;
-            puma(td).attr("title", td.innerText);
+            td.setAttribute("title", td.innerText);
         }
     }
 
@@ -4610,6 +4667,7 @@ export class Grid extends VrControl
                 //#endregion    
             }
 
+            this.recalculateHeightWidth();
             if (update)
                 this.update();
         }
@@ -4688,6 +4746,7 @@ export class Grid extends VrControl
                 //#endregion
             }
 
+            this.recalculateHeightWidth();
             if (update)
                 this.update();
         }
@@ -7412,9 +7471,9 @@ export class Grid extends VrControl
             if (options.footer !== false)
                 puma("#" + this._divFooter.id + " button").removeClass("p-grid-pageSelected");
 
-            let buttonSelected = ControlManager.get<Button>(this._elementId + "_btnPage_" + page);
+            let buttonSelected = document.getElementById(this._elementId + "_btnPage_" + page);
             if (buttonSelected != null)
-                puma(buttonSelected.element()).addClass("p-grid-pageSelected");
+                buttonSelected.classList.add("p-grid-pageSelected")
 
             //#region Event
             if (options.onPageSelected != null)
@@ -7490,46 +7549,66 @@ export class Grid extends VrControl
         return (this._internalOptions != null) ? this._internalOptions : this.options<GridOptions>();
     }
 
+    private recalculateHeightWidth()
+    {
+        this.recalculateHeight();
+        this.recalculateWidth();
+        this.recalculateHeight();
+    }
+
     recalculateWidth(fixColGroup = true)
     {
         let options = this.getOptions();
-        if (puma(this._divBody).css('overflow-y') == 'scroll' || puma(this._divBody).css('overflow-y') == 'auto')
+        let bodyJQuery = puma(this._divBody);
+        let divHeaderJQuery = puma(this._divHeader);
+        let divFilterJQuery = puma(this._divFilters);
+        let divTotalJQuery = puma(this._divTotals);
+
+        let bodyJQueryLocked = null;
+        let divHeaderJQueryLocked = null;
+        if (this.thereAreLockedColumns())
         {
-            if (puma(this._divBody)[0].scrollHeight > puma(this._divBody)[0].clientHeight && puma(this._divBody)[0].clientHeight > 0)
+            bodyJQueryLocked = puma(this._divBodyLocked);
+            divHeaderJQueryLocked = puma(this._divHeaderLocked);
+        }
+
+        if (bodyJQuery.css('overflow-y') == 'scroll' || bodyJQuery.css('overflow-y') == 'auto')
+        {
+            if (this._divBody.scrollHeight > this._divBody.clientHeight && this._divBody.clientHeight > 0)
             {
                 //#region Structure
                 let minusWidth = 19;
                 if (this.thereAreLockedColumns())
                     minusWidth += puma(this._divHeaderLocked).width() + 5;
 
-                puma(this._divHeader).width("Calc(100% - " + minusWidth + "px)")
-                puma(this._divHeader).find("th[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
+                this._divHeader.style.cssText += "width: Calc(100% - " + minusWidth + "px);";
+                divHeaderJQuery.find("th[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
 
-                puma(this._divFilters).width("Calc(100% - " + minusWidth + "px)")
-                puma(this._divFilters).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
+                this._divFilters.style.cssText += "width: Calc(100% - " + minusWidth + "px);";
+                divFilterJQuery.find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
 
                 if (this.thereAreLockedColumns())
                 {
-                    puma(this._divBody).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
-                    puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
+                    bodyJQuery.width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
+                    bodyJQueryLocked.width(puma(this._divHeaderLocked).width())
                 }
                 else
-                    puma(this._divBody).width("Calc(100% - 2px)");
+                    this._divBody.style.cssText += "width: Calc(100% - 2px);";
 
-                puma(this._divTotals).width("Calc(100% - " + minusWidth + "px)")
-                puma(this._divTotals).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
+                this._divTotals.style.cssText += "width: Calc(100% - " + minusWidth + "px);";
+                divTotalJQuery.find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
                 //#endregion
 
                 //#region Fit space
-                if (puma(this._divHeader).is(":visible"))
+                if (divHeaderJQuery.is(":visible"))
                 {
-                    this._spanFitHeaderSpace.style.cssText += "top: " + (puma(this._divHeader).position().top) + "px; left: " + (puma(this._divHeader).position().left + puma(this._divHeader).width()) + "px";
+                    this._spanFitHeaderSpace.style.cssText += "top: " + (divHeaderJQuery.position().top) + "px; left: " + (divHeaderJQuery.position().left + divHeaderJQuery.width()) + "px";
                     puma(this._spanFitHeaderSpace).show();
                 }
 
                 if (options.filterable)
                 {
-                    this._spanFitFilterSpace.style.cssText += "top: " + (puma(this._divFilters).position().top) + "px; left: " + (puma(this._divFilters).position().left + puma(this._divFilters).width()) + "px";
+                    this._spanFitFilterSpace.style.cssText += "top: " + (divFilterJQuery.position().top) + "px; left: " + (divFilterJQuery.position().left + divFilterJQuery.width()) + "px";
                     puma(this._spanFitFilterSpace).show();
                 }
                 else
@@ -7537,7 +7616,7 @@ export class Grid extends VrControl
 
                 if (this._showTotals && this.getAllItems().length > 0)
                 {
-                    this._spanFitTotalsSpace.style.cssText += "top: " + (puma(this._divTotals).position().top) + "px; left: " + (puma(this._divTotals).position().left + puma(this._divTotals).width()) + "px";
+                    this._spanFitTotalsSpace.style.cssText += "top: " + (divTotalJQuery.position().top) + "px; left: " + (divTotalJQuery.position().left + divTotalJQuery.width()) + "px";
                     puma(this._spanFitTotalsSpace).show();
                 }
                 else
@@ -7551,22 +7630,22 @@ export class Grid extends VrControl
                     minusWidth += puma(this._divHeaderLocked).width() + 5;
 
                 //#region Structure
-                puma(this._divHeader).width("Calc(100% - " + minusWidth + "px)")
-                puma(this._divHeader).find("th[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
+                this._divHeader.style.cssText += "width: Calc(100% - " + minusWidth + "px);";
+                divHeaderJQuery.find("th[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
 
-                puma(this._divFilters).width("Calc(100% - " + minusWidth + "px)")
-                puma(this._divFilters).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
+                this._divFilters.style.cssText += "width: Calc(100% - " + minusWidth + "px);";
+                divFilterJQuery.find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
 
                 if (this.thereAreLockedColumns())
                 {
-                    puma(this._divBody).width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
-                    puma(this._divBodyLocked).width(puma(this._divHeaderLocked).width())
+                    bodyJQuery.width("Calc(100% - " + (puma(this._divHeaderLocked).width() + 5) + "px)")
+                    bodyJQueryLocked.width(puma(this._divHeaderLocked).width())
                 }
                 else
-                    puma(this._divBody).width("Calc(100% - 2px)");
+                    this._divBody.style.cssText += "width: Calc(100% - 2px);";
 
-                puma(this._divTotals).width("Calc(100% - " + minusWidth + "px)")
-                puma(this._divTotals).find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
+                this._divTotals.style.cssText += "width: Calc(100% - " + minusWidth + "px);";
+                divTotalJQuery.find("td[fitSpace='true']").attr("width", this._fitSpaceColumnPercentage + "%");
                 //#endregion
 
                 //#region Fit space
@@ -7586,57 +7665,69 @@ export class Grid extends VrControl
         if (fixColGroup && (options.groupable! || options.groupBy != null))
         {
             let i = 0;
-            puma(this._divBody).find("table colgroup").remove();
-            let colGroup = puma("<colgroup></colgroup>").prependTo(puma(this._divBody).find(">table"));
+            bodyJQuery.find("table colgroup").remove();
+            let colGroup = puma("<colgroup></colgroup>").prependTo(bodyJQuery.find(">table"));
 
             puma(this._divHeaderContainer).show();
-            puma(this._divHeader).show();
-            for (let column of Array.from(puma(this._divHeader).find(">table tr:first-child th")))
+            divHeaderJQuery.show();
+
+            let colFragment = document.createDocumentFragment();
+            for (let column of Array.from<HTMLElement>(divHeaderJQuery.find(">table tr:first-child th")))
             {
-                let field = puma(column).attr("value");
+                let field = column.getAttribute("value")!;
 
                 let display = "";
-                if (!puma(column).is(":visible"))
+                if (column.offsetParent == null) // is hidden
                     display = "display: none;";
                 else
                     i++;
 
-                let width = puma(column).outerWidth();
+                let width = column.offsetWidth;
                 if (i == 1)
                     width -= 1;
 
-                puma("<col field='" + field + "' style='width: " + width + "px; " + display + "' />").vrAppendToPuma(colGroup);
+                let col = document.createElement("col");
+                col.setAttribute("field", field);
+                col.style.cssText += "width: " + width + "px; " + display + ";";
+                colFragment.appendChild(col);
             }
+            colGroup[0].appendChild(colFragment);
 
             if (options.header === false)
-                puma(this._divHeader).hide();
+                divHeaderJQuery.hide();
 
             if (this.thereAreLockedColumns())
             {
                 let i = 0;
-                puma(this._divBodyLocked).find("table colgroup").remove();
-                let colGroup = puma("<colgroup></colgroup>").prependTo(puma(this._divBodyLocked).find(">table"));
+                bodyJQueryLocked.find("table colgroup").remove();
+                let colGroupLocked = puma("<colgroup></colgroup>").prependTo(bodyJQueryLocked.find(">table"));
 
-                puma(this._divHeaderLocked).show();
-                for (let column of Array.from(puma(this._divHeaderLocked).find(">table tr:first-child th")))
+                divHeaderJQueryLocked.show();
+
+                let colLockedFragment = document.createDocumentFragment();
+                for (let column of Array.from<HTMLElement>(divHeaderJQueryLocked.find(">table tr:first-child th")))
                 {
-                    let field = puma(column).attr("value");
+                    let field = column.getAttribute("value")!;
 
                     let display = "";
-                    if (!puma(column).is(":visible"))
+                    if (column.offsetParent == null) // is hidden
                         display = "display: none;";
                     else
                         i++;
 
-                    let width = puma(column).width();
+                    let width = column.offsetWidth;
                     if (i == 1)
                         width -= 1;
 
-                    puma("<col field='" + field + "' style='width: " + width + "px; " + display + "' />").vrAppendToPuma(colGroup);
+                    let colLocked = document.createElement("col");
+                    colLocked.setAttribute("field", field);
+                    colLocked.style.cssText += "width: " + width + "px; " + display + ";";
+                    colLockedFragment.appendChild(colLocked);
                 }
+                colGroupLocked[0].appendChild(colLockedFragment);
 
                 if (options.header === false)
-                    puma(this._divHeaderLocked).hide();
+                    divHeaderJQueryLocked.hide();
             }
 
             if (options.header === false)
@@ -7746,8 +7837,8 @@ export class Grid extends VrControl
                 if (heightToSet < options.rowHeight!)
                     heightToSet = options.rowHeight!;
 
-                puma(trLocked).height(heightToSet);
-                puma(tr).height(heightToSet);
+                trLocked.style.cssText += "height: " + heightToSet + "px;";
+                tr.style.cssText += "height: " + heightToSet + "px;";
             }
         }
     }

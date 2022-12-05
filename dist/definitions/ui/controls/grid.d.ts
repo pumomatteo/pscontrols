@@ -68,6 +68,7 @@ export declare class Grid extends VrControl {
     private _timeoutFilterText;
     private _workerTotals;
     private _workerTotalsGroup;
+    private _firstDraw;
     private _dataSource;
     private _originalDataSource;
     private _deletedItems;
@@ -211,6 +212,7 @@ export declare class Grid extends VrControl {
     private isRepeater;
     private fixValueWithoutSpecialChars;
     getOptions(): GridOptions;
+    private recalculateHeightWidth;
     recalculateWidth(fixColGroup?: boolean): void;
     height(height?: number | string): any;
     recalculateHeight(afterFilter?: boolean): void;
