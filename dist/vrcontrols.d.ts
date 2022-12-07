@@ -8438,6 +8438,8 @@ export class GridGroupByItem
 {
     field: string;
     displayField?: string;
+    groupNameIfEmpty?: string;
+    checkbox?: boolean;
     displayValue?: (e: GridGroupDisplayValueEvent) => string;
     onExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
     onEditClick?: (e: GridGroupEditClickEvent) => void;

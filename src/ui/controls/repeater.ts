@@ -309,17 +309,17 @@ export class Repeater extends VrControl
 
     selectRowsByIndexes(indexes: number[], triggerChange = true)
     {
-        this.selectRowsByIndexes(indexes, triggerChange);
+        this._grid.selectRowsByIndexes(indexes, triggerChange);
     }
 
     selectRowByIndex(index: number, triggerChange = true)
     {
-        this.selectRowByIndex(index, triggerChange);
+        this._grid.selectRowByIndex(index, triggerChange);
     }
 
     selectRows(itemIdList: string[], property?: string, triggerChange = true)
     {
-        this.selectRows(itemIdList, property, triggerChange);
+        this._grid.selectRows(itemIdList, property, triggerChange);
     }
 
     selectRow(itemId: string, triggerChange = true)

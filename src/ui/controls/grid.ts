@@ -2000,10 +2000,10 @@ export class Grid extends VrControl
                     let groupByIndex = 0;
                     for (let groupByField of ((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]))
                     {
-                        let cellValue = row[(groupByField as GridGroupByItem).field];
-                        let column = options.columns!.find(k => k.field == (groupByField as GridGroupByItem).field);
+                        let cellValue = row[groupByField.field];
+                        let column = options.columns!.find(k => k.field == groupByField.field);
 
-                        if (this._groupByActualValue[(groupByField as GridGroupByItem).field] !== cellValue)
+                        if (this._groupByActualValue[groupByField.field] !== cellValue)
                         {
                             if (rowAdded == 0)
                             {
@@ -2061,9 +2061,9 @@ export class Grid extends VrControl
                             if (column != null)
                             {
                                 if (column.type == GridColumnTypeEnum.Date)
-                                    cellText = (row[(groupByField as GridGroupByItem).field] == null) ? "" : Date.vrFixDateString(row[(groupByField as GridGroupByItem).field]).vrToItalyString();
+                                    cellText = (row[groupByField.field] == null) ? "" : Date.vrFixDateString(row[groupByField.field]).vrToItalyString();
                                 else if (column.type == GridColumnTypeEnum.Checkbox || column.type == GridColumnTypeEnum.Boolean)
-                                    cellText = (Boolean(row[(groupByField as GridGroupByItem).field])) ? "Sì" : "No";
+                                    cellText = (Boolean(row[groupByField.field])) ? "Sì" : "No";
                             }
 
                             let colspan = visibleColumns.length - groupByIndex + ((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).length;
@@ -2071,17 +2071,17 @@ export class Grid extends VrControl
                                 colspan -= 1;
 
                             let groupByDisplayText = cellText;
-                            if ((groupByField as GridGroupByItem).displayField != null)
-                                groupByDisplayText = row[(groupByField as GridGroupByItem).displayField!];
+                            if (groupByField.displayField != null)
+                                groupByDisplayText = row[groupByField.displayField!];
 
-                            if ((groupByField as GridGroupByItem).displayValue != null)
+                            if (groupByField.displayValue != null)
                             {
                                 let groupByDisplayValueEvent = new GridGroupDisplayValueEvent();
                                 groupByDisplayValueEvent.sender = this;
                                 groupByDisplayValueEvent.dataItem = row;
-                                groupByDisplayValueEvent.field = (groupByField as GridGroupByItem).field;
-                                groupByDisplayValueEvent.displayField = (groupByField as GridGroupByItem).displayField;
-                                groupByDisplayText = (groupByField as GridGroupByItem).displayValue!(groupByDisplayValueEvent);
+                                groupByDisplayValueEvent.field = groupByField.field;
+                                groupByDisplayValueEvent.displayField = groupByField.displayField;
+                                groupByDisplayText = groupByField.displayValue!(groupByDisplayValueEvent);
                             }
 
                             if (groupByDisplayText == null) groupByDisplayText = cellText;
@@ -2109,7 +2109,7 @@ export class Grid extends VrControl
                             else
                             {
                                 if (groupByDisplayText == null || groupByDisplayText === "" || groupByDisplayText == "null")
-                                    divGroupByName.innerHTML = "Non impostato";
+                                    divGroupByName.innerHTML = (groupByField.groupNameIfEmpty != "") ? "Non impostato" : groupByField.groupNameIfEmpty;
                                 else
                                     divGroupByName.innerHTML = groupByDisplayText;
                             }
@@ -2144,21 +2144,22 @@ export class Grid extends VrControl
                                 tdGroupByName.appendChild(divGroupByName);
                             }
 
-                            if (options.onGroupEditClick != null || (groupByField as GridGroupByItem).onEditClick != null)
+                            if (options.onGroupEditClick != null || groupByField.onEditClick != null)
                             {
                                 let divEdit = document.createElement("div");
                                 divEdit.style.cssText += "position: relative; display: inline-flex; margin-left: 6px; " + ((options.checkboxes !== false) ? "top: -4px;" : "");
                                 divEdit.innerHTML = "<i class='grid_groupByEdit " + IconClassicLight.Pencil + "' style='cursor: pointer;'></i>";
                             }
 
-                            this._groupByActualValue[(groupByField as GridGroupByItem).field] = cellValue;
+                            this._groupByActualValue[groupByField.field] = cellValue;
 
                             if (this.thereAreLockedColumns())
                                 puma(trGroupBy).find("i.grid_groupByEdit").parent().hide();
                             //#endregion
 
                             //#region Checkbox group
-                            if (options.checkboxes != GridCheckboxModeEnum.None)
+                            if (groupByField.checkbox == null) groupByField.checkbox = true;
+                            if (options.checkboxes != GridCheckboxModeEnum.None && groupByField.checkbox)
                             {
                                 let checkboxContainer = puma(trGroupBy).find("div.grid_divGroupByName")[0];
                                 if (this.thereAreLockedColumns())
@@ -2247,7 +2248,7 @@ export class Grid extends VrControl
                                 }
                                 //#endregion
 
-                                if (options.onGroupExpandCollapse != null || (groupByField as GridGroupByItem).onExpandCollapse != null)
+                                if (options.onGroupExpandCollapse != null || groupByField.onExpandCollapse != null)
                                 {
                                     let expandCollapseEvent = new GridGroupExpandCollapseEvent();
                                     expandCollapseEvent.sender = this;
@@ -2255,9 +2256,9 @@ export class Grid extends VrControl
                                     expandCollapseEvent.groupByDisplayField = groupByField.displayField;
                                     expandCollapseEvent.collapse = collapse;
 
-                                    expandCollapseEvent.value = row[(groupByField as GridGroupByItem).field];
-                                    if ((groupByField as GridGroupByItem).displayField != null)
-                                        expandCollapseEvent.displayValue = row[(groupByField as GridGroupByItem).displayField!];
+                                    expandCollapseEvent.value = row[groupByField.field];
+                                    if (groupByField.displayField != null)
+                                        expandCollapseEvent.displayValue = row[groupByField.displayField!];
 
                                     let childrenItems: any[] = [];
                                     for (let childRow of childrenRows.allRows)
@@ -2271,8 +2272,8 @@ export class Grid extends VrControl
 
                                     if (options.onGroupExpandCollapse != null)
                                         options.onGroupExpandCollapse(expandCollapseEvent);
-                                    else if ((groupByField as GridGroupByItem).onExpandCollapse != null)
-                                        (groupByField as GridGroupByItem).onExpandCollapse!(expandCollapseEvent);
+                                    else if (groupByField.onExpandCollapse != null)
+                                        groupByField.onExpandCollapse!(expandCollapseEvent);
                                 }
                             });
                             //#endregion
@@ -2280,16 +2281,16 @@ export class Grid extends VrControl
                             //#region Edit click
                             puma(trGroupBy).find(".grid_groupByEdit").add(puma(trGroupByLocked).find(".grid_groupByEdit")).click((e: any) =>
                             {
-                                if (options.onGroupEditClick != null || (groupByField as GridGroupByItem).onEditClick != null)
+                                if (options.onGroupEditClick != null || groupByField.onEditClick != null)
                                 {
                                     let editClickEvent = new GridGroupEditClickEvent();
                                     editClickEvent.sender = this;
                                     editClickEvent.groupByField = groupByField.field;
                                     editClickEvent.groupByDisplayField = groupByField.displayField;
 
-                                    editClickEvent.value = row[(groupByField as GridGroupByItem).field];
-                                    if ((groupByField as GridGroupByItem).displayField != null)
-                                        editClickEvent.displayValue = row[(groupByField as GridGroupByItem).displayField!];
+                                    editClickEvent.value = row[groupByField.field];
+                                    if (groupByField.displayField != null)
+                                        editClickEvent.displayValue = row[groupByField.displayField!];
 
                                     let childrenRows = this.getChildrenGroupRows(e.currentTarget.parentElement! as HTMLElement, this._divBody)
                                     let childrenItems: any[] = [];
@@ -2304,8 +2305,8 @@ export class Grid extends VrControl
 
                                     if (options.onGroupEditClick != null)
                                         options.onGroupEditClick(editClickEvent);
-                                    else if ((groupByField as GridGroupByItem).onEditClick != null)
-                                        (groupByField as GridGroupByItem).onEditClick!(editClickEvent);
+                                    else if (groupByField.onEditClick != null)
+                                        groupByField.onEditClick!(editClickEvent);
                                 }
                             });
                             //#endregion
