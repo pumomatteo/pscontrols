@@ -2109,7 +2109,7 @@ export class Grid extends VrControl
                             else
                             {
                                 if (groupByDisplayText == null || groupByDisplayText === "" || groupByDisplayText == "null")
-                                    divGroupByName.innerHTML = (groupByField.groupNameIfEmpty != "") ? "Non impostato" : groupByField.groupNameIfEmpty;
+                                    divGroupByName.innerHTML = (groupByField.groupNameIfEmpty == null) ? "Non impostato" : groupByField.groupNameIfEmpty;
                                 else
                                     divGroupByName.innerHTML = groupByDisplayText;
                             }
@@ -2159,7 +2159,7 @@ export class Grid extends VrControl
 
                             //#region Checkbox group
                             if (groupByField.checkbox == null) groupByField.checkbox = true;
-                            if (options.checkboxes != GridCheckboxModeEnum.None && groupByField.checkbox)
+                            if (options.checkboxes != GridCheckboxModeEnum.None)
                             {
                                 let checkboxContainer = puma(trGroupBy).find("div.grid_divGroupByName")[0];
                                 if (this.thereAreLockedColumns())
@@ -2167,6 +2167,7 @@ export class Grid extends VrControl
 
                                 createCheckBox(
                                     {
+                                        visible: groupByField.checkbox,
                                         cssContainer: "margin-right: 5px;",
                                         onCheck: (e) =>
                                         {
