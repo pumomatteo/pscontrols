@@ -54,139 +54,139 @@ import { Legend, LegendOptions } from "./controls/legend";
 //#endregion
 
 //#region Factory
-export function createLabel(options?: LabelOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Label
+export function createLabel(options?: LabelOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Label
 {
-	let control = createControls<Label>(ControlTypeEnum.Label, container, position, elementId, options);
+	let control = createControls<Label>(ControlTypeEnum.Label, container, position, existingElement, options);
 	return control;
 }
 
-export function createButton(options?: ButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Button
+export function createButton(options?: ButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Button
 {
-	let control = createControls<Button>(ControlTypeEnum.Button, container, position, elementId, options);
+	let control = createControls<Button>(ControlTypeEnum.Button, container, position, existingElement, options);
 	return control;
 }
 
-export function createButtonGroup(options?: ButtonGroupOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): ButtonGroup
+export function createButtonGroup(options?: ButtonGroupOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ButtonGroup
 {
-	let control = createControls<ButtonGroup>(ControlTypeEnum.ButtonGroup, container, position, elementId, options);
+	let control = createControls<ButtonGroup>(ControlTypeEnum.ButtonGroup, container, position, existingElement, options);
 	return control;
 }
 
-export function createTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): TextBox
+export function createTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBox
 {
-	let control = createControls<TextBox>(ControlTypeEnum.TextBox, container, position, elementId, options);
+	let control = createControls<TextBox>(ControlTypeEnum.TextBox, container, position, existingElement, options);
 	return control;
 }
 
-export function createNumericTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): TextBoxNumeric
+export function createNumericTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxNumeric
 {
 	if (options == null) options = new TextBoxOptions();
 	options.mode = TextModeEnum.Numeric;
-	return createTextBox(options, container, position, elementId);
+	return createTextBox(options, container, position, existingElement);
 }
 
-export function createPercentageTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): TextBoxPercentage
+export function createPercentageTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxPercentage
 {
 	if (options == null) options = new TextBoxOptions();
 	options.mode = TextModeEnum.Percentage;
-	return createTextBox(options, container, position, elementId);
+	return createTextBox(options, container, position, existingElement);
 }
 
-export function createCurrencyTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): TextBoxCurrency
+export function createCurrencyTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxCurrency
 {
 	if (options == null) options = new TextBoxOptions();
 	options.mode = TextModeEnum.Currency;
-	return createTextBox(options, container, position, elementId);
+	return createTextBox(options, container, position, existingElement);
 }
 
-export function createPasswordTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): TextBoxPassword
+export function createPasswordTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxPassword
 {
 	if (options == null) options = new TextBoxOptions();
 	options.mode = TextModeEnum.Password;
-	return createTextBox(options, container, position, elementId);
+	return createTextBox(options, container, position, existingElement);
 }
 
-export function createMultilineTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): TextBoxMultiline
+export function createMultilineTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxMultiline
 {
 	if (options == null) options = new TextBoxOptions();
 	options.mode = TextModeEnum.MultiLine;
-	return createTextBox(options, container, position, elementId);
+	return createTextBox(options, container, position, existingElement);
 }
 
-export function createCheckBox(options?: CheckBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): CheckBox
+export function createCheckBox(options?: CheckBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): CheckBox
 {
-	let control = createControls<CheckBox>(ControlTypeEnum.CheckBox, container, position, elementId, options);
+	let control = createControls<CheckBox>(ControlTypeEnum.CheckBox, container, position, existingElement, options);
 	return control;
 }
 
-export function createSeparator(options?: SeparatorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Separator
+export function createSeparator(options?: SeparatorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Separator
 {
-	let control = createControls<Separator>(ControlTypeEnum.Separator, container, position, elementId, options);
+	let control = createControls<Separator>(ControlTypeEnum.Separator, container, position, existingElement, options);
 	return control;
 }
 
-export function createImage(options?: ImageOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Image
+export function createImage(options?: ImageOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Image
 {
-	let control = createControls<Image>(ControlTypeEnum.Image, container, position, elementId, options);
+	let control = createControls<Image>(ControlTypeEnum.Image, container, position, existingElement, options);
 	return control;
 }
 
-export function createDatePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): DatePicker
+export function createDatePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DatePicker
 {
-	let control = createControls<DatePicker>(ControlTypeEnum.DatePicker, container, position, elementId, options);
+	let control = createControls<DatePicker>(ControlTypeEnum.DatePicker, container, position, existingElement, options);
 	return control;
 }
 
-export function createTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): TimePicker
+export function createTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TimePicker
 {
 	if (options == null) options = new DatePickerOptions();
 	options.mode = DateModeEnum.Time;
-	return createDatePicker(options, container, position, elementId);
+	return createDatePicker(options, container, position, existingElement);
 }
 
-export function createDateTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): DateTimePicker
+export function createDateTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DateTimePicker
 {
 	if (options == null) options = new DatePickerOptions();
 	options.mode = DateModeEnum.DateTime;
-	return createDatePicker(options, container, position, elementId);
+	return createDatePicker(options, container, position, existingElement);
 }
 
-export function createMonthPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): MonthPicker
+export function createMonthPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): MonthPicker
 {
 	if (options == null) options = new DatePickerOptions();
 	options.depth = DateDepthEnum.Month;
-	return createDatePicker(options, container, position, elementId);
+	return createDatePicker(options, container, position, existingElement);
 }
 
-export function createYearPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): YearPicker
+export function createYearPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): YearPicker
 {
 	if (options == null) options = new DatePickerOptions();
 	options.depth = DateDepthEnum.Year;
-	return createDatePicker(options, container, position, elementId);
+	return createDatePicker(options, container, position, existingElement);
 }
 
-export function createComboBox(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): ComboBox
+export function createComboBox(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ComboBox
 {
-	let control = createControls<ComboBox>(ControlTypeEnum.ComboBox, container, position, elementId, options);
+	let control = createControls<ComboBox>(ControlTypeEnum.ComboBox, container, position, existingElement, options);
 	return control;
 }
 
-export function createDropDown(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): DropDown
+export function createDropDown(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DropDown
 {
 	if (options == null) options = new ComboBoxOptions();
 	options.mode = ComboBoxTypeEnum.DropDown;
-	return createComboBox(options, container, position, elementId);
+	return createComboBox(options, container, position, existingElement);
 }
 
-export function createSplitButton(options?: SplitButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): SplitButton
+export function createSplitButton(options?: SplitButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SplitButton
 {
-	let control = createControls<SplitButton>(ControlTypeEnum.SplitButton, container, position, elementId, options);
+	let control = createControls<SplitButton>(ControlTypeEnum.SplitButton, container, position, existingElement, options);
 	return control;
 }
 
-export function createEditor(options?: EditorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Editor
+export function createEditor(options?: EditorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Editor
 {
-	let control = createControls<Editor>(ControlTypeEnum.Editor, container, position, elementId, options);
+	let control = createControls<Editor>(ControlTypeEnum.Editor, container, position, existingElement, options);
 	return control;
 }
 
@@ -196,201 +196,201 @@ export function createWindow(options?: WindowOptions | null, container?: HTMLEle
 	return control;
 }
 
-export function createGrid(options?: GridOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Grid
+export function createGrid(options?: GridOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Grid
 {
-	let control = createControls<Grid>(ControlTypeEnum.Grid, container, position, elementId, options);
+	let control = createControls<Grid>(ControlTypeEnum.Grid, container, position, existingElement, options);
 	return control;
 }
 
-export function createSwitch(options?: SwitchOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Switch
+export function createSwitch(options?: SwitchOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Switch
 {
-	let control = createControls<Switch>(ControlTypeEnum.Switch, container, position, elementId, options);
+	let control = createControls<Switch>(ControlTypeEnum.Switch, container, position, existingElement, options);
 	return control;
 }
 
-export function createCheckBoxList(options?: CheckBoxListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): CheckBoxList
+export function createCheckBoxList(options?: CheckBoxListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): CheckBoxList
 {
-	let control = createControls<CheckBoxList>(ControlTypeEnum.CheckBoxList, container, position, elementId, options);
+	let control = createControls<CheckBoxList>(ControlTypeEnum.CheckBoxList, container, position, existingElement, options);
 	return control;
 }
 
-export function createRadioButton(options?: RadioButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): RadioButton
+export function createRadioButton(options?: RadioButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButton
 {
-	let control = createControls<RadioButton>(ControlTypeEnum.RadioButton, container, position, elementId, options);
+	let control = createControls<RadioButton>(ControlTypeEnum.RadioButton, container, position, existingElement, options);
 	return control;
 }
-export function createRadioButtonList(options?: RadioButtonListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): RadioButtonList
+export function createRadioButtonList(options?: RadioButtonListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButtonList
 {
-	let control = createControls<RadioButtonList>(ControlTypeEnum.RadioButtonList, container, position, elementId, options);
-	return control;
-}
-
-export function createRepeater(options?: RepeaterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Repeater
-{
-	let control = createControls<Repeater>(ControlTypeEnum.Repeater, container, position, elementId, options);
+	let control = createControls<RadioButtonList>(ControlTypeEnum.RadioButtonList, container, position, existingElement, options);
 	return control;
 }
 
-export function createMap(options?: MapsOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Maps
+export function createRepeater(options?: RepeaterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Repeater
 {
-	let control = createControls<Maps>(ControlTypeEnum.Map, container, position, elementId, options);
+	let control = createControls<Repeater>(ControlTypeEnum.Repeater, container, position, existingElement, options);
 	return control;
 }
 
-export function createPainter(options?: PainterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Painter
+export function createMap(options?: MapsOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Maps
 {
-	let control = createControls<Painter>(ControlTypeEnum.Painter, container, position, elementId, options);
+	let control = createControls<Maps>(ControlTypeEnum.Map, container, position, existingElement, options);
 	return control;
 }
 
-export function createCalendar(options?: CalendarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Calendar
+export function createPainter(options?: PainterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Painter
 {
-	let control = createControls<Calendar>(ControlTypeEnum.Calendar, container, position, elementId, options);
+	let control = createControls<Painter>(ControlTypeEnum.Painter, container, position, existingElement, options);
 	return control;
 }
 
-export function createRating(options?: RatingOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Rating
+export function createCalendar(options?: CalendarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Calendar
 {
-	let control = createControls<Rating>(ControlTypeEnum.Rating, container, position, elementId, options);
+	let control = createControls<Calendar>(ControlTypeEnum.Calendar, container, position, existingElement, options);
 	return control;
 }
 
-export function createGroupBox(options?: GroupBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): GroupBox
+export function createRating(options?: RatingOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Rating
 {
-	let control = createControls<GroupBox>(ControlTypeEnum.GroupBox, container, position, elementId, options);
+	let control = createControls<Rating>(ControlTypeEnum.Rating, container, position, existingElement, options);
 	return control;
 }
 
-export function createPdfViewer(options?: PdfViewerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): PdfViewer
+export function createGroupBox(options?: GroupBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): GroupBox
 {
-	let control = createControls<PdfViewer>(ControlTypeEnum.PdfViewer, container, position, elementId, options);
+	let control = createControls<GroupBox>(ControlTypeEnum.GroupBox, container, position, existingElement, options);
 	return control;
 }
 
-export function createPaypalButton(options?: PaypalButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): PaypalButton
+export function createPdfViewer(options?: PdfViewerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PdfViewer
 {
-	let control = createControls<PaypalButton>(ControlTypeEnum.PaypalButton, container, position, elementId, options);;
+	let control = createControls<PdfViewer>(ControlTypeEnum.PdfViewer, container, position, existingElement, options);
 	return control;
 }
 
-export function createUpload(options?: UploadOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Upload
+export function createPaypalButton(options?: PaypalButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PaypalButton
 {
-	let control = createControls<Upload>(ControlTypeEnum.Upload, container, position, elementId, options);
+	let control = createControls<PaypalButton>(ControlTypeEnum.PaypalButton, container, position, existingElement, options);;
 	return control;
 }
 
-export function createTreeView(options?: TreeViewOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): TreeView
+export function createUpload(options?: UploadOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Upload
 {
-	let control = createControls<TreeView>(ControlTypeEnum.TreeView, container, position, elementId, options);
+	let control = createControls<Upload>(ControlTypeEnum.Upload, container, position, existingElement, options);
 	return control;
 }
 
-export function createScheduler(options?: SchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Scheduler
+export function createTreeView(options?: TreeViewOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TreeView
 {
-	let control = createControls<Scheduler>(ControlTypeEnum.Scheduler, container, position, elementId, options);
+	let control = createControls<TreeView>(ControlTypeEnum.TreeView, container, position, existingElement, options);
 	return control;
 }
 
-export function createMultiScheduler(options?: MultiSchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): MultiScheduler
+export function createScheduler(options?: SchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Scheduler
 {
-	let control = createControls<MultiScheduler>(ControlTypeEnum.MultiScheduler, container, position, elementId, options);
+	let control = createControls<Scheduler>(ControlTypeEnum.Scheduler, container, position, existingElement, options);
 	return control;
 }
 
-export function createQrCode(options?: QrCodeOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): QrCode
+export function createMultiScheduler(options?: MultiSchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): MultiScheduler
 {
-	let control = createControls<QrCode>(ControlTypeEnum.QrCode, container, position, elementId, options);
+	let control = createControls<MultiScheduler>(ControlTypeEnum.MultiScheduler, container, position, existingElement, options);
 	return control;
 }
 
-export function createIcon(options?: IconOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Icon
+export function createQrCode(options?: QrCodeOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): QrCode
 {
-	let control = createControls<Icon>(ControlTypeEnum.Icon, container, position, elementId, options);
+	let control = createControls<QrCode>(ControlTypeEnum.QrCode, container, position, existingElement, options);
 	return control;
 }
 
-export function createColorPicker(options?: ColorPickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): ColorPicker
+export function createIcon(options?: IconOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Icon
 {
-	let control = createControls<ColorPicker>(ControlTypeEnum.ColorPicker, container, position, elementId, options);
+	let control = createControls<Icon>(ControlTypeEnum.Icon, container, position, existingElement, options);
 	return control;
 }
 
-export function createSearchBar(options?: SearchBarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): SearchBar
+export function createColorPicker(options?: ColorPickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ColorPicker
 {
-	let control = createControls<SearchBar>(ControlTypeEnum.SearchBar, container, position, elementId, options);
+	let control = createControls<ColorPicker>(ControlTypeEnum.ColorPicker, container, position, existingElement, options);
 	return control;
 }
 
-export function createSplitter(options?: SplitterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Splitter
+export function createSearchBar(options?: SearchBarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SearchBar
 {
-	let control = createControls<Splitter>(ControlTypeEnum.Splitter, container, position, elementId, options);
+	let control = createControls<SearchBar>(ControlTypeEnum.SearchBar, container, position, existingElement, options);
 	return control;
 }
 
-export function createAutoCompleteBox(options?: AutoCompleteBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): AutoCompleteBox
+export function createSplitter(options?: SplitterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Splitter
 {
-	let control = createControls<AutoCompleteBox>(ControlTypeEnum.AutoCompleteBox, container, position, elementId, options);
+	let control = createControls<Splitter>(ControlTypeEnum.Splitter, container, position, existingElement, options);
 	return control;
 }
 
-export function createChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): ChartVr
+export function createAutoCompleteBox(options?: AutoCompleteBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): AutoCompleteBox
 {
-	let control = createControls<ChartVr>(ControlTypeEnum.Chart, container, position, elementId, options);
+	let control = createControls<AutoCompleteBox>(ControlTypeEnum.AutoCompleteBox, container, position, existingElement, options);
 	return control;
 }
 
-export function createBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): BarChart
+export function createChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ChartVr
+{
+	let control = createControls<ChartVr>(ControlTypeEnum.Chart, container, position, existingElement, options);
+	return control;
+}
+
+export function createBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): BarChart
 {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.Bar;
-	return createChart(options, container, position, elementId);
+	return createChart(options, container, position, existingElement);
 }
 
-export function createHorizontalBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): HorizontalBarChart
+export function createHorizontalBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): HorizontalBarChart
 {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.HorizontalBar;
-	return createChart(options, container, position, elementId);
+	return createChart(options, container, position, existingElement);
 }
 
-export function createLineChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): LineChart
+export function createLineChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): LineChart
 {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.Line;
-	return createChart(options, container, position, elementId);
+	return createChart(options, container, position, existingElement);
 }
 
-export function createDonutChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): DonutChart
+export function createDonutChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DonutChart
 {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.Donut;
-	return createChart(options, container, position, elementId);
+	return createChart(options, container, position, existingElement);
 }
 
-export function createPieChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): PieChart
+export function createPieChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PieChart
 {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.Pie;
-	return createChart(options, container, position, elementId);
+	return createChart(options, container, position, existingElement);
 }
 
-export function createAreaChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): AreaChart
+export function createAreaChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): AreaChart
 {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.Area;
-	return createChart(options, container, position, elementId);
+	return createChart(options, container, position, existingElement);
 }
 
-export function createStackedBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): StackedBarChart
+export function createStackedBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): StackedBarChart
 {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.StackedBar;
-	return createChart(options, container, position, elementId);
+	return createChart(options, container, position, existingElement);
 }
 
-export function createTabStrip(options?: TabStripOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): TabStrip
+export function createTabStrip(options?: TabStripOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TabStrip
 {
-	let control = createControls<TabStrip>(ControlTypeEnum.TabStrip, container, position, elementId, options);
+	let control = createControls<TabStrip>(ControlTypeEnum.TabStrip, container, position, existingElement, options);
 	return control;
 }
 
@@ -400,15 +400,15 @@ export function createTooltip(options?: TooltipOptions | null): Tooltip
 	return control;
 }
 
-export function createSpeechRecognizer(options?: SpeechRecognizerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): SpeechRecognizer
+export function createSpeechRecognizer(options?: SpeechRecognizerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SpeechRecognizer
 {
-	let control = createControls<SpeechRecognizer>(ControlTypeEnum.SpeechRecognizer, container, position, elementId, options);
+	let control = createControls<SpeechRecognizer>(ControlTypeEnum.SpeechRecognizer, container, position, existingElement, options);
 	return control;
 }
 
-export function createLegend(options?: LegendOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, elementId?: string | null): Legend
+export function createLegend(options?: LegendOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Legend
 {
-	let control = createControls<Legend>(ControlTypeEnum.Legend, container, position, elementId, options);
+	let control = createControls<Legend>(ControlTypeEnum.Legend, container, position, existingElement, options);
 	return control;
 }
 
@@ -422,29 +422,28 @@ export function addControl(control: VrControl)
 	ControlManager.add(control);
 }
 
-function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, definedElementId?: string | null, options?: VrControlOptions | null): T
+function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null, options?: VrControlOptions | null): T
 {
 	if (options == null)
 		options = new VrControlOptions();
 
 	let elementId = "vrpm_" + UtilityManager.createGuid();
-	if (definedElementId != null)
+	let element = null;
+
+	if (existingElement != null)
 	{
-		elementId = definedElementId;
-		if (!definedElementId.startsWith("#"))
-			definedElementId = "#" + definedElementId;
+		if (typeof (existingElement) == "string")
+			elementId = existingElement;
+		else
+		{
+			element = puma(existingElement)[0];
+			if (element.id != null && element.id != "")
+				elementId = element.id;
+		}
 	}
 
-	//#region Already exists
-	if (container != null && puma(definedElementId).length > 0)
-		return puma(definedElementId)[0];
-	//#endregion
-
-	//#region Element
-	let element = null;
-	let elementTag = "";
-
 	//#region ControlTypeEnum
+	let elementTag = "";
 	switch (controlTypeEnum)
 	{
 		case ControlTypeEnum.Label: elementTag = "label"; break;
@@ -507,27 +506,27 @@ function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, c
 	}
 	//#endregion
 
-	if (container != null || controlTypeEnum == ControlTypeEnum.Window || controlTypeEnum == ControlTypeEnum.PdfViewer || controlTypeEnum == ControlTypeEnum.Tooltip)
-		element = puma("<" + elementTag + " id='" + elementId + "'></" + elementTag + ">")[0];
-	else
+	//#region Element
+	if (element == null)
 	{
-		if (definedElementId == null)
-			throw Error(controlTypeEnum + ": il container è nullo, ma l'id non è valorizzato!");
+		if (container != null || controlTypeEnum == ControlTypeEnum.Window || controlTypeEnum == ControlTypeEnum.PdfViewer
+			|| controlTypeEnum == ControlTypeEnum.Tooltip)
+			element = puma("<" + elementTag + " id='" + elementId + "'></" + elementTag + ">")[0];
+		else
+		{
+			if (!elementId.startsWith("#"))
+				elementId = "#" + elementId;
 
-		if (!elementId.startsWith("#"))
-			elementId = "#" + elementId;
-
-		element = puma(elementId)[0];
+			element = puma(elementId)[0];
+		}
 	}
-	//#endregion
 
-	//#region Check element
 	if (!puma(element).is(elementTag))
 		throw Error("L'elemento nell'HTML con id: " + elementId + " non corrisponde al corretto elemento: " + elementTag);
-	//#endregion
 
 	if (elementTag == "input")
 		puma(element).attr("autocomplete", "off");
+	//#endregion
 
 	//#region Container
 	if ((controlTypeEnum == ControlTypeEnum.Window || controlTypeEnum == ControlTypeEnum.Tooltip) && container == null)
