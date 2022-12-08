@@ -67,8 +67,6 @@ export declare class Grid extends VrControl {
     private _pageSizeUnlimited;
     private _checkedItemsForFiltering;
     private _timeoutFilterText;
-    private _workerTotals;
-    private _workerTotalsGroup;
     private _firstDraw;
     private _dataSource;
     private _originalDataSource;
@@ -202,7 +200,7 @@ export declare class Grid extends VrControl {
     stickerVisible(state?: boolean): boolean;
     showSticker(): void;
     hideSticker(): void;
-    createTotalsFunction(): void;
+    getTotals(dataItems: any[]): any[];
     fixDatasourceWithVrDatetime(items: any[]): any[];
     fixDatasourceWithDate(items: any[]): void;
     pageSize(pageSize?: number, update?: boolean, triggerDataBound?: boolean): number;

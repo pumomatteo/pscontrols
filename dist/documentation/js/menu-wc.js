@@ -1500,6 +1500,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/TooltipShowSettings.html" data-type="entity-link" >TooltipShowSettings</a>
                             </li>
                             <li class="link">
+                                <a href="classes/TotalsGroupItem.html" data-type="entity-link" >TotalsGroupItem</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/TotalsResult.html" data-type="entity-link" >TotalsResult</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/TreeView.html" data-type="entity-link" >TreeView</a>
                             </li>
                             <li class="link">
@@ -1738,18 +1744,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/WindowTitleSettings.html" data-type="entity-link" >WindowTitleSettings</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/WorkerTotalsGroupItem.html" data-type="entity-link" >WorkerTotalsGroupItem</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/WorkerTotalsMessageColumnOptions.html" data-type="entity-link" >WorkerTotalsMessageColumnOptions</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/WorkerTotalsRequest.html" data-type="entity-link" >WorkerTotalsRequest</a>
-                            </li>
-                            <li class="link">
-                                <a href="classes/WorkerTotalsResult.html" data-type="entity-link" >WorkerTotalsResult</a>
                             </li>
                             <li class="link">
                                 <a href="classes/YearPicker.html" data-type="entity-link" >YearPicker</a>

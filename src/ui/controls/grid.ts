@@ -93,8 +93,6 @@ export class Grid extends VrControl
     private _pageSizeUnlimited: boolean;
     private _checkedItemsForFiltering: any[] | null;
     private _timeoutFilterText: number;
-    private _workerTotals: Worker;
-    private _workerTotalsGroup: Worker;
     private _firstDraw: boolean;
 
     //#region DataSource
@@ -538,8 +536,6 @@ export class Grid extends VrControl
         this._divTotals = puma("<div id='" + element.id + "Totals' class='grid_Totals' style='overflow-x: hidden; display: none;'></div>").vrAppendToPuma(divTotals)[0] as HTMLDivElement;
 
         this._showTotals = options.columns!.vrAny(k => k.aggregate != null && k.aggregate !== false);
-        if (this._showTotals)
-            this.createTotalsFunction();
 
         this._spanFitTotalsSpace = puma("<span id='" + element.id + "FitTotalsSpace' class='grid_fitTotalsSpace'></span>").vrAppendToPuma("#" + element.id + "_divContainer")[0];
         //#endregion
@@ -1110,15 +1106,15 @@ export class Grid extends VrControl
                                 //#region Create filter
                                 checkbox.onclick = ((e: any) =>
                                 {
-                                    if (checkbox.checked && !puma(checkbox).hasClass("indeterminateVrCheckbox"))
+                                    if (checkbox.checked && !checkbox.classList.contains("indeterminateVrCheckbox"))
                                     {
-                                        puma(checkbox).addClass("indeterminateVrCheckbox");
+                                        checkbox.classList.add("indeterminateVrCheckbox");
                                         this.removeFilter(column.field);
                                         e.preventDefault();
                                     }
                                     else
                                     {
-                                        puma(checkbox).removeClass("indeterminateVrCheckbox");
+                                        checkbox.classList.remove("indeterminateVrCheckbox");
 
                                         let filterSettings = new GridFilterSettings();
                                         filterSettings.type = column.type!;
@@ -1166,8 +1162,7 @@ export class Grid extends VrControl
                                             this.removeFilter(column.field);
 
                                             dateFilter.tooltip("");
-                                            puma(dateFilter.element()).css("background-color", "#f3f3f3");
-                                            puma(dateFilter.element()).css("color", "#000");
+                                            dateFilter.element().style.cssText += "background-color: #f3f3f3; color: #000;";
                                             dateFilterRemove.hide();
                                             this.recalculateHeight(true);
                                         }
@@ -1207,8 +1202,7 @@ export class Grid extends VrControl
                                             this.removeFilter(column.field);
 
                                             numberFilter.tooltip("");
-                                            puma(numberFilter.element()).css("background-color", "#f3f3f3");
-                                            puma(numberFilter.element()).css("color", "#000");
+                                            numberFilter.element().style.cssText += "background-color: #f3f3f3; color: #000;";
                                             numberFilterRemove.hide();
                                             this.recalculateHeight(true);
                                         }
@@ -1232,7 +1226,7 @@ export class Grid extends VrControl
                                         {
                                             clearTimeout(this._timeoutFilterText);
                                             let textToSearch = String(e.value).trim().toLowerCase();
-                                            let field = puma(e.sender.element()).attr("field");
+                                            let field = e.sender.element().getAttribute("field")!;
 
                                             this.manageFilterTextByColumn(textToSearch, column, field, false);
                                         },
@@ -1243,15 +1237,14 @@ export class Grid extends VrControl
 
                                             //#region Filter button
                                             btnStringFilter.tooltip("");
-                                            puma(btnStringFilter.element()).css("background-color", "#f3f3f3");
-                                            puma(btnStringFilter.element()).css("color", "#000");
+                                            btnStringFilter.element().style.cssText += "background-color: #f3f3f3; color: #000;";
                                             btnStringFilterRemove.hide();
                                             e.sender.width("Calc(100% - 27px)");
                                             //#endregion
 
                                             clearTimeout(this._timeoutFilterText);
                                             let textToSearch = e.sender.value<string>().toLowerCase();
-                                            let field = puma(e.sender.element()).attr("field");
+                                            let field = e.sender.element().getAttribute("field")!;
 
                                             //#region Server binding
                                             if (options!.serverBinding !== false)
@@ -1271,7 +1264,7 @@ export class Grid extends VrControl
 
                                             if (textToSearch.length == 0)
                                             {
-                                                this.removeFilter(puma(e.sender.element()).attr("field"), false);
+                                                this.removeFilter(e.sender.element().getAttribute("field")!, false);
                                                 window.setTimeout(() =>
                                                 {
                                                     if (column.filterWebService === true)
@@ -1312,8 +1305,7 @@ export class Grid extends VrControl
                                             this.removeFilter(column.field);
 
                                             btnStringFilter.tooltip("");
-                                            puma(btnStringFilter.element()).css("background-color", "#f3f3f3");
-                                            puma(btnStringFilter.element()).css("color", "#000");
+                                            btnStringFilter.element().style.cssText += "background-color: #f3f3f3; color: #000;";
                                             btnStringFilterRemove.hide();
                                             this.recalculateHeight(true);
 
@@ -1400,9 +1392,9 @@ export class Grid extends VrControl
             if (options.checkboxes != GridCheckboxModeEnum.None)
             {
                 let thCheckbox = document.createElement("td");
-                puma(thCheckbox).attr("value", "vrGridCheckboxColumn");
+                thCheckbox.setAttribute("value", "vrGridCheckboxColumn");
                 thCheckbox.style.cssText += "border: 1px solid #dddddd;";
-                puma(thCheckbox).attr("width", 20);
+                thCheckbox.setAttribute("width", "20");
 
                 if (this.thereAreLockedColumns())
                     puma(this._divTotalsLocked).find(".p-grid-totals").vrAppendPuma(thCheckbox);
@@ -1563,8 +1555,8 @@ export class Grid extends VrControl
         for (let th of thHeaderList)
         {
             let columnPosition = new GridColumnPosition();
-            columnPosition.field = puma(th).attr("value");
-            columnPosition.left = puma(th).offset().left;
+            columnPosition.field = th.getAttribute("value")!;
+            columnPosition.left = th.offsetLeft;
             columnPosition.right = puma(th).offset().left + puma(th).width();
             columnPosition.index = puma(th).index();
             columnPosition.th = th;
@@ -1690,11 +1682,11 @@ export class Grid extends VrControl
         puma(this.element()).add(puma(this._elementLocked)).off("click", "." + className);
         puma(this.element()).add(puma(this._elementLocked)).on("click", "." + className, (e: any) =>
         {
-            puma(e.target).attr("disabled", "disabled");
+            e.target.setAttribute("disabled", "disabled");
             let options = this.getOptions();
-            let rowId = puma(e.currentTarget).attr("dataItemId");
+            let rowId = e.currentTarget.getAttribute("dataItemId")!;
             if (rowId == null)
-                rowId = puma(e.target).closest(".vrButton").attr("dataItemId");
+                rowId = e.target.closest(".vrButton").getAttribute("dataItemId")!;
 
             let dataItem = this.dataSource()!.find(k => k[options.dataSourceFieldId!] == rowId);
 
@@ -1739,7 +1731,7 @@ export class Grid extends VrControl
                 else if (GridControlData.columnType == GridColumnTypeEnum.EditButton)
                     this.openAutoWindow(dataItem);
 
-                window.setTimeout(() => puma(e.target).removeAttr("disabled"), 500);
+                window.setTimeout(() => e.target.removeAttribute("disabled"), 500);
             }
             //#endregion
             return false;
@@ -1818,7 +1810,7 @@ export class Grid extends VrControl
                 this._tempRebindInfo = new TempRebindInfo();
                 this._tempRebindInfo.checkedValues = this.getCheckedValues();
                 this._tempRebindInfo.page = this.pageSelected();
-                this._tempRebindInfo.yPosition = puma(this.container()).find(".grid_Body")[0].scrollTop;
+                this._tempRebindInfo.yPosition = this.container().querySelector(".grid_Body")!.scrollTop;
             }
             //#endregion
 
@@ -1850,7 +1842,7 @@ export class Grid extends VrControl
             this._tempRebindInfo = new TempRebindInfo();
             this._tempRebindInfo.checkedValues = this.getCheckedValues();
             this._tempRebindInfo.page = this.pageSelected();
-            this._tempRebindInfo.yPosition = puma(this.container()).find(".grid_Body")[0].scrollTop;
+            this._tempRebindInfo.yPosition = this.container().querySelector(".grid_Body")!.scrollTop;
         }
         //#endregion
 
@@ -1885,7 +1877,7 @@ export class Grid extends VrControl
                 this.manageControls();
 
                 this.selectRows(checkedValues, undefined, false);
-                puma(this.container()).find(".grid_Body").scrollTop(yPosition);
+                this.container().querySelector(".grid_Body")!.scrollTo({ top: yPosition });
             }
             else
             {
@@ -2154,16 +2146,23 @@ export class Grid extends VrControl
                             this._groupByActualValue[groupByField.field] = cellValue;
 
                             if (this.thereAreLockedColumns())
-                                puma(trGroupBy).find("i.grid_groupByEdit").parent().hide();
+                            {
+                                let groupByEdit = trGroupBy.querySelector("i.grid_groupByEdit");
+                                if (groupByEdit != null)
+                                {
+                                    if (groupByEdit.parentElement != null)
+                                        groupByEdit.parentElement.style.display = "none";
+                                }
+                            }
                             //#endregion
 
                             //#region Checkbox group
                             if (groupByField.checkbox == null) groupByField.checkbox = true;
                             if (options.checkboxes != GridCheckboxModeEnum.None)
                             {
-                                let checkboxContainer = puma(trGroupBy).find("div.grid_divGroupByName")[0];
+                                let checkboxContainer = trGroupBy.querySelector("div.grid_divGroupByName")!;
                                 if (this.thereAreLockedColumns())
-                                    checkboxContainer = puma(trGroupByLocked).find("div.grid_divGroupByName")[0];
+                                    checkboxContainer = trGroupByLocked!.querySelector("div.grid_divGroupByName")!;
 
                                 createCheckBox(
                                     {
@@ -2187,7 +2186,7 @@ export class Grid extends VrControl
 
                                             this.manageGroupCheckParent(childrenRows.children.vrLast().getElementsByClassName("vr-checkbox-column")[0] as HTMLElement);
                                         }
-                                    }, checkboxContainer, ControlPositionEnum.Before);
+                                    }, checkboxContainer as HTMLElement, ControlPositionEnum.Before);
                             }
                             //#endregion
 
@@ -2352,10 +2351,10 @@ export class Grid extends VrControl
                 else
                     tr.appendChild(tdCheckbox);
 
-                puma(tdCheckbox).click((e: JQuery.ClickEvent) =>
+                tdCheckbox.onclick = ((e) =>
                 {
                     if (e.shiftKey && options.checkboxes == GridCheckboxModeEnum.MultiCheck)
-                        this.selectRangeShiftKey(e.target);
+                        this.selectRangeShiftKey(tdCheckbox);
                     else
                         this.selectRowInternal(dataItemId, true, false, false, true, false, true);
                 });
@@ -3364,34 +3363,8 @@ export class Grid extends VrControl
                     this.createTotals(this._responseForServerBinding[(options.serverBinding as GridServerBindSettings).totalsPropertyName!], false);
                 else
                 {
-                    //#region Worker totals request
-                    Array.from(this._divTotals.getElementsByTagName("td")).forEach((td) => td.innerHTML = "");
-                    if (options.lockable)
-                        Array.from(this._divTotalsLocked!.getElementsByTagName("td")).forEach((td) => td.innerHTML = "");
-
-                    let workerTotalsRequest = new WorkerTotalsRequest();
-                    workerTotalsRequest.isGroup = false;
-                    workerTotalsRequest.dataItems = dataItems;
-                    workerTotalsRequest.columnOptions = options.columns!.filter(k => k.aggregate != null && k.aggregate !== false && k.hidden !== true).map(k => 
-                    {
-                        return {
-                            field: k.field,
-                            decimalDigits: k.decimalDigits!,
-                            aggregateMode: Number(k.aggregate),
-                            type: k.type!,
-                            countZeroInAverage: k.countZeroInAverage,
-                            roundingSettings: k.roundingSettings
-                        }
-                    });
-                    this._workerTotals.postMessage(JSON.parse(JSON.stringify(workerTotalsRequest)));
-                    //#endregion
-
-                    //#region Worker totals response
-                    this._workerTotals.onmessage = (e) =>
-                    {
-                        this.createTotals(e.data, false);
-                    };
-                    //#endregion
+                    let totals = this.getTotals(dataItems);
+                    this.createTotals(totals, false);
                 }
             }
             //#endregion
@@ -3415,10 +3388,7 @@ export class Grid extends VrControl
         if (options.groupable! && options.groupBy != null)
         {
             //#region Group totals
-            let workerTotalsGroupRequest = new WorkerTotalsRequest();
-            workerTotalsGroupRequest.groupItems = [];
-            workerTotalsGroupRequest.isGroup = true;
-
+            let groupItems: TotalsGroupItem[] = [];
             let trGroupByList = Array.from(this.element().getElementsByClassName("grid_trGroupBy")) as HTMLElement[];
             if (options.lockable)
                 trGroupByList.vrPushRange(Array.from(this._elementLocked.getElementsByClassName("grid_trGroupByLocked")))
@@ -3426,7 +3396,7 @@ export class Grid extends VrControl
             for (let tr of trGroupByList)
             {
                 let children = [];
-                if (puma(tr).hasClass("grid_trGroupByLocked"))
+                if (tr.classList.contains("grid_trGroupByLocked"))
                     children = this.getChildrenGroupRows(tr, this._divBodyLocked).children;
                 else
                     children = this.getChildrenGroupRows(tr, this._divBody).children;
@@ -3451,54 +3421,41 @@ export class Grid extends VrControl
                 //#region Totals group
                 if (this._showTotals)
                 {
-                    let value = this.fixValueWithoutSpecialChars(puma(tr).attr("value"));
+                    let value = this.fixValueWithoutSpecialChars(tr.getAttribute("value")!);
 
-                    let clonedTr = puma(children.vrLast()).clone();
-                    clonedTr.addClass("p-grid-totalsGroup");
-                    clonedTr.find("td").empty();
-                    clonedTr.vrInsertAfterPuma(children.vrLast());
-                    clonedTr.addClass(this._elementId + "_totalGroupBy" + value);
+                    let lastChildren = children.vrLast()!;
+                    let clonedTr = lastChildren.cloneNode(true) as HTMLElement;
+                    clonedTr.classList.add("p-grid-totalsGroup", this._elementId + "_totalGroupBy" + value);
+                    lastChildren.parentNode!.insertBefore(clonedTr, lastChildren.nextSibling);
 
-                    let workerTotalsGroupItem = new WorkerTotalsGroupItem();
-                    workerTotalsGroupItem.groupValue = value;
+                    let totalsGroupItem = new TotalsGroupItem();
+                    totalsGroupItem.groupValue = value;
 
                     let childrenItems = [];
                     for (let child of children)
                     {
-                        let dataItemId = puma(child).attr("dataitemid");
+                        let dataItemId = child.getAttribute("dataitemid")!;
                         childrenItems.push(dataItems.find(k => k[options.dataSourceFieldId!] == dataItemId));
                     }
-                    workerTotalsGroupItem.dataItems = childrenItems;
-                    workerTotalsGroupRequest.groupItems.push(workerTotalsGroupItem);
+                    totalsGroupItem.dataItems = childrenItems;
+                    groupItems.push(totalsGroupItem);
                 }
                 //#endregion
             }
 
-            if (this._showTotals && options.columns!.filter(k => k.aggregate != null && k.aggregate !== false).length > 0)
+            if (this._showTotals)
             {
-                //#region WorkerTotalsGroupRequest
-                workerTotalsGroupRequest.columnOptions = options.columns!.filter(k => k.aggregate != null && k.aggregate !== false && k.hidden !== true).map(k =>
+                if (!(groupItems.length == 0 || groupItems[0].dataItems[0] == null))
                 {
-                    return {
-                        field: k.field,
-                        decimalDigits: k.decimalDigits!,
-                        aggregateMode: Number(k.aggregate),
-                        type: k.type!,
-                        countZeroInAverage: k.countZeroInAverage,
-                        roundingSettings: k.roundingSettings
+                    let totalGroupList: any[] = [];
+                    for (let group of groupItems)
+                    {
+                        let totals = this.getTotals(group.dataItems);
+                        totalGroupList.push({ totals: totals, groupValue: group.groupValue });
                     }
-                });
-                this._workerTotalsGroup.postMessage(JSON.parse(JSON.stringify(workerTotalsGroupRequest)));
-                //#endregion
-
-                //#region WorkerTotalsGroupResponse
-                this._workerTotalsGroup.onmessage = (e) =>
-                {
-                    this.createTotals(e.data, true);
-                };
-                //#endregion
+                    this.createTotals(totalGroupList, true);
+                }
             }
-
             //#endregion
         }
         //#endregion
@@ -3508,34 +3465,64 @@ export class Grid extends VrControl
     {
         if (!isGroup)
         {
-            for (let total of data)
+            //#region Totals global (data is the datasource)
+            let tdFragment = document.createDocumentFragment();
+            let trTotals = this._divTotals.querySelector(".p-grid-totals")!;
+            let tdList = trTotals.getElementsByTagName("td");
+            for (let td of Array.from(tdList))
             {
-                let td = this._divTotals.querySelector<HTMLElement>("td[field = '" + total.field + "']")!;
+                let newTd = td.cloneNode(true) as HTMLElement;
 
-                let options = this.getOptions();
-                if (options.lockable && td == null)
-                    td = this._divTotalsLocked.querySelector<HTMLElement>("td[field = '" + total.field + "']")!;
+                let field = td.getAttribute("field")!;
+                let total = data.find(k => k.field == field);
+                if (total != null)
+                    this.writeTotals(total, newTd);
+                else
+                    newTd.innerHTML = "";
 
-                this.writeTotals(total, td);
+                tdFragment.appendChild(newTd);
             }
+            trTotals.innerHTML = "";
+            trTotals.appendChild(tdFragment);
+            //#endregion
         }
         else
         {
+            //#region Totals group
+            let trTdList: any[] = [];
             for (let totalsGroup of data)
             {
-                for (let total of totalsGroup.totals)
-                {
-                    let tdList = this.element().querySelector("." + this._elementId + "_totalGroupBy"
-                        + this.fixValueWithoutSpecialChars(totalsGroup.groupValue))!.querySelectorAll<HTMLElement>("td[field='" + total.field + "']");
+                let tr = this.element().querySelector("." + this._elementId + "_totalGroupBy"
+                    + this.fixValueWithoutSpecialChars(totalsGroup.groupValue))!;
 
-                    for (let td of Array.from(tdList))
-                        this.writeTotals(total, td);
+                let totalsGroupTotals: any[] = totalsGroup.totals;
+                let tdFragment = document.createDocumentFragment();
+                let tdList = tr.getElementsByTagName("td");
+                for (let td of Array.from(tdList))
+                {
+                    let newTd = td.cloneNode(true) as HTMLElement;
+
+                    let field = td.getAttribute("field")!;
+                    let total = totalsGroupTotals.find(k => k.field == field);
+                    if (total != null)
+                        this.writeTotals(total, newTd);
+                    else
+                        newTd.innerHTML = "";
+
+                    tdFragment.appendChild(newTd);
                 }
+
+                trTdList.push({ tr: tr, tdFragment: tdFragment });
+                tr.innerHTML = "";
             }
+
+            for (let c of trTdList)
+                c.tr.appendChild(c.tdFragment);
+            //#endregion
         }
     }
 
-    private writeTotals(total: WorkerTotalsResult, td: HTMLElement)
+    private writeTotals(total: TotalsResult, td: HTMLElement)
     {
         if (td != null)
         {
@@ -7207,173 +7194,52 @@ export class Grid extends VrControl
     //#endregion
 
     //#region Utility
-    createTotalsFunction()
+    getTotals(dataItems: any[])
     {
-        function calculateTotals(e: any)
+        let options = this.getOptions();
+        let totals = [];
+        for (let column of options.columns!.filter(k => k.aggregate != null && k.aggregate !== false))
         {
-            let response: any[] = [];
-
-            //#region Utility
-            Array.prototype.vrSum = function (callbackfn?: (value: any, index: number, array: any[]) => any)
+            let aggregateResult = 0;
+            switch (column.aggregate)
             {
-                if (Array.isArray(this))
-                {
-                    if (callbackfn == null)
-                        return this.reduce((ty, u) => ty + u, 0);
-                    else
+                case 1: aggregateResult = dataItems.map(k => k[column.field]).length; break;
+                case 4: aggregateResult = dataItems.map(k => k[column.field]).vrSum(); break;
+                case 0:
                     {
-                        let property = callbackfn.toString().split("=>")[1];
-                        let sum: number = 0;
-                        this.forEach(k => sum += eval(property));
-                        return sum;
+                        if (column.type == 3)
+                            aggregateResult = dataItems.map(k => k[column.field]).vrAvg(undefined, column.countZeroInAverage) / 100;
+                        else
+                            aggregateResult = dataItems.map(k => k[column.field]).vrAvg(undefined, column.countZeroInAverage);
                     }
-                }
-
-                return 0;
-            }
-
-            Array.prototype.vrAvg = function (callbackfn?: (value: any, index: number, array: any[]) => any, countZeroInAverage?: boolean)
-            {
-                if (Array.isArray(this))
-                {
-                    let length = this.length;
-                    if (countZeroInAverage === false)
-                        length = this.length - this.filter(k => k == 0).length;
-
-                    if (length == 0)
-                        return 0;
-
-                    if (callbackfn == null)
-                        return this.vrSum() / length;
-                    else
+                    break;
+                case 3:
                     {
-                        let sum = this.vrSum(callbackfn);
-                        return sum / length;
+                        if (column.type != null && (column.type == 5 || column.type == 6 || column.type == 7))
+                            aggregateResult = dataItems.map(k => new Date(k[column.field])).vrMin();
+                        else
+                            aggregateResult = dataItems.map(k => k[column.field]).vrMin();
                     }
-                }
-
-                return 0;
-            }
-
-            Array.prototype.vrMax = function (callbackfn?: (value: any, index: number, array: any[]) => any)
-            {
-                if (Array.isArray(this))
-                {
-                    if (callbackfn != null)
+                    break;
+                case 2:
                     {
-                        let property = callbackfn.toString().split(".")[1];
-                        return this.reduce((oa, u) => Math.max(oa, u[property]), 0);
+                        if (column.type != null && (column.type == 5 || column.type == 6 || column.type == 7))
+                            aggregateResult = dataItems.map(k => new Date(k[column.field])).vrMax();
+                        else
+                            aggregateResult = dataItems.map(k => k[column.field]).vrMax();
                     }
-                    else
-                        return Math.max.apply(null, this);
-                }
-
-                return 0;
-            };
-
-            Array.prototype.vrMin = function (callbackfn?: (value: any, index: number, array: any[]) => any)
-            {
-                if (Array.isArray(this))
-                {
-                    if (callbackfn != null)
-                    {
-                        let property = callbackfn.toString().split(".")[1];
-                        return this.reduce((oa, u) => Math.min(oa, u[property]), Number.MAX_VALUE);
-                    }
-                    else
-                        return Math.min.apply(null, this);
-                }
-
-                return 0;
-            };
-            //#endregion
-
-            //#region Get totals
-            let request = e.data as WorkerTotalsRequest;
-            if (request.isGroup)
-            {
-                if (request.groupItems == null || request.groupItems.length == 0 || request.groupItems[0].dataItems[0] == null)
-                {
-                    (self as any).postMessage(response);
-                    return;
-                }
+                    break;
             }
 
-            function getTotals(dataItems: any[])
-            {
-                let totals = [];
-                for (let column of request.columnOptions)
-                {
-                    let aggregateResult = 0;
-                    switch (column.aggregateMode)
-                    {
-                        case 1: aggregateResult = dataItems.map(k => k[column.field]).length; break;
-                        case 4: aggregateResult = dataItems.map(k => k[column.field]).vrSum(); break;
-                        case 0:
-                            {
-                                if (column.type == 3)
-                                    aggregateResult = dataItems.map(k => k[column.field]).vrAvg(undefined, column.countZeroInAverage) / 100;
-                                else
-                                    aggregateResult = dataItems.map(k => k[column.field]).vrAvg(undefined, column.countZeroInAverage);
-                            }
-                            break;
-                        case 3:
-                            {
-                                if (column.type != null && (column.type == 5 || column.type == 6 || column.type == 7))
-                                    aggregateResult = dataItems.map(k => new Date(k[column.field])).vrMin();
-                                else
-                                    aggregateResult = dataItems.map(k => k[column.field]).vrMin();
-                            }
-                            break;
-                        case 2:
-                            {
-                                if (column.type != null && (column.type == 5 || column.type == 6 || column.type == 7))
-                                    aggregateResult = dataItems.map(k => new Date(k[column.field])).vrMax();
-                                else
-                                    aggregateResult = dataItems.map(k => k[column.field]).vrMax();
-                            }
-                            break;
-                    }
-
-                    let total: any = {};
-                    total.field = column.field;
-                    total.total = aggregateResult;
-                    total.decimalDigits = column.decimalDigits;
-                    total.roundingSettings = column.roundingSettings;
-                    total.type = column.type;
-                    totals.push(total);
-                }
-                return totals;
-            }
-
-            if (request.isGroup)
-            {
-                for (let group of request.groupItems)
-                {
-                    let totals = getTotals(group.dataItems);
-                    response.push({ totals: totals, groupValue: group.groupValue });
-                }
-            }
-            else
-            {
-                let totals = getTotals(request.dataItems);
-                response = totals;
-            }
-            //#endregion
-
-            (self as any).postMessage(response);
+            let total: any = {};
+            total.field = column.field;
+            total.total = aggregateResult;
+            total.decimalDigits = column.decimalDigits;
+            total.roundingSettings = column.roundingSettings;
+            total.type = column.type;
+            totals.push(total);
         }
-
-        let scriptCalculateTotalsWorker = puma("head").find("script[id='vr_workerTotals']")[0];
-        if (scriptCalculateTotalsWorker == null)
-            puma("<script id='vr_workerTotals'> self.onmessage=" + calculateTotals.toString() + " </script>").vrAppendToPuma("head");
-
-        let workerTotalsData = new Blob([document.getElementById("vr_workerTotals")!.textContent!],
-            {
-                type: "text/javascript"
-            });
-        this._workerTotals = new Worker(window.URL.createObjectURL(workerTotalsData));
-        this._workerTotalsGroup = new Worker(window.URL.createObjectURL(workerTotalsData));
+        return totals;
     }
 
     fixDatasourceWithVrDatetime(items: any[])
@@ -10854,31 +10720,13 @@ class GridTotalElementTemplateEvent
 //#endregion
 
 //#region Totals
-class WorkerTotalsRequest
-{
-    dataItems: any[];
-    columnOptions: WorkerTotalsMessageColumnOptions[];
-    groupItems: WorkerTotalsGroupItem[];
-    isGroup: boolean;
-}
-
-class WorkerTotalsMessageColumnOptions
-{
-    field: string;
-    decimalDigits: number;
-    aggregateMode: GridAggregateMode;
-    type: GridColumnTypeEnum;
-    countZeroInAverage?: boolean;
-    roundingSettings?: NumberFormatRoundingSettings;
-}
-
-class WorkerTotalsGroupItem
+class TotalsGroupItem
 {
     groupValue: string;
     dataItems: any[];
 }
 
-class WorkerTotalsResult
+class TotalsResult
 {
     field: string;
     total: number;

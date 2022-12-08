@@ -1453,7 +1453,7 @@ export class Grid extends VrControl
     stickerVisible(state?: boolean): boolean;
     showSticker(): void;
     hideSticker(): void;
-    createTotalsFunction(): void;
+    getTotals(dataItems: any[]): any[];
     fixDatasourceWithVrDatetime(items: any[]): any[];
     fixDatasourceWithDate(items: any[]): void;
     pageSize(pageSize?: number, update?: boolean, triggerDataBound?: boolean): number;
