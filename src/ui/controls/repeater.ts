@@ -159,11 +159,6 @@ export class Repeater extends VrControl
 
                     if (options!.onRowDataBound != null)
                     {
-                        let dataSourceIdList = this.dataSource().map(k => k[options!.dataSourceFieldId!]);
-                        let index = dataSourceIdList.indexOf(e.dataItem[options!.dataSourceFieldId!]);
-                        if (index == -1 || options!.dataSourceFieldId == null)
-                            index = puma(e.rowElement).index();
-
                         let event = new RepeaterOnRowDataBoundEvent();
                         event.dataItem = e.dataItem;
                         event.realDataItem = e.realDataItem;
@@ -171,7 +166,7 @@ export class Repeater extends VrControl
                         event.rowElement = e.rowElement;
                         event.sender = e.sender;
                         event.cell = puma(e.rowElement).find("td[field='custom" + this.element().id + "']")[0];
-                        event.index = index;
+                        event.index = Number(e.rowElement.getAttribute("row"));
                         options!.onRowDataBound(event);
                     }
                 },
