@@ -203,7 +203,7 @@ export declare class Grid extends VrControl {
     getTotals(dataItems: any[]): any[];
     fixDatasourceWithVrDatetime(items: any[]): any[];
     fixDatasourceWithDate(items: any[]): void;
-    pageSize(pageSize?: number, update?: boolean, triggerDataBound?: boolean): number;
+    pageSize(pageSize?: number | boolean, update?: boolean, triggerDataBound?: boolean): number;
     pageSelected(page?: number, update?: boolean): number;
     checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;
     focus(field?: string): void;

@@ -486,7 +486,7 @@ export class Repeater extends VrControl
     //#endregion
 
     //#region Utility
-    pageSize(pageSize?: number, update = false, triggerDataBound = false)
+    pageSize(pageSize?: number | boolean, update = false, triggerDataBound = false)
     {
         return this._grid.pageSize(pageSize, update, triggerDataBound);
     }

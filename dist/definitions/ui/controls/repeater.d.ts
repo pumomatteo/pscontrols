@@ -92,7 +92,7 @@ export declare class Repeater extends VrControl {
     addToolbarItem(toolbarItem: GridToolbarItem): void;
     hideCheckboxColumn(updateDataSource?: boolean): void;
     showCheckboxColumn(updateDataSource?: boolean): void;
-    pageSize(pageSize?: number, update?: boolean, triggerDataBound?: boolean): number;
+    pageSize(pageSize?: number | boolean, update?: boolean, triggerDataBound?: boolean): number;
 }
 declare class PaddingSettings {
     left?: number;

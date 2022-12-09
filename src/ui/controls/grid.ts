@@ -7290,25 +7290,35 @@ export class Grid extends VrControl
         }
     }
 
-    pageSize(pageSize?: number, update = false, triggerDataBound = false)
+    pageSize(pageSize?: number | boolean, update = false, triggerDataBound = false)
     {
         if (pageSize != null)
         {
             let options = this.getOptions();
-            this._actualPageSize = pageSize;
+            if (pageSize === true)
+                pageSize = 50;
+
             options.pageSize = pageSize;
 
-            if (update)
-                this.update(triggerDataBound);
-
-            let newPageSizeItem = { text: String(pageSize), value: String(pageSize), numberValue: pageSize };
-            let ddlPageSize = ControlManager.get<ComboBox>(this._elementId + "_ddlPageSize");
-            if (ddlPageSize != null)
+            if (pageSize === false)
+                this._pageSizeUnlimited = true;
+            else
             {
-                if (!ddlPageSize.items().vrAny(k => k.value == String(pageSize)))
-                    ddlPageSize.addItem(newPageSizeItem, true, false, { field: "numberValue" });
+                this._pageSizeUnlimited = false;
+                this._actualPageSize = pageSize;
 
-                ddlPageSize.value(String(pageSize), false);
+                if (update)
+                    this.update(triggerDataBound);
+
+                let newPageSizeItem = { text: String(pageSize), value: String(pageSize), numberValue: pageSize };
+                let ddlPageSize = ControlManager.get<ComboBox>(this._elementId + "_ddlPageSize");
+                if (ddlPageSize != null)
+                {
+                    if (!ddlPageSize.items().vrAny(k => k.value == String(pageSize)))
+                        ddlPageSize.addItem(newPageSizeItem, true, false, { field: "numberValue" });
+
+                    ddlPageSize.value(String(pageSize), false);
+                }
             }
         }
         return this._actualPageSize;
