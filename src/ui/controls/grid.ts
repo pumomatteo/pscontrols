@@ -3226,6 +3226,7 @@ export class Grid extends VrControl
 
                             let button = document.createElement("button");
                             button.id = this._elementId + "_btnPage_" + i;
+                            button.style.cssText += "cursor: pointer;";
                             button.innerHTML = (i == endIndex) ? ((startingIndex == endIndex) ? String(i) : "...") : String(i);
                             if (i == pageSelected)
                                 button.classList.add("p-grid-pageSelected");

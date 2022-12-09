@@ -25,7 +25,10 @@ input, button, textarea, ul, li, div, span, i, table, tr, td, label {
 
 /* ************ Hover ************ */
 
-.vrButton:hover, .vrButton.hoverClass, .vrButtonGroup .buttonGroupItem:hover, .vrTextArea.vrTextBox:hover, .vrDivPickerIconSplitButton:hover, .vrDivPickerIconSplitButton.hoverClass, .vrDivPickerIconSplitButtonFlat:hover, .vrDivPickerIconSplitButtonFlat.hoverClass, .vrCheckBox:hover, .vrColorPicker:hover, .vrEditorContainer .tox-tinymce:hover, .vrRadioButtonContainer .vrRadioButtonCheckMark:hover, .vrSearchBarContainer:hover, .vrUploadDropArea:hover {
+.vrButton:hover, .vrButton.hoverClass, .vrButtonGroup .buttonGroupItem:hover, .vrTextArea.vrTextBox:hover,
+.vrDivPickerIconSplitButton:hover, .vrDivPickerIconSplitButton.hoverClass, .vrDivPickerIconSplitButtonFlat:hover,
+.vrDivPickerIconSplitButtonFlat.hoverClass, .vrCheckBox:hover, .vrColorPicker:hover, .vrEditorContainer .tox-tinymce:hover,
+.vrRadioButtonContainer .vrRadioButtonCheckMark:hover, .vrSearchBarContainer:hover, .vrUploadDropArea:hover {
     border-color: #b6b6b6 !important;
 }
 
