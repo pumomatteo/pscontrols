@@ -4139,7 +4139,7 @@ export class Grid extends VrControl
             //#region Parent group row
             let parentGroupRow = checkbox.parentElement!.parentElement! as any;
             let i = parentGroupRow.rowIndex;
-            while (!parentGroupRow.classList.contains("grid_trGroupBy"))
+            while (parentGroupRow != null && !parentGroupRow.classList.contains("grid_trGroupBy"))
             {
                 parentGroupRow = this._divBody.querySelector("tr:nth-child(" + i + ")")!;
                 if (this.thereAreLockedColumns())
@@ -4150,7 +4150,7 @@ export class Grid extends VrControl
             //#endregion
 
             //#region Checkbox management
-            while ((Number(parentGroupRow.getAttribute("level")) == 0 && parentGroupRow.classList.contains("grid_trGroupBy")) || (Number(parentGroupRow.getAttribute("level")) > 0 || !parentGroupRow.classList.contains("grid_trGroupBy")))
+            while (parentGroupRow != null && ((Number(parentGroupRow.getAttribute("level")) == 0 && parentGroupRow.classList.contains("grid_trGroupBy")) || (Number(parentGroupRow.getAttribute("level")) > 0 || !parentGroupRow.classList.contains("grid_trGroupBy"))))
             {
                 if (!parentGroupRow.classList.contains("grid_trGroupBy"))
                 {
