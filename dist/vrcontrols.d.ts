@@ -3547,6 +3547,7 @@ export class UploadOptions extends VrControlOptions
     onAbort?: (e: UploadAbortEvent) => void;
     onStart?: (e: UploadStartEvent) => void;
     onRemove?: (e: UploadRemoveEvent) => void;
+    onClick?: (e: UploadClickEvent) => void;
 }
 export class Upload extends VrControl
 {
@@ -3656,6 +3657,9 @@ class UploadRemoveEvent extends UploadEvent
     file: File;
     element: HTMLElement;
     index: number;
+}
+class UploadClickEvent extends UploadEvent
+{
 }
 export
 {};

@@ -29,6 +29,7 @@ export class UploadOptions extends VrControlOptions
 	onAbort?: (e: UploadAbortEvent) => void;
 	onStart?: (e: UploadStartEvent) => void;
 	onRemove?: (e: UploadRemoveEvent) => void;
+	onClick?: (e: UploadClickEvent) => void;
 }
 //#endregion
 
@@ -124,8 +125,11 @@ export class Upload extends VrControl
 					dragEnterEvent.event = e;
 					options!.onDragEnter(dragEnterEvent);
 
-					if (e.isDefaultPrevented())
+					if (dragEnterEvent.isDefaultPrevented())
+					{
+						e.preventDefault();
 						return;
+					}
 				}
 				//#endregion
 
@@ -143,8 +147,11 @@ export class Upload extends VrControl
 					dragOverEvent.event = e;
 					options!.onDragOver(dragOverEvent);
 
-					if (e.isDefaultPrevented())
+					if (dragOverEvent.isDefaultPrevented())
+					{
+						e.preventDefault();
 						return;
+					}
 				}
 				//#endregion
 
@@ -162,8 +169,11 @@ export class Upload extends VrControl
 					dragLeaveEvent.event = e;
 					options!.onDragLeave(dragLeaveEvent);
 
-					if (e.isDefaultPrevented())
+					if (dragLeaveEvent.isDefaultPrevented())
+					{
+						e.preventDefault();
 						return;
+					}
 				}
 				//#endregion
 
@@ -184,8 +194,11 @@ export class Upload extends VrControl
 					dropEvent.event = e;
 					options!.onDrop(dropEvent);
 
-					if (e.isDefaultPrevented())
+					if (dropEvent.isDefaultPrevented())
+					{
+						e.preventDefault();
 						return;
+					}
 				}
 				//#endregion
 
@@ -216,6 +229,24 @@ export class Upload extends VrControl
 				css: "text-align: left; font-style: italic; color: #a0a0a0;"
 			}, this._divDropArea);
 		}
+
+		puma(this._inputFile).on("click", (e: JQuery.ClickEvent) =>
+		{
+			//#region Drop event
+			if (options!.onClick != null)
+			{
+				let clickEvent = new UploadClickEvent();
+				clickEvent.sender = this;
+				options!.onClick(clickEvent);
+
+				if (clickEvent.isDefaultPrevented())
+				{
+					e.preventDefault();
+					return;
+				}
+			}
+			//#endregion
+		})
 
 		puma(this._inputFile).on("change", (e: JQuery.ChangeEvent) =>
 		{
@@ -1129,5 +1160,10 @@ class UploadRemoveEvent extends UploadEvent
 	file: File;
 	element: HTMLElement;
 	index: number;
+}
+
+class UploadClickEvent extends UploadEvent
+{
+
 }
 //#endregion

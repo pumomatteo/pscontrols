@@ -1602,6 +1602,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/UploadAbortEvent.html" data-type="entity-link" >UploadAbortEvent</a>
                             </li>
                             <li class="link">
+                                <a href="classes/UploadClickEvent.html" data-type="entity-link" >UploadClickEvent</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/UploadDragEnterEvent.html" data-type="entity-link" >UploadDragEnterEvent</a>
                             </li>
                             <li class="link">

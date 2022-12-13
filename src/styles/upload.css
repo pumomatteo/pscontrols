@@ -81,6 +81,10 @@
 	margin-top: 0px;
 }
 
+.vrUpload[disabled='disabled'] {
+	opacity: 0.5;
+}
+
 .vrUploadFileSpinner {
 	font-size: 11px !important;
 }
