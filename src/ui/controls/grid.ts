@@ -7402,7 +7402,8 @@ export class Grid extends VrControl
     {
         return String(value)
             .replace(/%/, "").replace(/ /g, "").replace(/\./g, "").replace(/-/g, "").replace(/\//g, "").replace(/&/g, "e")
-            .replace(/\(/g, "").replace(/\)/g, "").replace(/,/g, "").replace(/\[/g, "").replace(/\]/g, "").replace(/:/g, "");
+            .replace(/\(/g, "").replace(/\)/g, "").replace(/,/g, "").replace(/\[/g, "").replace(/\]/g, "").replace(/:/g, "")
+            .replace(/'/g, "");
     }
 
     getOptions()
