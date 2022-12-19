@@ -1775,8 +1775,7 @@ export class Grid extends VrControl
             //#endregion
 
             //#region Manage vr.DateTime type
-            if (options.fixDatasourceWithDate === true)
-                this.fixDatasourceWithDate(dataItems);
+            this.fixDatasourceWithDate(dataItems);
             //#endregion
 
             //#region GroupBy & Filterable
@@ -3766,7 +3765,7 @@ export class Grid extends VrControl
     //#region Items
     public getAllItems(toSavePurpose: boolean = false)
     {
-        let rows = this.dataSource();
+        let rows = UtilityManager.duplicate(this.dataSource()) as any[];
         if (toSavePurpose)
         {
             for (let row of rows)
@@ -7267,23 +7266,26 @@ export class Grid extends VrControl
     fixDatasourceWithDate(items: any[])
     {
         let options = this.getOptions();
-        this._vrDateTimeFields = [];
-        let dateTypes = [GridColumnTypeEnum.Date, GridColumnTypeEnum.DateTime, GridColumnTypeEnum.Time, GridColumnTypeEnum.LongDate,
-        GridColumnTypeEnum.LongDateTime, GridColumnTypeEnum.LongWeekDate, GridColumnTypeEnum.ShortWeekDate];
-        if (options.columns!.vrAny(k => dateTypes.includes(k.type!)))
+        if (options.fixDatasourceWithDate === true)
         {
-            let columnDateTypes = options.columns!.filter(k => dateTypes.includes(k.type!));
-            for (let column of columnDateTypes)
+            this._vrDateTimeFields = [];
+            let dateTypes = [GridColumnTypeEnum.Date, GridColumnTypeEnum.DateTime, GridColumnTypeEnum.Time, GridColumnTypeEnum.LongDate,
+            GridColumnTypeEnum.LongDateTime, GridColumnTypeEnum.LongWeekDate, GridColumnTypeEnum.ShortWeekDate];
+            if (options.columns!.vrAny(k => dateTypes.includes(k.type!)))
             {
-                for (let row of items)
+                let columnDateTypes = options.columns!.filter(k => dateTypes.includes(k.type!));
+                for (let column of columnDateTypes)
                 {
-                    if (row[column.field] != null)
+                    for (let row of items)
                     {
-                        let dateTime = new DateTime(row[column.field]);
-                        if (!this._vrDateTimeFields.includes(column.field) && dateTime.isCreatedByDateTime())
-                            this._vrDateTimeFields.push(column.field);
+                        if (row[column.field] != null)
+                        {
+                            let dateTime = new DateTime(row[column.field]);
+                            if (!this._vrDateTimeFields.includes(column.field) && dateTime.isCreatedByDateTime())
+                                this._vrDateTimeFields.push(column.field);
 
-                        row[column.field] = dateTime.toDate();
+                            row[column.field] = dateTime.toDate();
+                        }
                     }
                 }
             }
@@ -9902,11 +9904,14 @@ export class Grid extends VrControl
         }
         else
         {
-            for (let property of Object.getOwnPropertyNames(this._actualEditedItem))
+            if (options.columns!.vrAny(k => k != null && k.type == GridColumnTypeEnum.Percentage && k.ignoreFactor != true))
             {
-                let column = options.columns!.find(k => k.field == property);
-                if (column != null && column.type == GridColumnTypeEnum.Percentage && column.ignoreFactor != true)
-                    this._actualEditedItem[property] *= 100;
+                for (let property of Object.getOwnPropertyNames(this._actualEditedItem))
+                {
+                    let column = options.columns!.find(k => k.field == property);
+                    if (column != null && column.type == GridColumnTypeEnum.Percentage && column.ignoreFactor != true)
+                        this._actualEditedItem[property] *= 100;
+                }
             }
 
             this.updateRow(this._actualEditedItem);

@@ -8017,6 +8017,9 @@ export class DateTime
 		if (source == null || Date.vrIsValidDate(source))
 			return source as any;
 
+		if (source.day == null)
+			return null as any;
+
 		return new Date(source.year, source.month - 1, source.day, source.hours, source.minutes, source.seconds, source.milliseconds);
 	}
 

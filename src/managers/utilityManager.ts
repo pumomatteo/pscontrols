@@ -36,7 +36,7 @@ export class UtilityManager
         if (element != null)
         {
             if (Array.isArray(element))
-                return element.map(k => k);
+                return element.filter(k => k).map(k => k);
             else
                 return JSON.parse(JSON.stringify(element));
         }
