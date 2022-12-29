@@ -182,6 +182,7 @@ module.exports = function (grunt)
                 path.resolve("N://Vettore.Web/24.prod/Vettore.Web/Vettore.Web/Scripts/"),
                 path.resolve("N://Vettore.Web/24.dev/Vettore.Web/Vettore.Web/Scripts/"),
                 path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/Scripts/"),
+                path.resolve("N://Vettore.Client/client.Totem/trunk/types/"),
             ];
 
         for (let path of productionDefitinionFolders)

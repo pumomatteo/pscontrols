@@ -1,4 +1,4 @@
-import { ControlTypeEnum, LabelModeEnum, DateModeEnum, puma, ColorSettings, TextAlignEnum, LabelUnderlineMode, PositionEnum } from "../vr";
+import { ControlTypeEnum, LabelModeEnum, DateModeEnum, puma, ColorSettings, TextAlignEnum, LabelUnderlineMode, PositionEnum, IconClass, icon } from "../vr";
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
 import { UtilityManager } from "../../../src/managers/utilityManager";
 
@@ -6,6 +6,7 @@ import { UtilityManager } from "../../../src/managers/utilityManager";
 export class LabelOptions extends VrControlOptions
 {
     text?: string | number | Date;
+    value?: string | number | Date;
     key?: string;
     tooltip?: boolean | string;
     colorSettings?: ColorSettings;
@@ -17,6 +18,7 @@ export class LabelOptions extends VrControlOptions
     align?: TextAlignEnum;
     linkCss?: string;
     underlineMode?: LabelUnderlineMode;
+    icon?: IconClass;
 
     onClick?: (e: LabelClickEvent) => void;
     onHover?: (e: LabelHoverEvent) => void;
@@ -33,6 +35,8 @@ export class Label extends VrControl
             options = new LabelOptions();
 
         if (options.text == null) options.text = "";
+        if (options.value != null) options.text = options.value;
+
         if (options.noBr == null) options.noBr = false;
         if (options.mode == null) options.mode = LabelModeEnum.Default;
 
@@ -188,6 +192,10 @@ export class Label extends VrControl
                     }
                     break;
             }
+
+            if (options.icon != null)
+                value = "<i class='" + options.icon + "'></i> " + value;
+
             this.element().innerHTML = String(value);
 
             let textWidth = UtilityManager.textWidth(this.element());

@@ -1,7 +1,8 @@
-import { LabelModeEnum, ColorSettings, TextAlignEnum, LabelUnderlineMode } from "../vr";
+import { LabelModeEnum, ColorSettings, TextAlignEnum, LabelUnderlineMode, IconClass } from "../vr";
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
 export declare class LabelOptions extends VrControlOptions {
     text?: string | number | Date;
+    value?: string | number | Date;
     key?: string;
     tooltip?: boolean | string;
     colorSettings?: ColorSettings;
@@ -13,6 +14,7 @@ export declare class LabelOptions extends VrControlOptions {
     align?: TextAlignEnum;
     linkCss?: string;
     underlineMode?: LabelUnderlineMode;
+    icon?: IconClass;
     onClick?: (e: LabelClickEvent) => void;
     onHover?: (e: LabelHoverEvent) => void;
 }
