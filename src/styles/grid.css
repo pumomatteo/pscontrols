@@ -58,6 +58,10 @@
     font-size: 13px;
 }
 
+.vrGridContainer tr.p-grid-body td .vrLabel {
+    font-size: 13px;
+}
+
 .vrGridContainer .grid_singleLineGridRow {
     overflow: hidden;
     white-space: nowrap;

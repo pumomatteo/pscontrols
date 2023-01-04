@@ -33,7 +33,11 @@ export declare class SplitButton extends VrControl {
     disable(): void;
     itemVisible(value: string, state?: boolean): boolean;
     showItem(value: string): void;
+    showItems(values: string[]): void;
+    showOnlyThisItem(value: string): void;
     hideItem(value: string): void;
+    hideItems(values: string[]): void;
+    hideOnlyThisItem(value: string): void;
     itemEnable(value: string, state?: boolean): boolean;
     enableAllItems(): void;
     enableItems(values: string[]): void;

@@ -327,9 +327,33 @@ export class SplitButton extends VrControl
         this.itemVisible(value, true);
     }
 
+    showItems(values: string[])
+    {
+        for (let value of values)
+            this.showItem(value);
+    }
+
+    showOnlyThisItem(value: string)
+    {
+        for (let item of this._itemButtonList)
+            this.itemVisible(item.tag(), item.tag() == value);
+    }
+
     hideItem(value: string): void
     {
         this.itemVisible(value, false);
+    }
+
+    hideItems(values: string[])
+    {
+        for (let value of values)
+            this.hideItem(value);
+    }
+
+    hideOnlyThisItem(value: string)
+    {
+        for (let item of this._itemButtonList)
+            this.itemVisible(item.tag(), item.tag() != value);
     }
     //#endregion
 
