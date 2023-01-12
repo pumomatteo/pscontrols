@@ -4549,6 +4549,7 @@ export declare class GridGroupBySettings {
     sortBy?: GridSortSettings;
     internalSortBy?: GridSortSettings;
     fields: string[] | GridGroupByItem[];
+    automaticSort?: boolean;
 }
 export declare class GridSortSettings {
     field: string;

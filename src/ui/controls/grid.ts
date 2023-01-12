@@ -586,14 +586,12 @@ export class Grid extends VrControl
                         value: String(options.pageSize!),
                         onAfterChange: (e) =>
                         {
-                            options!.pageSize = Number(e.sender.value());
-
                             if (options!.columns!.length > 10)
                                 showLoader();
 
                             window.setTimeout(() =>
                             {
-                                this.update();
+                                this.pageSize(Number(e.sender.value()), true);
                                 hideLoader();
                             }, 200);
                         }
@@ -4409,7 +4407,10 @@ export class Grid extends VrControl
         }
         else
         {
-            if ((options.groupBy as GridGroupBySettings).fields != null)
+            if ((options.groupBy as GridGroupBySettings).automaticSort == null)
+                (options.groupBy as GridGroupBySettings).automaticSort = true;
+
+            if ((options.groupBy as GridGroupBySettings).fields != null && (options.groupBy as GridGroupBySettings).automaticSort)
             {
                 for (let groupByField of ((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]))
                 {
@@ -4423,7 +4424,8 @@ export class Grid extends VrControl
         }
         //#endregion
 
-        dataItems.vrSortBy(sortingFields);
+        if (sortingFields.length > 0)
+            dataItems.vrSortBy(sortingFields);
     }
     //#endregion
 
@@ -7309,8 +7311,20 @@ export class Grid extends VrControl
                 this._pageSizeUnlimited = false;
                 this._actualPageSize = pageSize;
 
+                if (options.serverBinding !== false)
+                {
+                    let pageSelected = this.pageSelected();
+                    this._serverBindingPagination.indexFrom = pageSelected * pageSize;
+                    this._serverBindingPagination.indexTo = this._serverBindingPagination.indexFrom + pageSize - 1;
+                }
+
                 if (update)
-                    this.update(triggerDataBound);
+                {
+                    if (options.serverBinding !== false)
+                        this.rebind();
+                    else
+                        this.update(triggerDataBound);
+                }
 
                 let newPageSizeItem = { text: String(pageSize), value: String(pageSize), numberValue: pageSize };
                 let ddlPageSize = ControlManager.get<ComboBox>(this._elementId + "_ddlPageSize");

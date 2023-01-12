@@ -6623,6 +6623,7 @@ export class GridGroupBySettings
 	sortBy?: GridSortSettings;
 	internalSortBy?: GridSortSettings;
 	fields: string[] | GridGroupByItem[];
+	automaticSort?: boolean;
 }
 
 export class GridSortSettings
