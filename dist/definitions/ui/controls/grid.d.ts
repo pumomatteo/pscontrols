@@ -225,8 +225,10 @@ export declare class Grid extends VrControl {
     hideToolbar(): void;
     toolbar(): HTMLElement;
     toolbarItem<T extends VrControl>(value: string): T;
+    visibleToolbarItem(value: string, state?: boolean): boolean;
     showToolbarItem<T extends VrControl>(value: string): void;
     hideToolbarItem<T extends VrControl>(value: string): void;
+    enabledToolbarItem(value: string, state?: boolean): boolean;
     enableToolbarItem<T extends VrControl>(value: string): void;
     disableToolbarItem<T extends VrControl>(value: string): void;
     removeToolbarItem(value: string): void;

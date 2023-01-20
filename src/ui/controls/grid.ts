@@ -8600,6 +8600,19 @@ export class Grid extends VrControl
         return ControlManager.get<T>("grid-" + value + "_" + this._elementId);
     }
 
+    visibleToolbarItem(value: string, state?: boolean)
+    {
+        let toolbarItem = this.toolbarItem(value);
+        if (toolbarItem != null)
+        {
+            if (state != null)
+                toolbarItem.visible(state)
+
+            return toolbarItem.visible();
+        }
+        return false;
+    }
+
     showToolbarItem<T extends VrControl>(value: string)
     {
         let toolbarItem = this.toolbarItem<T>(value);
@@ -8612,6 +8625,19 @@ export class Grid extends VrControl
         let toolbarItem = this.toolbarItem<T>(value);
         if (toolbarItem != null)
             toolbarItem.hide();
+    }
+
+    enabledToolbarItem(value: string, state?: boolean)
+    {
+        let toolbarItem = this.toolbarItem(value);
+        if (toolbarItem != null)
+        {
+            if (state != null)
+                toolbarItem.enabled(state)
+
+            return toolbarItem.enabled();
+        }
+        return false;
     }
 
     enableToolbarItem<T extends VrControl>(value: string)
