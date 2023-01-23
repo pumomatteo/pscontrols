@@ -6709,6 +6709,21 @@ export class GridAfterExcelExportEvent extends GridExcelExportEvent
 	exportHiddenColumns: boolean;
 }
 
+class GridGroupCheckEvent extends VrControlsEvent
+{
+	sender: Grid;
+	checked: boolean;
+	childrenIdList: string[];
+}
+
+export class GridBeforeGroupCheckEvent extends GridGroupCheckEvent
+{
+}
+
+export class GridAfterGroupCheckEvent extends GridGroupCheckEvent
+{
+}
+
 export class GridColumn
 {
 	field: string;

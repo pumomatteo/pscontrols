@@ -1388,6 +1388,8 @@ export class GridOptions extends VrControlOptions
     onScroll?: (e: GridScrollEvent) => void;
     onBeforeExcelExport?: (e: GridBeforeExcelExportEvent) => void;
     onAfterExcelExport?: (e: GridAfterExcelExportEvent) => void;
+    onBeforeGroupCheck?: (e: GridBeforeGroupCheckEvent) => void;
+    onAfterGroupCheck?: (e: GridAfterGroupCheckEvent) => void;
 }
 export class Grid extends VrControl
 {
@@ -8544,6 +8546,18 @@ export class GridAfterExcelExportEvent extends GridExcelExportEvent
     excelFileName: string;
     groupBy: string[] | null;
     exportHiddenColumns: boolean;
+}
+class GridGroupCheckEvent extends VrControlsEvent
+{
+    sender: Grid;
+    checked: boolean;
+    childrenIdList: string[];
+}
+export class GridBeforeGroupCheckEvent extends GridGroupCheckEvent
+{
+}
+export class GridAfterGroupCheckEvent extends GridGroupCheckEvent
+{
 }
 export class GridColumn
 {

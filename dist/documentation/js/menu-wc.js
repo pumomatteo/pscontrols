@@ -597,6 +597,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/GridAfterExcelExportEvent.html" data-type="entity-link" >GridAfterExcelExportEvent</a>
                             </li>
                             <li class="link">
+                                <a href="classes/GridAfterGroupCheckEvent.html" data-type="entity-link" >GridAfterGroupCheckEvent</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/GridAutoWindowOption.html" data-type="entity-link" >GridAutoWindowOption</a>
                             </li>
                             <li class="link">
@@ -604,6 +607,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/GridBeforeExcelExportEvent.html" data-type="entity-link" >GridBeforeExcelExportEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/GridBeforeGroupCheckEvent.html" data-type="entity-link" >GridBeforeGroupCheckEvent</a>
                             </li>
                             <li class="link">
                                 <a href="classes/GridButtonSettings.html" data-type="entity-link" >GridButtonSettings</a>
@@ -661,6 +667,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/GridGroupBySettings.html" data-type="entity-link" >GridGroupBySettings</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/GridGroupCheckEvent.html" data-type="entity-link" >GridGroupCheckEvent</a>
                             </li>
                             <li class="link">
                                 <a href="classes/GridGroupDisplayValueEvent.html" data-type="entity-link" >GridGroupDisplayValueEvent</a>

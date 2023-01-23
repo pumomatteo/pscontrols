@@ -4614,6 +4614,15 @@ export declare class GridAfterExcelExportEvent extends GridExcelExportEvent {
     groupBy: string[] | null;
     exportHiddenColumns: boolean;
 }
+declare class GridGroupCheckEvent extends VrControlsEvent {
+    sender: Grid;
+    checked: boolean;
+    childrenIdList: string[];
+}
+export declare class GridBeforeGroupCheckEvent extends GridGroupCheckEvent {
+}
+export declare class GridAfterGroupCheckEvent extends GridGroupCheckEvent {
+}
 export declare class GridColumn {
     field: string;
     title?: string;

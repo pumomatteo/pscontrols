@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, DateTime, DateTimeTypeEnum, span } from "../vr";
+import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, DateTime, DateTimeTypeEnum, span, GridBeforeGroupCheckEvent, GridAfterGroupCheckEvent } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./Window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -72,6 +72,8 @@ export class GridOptions extends VrControlOptions
     onScroll?: (e: GridScrollEvent) => void;
     onBeforeExcelExport?: (e: GridBeforeExcelExportEvent) => void;
     onAfterExcelExport?: (e: GridAfterExcelExportEvent) => void;
+    onBeforeGroupCheck?: (e: GridBeforeGroupCheckEvent) => void;
+    onAfterGroupCheck?: (e: GridAfterGroupCheckEvent) => void;
     //#endregion
 }
 //#endregion
@@ -2169,12 +2171,21 @@ export class Grid extends VrControl
                                         {
                                             let parentGroupRow = e.sender.element().parentElement!.parentElement!.parentElement!.parentElement!;
 
-                                            // let headerCheckbox = document.getElementById(this._elementId + "header_CheckboxColumn") as HTMLInputElement;
-                                            // headerCheckbox.checked = e.checked;
-
                                             let childrenRows = this.getChildrenGroupRows(parentGroupRow, this._divBody);
                                             if (this.thereAreLockedColumns())
                                                 childrenRows = this.getChildrenGroupRows(parentGroupRow, this._divBodyLocked);
+
+                                            if (options!.onBeforeGroupCheck != null)
+                                            {
+                                                let beforeGroupCheckEvent = new GridBeforeGroupCheckEvent();
+                                                beforeGroupCheckEvent.sender = this;
+                                                beforeGroupCheckEvent.checked = e.checked;
+                                                beforeGroupCheckEvent.childrenIdList = childrenRows.children.map(k => k.getAttribute("id")!.split("_")[1]);
+                                                options!.onBeforeGroupCheck(beforeGroupCheckEvent);
+
+                                                if (beforeGroupCheckEvent.isDefaultPrevented())
+                                                    return;
+                                            }
 
                                             if (e.checked)
                                                 this.selectRows(childrenRows.children.map(k => k.getAttribute("id")!.split("_")[1]), undefined, false);
@@ -2182,6 +2193,15 @@ export class Grid extends VrControl
                                                 this.unselectRows(childrenRows.children.map(k => k.getAttribute("id")!.split("_")[1]), undefined, false);
 
                                             this.manageGroupCheckParent(childrenRows.children.vrLast().getElementsByClassName("vr-checkbox-column")[0] as HTMLElement);
+
+                                            if (options!.onAfterGroupCheck != null)
+                                            {
+                                                let beforeGroupCheckEvent = new GridAfterGroupCheckEvent();
+                                                beforeGroupCheckEvent.sender = this;
+                                                beforeGroupCheckEvent.checked = e.checked;
+                                                beforeGroupCheckEvent.childrenIdList = childrenRows.children.map(k => k.getAttribute("id")!.split("_")[1]);
+                                                options!.onAfterGroupCheck(beforeGroupCheckEvent)
+                                            }
                                         }
                                     }, checkboxContainer as HTMLElement, ControlPositionEnum.Before);
                             }
