@@ -3510,32 +3510,35 @@ export class Grid extends VrControl
             let trTdList: any[] = [];
             for (let totalsGroup of data)
             {
-                let tr = this.element().querySelector("." + this._elementId + "_totalGroupBy"
+                let trList = this.element().querySelectorAll("." + this._elementId + "_totalGroupBy"
                     + this.fixValueWithoutSpecialChars(totalsGroup.groupValue))!;
 
                 let totalsGroupTotals: any[] = totalsGroup.totals;
-                let tdFragment = document.createDocumentFragment();
-                let tdList = tr.getElementsByTagName("td");
-                for (let td of Array.from(tdList))
+                for (let tr of Array.from(trList))
                 {
-                    let newTd = td.cloneNode(true) as HTMLElement;
+                    let tdFragment = document.createDocumentFragment();
+                    let tdList = tr.getElementsByTagName("td");
+                    for (let td of Array.from(tdList))
+                    {
+                        let newTd = td.cloneNode(true) as HTMLElement;
 
-                    let field = td.getAttribute("field")!;
-                    let total = totalsGroupTotals.find(k => k.field == field);
-                    if (total != null)
-                        this.writeTotals(total, newTd);
-                    else
-                        newTd.innerHTML = "";
+                        let field = td.getAttribute("field")!;
+                        let total = totalsGroupTotals.find(k => k.field == field);
+                        if (total != null)
+                            this.writeTotals(total, newTd);
+                        else
+                            newTd.innerHTML = "";
 
-                    tdFragment.appendChild(newTd);
+                        tdFragment.appendChild(newTd);
+                    }
+
+                    trTdList.push({ tr: tr, tdFragment: tdFragment });
+                    tr.innerHTML = "";
                 }
-
-                trTdList.push({ tr: tr, tdFragment: tdFragment });
-                tr.innerHTML = "";
             }
 
-            for (let c of trTdList)
-                c.tr.appendChild(c.tdFragment);
+            for (let trTd of trTdList)
+                trTd.tr.appendChild(trTd.tdFragment);
             //#endregion
         }
     }
@@ -4420,7 +4423,7 @@ export class Grid extends VrControl
         let sortByField = (options.groupBy as GridGroupBySettings).sortBy != null ? ((options.groupBy as GridGroupBySettings).sortBy! as GridSortSettings).field : null;
         if (sortByField != null)
         {
-            if (((options.groupBy as GridGroupBySettings).sortBy! as GridSortSettings).direction == GridSortDirectionEnum.Desc)
+            if ((options.groupBy as GridGroupBySettings).sortBy!.direction == GridSortDirectionEnum.Desc)
                 sortingFields.push("-" + sortByField);
             else
                 sortingFields.push(sortByField);
@@ -4444,6 +4447,7 @@ export class Grid extends VrControl
         }
         //#endregion
 
+        sortingFields = sortingFields.vrDistinct();
         if (sortingFields.length > 0)
             dataItems.vrSortBy(sortingFields);
     }

@@ -170,6 +170,7 @@ export class Button extends VrControl
 
             // To prevent Ajax rebind
             e.preventDefault();
+            return false;
         });
 
         puma(element).on("mouseup", (e: JQuery.MouseUpEvent) => 
