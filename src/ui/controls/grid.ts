@@ -7337,7 +7337,7 @@ export class Grid extends VrControl
 
                 if (options.serverBinding !== false)
                 {
-                    let pageSelected = this.pageSelected();
+                    let pageSelected = 0; // Get back to first page
                     this._serverBindingPagination.indexFrom = pageSelected * pageSize;
                     this._serverBindingPagination.indexTo = this._serverBindingPagination.indexFrom + pageSize - 1;
                 }
