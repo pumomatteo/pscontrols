@@ -336,6 +336,10 @@
     overflow: hidden;
 }
 
+input.vrComboBox {
+    width: Calc(100% - 22px) !important;
+}
+
 .vrComboBoxCheckbox {
     display: inline-block;
     height: 25px;
