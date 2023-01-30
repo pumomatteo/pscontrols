@@ -8242,6 +8242,7 @@ export class Grid extends VrControl
 
                 //#region Content rows
                 let contentRows: GridExcelRow[] = [];
+                this.fixDatasourceWithDate(this.dataSource());
                 for (let item of this.dataSource())
                 {
                     let contentRow = new GridExcelRow();
@@ -8256,7 +8257,7 @@ export class Grid extends VrControl
                             continue;
 
                         let textHTML = (item[column.field] == null) ? "" : String(item[column.field]);
-                        let textAlign = GridAlignEnum.Left;
+                        let textAlign = GridAlignEnum.Left; 
 
                         //#region Type
                         switch (column.type)
