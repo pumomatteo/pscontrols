@@ -217,7 +217,8 @@ export class UtilityManager
     static getMonthNumberByName(monthName: string): -1 | MonthEnum;
     static doAjaxCall<T>(settings: AjaxCallSettings, callBack?: (response: T) => void, errorCallback?: () => void): null;
     static htmlDecode(text: string): string | null;
-    static textWidth(object: HTMLElement | string): number;
+    static textWidth(object: HTMLElement | string, outerWidth?: boolean): number;
+    static objectWidth(object: HTMLElement | string, outerWidth?: boolean): number;
     static downloadPdfBytes(base64Bytes: string, name?: string): void;
     static openUrl(url: string, name?: string, newTab?: boolean): void;
     static isValidEmail(email: string): boolean;

@@ -148,7 +148,7 @@ export class UtilityManager
         return doc.documentElement.textContent;
     }
 
-    static textWidth(object: HTMLElement | string): number
+    static textWidth(object: HTMLElement | string, outerWidth = false): number
     {
         let width = 0;
         if (typeof (object) == "string")
@@ -169,11 +169,28 @@ export class UtilityManager
             puma(object).html(htmlCalculated);
 
             // Calculate width
-            width = puma(object).find("span:first").width();
+            if (!outerWidth)
+                width = puma(object).find("span:first").width();
+            else
+                width = puma(object).find("span:first").outerWidth(true);
 
             // Restore original
             puma(object).html(originalHtmlText);
         }
+        return width;
+    }
+
+    static objectWidth(object: HTMLElement | string, outerWidth = false)
+    {
+        let dup = puma(object).clone();
+        puma("html").append(dup);
+
+        let width = 0;
+        if (!outerWidth)
+            width = puma(dup).width();
+        else
+            width = puma(dup).outerWidth(true);
+
         return width;
     }
 

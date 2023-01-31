@@ -1,5 +1,6 @@
 import { ControlTypeEnum, LabelModeEnum, PositionEnum, createLabel, ControlPositionEnum, TextAlignEnum, PopupSettings, ColorSettings, puma, shadowRoot, PopupDirectionEnum, VrMarginSettings, LabelUnderlineMode } from "./vr";
 import { Label, LabelClickEvent } from "./controls/label";
+import { UtilityManager } from "../../src/managers/utilityManager";
 
 export class VrControl
 {
@@ -59,7 +60,7 @@ export class VrControl
                     class: options!.labelSettings.class,
                     fontSize: options!.labelSettings.fontSize,
                     cssContainer: margin + top + options!.labelSettings.cssContainer,
-                    css: options!.labelSettings.css,
+                    css: "white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" + options!.labelSettings.css,
                     bold: options!.labelSettings.bold,
                     tooltip: options!.labelSettings.tooltip,
                     colorSettings: options!.labelSettings.colorSettings,
@@ -304,14 +305,17 @@ export class VrControl
             if (options.label != null)
             {
                 let label = containerJq.find(".vrLabel")[0];
-                labelWidth = puma(label).outerWidth(true) + 5;
+                labelWidth = UtilityManager.textWidth(label.innerHTML);
             }
             //#endregion
 
-            //#region Width without Label
             containerJq.width(value);
-            let diff = elementJq.outerWidth() - elementJq.width();
-            if (diff === elementJq.outerWidth() && options.label == null)
+
+            //#region Width without Label
+            let outer = UtilityManager.objectWidth(elementJq[0], true);
+            let normal = UtilityManager.objectWidth(elementJq[0]);
+            let diff = outer - normal;
+            if (diff === outer && options.label == null)
                 diff = 0;
 
             elementJq.width("Calc(100% - " + diff + "px)");
