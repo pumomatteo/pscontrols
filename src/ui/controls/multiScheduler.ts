@@ -157,15 +157,7 @@ export class MultiScheduler extends VrControl
 				else
 				{
 					let day = dates[i];
-					let dateOptions: any = {
-						weekday: 'long',
-						year: 'numeric',
-						month: 'long',
-						day: '2-digit',
-						hour12: false
-					}
-					let dateFormatter = new Intl.DateTimeFormat(/*navigator.language*/"it", dateOptions);
-					let dateString = dateFormatter.format(day);
+					let dateString = day.vrToLongDateString();
 					lblDate.value(dateString);
 				}
 			}

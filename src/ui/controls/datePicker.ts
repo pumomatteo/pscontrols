@@ -1062,6 +1062,7 @@ export class DatePicker extends VrControl
                     }
                     break;
             }
+            dateOptions.timeZone = "Europe/Rome";
             let dateFormatter = new Intl.DateTimeFormat(/*navigator.language*/"it", dateOptions);
             let dateString = dateFormatter.format(this._value!).vrCapitalize();
 

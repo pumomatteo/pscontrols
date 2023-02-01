@@ -8383,6 +8383,9 @@ Date.prototype.vrToItalyString = function (mode?: DateModeEnum, showSeconds = fa
 
 Date.prototype.vrFormatString = function (options: Intl.DateTimeFormatOptions, language?: string[] | string): string
 {
+	if (options != null && options.timeZone == null)
+		options.timeZone = "Europe/Rome";
+
 	let dateFormatter = new Intl.DateTimeFormat((language == null) ? navigator.language : language, options);
 	let dateString = dateFormatter.format(this).vrCapitalize();
 	return dateString;
