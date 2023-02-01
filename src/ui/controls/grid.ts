@@ -4430,10 +4430,11 @@ export class Grid extends VrControl
         }
         else
         {
-            if ((options.groupBy as GridGroupBySettings).automaticSort == null)
-                (options.groupBy as GridGroupBySettings).automaticSort = true;
+            let automaticSort = (options.groupBy as GridGroupBySettings).automaticSort;
+            if (automaticSort == null)
+                automaticSort = true;
 
-            if ((options.groupBy as GridGroupBySettings).fields != null && (options.groupBy as GridGroupBySettings).automaticSort)
+            if ((options.groupBy as GridGroupBySettings).fields != null && automaticSort)
             {
                 for (let groupByField of ((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]))
                 {
@@ -8221,7 +8222,8 @@ export class Grid extends VrControl
                 for (let column of options.columns!)
                 {
                     if (column.exportable !== true && ((!exportHiddenColumns && column.hidden == true
-                        && (options.groupBy == null || !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
+                        && (options.groupBy == null
+                            || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field))))
                         || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
                         || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false))
                         continue;
@@ -8250,14 +8252,16 @@ export class Grid extends VrControl
 
                     for (let column of options.columns!)
                     {
-                        if (column.exportable !== true && ((!exportHiddenColumns && column.hidden == true && (options.groupBy == null || !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
+                        if (column.exportable !== true && ((!exportHiddenColumns && column.hidden == true
+                            && (options.groupBy == null
+                                || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field))))
                             || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
                             || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon
                             || column.exportable === false))
                             continue;
 
                         let textHTML = (item[column.field] == null) ? "" : String(item[column.field]);
-                        let textAlign = GridAlignEnum.Left; 
+                        let textAlign = GridAlignEnum.Left;
 
                         //#region Type
                         switch (column.type)
@@ -8462,7 +8466,9 @@ export class Grid extends VrControl
                     let column = options.columns!.find(k => k.field == field);
                     if (column == null || (column != null && column.exportable !== true))
                     {
-                        if (column == null || (!exportHiddenColumns && column.hidden == true && (options.groupBy == null || !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field)))
+                        if (column == null || (!exportHiddenColumns && column.hidden == true
+                            && (options.groupBy == null
+                                || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field))))
                             || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
                             || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false)
                             continue;
