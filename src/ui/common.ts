@@ -305,15 +305,15 @@ export class VrControl
             if (options.label != null)
             {
                 let label = containerJq.find(".vrLabel")[0];
-                labelWidth = UtilityManager.textWidth(label.innerHTML);
+                labelWidth = puma(label).outerWidth(true) + 5; //UtilityManager.textWidth(label.innerHTML);
             }
             //#endregion
 
             containerJq.width(value);
 
             //#region Width without Label
-            let outer = UtilityManager.objectWidth(elementJq[0], true);
-            let normal = UtilityManager.objectWidth(elementJq[0]);
+            let outer = elementJq.outerWidth(); //UtilityManager.objectWidth(elementJq[0], true);
+            let normal = elementJq.width(); //UtilityManager.objectWidth(elementJq[0]);
             let diff = outer - normal;
             if (diff === outer && options.label == null)
                 diff = 0;
