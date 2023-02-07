@@ -1699,8 +1699,15 @@ export class Scheduler extends VrControl
 
 	availabilities<T extends SchedulerData>(availabilities?: T[]): T[]
 	{
-		if (availabilities != null && availabilities.length > 0)
+		if (availabilities != null)
 		{
+			if (availabilities.length == 0)
+			{
+				this._availabilities = [];
+				puma(this.container()).find(".vrSchedulerAvailability").remove();
+				return this._availabilities as T[];
+			}
+
 			let options = this.getOptions();
 			this.checkMandatorySchedulerDataFields(availabilities[0]);
 			this._availabilities = availabilities;
