@@ -222,8 +222,16 @@ export class Calendar extends VrControl
         //#region WeekDays
         let weekDays = ["LU", "MA", "ME", "GI", "VE", "SA", "DO"];
         let trWeekDays = puma("<tr class='vrPicker_tableWeekDays'></tr>").vrAppendToPuma(table)[0];
+
+        let tdWeekdayFragment = document.createDocumentFragment();
         for (let weekDay of weekDays)
-            puma("<td style='font-size: 14px; text-align: center; color: #7a7a7a;'>" + weekDay + "</td>").vrAppendToPuma(trWeekDays);
+        {
+            let td = document.createElement("td");
+            td.style.cssText += "font-size: 14px; text-align: center; color: #7a7a7a;";
+            td.innerHTML = weekDay;
+            tdWeekdayFragment.appendChild(td);
+        }
+        trWeekDays.appendChild(tdWeekdayFragment);
         //#endregion
 
         let year = this._tempNavigationDate.getFullYear();
@@ -260,9 +268,14 @@ export class Calendar extends VrControl
         let prevMonthLastDay = Date.vrGetLastDayOfMonthByDate(new Date(year, month - 1, 1)).getDate() + 1 - offset;
         let dayCount = 1;
         let reachLimit = false;
+
+        let trRowListFragment = document.createDocumentFragment();
         for (let i = 0; i < 6; i++)
         {
-            puma(table).vrAppendPuma("<tr class='vrDatePickerPopup_rowDays' row='" + i + "'></tr>");
+            let tr = document.createElement("tr");
+            tr.classList.add("vrDatePickerPopup_rowDays");
+            tr.setAttribute("row", String(i));
+
             for (let j = 0; j < 7; j++)
             {
                 if (offset == 0)
@@ -282,7 +295,10 @@ export class Calendar extends VrControl
                     else
                         css = "box-shadow: 0 0px 2px rgba(0, 0, 0, .3); border: none;"
 
-                    let td = puma("<td day='" + dayCount + "'></td>").vrAppendToPuma(puma(table).find("tr[row='" + i + "']"))[0];
+                    let td = document.createElement("td");
+                    td.setAttribute("day", String(dayCount));
+                    tr.appendChild(td);
+
                     this.createTdDay(dayCount, year, month, td, css);
                     //#endregion
 
@@ -300,12 +316,17 @@ export class Calendar extends VrControl
                     if (!options.otherMonthDays)
                         css += "display: none;";
 
-                    let td = puma("<td day='" + prevMonthLastDay + "'></td>").vrAppendToPuma(puma(table).find("tr[row='" + i + "']"))[0];
+                    let td = document.createElement("td");
+                    td.setAttribute("day", String(prevMonthLastDay));
+                    tr.appendChild(td);
+
                     this.createTdDay(prevMonthLastDay++, year, month - 1, td, css);
                     offset--;
                 }
             }
+            trRowListFragment.appendChild(tr);
         }
+        table.appendChild(trRowListFragment);
 
         //#region On finished draw
         if (options.onFinishedDraw != null)
@@ -440,13 +461,20 @@ export class Calendar extends VrControl
         this._lblNavigation.value(this._tempNavigationDate.getFullYear());
         const months = ["GEN", "FEB", "MAR", "APR", "MAG", "GIU", "LUG", "AGO", "SET", "OTT", "NOV", "DIC"];
 
+        let trRowListFragment = document.createDocumentFragment();
         for (let i = 0; i < 3; i++)
         {
-            puma(table).vrAppendPuma("<tr class='vrDatePickerPopup_rowMonths' row='" + i + "'></tr>");
+            let tr = document.createElement("tr");
+            tr.classList.add("vrDatePickerPopup_rowMonths");
+            tr.setAttribute("row", String(i));
+
             for (let j = 0; j < 4; j++)
             {
                 let monthIndex = (i * 4 + j);
-                let td = puma("<td month='" + monthIndex + "'></td>").vrAppendToPuma(puma(table).find("tr[row='" + i + "']"))[0];
+                let td = document.createElement("td");
+                td.setAttribute("month", String(monthIndex));
+                tr.appendChild(td);
+
                 let monthAttribute = monthIndex;
                 let enable = this.checkAvailability(this._tempNavigationDate.getFullYear(), monthAttribute);
 
@@ -472,7 +500,9 @@ export class Calendar extends VrControl
                         }
                     }, td);
             }
+            trRowListFragment.appendChild(tr);
         }
+        table.appendChild(trRowListFragment);
     }
 
     private drawYears()
@@ -492,13 +522,20 @@ export class Calendar extends VrControl
         let lastYear = (year2digitsFirst * 100) + lastYear2Digits;
         this._lblNavigation.value((firstYear + 1) + "-" + (lastYear - 1));
 
+        let trRowListFragment = document.createDocumentFragment();
         let tdYear = firstYear;
         for (let i = 0; i < 3; i++)
         {
-            puma(table).vrAppendPuma("<tr class='vrDatePickerPopup_rowMonths' row='" + i + "'></tr>");
+            let tr = document.createElement("tr");
+            tr.classList.add("vrDatePickerPopup_rowYears");
+            tr.setAttribute("row", String(i));
+
             for (let j = 0; j < 4; j++)
             {
-                let td = puma("<td year='" + tdYear + "'></td>").vrAppendToPuma(puma(table).find("tr[row='" + i + "']"))[0];
+                let td = document.createElement("td");
+                td.setAttribute("year", String(tdYear));
+                tr.appendChild(td);
+
                 let yearAttribute = Number(puma(td).attr("year"));
                 let enable = this.checkAvailability(yearAttribute);
 
@@ -525,7 +562,9 @@ export class Calendar extends VrControl
                     }, td);
                 tdYear++;
             }
+            trRowListFragment.appendChild(tr);
         }
+        table.appendChild(trRowListFragment);
     }
 
     private drawDecades()
@@ -546,13 +585,20 @@ export class Calendar extends VrControl
         let lastYearCycle = year2digitsFirst * 100 + 109;
         this._lblNavigation.value(firstYear + "-" + lastYear);
 
+        let trRowListFragment = document.createDocumentFragment();
         let tdDecade = firstYearCycle;
         for (let i = 0; i < 3; i++)
         {
-            puma(table).vrAppendPuma("<tr class='vrDatePickerPopup_rowMonths' row='" + i + "'></tr>");
+            let tr = document.createElement("tr");
+            tr.classList.add("vrDatePickerPopup_rowDecades");
+            tr.setAttribute("row", String(i));
+
             for (let j = 0; j < 4; j++)
             {
-                let td = puma("<td decade='" + tdDecade + "'></td>").vrAppendToPuma(puma(table).find("tr[row='" + i + "']"))[0];
+                let td = document.createElement("td");
+                td.setAttribute("decade", String(tdDecade));
+                tr.appendChild(td);
+
                 let yearAttribute = Number(puma(td).attr("decade"));
                 createButton(
                     {
@@ -569,7 +615,9 @@ export class Calendar extends VrControl
                     }, td);
                 tdDecade += 10;
             }
+            trRowListFragment.appendChild(tr);
         }
+        table.appendChild(trRowListFragment);
     }
 
     getOptions()
