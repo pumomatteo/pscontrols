@@ -9,7 +9,7 @@ export class LoaderManager
 			tag = "vrLoadingTemp";
 
 		//#region	Loader	element
-		let loaderElement = null;
+		let loaderElement: HTMLElement | null = null;
 		if (element == null)
 			loaderElement = document.body;
 		else if (typeof (element) == "string")
@@ -55,14 +55,16 @@ export class LoaderManager
 		let background: HTMLDivElement = document.createElement("div");
 		background.setAttribute("id", "loaderManager_background");
 		background.setAttribute("class", "loaderManager_background");
-		background.setAttribute("style", "position:	absolute;	left:	" + 0 + ";	top:	" + 0 + ";	z-index:	" + zIndex.toString() + ";	background-color:	#FFF;	opacity:	" + opacity + ";	width:	" + backgroundWidth + ";	height:	" + backgroundHeight + ";");
+		background.setAttribute("style", "position:	absolute; left: " + loaderElement!.scrollLeft
+			+ "px; top: " + loaderElement!.scrollTop + "px;	z-index: " + zIndex.toString()
+			+ "; background-color: #FFF; opacity: " + opacity + "; width: " + backgroundWidth + "; height: " + backgroundHeight + ";");
 		background.setAttribute("tag", tag);
 		puma(background).vrAppendToPuma(loaderElement);
 		//#endregion
 
 		//#region	Loader
-		let loaderLeftPosition = "Calc(50% - " + (loaderWidthNumber / 2) + "px)";
-		let loaderTopPosition = "Calc(50% - " + (loaderWidthNumber / 2) + "px)";
+		let loaderLeftPosition = "Calc(50% - " + (loaderWidthNumber / 2 - loaderElement!.scrollLeft) + "px)";
+		let loaderTopPosition = "Calc(50% - " + (loaderWidthNumber / 2 - loaderElement!.scrollTop) + "px)";
 		let loaderWidth = loaderWidthNumber + "px";
 		let loaderHeight = loaderHeightNumber + "px";
 
