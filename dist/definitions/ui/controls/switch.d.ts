@@ -10,6 +10,7 @@ export declare class Switch extends VrControl {
     private _badgeLabelOff;
     private _badgeLabelOn;
     constructor(element: HTMLElement, options?: SwitchOptions | null);
+    check(): boolean;
     checked(state?: boolean, triggerChange?: boolean): boolean;
     clear(triggerChange?: boolean): void;
     labelOff(text?: string): string;

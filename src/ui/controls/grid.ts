@@ -753,32 +753,7 @@ export class Grid extends VrControl
         //#endregion
 
         //#region Fit space
-        let tableWidth = puma(this.element()).width();
-        let columnsWidthOccupied = 0;
-        let fitSpaceColumnsNumber = 0;
-        for (let column of options.columns)
-        {
-            if (column.hidden == true)
-                continue;
-
-            if (this.thereAreLockedColumns() && column.type == GridColumnTypeEnum.EditButton)
-                continue;
-
-            if ((column.fitSpace == null || column.fitSpace == false))
-                columnsWidthOccupied += (column.width != null) ? column.width : ((column.type == GridColumnTypeEnum.EditButton) ? 32 : 100);
-            else
-                fitSpaceColumnsNumber++;
-        }
-
-        let remainingSpace = tableWidth - columnsWidthOccupied;
-        if (!this.thereAreLockedColumns() && options.checkboxes != GridCheckboxModeEnum.None)
-            remainingSpace -= 20;
-
-        if (options.groupBy != null && options.groupBy.fields != null)
-            remainingSpace -= 20 * options.groupBy.fields.length;
-
-        let fitSpaceColumnPercentage = (100 * (remainingSpace / fitSpaceColumnsNumber) / tableWidth);
-        this._fitSpaceColumnPercentage = fitSpaceColumnPercentage;
+        this.recalculateFitSpacePercentage();
         //#endregion
 
         //#region Toolbar
@@ -907,7 +882,7 @@ export class Grid extends VrControl
 
             th.innerHTML = "<div class='grid_headerTh'><span class='grid_headerThContent'>" + title + "</span><i style='position: absolute; top: 10px; right: 5px;'></i></div>";
 
-            th.setAttribute("width", String((column.width != null) ? column.width : ((column.fitSpace == true) ? fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100)));
+            th.setAttribute("width", String((column.width != null) ? column.width : ((column.fitSpace == true) ? this._fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100)));
             if (column.fitSpace == true)
                 th.setAttribute("fitSpace", "true");
 
@@ -1075,7 +1050,7 @@ export class Grid extends VrControl
                 td.setAttribute("value", column.field);
                 td.style.cssText += "border: 1px solid #dddddd;";
 
-                td.setAttribute("width", String((column.width != null) ? column.width : ((column.fitSpace == true) ? fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100)));
+                td.setAttribute("width", String((column.width != null) ? column.width : ((column.fitSpace == true) ? this._fitSpaceColumnPercentage + "%" : (column.type == GridColumnTypeEnum.EditButton) ? 32 : 100)));
                 if (column.fitSpace == true)
                     td.setAttribute("fitSpace", "true");
 
@@ -6840,114 +6815,61 @@ export class Grid extends VrControl
                     field = puma(puma(this._divHeaderLocked).find("th")[puma(currentColumn).index()]).attr("value");
 
                 let index = puma(currentColumn!).index();
-
                 let column = this.column(field);
-                if (isColumnLocked)
-                {
-                    for (let headerColumn of Array.from(puma(this._divHeaderLocked).find("th[fitSpace='true']")))
-                        puma(headerColumn).css({ "width": puma(headerColumn).width() + "px" });
-
-                    for (let filterColumn of Array.from(puma(this._divFiltersLocked).find("td[fitSpace='true']")))
-                        puma(filterColumn).css({ "width": puma(filterColumn).width() + "px" });
-
-                    for (let totalColumn of Array.from(puma(this._divTotalsLocked).find("td[fitSpace='true']")))
-                        puma(totalColumn).css({ "width": puma(totalColumn).width() + "px" });
-                }
-                else
-                {
-                    for (let headerColumn of Array.from(puma(this._divHeader).find("th[fitSpace='true']")))
-                        puma(headerColumn).css({ "width": puma(headerColumn).width() + "px" });
-
-                    for (let filterColumn of Array.from(puma(this._divFilters).find("td[fitSpace='true']")))
-                        puma(filterColumn).css({ "width": puma(filterColumn).width() + "px" });
-
-                    for (let totalColumn of Array.from(puma(this._divTotals).find("td[fitSpace='true']")))
-                        puma(totalColumn).css({ "width": puma(totalColumn).width() + "px" });
-                }
 
                 let diffX = e.pageX - pageX!;
-                currentColumn.style.width = (currentColumnWidth! + diffX) + "px";
+                currentColumn.style.width = (currentColumnWidth! + diffX) + "px"; // Header
+                currentColumn.setAttribute("width", String(currentColumnWidth! + diffX));
+                currentColumn.removeAttribute("fitspace");
                 column.width = (currentColumnWidth! + diffX);
+                column.fitSpace = false;
 
-                if (options.filterable)
+                if (options.filterable) // Filter
                 {
-                    if (isColumnLocked)
-                    {
-                        if (puma(this._divFiltersLocked).find("td")[index] != null)
-                            puma(this._divFiltersLocked).find("td")[index].style.width = (currentColumnWidth! + diffX) + "px";
-                    }
-                    else
-                    {
-                        if (puma(this._divFilters).find("td")[index] != null)
-                            puma(this._divFilters).find("td")[index].style.width = (currentColumnWidth! + diffX) + "px";
-                    }
+                    let tdFilter = puma(this._divFilters).find("td")[index];
+                    if (isColumnLocked && tdFilter == null)
+                        tdFilter = puma(this._divFiltersLocked).find("td")[index];
+
+                    tdFilter.style.width = (currentColumnWidth! + diffX) + "px";
                 }
 
-                if (this._showTotals)
+                if (this._showTotals) // Total
                 {
-                    if (isColumnLocked)
-                    {
-                        if (puma(this._divTotalsLocked).find("td")[index] != null)
-                            puma(this._divTotalsLocked).find("td")[index].style.width = (currentColumnWidth! + diffX) + "px";
-                    }
-                    else
-                    {
-                        if (puma(this._divTotals).find("td")[index] != null)
-                            puma(this._divTotals).find("td")[index].style.width = (currentColumnWidth! + diffX) + "px";
-                    }
+                    let tdTotal = puma(this._divTotals).find("td")[index];
+                    if (isColumnLocked && tdTotal == null)
+                        tdTotal = puma(this._divTotalsLocked).find("td")[index];
+
+                    tdTotal.style.width = (currentColumnWidth! + diffX) + "px";
                 }
 
-                let indexColumn = this._columnOptions.findIndex(k => k.field == field);
-                let columnPosition = this._columnOptions[indexColumn];
-                if (options.groupable)
-                {
-                    let col = puma(this._divBody).find("colgroup").find("col[field='" + field + "'");
-                    if (isColumnLocked)
-                    {
-                        col = puma(this._divBodyLocked).find("colgroup").find("col[field='" + field + "'");
-                        puma(this._divBodyLocked).find("td[value='" + field + "']")[0].style.width = (currentColumnWidth! + diffX) + "px";
-                    }
-
-                    if (col[0] != null)
-                    {
-                        col[0].style.width = (currentColumnWidth! + diffX + 12) + "px";
-                        let colWidth = col[0].style.width.getNumericPart();
-                        columnPosition.right = columnPosition.left + colWidth;
-                    }
-                }
-                else
-                {
-                    if (isColumnLocked)
-                        puma(this._divBodyLocked).find("td[value='" + field + "']")[0].style.width = (currentColumnWidth! + diffX) + "px";
-                    else
-                        puma(this._divBody).find("td[value='" + field + "']")[0].style.width = (currentColumnWidth! + diffX) + "px";
-
-                    columnPosition.field = field;
-                    columnPosition.left = columnPosition.left;
-                    columnPosition.right = columnPosition.left + column.width;
-                    columnPosition.index = index;
-                }
-
-                this.recalculateWidth(false);
-                window.clearTimeout(timeoutRecalculateWidthWhileMoving);
-                timeoutRecalculateWidthWhileMoving = window.setTimeout(() => this.recalculateWidth(), 1000);
+                let colGroupList = puma(this._divBody).find("colgroup"); // Col group 
+                colGroupList.find("col[field='" + column.field + "']")[0].style.cssText += "width: " + (currentColumnWidth! + diffX) + "px";
             }
         });
 
         puma(this.container()).on("mouseup", () =>
         {
-            window.setTimeout(() => this._isResizing = false);
+            if (currentColumn != null && this._isResizing)
+            {
+                window.setTimeout(() =>
+                {
+                    this._isResizing = false;
+                    currentColumn = null;
+                    pageX = null;
+                    currentColumnWidth = null;
 
-            currentColumn = null;
-            pageX = null;
-            currentColumnWidth = null;
+                    this.recalculateFitSpacePercentage();
+                    this.recalculateWidth();
+                    this.updateColumnPositions();
+                });
+            }
         });
         //#endregion
     }
     //#endregion
 
     //#region Columns Drag&Drop
-    private updateColumnOptions()
+    private updateColumnPositions()
     {
         let headerTable = puma(this._divHeader).find("table")[0];
         for (let th of Array.from(puma(headerTable).find("th")))
@@ -7059,7 +6981,7 @@ export class Grid extends VrControl
                             }
                             //#endregion
 
-                            this.updateColumnOptions();
+                            this.updateColumnPositions();
 
                             //#region Update options.columns
                             let column = options.columns!.find(k => k.field == field)!;
@@ -7459,7 +7381,7 @@ export class Grid extends VrControl
         this.recalculateHeight();
     }
 
-    recalculateWidth(fixColGroup = true)
+    recalculateWidth()
     {
         let options = this.getOptions();
         let bodyJQuery = puma(this._divBody);
@@ -7565,7 +7487,7 @@ export class Grid extends VrControl
             puma(this._spanFitTotalsSpace).hide();
         }
 
-        if (fixColGroup && (options.groupable! || options.groupBy != null))
+        if (options.groupable! || options.groupBy != null)
         {
             let i = 0;
             bodyJQuery.find("table colgroup").remove();
@@ -7636,6 +7558,38 @@ export class Grid extends VrControl
             if (options.header === false)
                 puma(this._divHeaderContainer).hide();
         }
+    }
+
+    private recalculateFitSpacePercentage()
+    {
+        let options = this.getOptions();
+        let tableWidth = puma(this.element()).width();
+        let columnsWidthOccupied = 0;
+        let fitSpaceColumnsNumber = 0;
+
+        for (let column of options.columns!)
+        {
+            if (column.hidden == true)
+                continue;
+
+            if (this.thereAreLockedColumns() && column.type == GridColumnTypeEnum.EditButton)
+                continue;
+
+            if ((column.fitSpace == null || column.fitSpace == false))
+                columnsWidthOccupied += (column.width != null) ? column.width : ((column.type == GridColumnTypeEnum.EditButton) ? 32 : 100);
+            else
+                fitSpaceColumnsNumber++;
+        }
+
+        let remainingSpace = tableWidth - columnsWidthOccupied;
+        if (!this.thereAreLockedColumns() && options.checkboxes != GridCheckboxModeEnum.None)
+            remainingSpace -= 20;
+
+        if (options.groupBy != null && (options.groupBy as GridGroupBySettings).fields != null)
+            remainingSpace -= 20 * (options.groupBy as GridGroupBySettings).fields.length;
+
+        let fitSpaceColumnPercentage = (100 * (remainingSpace / fitSpaceColumnsNumber) / tableWidth);
+        this._fitSpaceColumnPercentage = fitSpaceColumnPercentage;
     }
 
     height(height?: number | string)
@@ -10443,31 +10397,26 @@ export class Grid extends VrControl
                                 thHeader = puma(this._divHeaderLocked).find("th[value='" + jsonColumn.field + "']")[0];
 
                             thHeader.style.width = jsonColumn.width + "px";
+                            thHeader.setAttribute("width", jsonColumn.width);
 
                             if (options.filterable)
                             {
-                                if (puma(this._divFilters).find("td[value='" + jsonColumn.field + "']")[0] != null)
-                                    puma(this._divFilters).find("td[value='" + jsonColumn.field + "']")[0].style.width = jsonColumn.width + "px";
+                                let tdFilter = puma(this._divFilters).find("td[value='" + jsonColumn.field + "']")[0];
+                                if (options.lockable && tdFilter == null)
+                                    tdFilter = puma(this._divFiltersLocked).find("td[value='" + jsonColumn.field + "']")[0];
 
-                                if (options.lockable)
-                                {
-                                    if (puma(this._divFiltersLocked).find("td[value='" + jsonColumn.field + "']")[0] != null)
-                                        puma(this._divFiltersLocked).find("td[value='" + jsonColumn.field + "']")[0].style.width = jsonColumn.width + "px";
-
-                                }
+                                tdFilter.style.width = jsonColumn.width + "px";
+                                tdFilter.setAttribute("width", jsonColumn.width);
                             }
 
                             if (this._showTotals)
                             {
-                                if (puma(this._divTotals).find("td[value='" + jsonColumn.field + "']")[0] != null)
-                                    puma(this._divTotals).find("td[value='" + jsonColumn.field + "']")[0].style.width = jsonColumn.width + "px";
+                                let tdTotals = puma(this._divTotals).find("td[value='" + jsonColumn.field + "']")[0];
+                                if (options.lockable && tdTotals == null)
+                                    tdTotals = puma(this._divTotalsLocked).find("td[value='" + jsonColumn.field + "']")[0];
 
-                                if (options.lockable)
-                                {
-                                    if (puma(this._divTotalsLocked).find("td[value='" + jsonColumn.field + "']")[0] != null)
-                                        puma(this._divTotalsLocked).find("td[value='" + jsonColumn.field + "']")[0].style.width = jsonColumn.width + "px";
-
-                                }
+                                tdTotals.style.width = jsonColumn.width + "px";
+                                tdTotals.setAttribute("width", jsonColumn.width);
                             }
                         }
                         //#endregion
@@ -10520,6 +10469,7 @@ export class Grid extends VrControl
                 }
                 //#endregion
 
+                this.recalculateFitSpacePercentage();
                 this.recalculateWidth();
             }
             //#endregion

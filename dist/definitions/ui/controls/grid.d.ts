@@ -195,7 +195,7 @@ export declare class Grid extends VrControl {
     private applyFilters;
     private resizable;
     private setResizingEvents;
-    private updateColumnOptions;
+    private updateColumnPositions;
     private draggableColumns;
     drag(element: HTMLElement | JQuery | string, dragEvent?: DragSupportEvent): void;
     sticker(text?: string): Label;
@@ -214,7 +214,8 @@ export declare class Grid extends VrControl {
     private fixValueWithoutSpecialChars;
     getOptions(): GridOptions;
     private recalculateHeightWidth;
-    recalculateWidth(fixColGroup?: boolean): void;
+    recalculateWidth(): void;
+    private recalculateFitSpacePercentage;
     height(height?: number | string): any;
     recalculateHeight(afterFilter?: boolean): void;
     private adjustTrHeight;

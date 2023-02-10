@@ -1465,7 +1465,7 @@ export class Grid extends VrControl
     focus(field?: string): void;
     scrollTo(rowIndex: number): void;
     getOptions(): GridOptions;
-    recalculateWidth(fixColGroup?: boolean): void;
+    recalculateWidth(): void;
     height(height?: number | string): any;
     recalculateHeight(afterFilter?: boolean): void;
     enable(state?: boolean | string): void;
@@ -3091,6 +3091,7 @@ export class SwitchOptions extends VrControlOptions
 export class Switch extends VrControl
 {
     constructor(element: HTMLElement, options?: SwitchOptions | null);
+    check(): boolean;
     checked(state?: boolean, triggerChange?: boolean): boolean;
     clear(triggerChange?: boolean): void;
     labelOff(text?: string): string;

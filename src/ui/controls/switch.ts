@@ -197,6 +197,11 @@ export class Switch extends VrControl
     }
 
     //#region Methods
+    check()
+    {
+        return this.checked(!this.checked())
+    }
+
     checked(state?: boolean, triggerChange = true): boolean
     {
         let options = this.getOptions();
