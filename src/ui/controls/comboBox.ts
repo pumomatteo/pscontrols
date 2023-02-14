@@ -251,7 +251,7 @@ export class ComboBox extends VrControl
 
         //#region Icon/ImageUrl
         this._iconCombo = null;
-        if (options.icon != null)
+        if (options.icon != null && options.icon != "")
         {
             let style = "";
             if (this.options().label == null)
@@ -289,12 +289,12 @@ export class ComboBox extends VrControl
             puma(this._iconCombo).on("mouseenter", (e: JQuery.MouseEnterEvent) => puma(this.element()).addClass("hoverClass"))
             puma(this._iconCombo).on("mouseleave", (e: JQuery.MouseLeaveEvent) => puma(this.element()).removeClass("hoverClass"))
         }
-        else if (options.imageUrl != null)
+        else if (options.imageUrl != null && options.imageUrl != "")
             this.element().style.cssText += "background-image: url(" + options.imageUrl + "); background-position: 4px 5px; background-repeat: no-repeat; text-indent: 13px;";
         //#endregion
 
         //#region Only icons
-        if (options.onlyIcon && options.icon != null)
+        if (options.onlyIcon && options.icon != null && options.icon != "")
             this._allCheckedOnlyIcon = icon(IconClassicSolid.Check, this._iconCombo, { css: "display: none; position: absolute; z-index: 2; font-size: 9px; top: -5px; right: -7px;" });
         //#endregion
 
