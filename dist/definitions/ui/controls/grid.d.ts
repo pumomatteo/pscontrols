@@ -239,7 +239,7 @@ export declare class Grid extends VrControl {
     addToolbarItem(toolbarItem: GridToolbarItem): void;
     private createAutoWindow;
     private createControlsAutoWindow;
-    private openAutoWindow;
+    openAutoWindow(dataItem?: any): void;
     private saveAutoWindow;
     private createWindowLayout;
     private openWindowLayout;

@@ -778,15 +778,6 @@ export class CheckBoxList extends VrControl
     enable(): void;
     disable(): void;
 }
-class CheckBoxItem
-{
-    text?: string;
-    value?: string | number;
-    checked?: boolean;
-    threeState?: boolean;
-    tag?: any;
-    onCheck?: (e: CheckBoxCheckEvent) => void;
-}
 class CheckBoxListSelectEvent extends VrControlsEvent
 {
     sender: CheckBoxList;
@@ -1484,6 +1475,7 @@ export class Grid extends VrControl
     removeToolbarItem(value: string): void;
     addToolbarItems(toolbarItems: GridToolbarItem[]): void;
     addToolbarItem(toolbarItem: GridToolbarItem): void;
+    openAutoWindow(dataItem?: any): void;
     saveLayout(layoutName: string, callBack?: Function): void;
     customLayouts(): GridLayout[];
     activeLayout(): GridLayout | null;
@@ -7736,6 +7728,15 @@ export enum CheckboxStateEnum
     Checked = 0,
     Unchecked = 1,
     Undefined = 2
+}
+export class CheckBoxItem
+{
+    text?: string;
+    value?: string | number;
+    checked?: boolean;
+    threeState?: boolean;
+    tag?: any;
+    onCheck?: (e: CheckBoxCheckEvent) => void;
 }
 export enum ImagePositionTypeEnum
 {

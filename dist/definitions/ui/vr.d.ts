@@ -1,6 +1,6 @@
 import { LabelOptions, Label } from "./controls/label";
 import { TextBoxOptions, TextBox, TextBoxNumeric, TextBoxPercentage, TextBoxCurrency, TextBoxPassword, TextBoxMultiline } from "./controls/textbox";
-import { CheckBoxOptions, CheckBox } from "./controls/checkbox";
+import { CheckBoxOptions, CheckBox, CheckBoxCheckEvent } from "./controls/checkbox";
 import { SeparatorOptions, Separator } from "./controls/separator";
 import { ButtonGroup, ButtonGroupClickEvent, ButtonGroupIconClickEvent, ButtonGroupOptions } from "./controls/buttonGroup";
 import { ImageOptions, Image } from "./controls/image";
@@ -3894,6 +3894,14 @@ export declare enum CheckboxStateEnum {
     Checked = 0,
     Unchecked = 1,
     Undefined = 2
+}
+export declare class CheckBoxItem {
+    text?: string;
+    value?: string | number;
+    checked?: boolean;
+    threeState?: boolean;
+    tag?: any;
+    onCheck?: (e: CheckBoxCheckEvent) => void;
 }
 export declare enum ImagePositionTypeEnum {
     Center = 0,

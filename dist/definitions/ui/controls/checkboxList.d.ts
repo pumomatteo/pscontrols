@@ -1,6 +1,5 @@
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
-import { OrientationEnum } from "../vr";
-import { CheckBoxCheckEvent } from "./checkbox";
+import { OrientationEnum, CheckBoxItem } from "../vr";
 export declare class CheckBoxListOptions extends VrControlOptions {
     items?: CheckBoxItem[];
     orientation?: OrientationEnum;
@@ -26,14 +25,6 @@ export declare class CheckBoxList extends VrControl {
     getOptions(): CheckBoxListOptions;
     enable(): void;
     disable(): void;
-}
-declare class CheckBoxItem {
-    text?: string;
-    value?: string | number;
-    checked?: boolean;
-    threeState?: boolean;
-    tag?: any;
-    onCheck?: (e: CheckBoxCheckEvent) => void;
 }
 declare class CheckBoxListSelectEvent extends VrControlsEvent {
     sender: CheckBoxList;
