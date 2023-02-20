@@ -1,6 +1,6 @@
 import { UtilityManager } from "../../../src/managers/utilityManager";
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
-import { ControlTypeEnum, OrientationEnum, createCheckBox, puma } from "../vr";
+import { ControlTypeEnum, OrientationEnum, createCheckBox, puma, CheckBoxItem } from "../vr";
 import { CheckBoxCheckEvent, CheckBox } from "./checkbox";
 
 //#region Options
@@ -193,17 +193,6 @@ export class CheckBoxList extends VrControl
 //#endregion
 
 //#region Classes
-class CheckBoxItem
-{
-    text?: string;
-    value?: string | number;
-    checked?: boolean;
-    threeState?: boolean;
-    tag?: any;
-
-    onCheck?: (e: CheckBoxCheckEvent) => void;
-}
-
 class CheckBoxListSelectEvent extends VrControlsEvent
 {
     sender: CheckBoxList;

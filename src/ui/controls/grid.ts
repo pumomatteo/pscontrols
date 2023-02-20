@@ -9419,7 +9419,7 @@ export class Grid extends VrControl
         }
     }
 
-    private openAutoWindow(dataItem?: any)
+    openAutoWindow(dataItem?: any)
     {
         let options = this.getOptions();
         if (options.autoWindowSettings != null || !options.hideEditButton)
