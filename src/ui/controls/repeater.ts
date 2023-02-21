@@ -10,7 +10,7 @@ import { UtilityManager } from "../../../src/managers/utilityManager";
 export class RepeaterOptions extends VrControlOptions
 {
     toolbar?: GridToolbarItem[];
-    height?: string | number | GridHeightModeEnum;
+    declare height?: string | number | GridHeightModeEnum;
     dataSource?: any[];
     rebind?: GridRebindRequest;
     checkboxes?: boolean | GridCheckboxModeEnum;

@@ -388,7 +388,6 @@ class SplitterAfterExpandCollapseEvent extends SplitterExpandCollapseEvent { }
 
 class SplitterResizeEvent extends SplitterEvent
 {
-	sender: Splitter;
 	previousDiv: HTMLElement;
 	nextDiv: HTMLElement;
 	direction: SplitterDirectionEnum;

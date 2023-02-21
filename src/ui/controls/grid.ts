@@ -20,7 +20,7 @@ export class GridOptions extends VrControlOptions
     //#region Properties
     columns?: GridColumn[];
     toolbar?: GridToolbarItem[];
-    height?: string | number | GridHeightModeEnum;
+    declare height?: string | number | GridHeightModeEnum;
     dataSource?: any[];
     rebind?: GridRebindRequest;
     excel?: GridExcelRequest;

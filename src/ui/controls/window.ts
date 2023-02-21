@@ -25,7 +25,6 @@ export class WindowOptions extends VrControlOptions
     content?: string;
     iframe?: boolean;
     loader?: boolean;
-    id?: string;
     autoSize?: boolean | WindowAutoSizeDirectionEnum;
     cssHeader?: string;
 
@@ -111,9 +110,6 @@ export class Window extends VrControl
         this._additionalCloseCallbacks = [];
         this._additionalOpenCallbacks = [];
         this._additionalContentLoadedCallbacks = [];
-
-        if (options.id != null)
-            puma(this.element()).attr("id", options.id);
 
         //#region Header
         if (options.title !== false)

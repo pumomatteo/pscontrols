@@ -572,13 +572,11 @@ class ButtonGroupItemRemovedEvent extends ButtonGroupEvent { }
 
 export class ButtonGroupClickEvent extends ButtonGroupEvent
 {
-    value: string;
     selected: boolean;
 }
 
 export class ButtonGroupIconClickEvent extends ButtonGroupEvent
 {
-    value: string;
     selected: boolean;
 }
 //#endregion
