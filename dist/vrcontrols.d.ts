@@ -610,12 +610,10 @@ class ButtonGroupItemRemovedEvent extends ButtonGroupEvent
 }
 export class ButtonGroupClickEvent extends ButtonGroupEvent
 {
-    value: string;
     selected: boolean;
 }
 export class ButtonGroupIconClickEvent extends ButtonGroupEvent
 {
-    value: string;
     selected: boolean;
 }
 export
@@ -3057,7 +3055,6 @@ class SplitterAfterExpandCollapseEvent extends SplitterExpandCollapseEvent
 }
 class SplitterResizeEvent extends SplitterEvent
 {
-    sender: Splitter;
     previousDiv: HTMLElement;
     nextDiv: HTMLElement;
     direction: SplitterDirectionEnum;
@@ -3685,7 +3682,6 @@ export class WindowOptions extends VrControlOptions
     content?: string;
     iframe?: boolean;
     loader?: boolean;
-    id?: string;
     autoSize?: boolean | WindowAutoSizeDirectionEnum;
     cssHeader?: string;
     onOpen?(e: WindowOpenEvent): void;

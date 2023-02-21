@@ -2,8 +2,8 @@
 'use strict';
 const path = require('path');
 
-var JavaScriptObfuscator = require('webpack-obfuscator');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+//var JavaScriptObfuscator = require('webpack-obfuscator');
+//const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 /**@type {import('webpack').Configuration}*/

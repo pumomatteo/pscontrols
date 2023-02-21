@@ -27,7 +27,6 @@ declare class SplitterBeforeExpandCollapseEvent extends SplitterExpandCollapseEv
 declare class SplitterAfterExpandCollapseEvent extends SplitterExpandCollapseEvent {
 }
 declare class SplitterResizeEvent extends SplitterEvent {
-    sender: Splitter;
     previousDiv: HTMLElement;
     nextDiv: HTMLElement;
     direction: SplitterDirectionEnum;

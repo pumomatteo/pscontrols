@@ -258,10 +258,11 @@ module.exports = function (grunt)
     //#endregion   
 
     // Run tasks
-    grunt.registerTask("default", ["removeDefinitionsFolder", "webpack:dev", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "asciiart"]);
-    grunt.registerTask("dev", ["removeDefinitionsFolder", "webpack:dev", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "asciiart"]);
-    grunt.registerTask("prod", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "prettier", "mergeCss", "cssmin", "copyFilesToProduction", "run:compodoc", "asciiart"]);
-    grunt.registerTask("prodNopret", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "run:compodoc", "asciiart"]);
+    grunt.registerTask("default", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "asciiart"]);
+
+    grunt.registerTask("dev", ["removeDefinitionsFolder", "webpack:dev", "createDefinitionFiles", "mergeCss", "copyFilesToProduction", "asciiart"]);
+    grunt.registerTask("withDoc", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "run:compodoc", "asciiart"]);
+    grunt.registerTask("withPrettierAndDoc", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "prettier", "mergeCss", "cssmin", "copyFilesToProduction", "run:compodoc", "asciiart"]);
 
     //#region Support
     function walk(dir)

@@ -61,11 +61,9 @@ declare class ButtonGroupItemAddedEvent extends ButtonGroupEvent {
 declare class ButtonGroupItemRemovedEvent extends ButtonGroupEvent {
 }
 export declare class ButtonGroupClickEvent extends ButtonGroupEvent {
-    value: string;
     selected: boolean;
 }
 export declare class ButtonGroupIconClickEvent extends ButtonGroupEvent {
-    value: string;
     selected: boolean;
 }
 export {};

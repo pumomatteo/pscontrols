@@ -18,7 +18,6 @@ export declare class WindowOptions extends VrControlOptions {
     content?: string;
     iframe?: boolean;
     loader?: boolean;
-    id?: string;
     autoSize?: boolean | WindowAutoSizeDirectionEnum;
     cssHeader?: string;
     onOpen?(e: WindowOpenEvent): void;
