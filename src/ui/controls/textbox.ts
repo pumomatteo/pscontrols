@@ -708,7 +708,8 @@ export class TextBox extends VrControl
         let errorIcon = puma(this.container()).find(".vrTextBoxErrorIcon")[0];
         if (errorIcon == null)
             errorIcon = puma("<i class='" + IconClassicLight.TriangleExclamation + " vrTextBoxErrorIcon'></i>").vrInsertAfterPuma(this.element())[0];
-        puma(errorIcon).show();
+
+        puma(errorIcon).hide();
 
         if (this.label() != null)
             errorIcon.style.cssText += "top: 24px;";
