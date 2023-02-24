@@ -259,8 +259,8 @@ module.exports = function (grunt)
 
     // Run tasks
     grunt.registerTask("default", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "asciiart"]);
-
-    grunt.registerTask("dev", ["removeDefinitionsFolder", "webpack:dev", "createDefinitionFiles", "mergeCss", "copyFilesToProduction", "asciiart"]);
+    grunt.registerTask("dev", ["removeDefinitionsFolder", "webpack:dev", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "asciiart"]);
+    
     grunt.registerTask("withDoc", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "run:compodoc", "asciiart"]);
     grunt.registerTask("withPrettierAndDoc", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "prettier", "mergeCss", "cssmin", "copyFilesToProduction", "run:compodoc", "asciiart"]);
 

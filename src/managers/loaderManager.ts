@@ -21,6 +21,9 @@ export class LoaderManager
 		else
 			loaderElement = puma(element)[0];
 
+		if (loaderElement == null)
+			loaderElement = document.body;
+
 		if (puma(loaderElement).css("position") != "absolute")
 			puma(loaderElement).css("position", "relative");
 		//#endregion
@@ -77,7 +80,7 @@ export class LoaderManager
 				<div class='loaderManager_step' style='left: 32px; animation: loaderManager_loader2 0.6s infinite;'></div>
 				<div class='loaderManager_step' style='left: 56px; animation: loaderManager_loader3 0.6s infinite;'></div>
 			</div>
-		`).vrAppendToPuma(loaderElement);		
+		`).vrAppendToPuma(loaderElement);
 		//#endregion
 	}
 
