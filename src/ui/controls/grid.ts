@@ -6624,14 +6624,13 @@ export class Grid extends VrControl
                     if (valueFilterSettings.dateFilterSettings!.filterTypeEnum == GridDateFilterTypeEnum.Between)
                         tooltip += " e " + Date.vrFixDateString(valueFilterSettings.dateFilterSettings!.dateTo!).vrToItalyString(dateModeEnum);
 
-                    let ddlType = ControlManager.get<ComboBox>(this._elementId + "_ddlFilterDateType");
                     let type = "";
-                    switch (Number(ddlType!.value()))
+                    switch (valueFilterSettings.dateFilterSettings!.filterTypeEnum)
                     {
-                        case GridNumberFilterTypeEnum.GreaterThan: type = "Maggiore di "; break;
-                        case GridNumberFilterTypeEnum.LessThan: type = "Minore di "; break;
-                        case GridNumberFilterTypeEnum.EqualsTo: type = "Uguale a "; break;
-                        case GridNumberFilterTypeEnum.Between: type = "Compreso tra "; break;
+                        case GridDateFilterTypeEnum.GreaterThan: type = "Maggiore di "; break;
+                        case GridDateFilterTypeEnum.LessThan: type = "Minore di "; break;
+                        case GridDateFilterTypeEnum.EqualsTo: type = "Uguale a "; break;
+                        case GridDateFilterTypeEnum.Between: type = "Compreso tra "; break;
                     }
 
                     filterButton.tooltip(type + tooltip);
