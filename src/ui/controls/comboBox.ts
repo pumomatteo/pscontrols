@@ -1092,7 +1092,7 @@ export class ComboBox extends VrControl
         if (items != null)
         {
             let realItems = UtilityManager.duplicate(items);
-            if (options.nullable != null && options.nullable !== false && realItems.length > 0)
+            if (options.nullable != null && options.nullable !== false)
             {
                 let nullableItem = new ComboBoxItem();
                 nullableItem.text = (typeof (options.nullable) == "boolean" || options.nullable.text == null) ? "Non selezionato" : options.nullable.text;
