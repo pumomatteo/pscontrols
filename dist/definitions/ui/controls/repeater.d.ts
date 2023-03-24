@@ -26,6 +26,8 @@ export declare class RepeaterOptions extends VrControlOptions {
     groupBy?: string[] | GridGroupBySettings | null;
     title?: string | boolean;
     groupable?: boolean;
+    rowColorProperty?: string;
+    rowTextColorProperty?: string;
     template?: (templateEvent: GridTemplateEvent) => string;
     onDataSourceChanged?: () => void;
     onDataBound?: (e: GridOnDataBoundEvent) => void;
