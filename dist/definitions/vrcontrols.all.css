@@ -2313,6 +2313,10 @@ table.vrDatePickerPopup_table td {
     border-radius: 50%;
 }
 
+.vrSwitchSlider:hover {
+    background-color: #dbdbdb;
+}
+
 input:checked+.vrSwitchSlider {
     background-color: #51B3E1;
 }
