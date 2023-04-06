@@ -8531,7 +8531,7 @@ export class Grid extends VrControl
                                 location.replace(response.downloadUrl);
 
                             if (!(response as any).Success)
-                                alert((response as any).ErrorMessage + "<br />" + (response as any).StackTrace, { width: 600, css: "overflow: auto;" });
+                                notifyError((response as any).ErrorMessage);
                         },
                         error: (response: JQueryXHR, textStatus: string, errorThrown: string) =>
                         {
