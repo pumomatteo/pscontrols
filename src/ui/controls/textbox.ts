@@ -465,7 +465,12 @@ export class TextBox extends VrControl
             else
             {
                 let isNegative = value.startsWith("-");
-                numericValue = value.replace(",", ".").vrGetNumericPart();
+                value = value.replace(",", ".");
+
+                if (value.includes("e-"))
+                    numericValue = Number(value);
+                else
+                    numericValue = value.vrGetNumericPart();
 
                 //#region Min/Max value
                 if (format && numericValue < options.validation!.minValue!)
