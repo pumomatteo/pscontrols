@@ -1,6 +1,6 @@
 import { IconClass, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, GridColumn, GridToolbarItem, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, NumberFormatRoundingSettings, GridPageSelectedEvent, GridScrollEvent, GridStringFilterTypeEnum, GridServerBindSettings, GridStickerSettings, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, GridBeforeGroupCheckEvent, GridAfterGroupCheckEvent } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { Window } from "./Window";
+import { Window } from "./window";
 import { Label } from "./label";
 export declare class GridOptions extends VrControlOptions {
     columns?: GridColumn[];
@@ -202,7 +202,7 @@ export declare class Grid extends VrControl {
     stickerVisible(state?: boolean): boolean;
     showSticker(): void;
     hideSticker(): void;
-    getTotals(dataItems: any[]): any[];
+    getTotals(dataItems: any[]): TotalsResult[];
     fixDatasourceWithVrDatetime(items: any[]): any[];
     fixDatasourceWithDate(items: any[]): void;
     pageSize(pageSize?: number | boolean, update?: boolean, triggerDataBound?: boolean): number;
@@ -396,6 +396,14 @@ declare class GridTotalElementTemplateEvent {
     dataItems: any[];
     pageSelected: number;
     numberOfPages: number;
+}
+declare class TotalsResult {
+    field: string;
+    total: number;
+    decimalDigits?: number;
+    roundingSettings?: NumberFormatRoundingSettings;
+    type: GridColumnTypeEnum;
+    milesSeparator?: boolean;
 }
 export declare class GridExcelRow {
     cells: GridExcelCell[];

@@ -1445,7 +1445,7 @@ export class Grid extends VrControl
     stickerVisible(state?: boolean): boolean;
     showSticker(): void;
     hideSticker(): void;
-    getTotals(dataItems: any[]): any[];
+    getTotals(dataItems: any[]): TotalsResult[];
     fixDatasourceWithVrDatetime(items: any[]): any[];
     fixDatasourceWithDate(items: any[]): void;
     pageSize(pageSize?: number | boolean, update?: boolean, triggerDataBound?: boolean): number;
@@ -1649,6 +1649,15 @@ class GridTotalElementTemplateEvent
     dataItems: any[];
     pageSelected: number;
     numberOfPages: number;
+}
+class TotalsResult
+{
+    field: string;
+    total: number;
+    decimalDigits?: number;
+    roundingSettings?: NumberFormatRoundingSettings;
+    type: GridColumnTypeEnum;
+    milesSeparator?: boolean;
 }
 export class GridExcelRow
 {

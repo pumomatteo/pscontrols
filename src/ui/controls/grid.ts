@@ -1,6 +1,6 @@
 import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, DateTime, DateTimeTypeEnum, span, GridBeforeGroupCheckEvent, GridAfterGroupCheckEvent } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { Window } from "./Window";
+import { Window } from "./window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
 import { ControlManager } from "../../../src/managers/controlManager";
 import { ComboBox, ComboBoxOptions } from "./comboBox";
@@ -2452,7 +2452,7 @@ export class Grid extends VrControl
                                 textHTML = "";
                             else
                             {
-                                let valueFormatted = this.formatValue(Number(textHTML), column.type, decimalDigits, column.roundingSettings);
+                                let valueFormatted = this.formatValue(Number(textHTML), column.type, decimalDigits, column.roundingSettings, undefined, column.milesSeparator);
                                 textHTML = valueFormatted;
                             }
                         }
@@ -2467,7 +2467,7 @@ export class Grid extends VrControl
                                 textHTML = "";
                             else
                             {
-                                let valueFormatted = this.formatValue(Number(textHTML), column.type);
+                                let valueFormatted = this.formatValue(Number(textHTML), column.type, undefined, undefined, undefined, column.milesSeparator);
                                 textHTML = valueFormatted;
                             }
                         }
@@ -3522,13 +3522,14 @@ export class Grid extends VrControl
     {
         if (td != null)
         {
-            let valueFormatted = this.formatValue(total.total, total.type, total.decimalDigits, total.roundingSettings);
+            let valueFormatted = this.formatValue(total.total, total.type, total.decimalDigits, total.roundingSettings, undefined, total.milesSeparator);
             td.innerHTML = valueFormatted;
             td.setAttribute("title", td.innerText);
         }
     }
 
-    private formatValue(value: any, columnType?: GridColumnTypeEnum, decimalDigits?: number, roundingSettings?: NumberFormatRoundingSettings, showSeconds?: boolean)
+    private formatValue(value: any, columnType?: GridColumnTypeEnum, decimalDigits?: number,
+        roundingSettings?: NumberFormatRoundingSettings, showSeconds?: boolean, milesSeparator?: boolean)
     {
         let options = this.getOptions();
         if (columnType == null) columnType = GridColumnTypeEnum.String;
@@ -3540,6 +3541,7 @@ export class Grid extends VrControl
                 roundingSettings = options.roundingSettings;
 
             let formatSettings = new NumberFormatSettings(roundingSettings);
+            formatSettings.useGrouping = milesSeparator;
             formatSettings.minimumFractionDigits = decimalDigits;
             formatSettings.maximumFractionDigits = decimalDigits;
 
@@ -5879,7 +5881,7 @@ export class Grid extends VrControl
         //#region Fill CheckboxList specific values
         let items = this.originalDataSource().map(k =>
         {
-            let text = this.formatValue(k[column.field], column.type!, column.decimalDigits, column.roundingSettings, column.showSeconds);
+            let text = this.formatValue(k[column.field], column.type!, column.decimalDigits, column.roundingSettings, column.showSeconds, column.milesSeparator);
             let tag = k[column.field];
             if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.DateTime
                 || column.type == GridColumnTypeEnum.Time || column.type == GridColumnTypeEnum.LongDate
@@ -7145,7 +7147,7 @@ export class Grid extends VrControl
     getTotals(dataItems: any[])
     {
         let options = this.getOptions();
-        let totals = [];
+        let totals: TotalsResult[] = [];
         for (let column of options.columns!.filter(k => k.aggregate != null && k.aggregate !== false))
         {
             let aggregateResult = 0;
@@ -7179,12 +7181,13 @@ export class Grid extends VrControl
                     break;
             }
 
-            let total: any = {};
+            let total = new TotalsResult();
             total.field = column.field;
             total.total = aggregateResult;
             total.decimalDigits = column.decimalDigits;
             total.roundingSettings = column.roundingSettings;
-            total.type = column.type;
+            total.type = column.type!;
+            total.milesSeparator = column.milesSeparator;
             totals.push(total);
         }
         return totals;
@@ -7629,7 +7632,7 @@ export class Grid extends VrControl
         let filtersHeight = (options.filterable) ? 30 : 0;
         let totalsheight = (this._showTotals) ? 25 : 0;
 
-        if (options.height! < 0 || options.height == GridHeightModeEnum.FitScreen)
+        if ((typeof (options.height) == "number" && options.height! < 0) || options.height == GridHeightModeEnum.FitScreen)
         {
             let footerHeight = (options.footer !== false) ? 34 : 0;
             let toolbarHeight = (options.toolbar != null) ? 34 : 0;
@@ -10767,9 +10770,10 @@ class TotalsResult
 {
     field: string;
     total: number;
-    decimalDigits: number;
+    decimalDigits?: number;
     roundingSettings?: NumberFormatRoundingSettings;
     type: GridColumnTypeEnum;
+    milesSeparator?: boolean;
 }
 //#endregion
 
