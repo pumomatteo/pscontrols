@@ -20,7 +20,7 @@ export class Notifier
 		if (options.bold == null) options.bold = false;
 		if (options.position == null) options.position = (options.target == null) ? NotifierPositionEnum.TopCenter : NotifierPositionEnum.RightMiddle;
 		if (options.hideSettings == null) options.hideSettings = new NotifierHideSettings();
-		if (options.hideSettings.autoHide == null || options.hideSettings.autoHide === true) options.hideSettings.autoHide = 3000;
+		if (options.hideSettings.autoHide == null || options.hideSettings.autoHide === true) options.hideSettings.autoHide = 4000;
 		if (options.hideSettings.clickToHide == null) options.hideSettings.clickToHide = false;
 		if (options.hideSettings.clickToHide === true) options.hideSettings.autoHide = false;
 		if (options.hideSettings.duration == null) options.hideSettings.duration = 300;
