@@ -7153,9 +7153,9 @@ export class Grid extends VrControl
             let aggregateResult = 0;
             switch (column.aggregate)
             {
-                case 1: aggregateResult = dataItems.map(k => k[column.field]).length; break;
-                case 4: aggregateResult = dataItems.map(k => k[column.field]).vrSum(); break;
-                case 0:
+                case GridAggregateMode.Count: aggregateResult = dataItems.map(k => k[column.field]).length; break;
+                case GridAggregateMode.Sum: aggregateResult = dataItems.map(k => k[column.field]).vrSum(); break;
+                case GridAggregateMode.Average:
                     {
                         if (column.type == 3)
                             aggregateResult = dataItems.map(k => k[column.field]).vrAvg(undefined, column.countZeroInAverage) / 100;
@@ -7163,7 +7163,7 @@ export class Grid extends VrControl
                             aggregateResult = dataItems.map(k => k[column.field]).vrAvg(undefined, column.countZeroInAverage);
                     }
                     break;
-                case 3:
+                case GridAggregateMode.Min:
                     {
                         if (column.type != null && (column.type == 5 || column.type == 6 || column.type == 7))
                             aggregateResult = dataItems.map(k => new Date(k[column.field])).vrMin();
@@ -7171,7 +7171,7 @@ export class Grid extends VrControl
                             aggregateResult = dataItems.map(k => k[column.field]).vrMin();
                     }
                     break;
-                case 2:
+                case GridAggregateMode.Max:
                     {
                         if (column.type != null && (column.type == 5 || column.type == 6 || column.type == 7))
                             aggregateResult = dataItems.map(k => new Date(k[column.field])).vrMax();

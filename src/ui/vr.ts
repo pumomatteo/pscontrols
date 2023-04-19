@@ -8972,7 +8972,7 @@ Array.prototype.vrSum = function (callbackfn?: (value: any, index: number, array
 	if (Array.isArray(this))
 	{
 		if (callbackfn == null)
-			return this.reduce((ty, u) => ty + u, 0);
+			return this.reduce((ty, u) => ((ty == null) ? 0 : ty) + ((u == null) ? 0 : u), 0);
 		else
 		{
 			let property = callbackfn.toString().split("=>")[1];

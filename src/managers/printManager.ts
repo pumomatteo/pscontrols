@@ -1,6 +1,7 @@
 import { puma } from "../../src/ui/vr";
 
 declare function printJS(options: PrintJsOptions): void;
+// https://printjs.crabbly.com/
 
 export class PrintManager
 {
@@ -66,7 +67,8 @@ export class PrintManager
 		});
 	}
 
-	private static printBytesFileImageOrHtml(pathBytesOrId: string, type: PrintTypeEnum | string, options?: PrintFileOptions, base64: boolean = false)
+	private static printBytesFileImageOrHtml(pathBytesOrId: string, type: PrintTypeEnum | string, options?: PrintFileOptions,
+		base64: boolean = false, showModal = true)
 	{
 		if (pathBytesOrId == "")
 			return;
@@ -89,6 +91,8 @@ export class PrintManager
 		printJsOptions.header = title;
 		printJsOptions.documentTitle = documentTitle;
 		printJsOptions.style = customCss;
+		printJsOptions.showModal = showModal;
+		printJsOptions.modalMessage = "Attendi file...";
 		this.print(printJsOptions);
 	}
 	//#endregion
@@ -147,6 +151,8 @@ class PrintJsOptions
 	public repeatTableHeader?: boolean;
 	public documentTitle?: string;
 	public style?: string;
+	showModal?: boolean;
+	modalMessage?: string;
 }
 
 enum PrintJsTypeEnum
