@@ -353,9 +353,9 @@ export class Repeater extends VrControl
         this._grid.removeAllGroups(updateDataSource);
     }
 
-    addGroup(field: string | GridGroupByItem, updateDataSource = true, sortBySettings?: GridSortSettings, internalSortBy?: GridSortSettings)
+    addGroup(field: string | GridGroupByItem, updateDataSource = true, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings)
     {
-        this.addGroups([field], updateDataSource, sortBySettings, internalSortBy);
+        this.addGroups([field], updateDataSource, sortBy, internalSortBy);
     }
 
     addGroups(fields: (string | GridGroupByItem)[], updateDataSource = true, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings)

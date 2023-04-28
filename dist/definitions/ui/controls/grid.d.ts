@@ -174,7 +174,7 @@ export declare class Grid extends VrControl {
     removeGroup(field: string, updateDataSource?: boolean): void;
     removeGroups(fields: string[], updateDataSource?: boolean): void;
     removeAllGroups(updateDataSource?: boolean): void;
-    addGroup(field: string | GridGroupByItem, updateDataSource?: boolean, sortBySettings?: GridSortSettings, internalSortBy?: GridSortSettings): void;
+    addGroup(field: string | GridGroupByItem, updateDataSource?: boolean, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings): void;
     addGroups(fields: (string | GridGroupByItem)[], updateDataSource?: boolean, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings): void;
     private getChildrenGroupRows;
     private getCheckedChildrenGroupRows;

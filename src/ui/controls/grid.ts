@@ -3482,13 +3482,20 @@ export class Grid extends VrControl
         else
         {
             //#region Totals group
+            let dataGrouped = data.vrGroupBy(k => k.groupValue);
             let trTdList: any[] = [];
-            for (let totalsGroup of data)
+            for (let key in dataGrouped)
             {
-                let trList = this.element().querySelectorAll("." + this._elementId + "_totalGroupBy"
-                    + this.fixValueWithoutSpecialChars(totalsGroup.groupValue))!;
+                let totalsGroup = dataGrouped[key];
+                let groupValue = totalsGroup[0].groupValue;
+                let totalsGroupTotals: any[][] = [];
+                for (let totGroup of totalsGroup)
+                    totalsGroupTotals.push(totGroup.totals);
 
-                let totalsGroupTotals: any[] = totalsGroup.totals;
+                let trList = this.element().querySelectorAll("." + this._elementId + "_totalGroupBy"
+                    + this.fixValueWithoutSpecialChars(groupValue))!;
+
+                let i = 0;
                 for (let tr of Array.from(trList))
                 {
                     let tdFragment = document.createDocumentFragment();
@@ -3498,7 +3505,7 @@ export class Grid extends VrControl
                         let newTd = td.cloneNode(true) as HTMLElement;
 
                         let field = td.getAttribute("field")!;
-                        let total = totalsGroupTotals.find(k => k.field == field);
+                        let total = totalsGroupTotals[i].find(k => k.field == field);
                         if (total != null)
                             this.writeTotals(total, newTd);
                         else
@@ -3509,6 +3516,7 @@ export class Grid extends VrControl
 
                     trTdList.push({ tr: tr, tdFragment: tdFragment });
                     tr.innerHTML = "";
+                    i++;
                 }
             }
 
@@ -4288,6 +4296,9 @@ export class Grid extends VrControl
             thJq.removeAttr("sortMode");
             this._actualSortingInfo = null;
 
+            if (options.groupBy != null)
+                (options.groupBy as GridGroupBySettings).sortBy = undefined;
+
             if (updateDataSource)
             {
                 if (options.serverBinding !== false)
@@ -4362,7 +4373,7 @@ export class Grid extends VrControl
             let items: any[] = this.dataSource().map(k => k);
             if (options.groupBy != null)
             {
-                (options.groupBy as GridGroupBySettings).internalSortBy = { field: field, direction: gridSortModeEnum };
+                (options.groupBy as GridGroupBySettings).sortBy = { field: field, direction: gridSortModeEnum };
                 this.sortingGroupFields(items);
             }
             else
@@ -4381,39 +4392,62 @@ export class Grid extends VrControl
     {
         let options = this.getOptions();
         let sortingFields: string[] = [];
+        let groupBySettings = (options.groupBy as GridGroupBySettings);
 
-        //#region Internal group sort
-        if ((options.groupBy as GridGroupBySettings).internalSortBy != null)
-        {
-            let internalSortByField = ((options.groupBy as GridGroupBySettings).internalSortBy as GridSortSettings).field;
-            if (internalSortByField != null)
-            {
-                if (((options.groupBy as GridGroupBySettings).internalSortBy! as GridSortSettings).direction == GridSortDirectionEnum.Desc)
-                    sortingFields.push("-" + internalSortByField);
-                else
-                    sortingFields.push(internalSortByField);
-            }
-        }
-        //#endregion
-
-        //#region External group sort
-        let sortByField = (options.groupBy as GridGroupBySettings).sortBy != null ? ((options.groupBy as GridGroupBySettings).sortBy! as GridSortSettings).field : null;
+        let sortByField = groupBySettings.sortBy != null ? (groupBySettings.sortBy! as GridSortSettings).field : null;
         if (sortByField != null)
         {
-            if ((options.groupBy as GridGroupBySettings).sortBy!.direction == GridSortDirectionEnum.Desc)
+            //#region External group sort
+            if (groupBySettings.sortBy!.direction == GridSortDirectionEnum.Desc)
                 sortingFields.push("-" + sortByField);
             else
                 sortingFields.push(sortByField);
+
+            //#region Color
+            let thJq = puma(this._divHeader).find("th[value='" + sortByField + "']");
+            if (options.lockable && thJq[0] == null)
+                thJq = puma(this._divHeaderLocked).find("th[value='" + sortByField + "']");
+
+            if (thJq[0] != null)
+            {
+                thJq[0].style.cssText += "background-color: coral !important; color: #FFF !important;";
+
+                if (thJq.find(".grid_headerThContent")[0] != null)
+                    thJq.find(".grid_headerThContent")[0].style.cssText += "color: #FFF !important;";
+            }
+
+            if (groupBySettings.sortBy!.direction == null) groupBySettings.sortBy!.direction = GridSortDirectionEnum.Asc;
+            this._actualSortingInfo = { field: sortByField, mode: groupBySettings.sortBy!.direction };
+            if (groupBySettings.sortBy!.direction == GridSortDirectionEnum.Asc)
+            {
+                thJq.find("i").removeClass(IconClassicLight.CaretDown);
+                thJq.find("i").removeClass(IconClassicLight.CaretUp);
+
+                thJq.find("i").addClass(IconClassicLight.CaretUp);
+                thJq.attr("sortMode", GridSortDirectionEnum.Asc);
+            }
+            else
+            {
+                thJq.find("i").removeClass(IconClassicLight.CaretDown);
+                thJq.find("i").removeClass(IconClassicLight.CaretUp);
+
+                thJq.find("i").addClass(IconClassicLight.CaretDown);
+                thJq.attr("sortMode", GridSortDirectionEnum.Desc);
+            }
+            //#endregion
+
+            //#endregion
         }
         else
         {
-            let automaticSort = (options.groupBy as GridGroupBySettings).automaticSort;
+            //#region Sort for fields
+            let automaticSort = groupBySettings.automaticSort;
             if (automaticSort == null)
                 automaticSort = true;
 
-            if ((options.groupBy as GridGroupBySettings).fields != null && automaticSort)
+            if (groupBySettings.fields != null && automaticSort)
             {
-                for (let groupByField of ((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]))
+                for (let groupByField of (groupBySettings.fields as GridGroupByItem[]))
                 {
                     if (groupByField == null)
                         continue;
@@ -4422,6 +4456,17 @@ export class Grid extends VrControl
                         sortingFields.push((groupByField as GridGroupByItem).field);
                 }
             }
+            //#endregion
+        }
+
+        //#region Internal group sort
+        let internalSortByField = groupBySettings.internalSortBy != null ? (groupBySettings.internalSortBy! as GridSortSettings).field : null;
+        if (internalSortByField != null)
+        {
+            if (groupBySettings.sortBy!.direction == GridSortDirectionEnum.Desc)
+                sortingFields.push("-" + internalSortByField);
+            else
+                sortingFields.push(internalSortByField);
         }
         //#endregion
 
@@ -4778,9 +4823,9 @@ export class Grid extends VrControl
             this.update();
     }
 
-    addGroup(field: string | GridGroupByItem, updateDataSource = true, sortBySettings?: GridSortSettings, internalSortBy?: GridSortSettings)
+    addGroup(field: string | GridGroupByItem, updateDataSource = true, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings)
     {
-        this.addGroups([field], updateDataSource, sortBySettings, internalSortBy);
+        this.addGroups([field], updateDataSource, sortBy, internalSortBy);
     }
 
     addGroups(fields: (string | GridGroupByItem)[], updateDataSource = true, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings)
