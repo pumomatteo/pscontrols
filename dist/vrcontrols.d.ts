@@ -3560,6 +3560,7 @@ export class UploadOptions extends VrControlOptions
     onStart?: (e: UploadStartEvent) => void;
     onRemove?: (e: UploadRemoveEvent) => void;
     onClick?: (e: UploadClickEvent) => void;
+    onFilesAdded?: (e: UploadFilesAdded) => void;
 }
 export class Upload extends VrControl
 {
@@ -3672,6 +3673,10 @@ class UploadRemoveEvent extends UploadEvent
 }
 class UploadClickEvent extends UploadEvent
 {
+}
+class UploadFilesAdded extends UploadEvent
+{
+    files: File[];
 }
 export
 {};

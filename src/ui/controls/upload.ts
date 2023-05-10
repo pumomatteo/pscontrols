@@ -30,6 +30,7 @@ export class UploadOptions extends VrControlOptions
 	onStart?: (e: UploadStartEvent) => void;
 	onRemove?: (e: UploadRemoveEvent) => void;
 	onClick?: (e: UploadClickEvent) => void;
+	onFilesAdded?: (e: UploadFilesAdded) => void;
 }
 //#endregion
 
@@ -436,6 +437,21 @@ export class Upload extends VrControl
 
 		if (filesAdded.length == 0)
 			puma(this.progressBar()).hide();
+		else
+		{
+			//#region On files added
+			if (options!.onFilesAdded != null)
+			{
+				let filesAddedEvent = new UploadFilesAdded();
+				filesAddedEvent.sender = this;
+				filesAddedEvent.files = files;
+				options!.onFilesAdded(filesAddedEvent);
+
+				if (filesAddedEvent.isDefaultPrevented())
+					return;
+			}
+		//#endregion
+		}
 
 		filesAdded = [];
 	}
@@ -1165,5 +1181,9 @@ class UploadRemoveEvent extends UploadEvent
 class UploadClickEvent extends UploadEvent
 {
 
+}
+class UploadFilesAdded extends UploadEvent
+{
+	files: File[];
 }
 //#endregion
