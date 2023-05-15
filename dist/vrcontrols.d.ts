@@ -1458,7 +1458,7 @@ export class Grid extends VrControl
     height(height?: number | string): any;
     recalculateHeight(afterFilter?: boolean): void;
     enable(state?: boolean | string): void;
-    excelExport(fileName?: string, exportHiddenColumns?: boolean): void;
+    excelExport(fileName?: string, exportHiddenColumns?: boolean, download?: boolean): Promise<ExcelExportPromise>;
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;
@@ -1662,6 +1662,14 @@ class TotalsResult
 export class GridExcelRow
 {
     cells: GridExcelCell[];
+}
+export class ExcelExportPromise
+{
+    fileName: string;
+    headerRow: GridExcelRow;
+    contentRows: GridExcelRow[];
+    footerRow: GridExcelRow;
+    groupByFields: GridGroupByItem[];
 }
 class GridExcelCell
 {

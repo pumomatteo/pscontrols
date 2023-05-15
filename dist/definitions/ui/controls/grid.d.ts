@@ -222,7 +222,7 @@ export declare class Grid extends VrControl {
     private doWebApiCall;
     enable(state?: boolean | string): void;
     private toolbarCustomLogic;
-    excelExport(fileName?: string, exportHiddenColumns?: boolean): void;
+    excelExport(fileName?: string, exportHiddenColumns?: boolean, download?: boolean): Promise<ExcelExportPromise>;
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;
@@ -407,6 +407,13 @@ declare class TotalsResult {
 }
 export declare class GridExcelRow {
     cells: GridExcelCell[];
+}
+export declare class ExcelExportPromise {
+    fileName: string;
+    headerRow: GridExcelRow;
+    contentRows: GridExcelRow[];
+    footerRow: GridExcelRow;
+    groupByFields: GridGroupByItem[];
 }
 declare class GridExcelCell {
     title: string | undefined;

@@ -8192,224 +8192,298 @@ export class Grid extends VrControl
     }
 
     //#region Excel
-    excelExport(fileName = "Esportazione_excel", exportHiddenColumns = false)
+    excelExport(fileName = "Esportazione_excel", exportHiddenColumns = false, download = true)
     {
-        let options = this.getOptions();
-
-        //#region Before excel export
-        if (options.onBeforeExcelExport != null)
+        let promise = new Promise((callback: (e: ExcelExportPromise) => void) =>
         {
-            let event = new GridBeforeExcelExportEvent();
-            event.sender = this;
-            event.fileName = fileName;
-            event.exportHiddenColumns = exportHiddenColumns;
-            options.onBeforeExcelExport(event);
+            let options = this.getOptions();
 
-            if (event.isDefaultPrevented())
-                return;
-        }
-        //#endregion
-
-        if (!options.serverBinding)
-            showLoader(this.container(), true, "vrGridLoaderExcel" + this._elementId);
-
-        window.setTimeout(() =>
-        {
-            if (!options.serverBinding)
+            //#region Before excel export
+            if (options.onBeforeExcelExport != null)
             {
-                //#region Header rows
-                let headerRow = new GridExcelRow();
-                headerRow.cells = [];
-                for (let column of options.columns!)
+                let event = new GridBeforeExcelExportEvent();
+                event.sender = this;
+                event.fileName = fileName;
+                event.exportHiddenColumns = exportHiddenColumns;
+                options.onBeforeExcelExport(event);
+
+                if (event.isDefaultPrevented())
+                    return;
+            }
+            //#endregion
+
+            if (!options.serverBinding)
+                showLoader(this.container(), true, "vrGridLoaderExcel" + this._elementId);
+
+            window.setTimeout(() =>
+            {
+                if (!options.serverBinding)
                 {
-                    if (column.exportable !== true && ((!exportHiddenColumns && column.hidden == true
-                        && (options.groupBy == null
-                            || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field))))
-                        || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
-                        || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false))
-                        continue;
-
-                    let excelCell = new GridExcelCell();
-                    excelCell.field = column.field;
-                    excelCell.title = column.title;
-                    excelCell.text = column.title;
-                    excelCell.bold = column.bold;
-                    excelCell.type = column.type;
-                    excelCell.width = column.width;
-                    excelCell.cellSettings = column.headerSettings;
-                    excelCell.hidden = column.hidden;
-                    excelCell.locked = column.locked;
-                    headerRow.cells.push(excelCell);
-                }
-                //#endregion
-
-                //#region Content rows
-                let contentRows: GridExcelRow[] = [];
-                this.fixDatasourceWithDate(this.dataSource());
-                for (let item of this.dataSource())
-                {
-                    let contentRow = new GridExcelRow();
-                    contentRow.cells = [];
-
+                    //#region Header rows
+                    let headerRow = new GridExcelRow();
+                    headerRow.cells = [];
                     for (let column of options.columns!)
                     {
                         if (column.exportable !== true && ((!exportHiddenColumns && column.hidden == true
                             && (options.groupBy == null
                                 || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field))))
                             || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
-                            || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon
-                            || column.exportable === false))
+                            || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false))
                             continue;
-
-                        let textHTML = (item[column.field] == null) ? "" : String(item[column.field]);
-                        let textAlign = GridAlignEnum.Left;
-
-                        //#region Type
-                        switch (column.type)
-                        {
-                            //#region Date, DateTime, Time
-                            case GridColumnTypeEnum.Date:
-                            case GridColumnTypeEnum.DateTime:
-                            case GridColumnTypeEnum.Time:
-                            case GridColumnTypeEnum.LongDate:
-                            case GridColumnTypeEnum.LongDateTime:
-                            case GridColumnTypeEnum.LongWeekDate:
-                            case GridColumnTypeEnum.ShortWeekDate:
-                                {
-                                    textAlign = GridAlignEnum.Center;
-                                    let dateModeEnum: DateModeEnum = DateModeEnum.Date;
-
-                                    if (column.type == GridColumnTypeEnum.Date) dateModeEnum = DateModeEnum.Date;
-                                    else if (column.type == GridColumnTypeEnum.DateTime) dateModeEnum = DateModeEnum.DateTime;
-                                    else if (column.type == GridColumnTypeEnum.Time) dateModeEnum = DateModeEnum.Time;
-                                    else if (column.type == GridColumnTypeEnum.LongDate) dateModeEnum = DateModeEnum.LongDate;
-                                    else if (column.type == GridColumnTypeEnum.LongDateTime) dateModeEnum = DateModeEnum.LongDateTime;
-                                    else if (column.type == GridColumnTypeEnum.LongWeekDate) dateModeEnum = DateModeEnum.LongWeekDate;
-                                    else if (column.type == GridColumnTypeEnum.ShortWeekDate) dateModeEnum = DateModeEnum.ShortWeekDate;
-
-                                    textHTML = (textHTML == "") ? "" : new Date(new Date(textHTML)).vrToItalyString(dateModeEnum, column.showSeconds);
-                                }
-                                break;
-                            //#endregion
-
-                            //#region Number, Currency, Percentage, Duration
-                            case GridColumnTypeEnum.Number:
-                            case GridColumnTypeEnum.Currency:
-                            case GridColumnTypeEnum.Percentage:
-                            case GridColumnTypeEnum.Duration:
-                                {
-                                    textAlign = GridAlignEnum.Right;
-                                }
-                                break;
-                            //#endregion
-
-                            //#region Custom
-                            case GridColumnTypeEnum.Custom:
-                                {
-                                    textAlign = GridAlignEnum.Center;
-                                    if (column.customSettings != null)
-                                    {
-                                        try
-                                        {
-                                            let settings = column.customSettings({ dataItem: item });
-                                            if (settings && settings.template !== "" && textHTML == "")
-                                                textHTML = settings.template;
-                                        }
-                                        catch (e) { }
-                                    }
-                                    else
-                                        textHTML = puma(textHTML).text();
-                                }
-                                break;
-                            //#endregion
-
-                            //#region Label
-                            case GridColumnTypeEnum.Label:
-                                {
-                                    textAlign = GridAlignEnum.Center;
-                                    if (column.labelSettings != null)
-                                    {
-                                        try
-                                        {
-                                            let settings = column.labelSettings({ dataItem: item });
-                                            textHTML = (settings.text == null) ? "" : settings.text;
-                                        }
-                                        catch (e) { }
-                                    }
-                                    else
-                                        textHTML = puma(textHTML).text();
-                                }
-                                break;
-                            //#endregion
-
-                            //#region String
-                            case GridColumnTypeEnum.String:
-                                {
-                                    textAlign = GridAlignEnum.Left;
-                                    textHTML = puma("<span>" + textHTML + "</span>").text();
-                                }
-                                break;
-                            //#endregion
-
-                            //#region Password
-                            case GridColumnTypeEnum.PasswordViewable:
-                                {
-                                    textAlign = GridAlignEnum.Left;
-                                    textHTML = puma("<span>" + textHTML + "</span>").text();
-                                }
-                                break;
-                            //#endregion
-
-                            //#region CheckBox
-                            case GridColumnTypeEnum.Checkbox:
-                            case GridColumnTypeEnum.Boolean:
-                                {
-                                    textAlign = GridAlignEnum.Center;
-                                    textHTML = (item[column.field] == true) ? "true" : "false";
-                                }
-                                break;
-                            //#endregion
-
-                            //#region ComboBox, DropDownList, DropDownTree
-                            case GridColumnTypeEnum.ComboBox:
-                            case GridColumnTypeEnum.DropDownList:
-                            case GridColumnTypeEnum.DropDownTree:
-                            case GridColumnTypeEnum.DropDownTreeCheckboxes:
-                                {
-                                    textAlign = GridAlignEnum.Left;
-                                    let itemValue = item[column.displayField!];
-                                    if (itemValue != null)
-                                        textHTML = itemValue.toString();
-                                    else
-                                        textHTML = "";
-                                }
-                                break;
-                            //#endregion
-
-                            //#region Color
-                            case GridColumnTypeEnum.Color:
-                                {
-                                    textAlign = GridAlignEnum.Center;
-                                }
-                                break;
-                            //#endregion
-                        }
-                        //#endregion
-
-                        if (column.cellSettings == null)
-                            column.cellSettings = new GridHeaderAndCellSettings();
-
-                        if (column.cellSettings.textAlign == null)
-                            column.cellSettings.textAlign = textAlign;
 
                         let excelCell = new GridExcelCell();
                         excelCell.field = column.field;
                         excelCell.title = column.title;
-                        excelCell.text = textHTML;
+                        excelCell.text = column.title;
                         excelCell.bold = column.bold;
                         excelCell.type = column.type;
                         excelCell.width = column.width;
-                        excelCell.cellSettings = column.cellSettings;
+                        excelCell.cellSettings = column.headerSettings;
+                        excelCell.hidden = column.hidden;
+                        excelCell.locked = column.locked;
+                        headerRow.cells.push(excelCell);
+                    }
+                    //#endregion
+
+                    //#region Content rows
+                    let contentRows: GridExcelRow[] = [];
+                    this.fixDatasourceWithDate(this.dataSource());
+                    for (let item of this.dataSource())
+                    {
+                        let contentRow = new GridExcelRow();
+                        contentRow.cells = [];
+
+                        for (let column of options.columns!)
+                        {
+                            if (column.exportable !== true && ((!exportHiddenColumns && column.hidden == true
+                                && (options.groupBy == null
+                                    || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field))))
+                                || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
+                                || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon
+                                || column.exportable === false))
+                                continue;
+
+                            let textHTML = (item[column.field] == null) ? "" : String(item[column.field]);
+                            let textAlign = GridAlignEnum.Left;
+
+                            //#region Type
+                            switch (column.type)
+                            {
+                                //#region Date, DateTime, Time
+                                case GridColumnTypeEnum.Date:
+                                case GridColumnTypeEnum.DateTime:
+                                case GridColumnTypeEnum.Time:
+                                case GridColumnTypeEnum.LongDate:
+                                case GridColumnTypeEnum.LongDateTime:
+                                case GridColumnTypeEnum.LongWeekDate:
+                                case GridColumnTypeEnum.ShortWeekDate:
+                                    {
+                                        textAlign = GridAlignEnum.Center;
+                                        let dateModeEnum: DateModeEnum = DateModeEnum.Date;
+
+                                        if (column.type == GridColumnTypeEnum.Date) dateModeEnum = DateModeEnum.Date;
+                                        else if (column.type == GridColumnTypeEnum.DateTime) dateModeEnum = DateModeEnum.DateTime;
+                                        else if (column.type == GridColumnTypeEnum.Time) dateModeEnum = DateModeEnum.Time;
+                                        else if (column.type == GridColumnTypeEnum.LongDate) dateModeEnum = DateModeEnum.LongDate;
+                                        else if (column.type == GridColumnTypeEnum.LongDateTime) dateModeEnum = DateModeEnum.LongDateTime;
+                                        else if (column.type == GridColumnTypeEnum.LongWeekDate) dateModeEnum = DateModeEnum.LongWeekDate;
+                                        else if (column.type == GridColumnTypeEnum.ShortWeekDate) dateModeEnum = DateModeEnum.ShortWeekDate;
+
+                                        textHTML = (textHTML == "") ? "" : new Date(new Date(textHTML)).vrToItalyString(dateModeEnum, column.showSeconds);
+                                    }
+                                    break;
+                                //#endregion
+
+                                //#region Number, Currency, Percentage, Duration
+                                case GridColumnTypeEnum.Number:
+                                case GridColumnTypeEnum.Currency:
+                                case GridColumnTypeEnum.Percentage:
+                                case GridColumnTypeEnum.Duration:
+                                    {
+                                        textAlign = GridAlignEnum.Right;
+                                    }
+                                    break;
+                                //#endregion
+
+                                //#region Custom
+                                case GridColumnTypeEnum.Custom:
+                                    {
+                                        textAlign = GridAlignEnum.Center;
+                                        if (column.customSettings != null)
+                                        {
+                                            try
+                                            {
+                                                let settings = column.customSettings({ dataItem: item });
+                                                if (settings && settings.template !== "" && textHTML == "")
+                                                    textHTML = settings.template;
+                                            }
+                                            catch (e) { }
+                                        }
+                                        else
+                                            textHTML = puma(textHTML).text();
+                                    }
+                                    break;
+                                //#endregion
+
+                                //#region Label
+                                case GridColumnTypeEnum.Label:
+                                    {
+                                        textAlign = GridAlignEnum.Center;
+                                        if (column.labelSettings != null)
+                                        {
+                                            try
+                                            {
+                                                let settings = column.labelSettings({ dataItem: item });
+                                                textHTML = (settings.text == null) ? "" : settings.text;
+                                            }
+                                            catch (e) { }
+                                        }
+                                        else
+                                            textHTML = puma(textHTML).text();
+                                    }
+                                    break;
+                                //#endregion
+
+                                //#region String
+                                case GridColumnTypeEnum.String:
+                                    {
+                                        textAlign = GridAlignEnum.Left;
+                                        textHTML = puma("<span>" + textHTML + "</span>").text();
+                                    }
+                                    break;
+                                //#endregion
+
+                                //#region Password
+                                case GridColumnTypeEnum.PasswordViewable:
+                                    {
+                                        textAlign = GridAlignEnum.Left;
+                                        textHTML = puma("<span>" + textHTML + "</span>").text();
+                                    }
+                                    break;
+                                //#endregion
+
+                                //#region CheckBox
+                                case GridColumnTypeEnum.Checkbox:
+                                case GridColumnTypeEnum.Boolean:
+                                    {
+                                        textAlign = GridAlignEnum.Center;
+                                        textHTML = (item[column.field] == true) ? "true" : "false";
+                                    }
+                                    break;
+                                //#endregion
+
+                                //#region ComboBox, DropDownList, DropDownTree
+                                case GridColumnTypeEnum.ComboBox:
+                                case GridColumnTypeEnum.DropDownList:
+                                case GridColumnTypeEnum.DropDownTree:
+                                case GridColumnTypeEnum.DropDownTreeCheckboxes:
+                                    {
+                                        textAlign = GridAlignEnum.Left;
+                                        let itemValue = item[column.displayField!];
+                                        if (itemValue != null)
+                                            textHTML = itemValue.toString();
+                                        else
+                                            textHTML = "";
+                                    }
+                                    break;
+                                //#endregion
+
+                                //#region Color
+                                case GridColumnTypeEnum.Color:
+                                    {
+                                        textAlign = GridAlignEnum.Center;
+                                    }
+                                    break;
+                                //#endregion
+                            }
+                            //#endregion
+
+                            if (column.cellSettings == null)
+                                column.cellSettings = new GridHeaderAndCellSettings();
+
+                            if (column.cellSettings.textAlign == null)
+                                column.cellSettings.textAlign = textAlign;
+
+                            let excelCell = new GridExcelCell();
+                            excelCell.field = column.field;
+                            excelCell.title = column.title;
+                            excelCell.text = textHTML;
+                            excelCell.bold = column.bold;
+                            excelCell.type = column.type;
+                            excelCell.width = column.width;
+                            excelCell.cellSettings = column.cellSettings;
+                            excelCell.decimalDigits = column.decimalDigits;
+                            excelCell.roundingSettings = (column.roundingSettings != null) ? column.roundingSettings : options.roundingSettings;
+                            excelCell.hidden = column.hidden;
+                            excelCell.locked = column.locked;
+
+                            //#region Aggregate mode
+                            if (column.aggregate === true)
+                            {
+                                switch (column.type)
+                                {
+                                    case GridColumnTypeEnum.Number: column.aggregate = GridAggregateMode.Sum; break;
+                                    case GridColumnTypeEnum.Currency: column.aggregate = GridAggregateMode.Sum; break;
+                                    case GridColumnTypeEnum.Duration: column.aggregate = GridAggregateMode.Sum; break;
+                                    case GridColumnTypeEnum.Percentage: column.aggregate = GridAggregateMode.Average; break;
+                                    default: column.aggregate = GridAggregateMode.Sum;
+                                }
+                            }
+                            excelCell.aggregate = (column.aggregate == null || column.aggregate === false) ? GridAggregateMode.None : column.aggregate;
+                            //#endregion
+
+                            //#region Background color
+                            let backgroundColor = "";
+                            let color = "";
+                            if (column.cellSettings != null)
+                            {
+                                if (column.cellSettings.backgroundColor != null)
+                                    backgroundColor = column.cellSettings.backgroundColor;
+
+                                if (column.cellSettings.color != null)
+                                    color = column.cellSettings.color;
+                            }
+
+                            if (options.rowColorProperty != null && item[options.rowColorProperty] != null && item[options.rowColorProperty] !== "")
+                                backgroundColor = item[options.rowColorProperty];
+
+                            excelCell.backgroundColor = backgroundColor;
+                            excelCell.color = color;
+                            //#endregion
+
+                            contentRow.cells.push(excelCell);
+                        }
+                        contentRows.push(contentRow);
+                    }
+                    //#endregion
+
+                    //#region Footer rows
+                    let footerRow = new GridExcelRow();
+                    footerRow.cells = [];
+                    for (let td of Array.from<HTMLElement>(puma(this._divTotals).find("td")))
+                    {
+                        let field = puma(td).attr("value");
+                        if (field == null)
+                            continue;
+
+                        let column = options.columns!.find(k => k.field == field);
+                        if (column == null || (column != null && column.exportable !== true))
+                        {
+                            if (column == null || (!exportHiddenColumns && column.hidden == true
+                                && (options.groupBy == null
+                                    || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field))))
+                                || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
+                                || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false)
+                                continue;
+                        }
+
+                        let excelCell = new GridExcelCell();
+                        excelCell.field = column.field;
+                        excelCell.title = column.title;
+                        excelCell.text = String(Number(td.innerHTML.replace("€", "").replace("%", "").replace(".", "").replace(",", ".")));
+                        excelCell.bold = column.bold;
+                        excelCell.type = column.type;
+                        excelCell.width = column.width;
                         excelCell.decimalDigits = column.decimalDigits;
                         excelCell.roundingSettings = (column.roundingSettings != null) ? column.roundingSettings : options.roundingSettings;
                         excelCell.hidden = column.hidden;
@@ -8430,174 +8504,117 @@ export class Grid extends VrControl
                         excelCell.aggregate = (column.aggregate == null || column.aggregate === false) ? GridAggregateMode.None : column.aggregate;
                         //#endregion
 
-                        //#region Background color
-                        let backgroundColor = "";
-                        let color = "";
-                        if (column.cellSettings != null)
-                        {
-                            if (column.cellSettings.backgroundColor != null)
-                                backgroundColor = column.cellSettings.backgroundColor;
-
-                            if (column.cellSettings.color != null)
-                                color = column.cellSettings.color;
-                        }
-
-                        if (options.rowColorProperty != null && item[options.rowColorProperty] != null && item[options.rowColorProperty] !== "")
-                            backgroundColor = item[options.rowColorProperty];
-
-                        excelCell.backgroundColor = backgroundColor;
-                        excelCell.color = color;
-                        //#endregion
-
-                        contentRow.cells.push(excelCell);
+                        footerRow.cells.push(excelCell);
                     }
-                    contentRows.push(contentRow);
-                }
-                //#endregion
-
-                //#region Footer rows
-                let footerRow = new GridExcelRow();
-                footerRow.cells = [];
-                for (let td of Array.from<HTMLElement>(puma(this._divTotals).find("td")))
-                {
-                    let field = puma(td).attr("value");
-                    if (field == null)
-                        continue;
-
-                    let column = options.columns!.find(k => k.field == field);
-                    if (column == null || (column != null && column.exportable !== true))
-                    {
-                        if (column == null || (!exportHiddenColumns && column.hidden == true
-                            && (options.groupBy == null
-                                || ((options.groupBy as GridGroupBySettings).fields != null && !((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field).includes(column.field))))
-                            || column.type == GridColumnTypeEnum.EditButton || column.type == GridColumnTypeEnum.Image
-                            || column.type == GridColumnTypeEnum.Button || column.type == GridColumnTypeEnum.Icon || column.exportable === false)
-                            continue;
-                    }
-
-                    let excelCell = new GridExcelCell();
-                    excelCell.field = column.field;
-                    excelCell.title = column.title;
-                    excelCell.text = String(Number(td.innerHTML.replace("€", "").replace("%", "").replace(".", "").replace(",", ".")));
-                    excelCell.bold = column.bold;
-                    excelCell.type = column.type;
-                    excelCell.width = column.width;
-                    excelCell.decimalDigits = column.decimalDigits;
-                    excelCell.roundingSettings = (column.roundingSettings != null) ? column.roundingSettings : options.roundingSettings;
-                    excelCell.hidden = column.hidden;
-                    excelCell.locked = column.locked;
-
-                    //#region Aggregate mode
-                    if (column.aggregate === true)
-                    {
-                        switch (column.type)
-                        {
-                            case GridColumnTypeEnum.Number: column.aggregate = GridAggregateMode.Sum; break;
-                            case GridColumnTypeEnum.Currency: column.aggregate = GridAggregateMode.Sum; break;
-                            case GridColumnTypeEnum.Duration: column.aggregate = GridAggregateMode.Sum; break;
-                            case GridColumnTypeEnum.Percentage: column.aggregate = GridAggregateMode.Average; break;
-                            default: column.aggregate = GridAggregateMode.Sum;
-                        }
-                    }
-                    excelCell.aggregate = (column.aggregate == null || column.aggregate === false) ? GridAggregateMode.None : column.aggregate;
                     //#endregion
 
-                    footerRow.cells.push(excelCell);
-                }
-                //#endregion
+                    //#region Generate Excel
+                    if (options.excel != null && options.excel.fileName != null) fileName = options.excel.fileName;
 
-                //#region Generate Excel
-                if (options.excel != null && options.excel.fileName != null) fileName = options.excel.fileName;
+                    let generateExcelRequest = new GenerateExcelRequest();
+                    generateExcelRequest.headerRow = headerRow;
+                    generateExcelRequest.contentRows = contentRows;
+                    generateExcelRequest.footerRow = footerRow;
+                    generateExcelRequest.excelFileName = fileName;
+                    generateExcelRequest.AuthKey = "10(P9m+U3a@Mtt-Oeo";
+                    generateExcelRequest.exportHiddenColumns = exportHiddenColumns;
 
-                let generateExcelRequest = new GenerateExcelRequest();
-                generateExcelRequest.headerRow = headerRow;
-                generateExcelRequest.contentRows = contentRows;
-                generateExcelRequest.footerRow = footerRow;
-                generateExcelRequest.excelFileName = fileName;
-                generateExcelRequest.AuthKey = "10(P9m+U3a@Mtt-Oeo";
-                generateExcelRequest.exportHiddenColumns = exportHiddenColumns;
-
-                if (options.groupBy != null)
-                {
-                    let groupByFields = (options.groupBy as GridGroupBySettings).fields;
-                    generateExcelRequest.groupBy = groupByFields as GridGroupByItem[];
-                }
-
-                let jsonString = JSON.stringify(generateExcelRequest);
-
-                //#region Multipart
-                let formDataMultipart = null;
-                formDataMultipart = new FormData();
-                formDataMultipart.append("file", new Blob([jsonString], { type: "application/json" }));
-                //#endregion
-
-                $.ajax(
+                    if (options.groupBy != null)
                     {
-                        type: "POST",
-                        beforeSend: (xhr: any) =>
-                        {
-                            //#region Header parameters
-                            xhr.setRequestHeader("Accept-Language", "it");
-                            xhr.setRequestHeader("AuthKey", "10(P9m+U3a@Mtt-Oeo");
-                            //#endregion
-                        },
-                        contentType: false,
-                        data: formDataMultipart,
-                        method: "POST",
-                        processData: false,
-                        dataType: "JSON",
-                        url: "/api/UtilityWebApi/GenerateExcel",
-                        success: (response: GenerateExcelResponse, textStatus: string, jqXHR: JQueryXHR) =>
-                        {
-                            hideLoader("vrGridLoaderExcel" + this._elementId);
+                        let groupByFields = (options.groupBy as GridGroupBySettings).fields;
+                        generateExcelRequest.groupBy = groupByFields as GridGroupByItem[];
+                    }
 
-                            //#region After excel export
-                            if (options.onAfterExcelExport != null)
+                    if (download)
+                    {
+                        //#region Download Excel directly
+                        let jsonString = JSON.stringify(generateExcelRequest);
+
+                        //#region Multipart
+                        let formDataMultipart = null;
+                        formDataMultipart = new FormData();
+                        formDataMultipart.append("file", new Blob([jsonString], { type: "application/json" }));
+                        //#endregion
+
+                        $.ajax(
                             {
-                                let event = new GridAfterExcelExportEvent();
-                                event.sender = this;
-                                event.headerRow = headerRow;
-                                event.contentRows = contentRows;
-                                event.footerRow = footerRow;
-                                event.excelFileName = fileName;
-                                event.exportHiddenColumns = exportHiddenColumns;
-
-                                if (options.groupBy != null)
+                                type: "POST",
+                                beforeSend: (xhr: any) =>
                                 {
-                                    let groupByFields = (options.groupBy as GridGroupBySettings).fields;
-                                    event.groupBy = (groupByFields != null) ? (groupByFields as GridGroupByItem[]).map(k => k.field) : null;
+                                    //#region Header parameters
+                                    xhr.setRequestHeader("Accept-Language", "it");
+                                    xhr.setRequestHeader("AuthKey", "10(P9m+U3a@Mtt-Oeo");
+                                    //#endregion
+                                },
+                                contentType: false,
+                                data: formDataMultipart,
+                                method: "POST",
+                                processData: false,
+                                dataType: "JSON",
+                                url: "/api/UtilityWebApi/GenerateExcel",
+                                success: (response: GenerateExcelResponse, textStatus: string, jqXHR: JQueryXHR) =>
+                                {
+                                    hideLoader("vrGridLoaderExcel" + this._elementId);
+
+                                    //#region After excel export
+                                    if (options.onAfterExcelExport != null)
+                                    {
+                                        let event = new GridAfterExcelExportEvent();
+                                        event.sender = this;
+                                        event.headerRow = headerRow;
+                                        event.contentRows = contentRows;
+                                        event.footerRow = footerRow;
+                                        event.excelFileName = fileName;
+                                        event.exportHiddenColumns = exportHiddenColumns;
+
+                                        if (options.groupBy != null)
+                                        {
+                                            let groupByFields = (options.groupBy as GridGroupBySettings).fields;
+                                            event.groupBy = (groupByFields != null) ? (groupByFields as GridGroupByItem[]).map(k => k.field) : null;
+                                        }
+
+                                        options.onAfterExcelExport(event);
+
+                                        if (event.isDefaultPrevented())
+                                            return;
+                                    }
+                                    //#endregion
+
+                                    if (response.downloadUrl != null && response.downloadUrl.length > 0)
+                                        location.replace(response.downloadUrl);
+
+                                    if (!(response as any).Success)
+                                        notifyError((response as any).ErrorMessage);
+                                },
+                                error: (response: JQueryXHR, textStatus: string, errorThrown: string) =>
+                                {
+                                    hideLoader();
+                                    alert("Errore nell'esportazione Excel. Contattare l'assistenza.");
                                 }
+                            });
+                        //#endregion
+                    }
 
-                                options.onAfterExcelExport(event);
-
-                                if (event.isDefaultPrevented())
-                                    return;
-                            }
-                            //#endregion
-
-                            if (response.downloadUrl != null && response.downloadUrl.length > 0)
-                                location.replace(response.downloadUrl);
-
-                            if (!(response as any).Success)
-                                notifyError((response as any).ErrorMessage);
-                        },
-                        error: (response: JQueryXHR, textStatus: string, errorThrown: string) =>
-                        {
-                            hideLoader();
-                            alert("Errore nell'esportazione Excel. Contattare l'assistenza.");
-                        }
-                    });
-            }
-            else
-            {
-                if (options.excel != null)
-                {
-                    if (options.excel.fileName == null) options.excel.fileName = fileName;
-                    this.doWebApiCall(options.excel, GridRequestTypeEnum.Excel);
+                    let excelExportPromise = new ExcelExportPromise();
+                    excelExportPromise.fileName = fileName;
+                    excelExportPromise.headerRow = headerRow;
+                    excelExportPromise.contentRows = contentRows;
+                    excelExportPromise.footerRow = footerRow;
+                    excelExportPromise.groupByFields = (options.groupBy as GridGroupBySettings).fields as GridGroupByItem[];
+                    callback(excelExportPromise);
                 }
-            }
-            //#endregion
-        }, 200);
+                else
+                {
+                    if (options.excel != null)
+                    {
+                        if (options.excel.fileName == null) options.excel.fileName = fileName;
+                        this.doWebApiCall(options.excel, GridRequestTypeEnum.Excel);
+                    }
+                }
+                //#endregion
+            }, 200);
+        });
+        return promise;
     }
     //#endregion
 
@@ -10826,6 +10843,15 @@ class TotalsResult
 export class GridExcelRow
 {
     cells: GridExcelCell[];
+}
+
+export class ExcelExportPromise
+{
+    fileName: string;
+    headerRow: GridExcelRow;
+    contentRows: GridExcelRow[];
+    footerRow: GridExcelRow;
+    groupByFields: GridGroupByItem[];
 }
 
 class GridExcelCell
