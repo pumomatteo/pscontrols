@@ -8600,7 +8600,9 @@ export class Grid extends VrControl
                     excelExportPromise.headerRow = headerRow;
                     excelExportPromise.contentRows = contentRows;
                     excelExportPromise.footerRow = footerRow;
-                    excelExportPromise.groupByFields = (options.groupBy as GridGroupBySettings).fields as GridGroupByItem[];
+                    if (options.groupBy != null)
+                        excelExportPromise.groupByFields = (options.groupBy as GridGroupBySettings).fields as GridGroupByItem[];
+
                     callback(excelExportPromise);
                 }
                 else
