@@ -8594,6 +8594,8 @@ export class Grid extends VrControl
                             });
                         //#endregion
                     }
+                    else
+                        hideLoader("vrGridLoaderExcel" + this._elementId);
 
                     let excelExportPromise = new ExcelExportPromise();
                     excelExportPromise.fileName = fileName;
