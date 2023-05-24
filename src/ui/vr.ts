@@ -8167,6 +8167,8 @@ declare global
 		vrIsNotNullOrEmpty(): boolean;
 		vrIsNullOrEmpty(): boolean;
 		vrRemoveHtml(): string;
+		vrIndexOfAll(value: string): number[];
+		vrReplaceAt(index: number, replacement: string): string;
 	}
 
 	interface ArrayConstructor
@@ -8702,6 +8704,20 @@ String.prototype.vrIsNullOrEmpty = function (this)
 String.prototype.vrRemoveHtml = function (this)
 {
 	return this.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
+String.prototype.vrIndexOfAll = function (value: string)
+{
+	let indices: number[] = [];
+	for (let i = 0; i < this.length; i++)
+		if (this[i] === value) indices.push(i);
+
+	return indices;
+}
+
+String.prototype.vrReplaceAt = function (index: number, replacement: string)
+{
+	return this.substring(0, index) + replacement + this.substring(index + replacement.length);
 }
 
 Array.prototype.vrFirst = function ()

@@ -666,7 +666,7 @@ export class Editor extends VrControl
                 (this._wndCommands as any) = null;
             },
             content: `<div style='font-size: 14px;'>Comandi consentiti: <ul>
-                    <li>A capo</li>
+                    <li>(Punto) A capo</li>
                     <li>Virgola</li>
                     <li>Punto</li>
                     <li>Due punti</li>
@@ -684,62 +684,39 @@ export class Editor extends VrControl
     private parseInput(text: string, interim = false)
     {
         //#region Replace special characters
-        text = this.replaceAll(text, " a capo ", "<br />");
-        text = this.replaceAll(text, " A capo ", "<br />");
-        text = this.replaceAll(text, " a capo", "<br />");
-        text = this.replaceAll(text, " A capo", "<br />");
-        text = this.replaceAll(text, "a capo ", "<br />");
-        text = this.replaceAll(text, "A capo ", "<br />");
+        text = this.replaceAll(text, "punto a capo", ".<br />", true);
         text = this.replaceAll(text, "a capo", "<br />");
-        text = this.replaceAll(text, "A capo", "<br />");
+        text = this.replaceAll(text, "punto e virgola", "; ");
+        text = this.replaceAll(text, "punto virgola", "; ");
+        text = this.replaceAll(text, "virgola", ", ");
+        text = this.replaceAll(text, "due punti", ": ");
+        text = this.replaceAll(text, "2 punti", ": ");
+        text = this.replaceAll(text, "slash", "/");
         text = this.replaceAll(text, "trattino", " - ");
-        text = this.replaceAll(text, "Trattino", " - ");
-        text = this.replaceAll(text, " punto e virgola", "; ");
-        text = this.replaceAll(text, " Punto e virgola", "; ");
-        text = this.replaceAll(text, " punto virgola", "; ");
-        text = this.replaceAll(text, " Punto virgola", "; ");
-        text = this.replaceAll(text, " virgola", ", ");
-        text = this.replaceAll(text, " Virgola", ", ");
-        text = this.replaceAll(text, " due punti", ": ");
-        text = this.replaceAll(text, " Due punti", ": ");
-        text = this.replaceAll(text, " slash ", "/");
-        text = this.replaceAll(text, " Slash ", "/");
-        text = this.replaceAll(text, " 2 punti", ": ");
-        text = this.replaceAll(text, " punto esclamativo", "! ");
-        text = this.replaceAll(text, " Punto esclamativo", "! ");
-        text = this.replaceAll(text, " esclamativo", "! ");
-        text = this.replaceAll(text, " Esclamativo", "! ");
-        text = this.replaceAll(text, " punto interrogativo", "? ");
-        text = this.replaceAll(text, " Punto interrogativo", "? ");
-        text = this.replaceAll(text, " interrogativo", "? ");
-        text = this.replaceAll(text, " Interrogativo", "? ");
-        text = this.replaceAll(text, "pumo", "Pumo");
-        text = this.replaceAll(text, " punto", ". ");
-        text = this.replaceAll(text, " Punto", ". ");
-        text = this.replaceAll(text, " puntini", "... ");
-        text = this.replaceAll(text, " Puntini", "... ");
+        text = this.replaceAll(text, "punto esclamativo", "! ", true);
+        text = this.replaceAll(text, "esclamativo", "! ", true);
+        text = this.replaceAll(text, "punto interrogativo", "? ", true);
+        text = this.replaceAll(text, "interrogativo", "? ", true);
+        text = this.replaceAll(text, "pumo", " Pumo ");
+        text = this.replaceAll(text, "punto", ". ", true);
+        text = this.replaceAll(text, "puntini", "... ");
 
         if (!interim)
         {
             text = this.replaceAll(text, "stop registrazione", " ");
-            text = this.replaceAll(text, "Stop registrazione", " ");
             text = this.replaceAll(text, "fine registrazione", " ");
-            text = this.replaceAll(text, "Fine registrazione", " ");
         }
         //#endregion
 
         return text;
     }
 
-    private replaceAll(text: string, find: string, replace: string)
+    private replaceAll(text: string, find: string, replace: string, toUpperNext = false)
     {
-        let findLower = find.toLowerCase();
-        let findUpper = find.toUpperCase();
-        let findCapitalize = find.vrCapitalize();
+        if (toUpperNext)
+            text = text.replace(new RegExp(`(?<=${find}\\s*)(.)`, "gi"), (k) => { return k.toUpperCase() })
 
-        text = text.replace(new RegExp(findLower, "g"), replace);
-        text = text.replace(new RegExp(findUpper, "g"), replace);
-        text = text.replace(new RegExp(findCapitalize, "g"), replace);
+        text = text.replace(new RegExp(`\\s*${find}\\s*`, "gi"), replace);
         return text;
     }
 
@@ -803,6 +780,7 @@ export class Editor extends VrControl
 
     value(text?: string | null, html = true): string
     {
+        let options = this.getOptions();
         if (text != null)
         {
             this._value = text;
@@ -811,7 +789,6 @@ export class Editor extends VrControl
         }
 
         let result = (this.tinyMceControl().initialized) ? ((html) ? this.tinyMceControl().getContent() : this.body().innerText) : "";
-        let options = this.getOptions();
         if (options.replacePtagWithDiv)
             return result.replace(/<p/g, "<div").replace(/\/p>/g, "/div>");
         else

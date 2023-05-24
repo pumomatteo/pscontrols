@@ -5572,6 +5572,8 @@ declare global {
         vrIsNotNullOrEmpty(): boolean;
         vrIsNullOrEmpty(): boolean;
         vrRemoveHtml(): string;
+        vrIndexOfAll(value: string): number[];
+        vrReplaceAt(index: number, replacement: string): string;
     }
     interface ArrayConstructor {
         vrEquals(array1: any[], array2: any[]): boolean;
