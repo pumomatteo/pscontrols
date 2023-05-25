@@ -4463,7 +4463,7 @@ export class Grid extends VrControl
         let internalSortByField = groupBySettings.internalSortBy != null ? (groupBySettings.internalSortBy! as GridSortSettings).field : null;
         if (internalSortByField != null)
         {
-            if (groupBySettings.sortBy!.direction == GridSortDirectionEnum.Desc)
+            if (groupBySettings.internalSortBy!.direction == GridSortDirectionEnum.Desc)
                 sortingFields.push("-" + internalSortByField);
             else
                 sortingFields.push(internalSortByField);
