@@ -378,7 +378,10 @@ export class PdfViewer extends VrControl
 
 				let divTextLayer: HTMLElement | null = null;
 				if (options.textSelection)
+				{
 					divTextLayer = puma("<div class='vrPdfViewer_divTextLayer'></div>").vrAppendToPuma(divCanvasTextContainer)[0];
+					divTextLayer!.style.cssText += "--scale-factor: " + this._state.scale;
+				}
 				//#endregion
 
 				let viewport = page.getViewport({ scale: this._state.scale });
@@ -389,9 +392,6 @@ export class PdfViewer extends VrControl
 				{
 					canvas.width = (viewport.width > window.innerWidth) ? window.innerWidth : viewport.width;
 					canvas.height = (viewport.height > window.innerHeight) ? window.innerHeight : viewport.height;
-
-					// this._state.scale = divCanvasTextContainer.clientWidth / (viewport.width * 1);
-					// viewport = page.getViewport({ scale: this._state.scale });
 				}
 
 				//#region Popup
