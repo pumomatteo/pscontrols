@@ -159,9 +159,12 @@ export declare class Grid extends VrControl {
     hideColumns(fields: string[], update?: boolean): void;
     hideColumn(field: string, updateDataSource?: boolean): void;
     hideCheckboxColumn(updateDataSource?: boolean): void;
+    hideEditButtonColumn(updateDataSource?: boolean): void;
+    hideOnlyThisColumns(fieldList: string[], updateDataSource?: boolean): void;
     showColumns(fields: string[], update?: boolean): void;
     showColumn(field: string, updateDataSource?: boolean): void;
     showCheckboxColumn(updateDataSource?: boolean): void;
+    showEditButtonColumn(updateDataSource?: boolean): void;
     showOnlyThisColumns(fieldList: string[], updateDataSource?: boolean): void;
     columnVisible(value: string, state: boolean, updateDataSource?: boolean): void;
     columnCheckboxVisible(state: boolean, updateDataSource?: boolean): void;

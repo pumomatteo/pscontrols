@@ -4546,6 +4546,24 @@ export class Grid extends VrControl
         this.hideColumn("vrGridCheckboxColumn", updateDataSource);
     }
 
+    hideEditButtonColumn(updateDataSource = false)
+    {
+        this.hideColumn("editButton", updateDataSource);
+    }
+
+    hideOnlyThisColumns(fieldList: string[], updateDataSource = true)
+    {
+        let options = this.getOptions();
+        for (let column of options.columns!)
+            this.showColumn(column.field, false);
+
+        for (let field of fieldList)
+            this.hideColumn(field, false);
+
+        if (updateDataSource)
+            this.update();
+    }
+
     showColumns(fields: string[], update = true)
     {
         for (let field of fields)
@@ -4582,6 +4600,11 @@ export class Grid extends VrControl
     showCheckboxColumn(updateDataSource = false)
     {
         this.showColumn("vrGridCheckboxColumn", updateDataSource);
+    }
+
+    showEditButtonColumn(updateDataSource = false)
+    {
+        this.showColumn("editButton", updateDataSource);
     }
 
     showOnlyThisColumns(fieldList: string[], updateDataSource = true)
@@ -8589,7 +8612,7 @@ export class Grid extends VrControl
                                 error: (response: JQueryXHR, textStatus: string, errorThrown: string) =>
                                 {
                                     hideLoader();
-                                    alert("Errore nell'esportazione Excel. Contattare l'assistenza.");
+                                    alert("Errore nell'esportazione Excel. Contattare l'assistenza. <br /><br />" + response);
                                 }
                             });
                         //#endregion
