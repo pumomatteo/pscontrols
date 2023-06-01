@@ -700,6 +700,11 @@ export class Editor extends VrControl
         text = this.replaceAll(text, "pumo", " Pumo ");
         text = this.replaceAll(text, "punto", ". ", true);
         text = this.replaceAll(text, "puntini", "... ");
+        text = this.replaceAll(text, "parentesi aperta", " (");
+        text = this.replaceAll(text, "parentesi chiusa", ") ");
+        text = this.replaceAll(text, "maiuscolo", " ", true);
+        text = this.replaceAll(text, "primo in numero", " 1° ");
+        text = this.replaceAll(text, "secondo in numero", " 2° ");
 
         if (!interim)
         {
