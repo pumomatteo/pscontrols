@@ -581,6 +581,14 @@ export class Window extends VrControl
         this.footerItem(value).show();
     }
 
+    visibleFooterItem(value: string | number, state?: boolean)
+    {
+        if (state != null)
+            this.footerItem(value).visible(state);
+
+        return this.footerItem(value).visible();
+    }
+
     enableFooterItem(value: string | number)
     {
         this.footerItem(value).enable();

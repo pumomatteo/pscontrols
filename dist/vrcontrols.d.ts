@@ -3744,6 +3744,7 @@ export class Window extends VrControl
     footerItem<T extends VrControl>(value: string | number): T;
     hideFooterItem(value: string | number): void;
     showFooterItem(value: string | number): void;
+    visibleFooterItem(value: string | number, state?: boolean): boolean;
     enableFooterItem(value: string | number): void;
     disableFooterItem(value: string | number): void;
     addFooterItem(footerItem: WindowFooterItem): void;
