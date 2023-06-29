@@ -851,6 +851,7 @@ export class ComboBoxOptions extends VrControlOptions
     popupSettings?: PopupSettings;
     allSelectedMessage?: string;
     textEllipsis?: boolean;
+    noBr?: boolean;
     onlyIcon?: boolean;
     icon?: IconClass;
     imageUrl?: string;

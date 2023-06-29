@@ -221,9 +221,13 @@
     font-size: 14px;
 }
 
-.vrComboBoxItemText.vrComboBoxItemTextCheckbox {
+/* .vrComboBoxItemText.vrComboBoxItemTextCheckbox {
     top: -7px;
     position: relative;
+} */
+
+.vrComboBoxItemText.vrComboBoxItemTextBr {
+    white-space: break-spaces !important;
 }
 
 .comboBox_divPopup .indeterminateVrCheckbox:after {
@@ -240,7 +244,7 @@
 }
 
 .vrComboBoxDivItemContainer {
-    white-space: nowrap;
+    display: flex;
 }
 
 .vrComboBoxDivItemContainer:hover {
@@ -257,6 +261,10 @@
 
 .vrComboBoxSelectedComboValue .vrComboBoxDivItemContainer:hover {
     background-color: #51B3E1 !important;
+}
+
+.vrComboBoxLi>.vrComboBoxDivItemContainer>.vrCheckBox {
+    height: 20px;
 }
 
 .vrComboBoxFlat .vrComboBoxLi {

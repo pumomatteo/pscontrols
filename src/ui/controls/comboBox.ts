@@ -25,6 +25,7 @@ export class ComboBoxOptions extends VrControlOptions
     popupSettings?: PopupSettings;
     allSelectedMessage?: string;
     textEllipsis?: boolean;
+    noBr?: boolean;
     onlyIcon?: boolean;
     icon?: IconClass;
     imageUrl?: string;
@@ -90,6 +91,7 @@ export class ComboBox extends VrControl
         if (options.textAlign == null) options.textAlign = TextAlignEnum.Left;
         if (options.textEllipsis == null) options.textEllipsis = false;
         if (options.checkAll == null) options.checkAll = false;
+        if (options.noBr == null) options.noBr = true;
 
         if (options.showCheckAll == null && options.checkboxes == true) options.showCheckAll = true;
         if (options.showCheckAll != null && typeof (options.showCheckAll) != "boolean")
@@ -1034,7 +1036,8 @@ export class ComboBox extends VrControl
             }
 
             let classIfCheckbox = (options.checkboxes) ? "vrComboBoxItemTextCheckbox" : "";
-            let comboItemText = puma("<span title='" + item.text + "' text='" + item.text.replace(/'/g, "&#39;") + "' class='vrComboBoxItemText " + classIfCheckbox + "'>" + rowText + "</span>").vrAppendToPuma(comboItem);
+            let classIfNoBr = (options.noBr) ? "" : "vrComboBoxItemTextBr";
+            let comboItemText = puma("<span title='" + item.text + "' text='" + item.text.replace(/'/g, "&#39;") + "' class='vrComboBoxItemText " + classIfCheckbox + " " + classIfNoBr + "'>" + rowText + "</span>").vrAppendToPuma(comboItem);
             puma(comboItemText).on("mousedown", (e: JQuery.MouseDownEvent) =>
             {
                 let value = item.value;
