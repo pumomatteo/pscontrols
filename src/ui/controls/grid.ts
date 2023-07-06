@@ -1647,6 +1647,7 @@ export class Grid extends VrControl
 
         if (this.dataSource().filter(k => k["defaultRow"] == null || k["defaultRow"] == false).length > 0)
         {
+            this.clearFilters(false);
             this.dataSource([]);
             this.clearSelection(triggerChange);
         }
