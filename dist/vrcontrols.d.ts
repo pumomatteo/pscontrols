@@ -94,7 +94,7 @@ export class Dictionary<K, V>
 //#region loaderManager
 export class LoaderManager
 {
-    static show(element?: string | HTMLElement | JQuery, transparency?: boolean, tag?: any): void;
+    static show(element?: string | HTMLElement | JQuery, transparency?: boolean, tag?: any | null, text?: string | null): void;
     static hide(tag?: any): void;
 }
 //#endregion
@@ -4055,7 +4055,7 @@ export class VrMarginSettings
     bottom?: number;
     left?: number;
 }
-export function showLoader(element?: string | HTMLElement | JQuery | boolean, transparency?: boolean, tag?: any): void;
+export function showLoader(element?: string | HTMLElement | JQuery | boolean, transparency?: boolean, tag?: any | null, text?: string | null): void;
 export function hideLoader(tag?: any): void;
 export function pumo(): void;
 export enum CreatorEnum

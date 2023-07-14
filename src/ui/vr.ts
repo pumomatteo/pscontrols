@@ -1336,10 +1336,10 @@ export class VrMarginSettings
 	left?: number;
 }
 
-export function showLoader(element?: string | HTMLElement | JQuery | boolean, transparency = true, tag?: any)
+export function showLoader(element?: string | HTMLElement | JQuery | boolean, transparency = true, tag?: any | null, text?: string | null)
 {
 	if (typeof (element) == "boolean") element = undefined;
-	LoaderManager.show(element, transparency, tag);
+	LoaderManager.show(element, transparency, tag, text);
 }
 
 export function hideLoader(tag?: any)

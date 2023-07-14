@@ -241,7 +241,7 @@ export declare class VrMarginSettings {
     bottom?: number;
     left?: number;
 }
-export declare function showLoader(element?: string | HTMLElement | JQuery | boolean, transparency?: boolean, tag?: any): void;
+export declare function showLoader(element?: string | HTMLElement | JQuery | boolean, transparency?: boolean, tag?: any | null, text?: string | null): void;
 export declare function hideLoader(tag?: any): void;
 export declare function pumo(): void;
 export declare enum CreatorEnum {

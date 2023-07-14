@@ -2,7 +2,7 @@ import { puma } from "../ui/vr";
 
 export class LoaderManager
 {
-	static show(element?: string | HTMLElement | JQuery, transparency = true, tag?: any)
+	static show(element?: string | HTMLElement | JQuery, transparency = true, tag?: any | null, text?: string | null)
 	{
 		this.addCss();
 		if (tag == null)
@@ -71,10 +71,12 @@ export class LoaderManager
 		let loaderWidth = loaderWidthNumber + "px";
 		let loaderHeight = loaderHeightNumber + "px";
 
+		let textLabel = (text != null && text != "") ? "<label style='width: 100%; display: block; color: #25a0da; text-align: center;'>" + text + "</label>" : "";
 		puma(`
 			<div class='loaderManager_loader' tag='` + tag + `' style='display: inline-block; z-index: 99999999; 
 			position: absolute; left: ` + loaderLeftPosition + `; top: ` + loaderTopPosition + `; width: ` + loaderWidth + `; 
 			height: ` + loaderHeight + `;'>
+				${textLabel}
 				<div class='loaderManager_step' style='left: 8px; animation: loaderManager_loader1 0.6s infinite;'></div>
 				<div class='loaderManager_step' style='left: 8px; animation: loaderManager_loader2 0.6s infinite;'></div>
 				<div class='loaderManager_step' style='left: 32px; animation: loaderManager_loader2 0.6s infinite;'></div>
