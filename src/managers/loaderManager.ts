@@ -1,4 +1,5 @@
 import { puma } from "../ui/vr";
+import { UtilityManager } from "./utilityManager";
 
 export class LoaderManager
 {
@@ -71,7 +72,14 @@ export class LoaderManager
 		let loaderWidth = loaderWidthNumber + "px";
 		let loaderHeight = loaderHeightNumber + "px";
 
-		let textLabel = (text != null && text != "") ? "<label style='width: 100%; display: block; color: #25a0da; text-align: center;'>" + text + "</label>" : "";
+		let textLabel = "";
+		if (text != null && text != "") 
+		{
+			let labelWidth = UtilityManager.textWidth(text);
+			let css = "position: fixed; background-color: #51B3E1; color: #FFF; padding: 4px; font-weight: 600; border-radius: 10px; padding-left: 10px; padding-right: 10px;";
+			textLabel = "<label style='left: Calc(50% - " + (labelWidth / 2) + "px);" + css + "'>" + text + "</label>"
+		}
+
 		puma(`
 			<div class='loaderManager_loader' tag='` + tag + `' style='display: inline-block; z-index: 99999999; 
 			position: absolute; left: ` + loaderLeftPosition + `; top: ` + loaderTopPosition + `; width: ` + loaderWidth + `; 
