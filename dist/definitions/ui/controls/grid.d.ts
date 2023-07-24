@@ -311,6 +311,7 @@ export declare class GridLabelSettings extends GridControlsSettings {
     bold?: boolean;
     color?: string;
     noBr?: boolean;
+    icon?: IconClass;
 }
 export declare class GridRebindRequest extends GridWebApiRequest {
     itemsPropertyName?: string;

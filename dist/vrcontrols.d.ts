@@ -1548,6 +1548,7 @@ export class GridLabelSettings extends GridControlsSettings
     bold?: boolean;
     color?: string;
     noBr?: boolean;
+    icon?: IconClass;
 }
 export class GridRebindRequest extends GridWebApiRequest
 {

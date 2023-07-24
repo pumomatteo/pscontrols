@@ -2863,9 +2863,15 @@ export class Grid extends VrControl
                                 customCss += "white-space: nowrap; overflow: hidden; text-overflow: ellipsis;";
                             //#endregion
 
+                            //#region Icon or Image url
+                            let icon = "";
+                            if (labelSettings.icon != null)
+                                icon = "<i class='vrIcon " + labelSettings.icon + "'></i> ";
+                            //#endregion
+
                             this._cellLabels.set(className, { GridControlsSettings: labelSettings, columnType: column.type });
 
-                            textHTML = "<label title='" + tooltip + "' style='" + customCss + "' class='" + className + " " + underlineOnFocus + "' dataItemId='" + dataItemId + "' id='" + rowId + "_" + column.field + "'>" + labelSettings.text + "</label>";
+                            textHTML = icon + "<label title='" + tooltip + "' style='" + customCss + "' class='" + className + " " + underlineOnFocus + "' dataItemId='" + dataItemId + "' id='" + rowId + "_" + column.field + "'>" + labelSettings.text + "</label>";
 
                             if (labelSettings.visible === false)
                                 textHTML = "";
@@ -10686,6 +10692,7 @@ export class GridLabelSettings extends GridControlsSettings
     bold?: boolean;
     color?: string;
     noBr?: boolean;
+    icon?: IconClass;
 }
 //#endregion
 
