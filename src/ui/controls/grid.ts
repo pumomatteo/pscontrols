@@ -4844,6 +4844,7 @@ export class Grid extends VrControl
 
     removeAllGroups(updateDataSource = true)
     {
+        this.removeSort(false);
         let options = this.getOptions();
         if (options.groupable! && options.groupBy != null)
             this.removeGroups(((options.groupBy as GridGroupBySettings).fields as GridGroupByItem[]).map(k => k.field), false);
