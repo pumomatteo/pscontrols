@@ -28,7 +28,7 @@ export declare class PdfViewer extends VrControl {
     toolbarRightArea(): any;
     toolbarArea(area: PdfViewerToolbarAreaEnum): any;
     content(content?: string): Promise<unknown>;
-    private internalRender;
+    private internalRenderRecursive;
     page(page?: number): number;
     fileName(name?: string): string | undefined;
     download(): void;

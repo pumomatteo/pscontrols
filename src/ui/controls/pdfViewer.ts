@@ -329,7 +329,11 @@ export class PdfViewer extends VrControl
 				loadingTask.promise.then((pdf: PDFDocumentProxy) =>
 				{
 					this._state.pdf = pdf;
-					this.internalRender();
+					let pagesNumber = this._state.pdf.numPages;
+					if (this._lblPagesNumber != null)
+						this._lblPagesNumber.value("/ " + pagesNumber);
+
+					this.internalRenderRecursive(1);
 					LoaderManager.hide();
 
 					let options = this.getOptions();
@@ -351,93 +355,94 @@ export class PdfViewer extends VrControl
 				//#endregion
 			}
 			else if (options.content != null)
-				this.internalRender();
+			{
+				let pagesNumber = this._state.pdf.numPages;
+				if (this._lblPagesNumber != null)
+					this._lblPagesNumber.value("/ " + pagesNumber);
+
+				this.internalRenderRecursive(1);
+			}
 		});
 		return promise;
 	}
 
-	private internalRender()
+	private internalRenderRecursive(pageIndex: number)
 	{
-		let pagesNumber = this._state.pdf.numPages;
-
-		if (this._lblPagesNumber != null)
-			this._lblPagesNumber.value("/ " + pagesNumber);
+		if (pageIndex > this._state.pdf.numPages || this._state.pdf == null)
+			return;
 
 		let options = this.getOptions();
-		for (let i = 1; i <= pagesNumber; i++)
+		this._state.pdf.getPage(pageIndex).then((page) => 
 		{
-			if (this._state.pdf == null)
-				break;
+			//#region Structure
+			let divCanvasTextContainer = div(this.canvasContainer(), { class: "vrPdfViewer_divCanvasTextContainer" });
+			let canvas = puma("<canvas style='border-top: solid 50px #e8e8e8;'></canvas>").vrAppendToPuma(divCanvasTextContainer)[0] as HTMLCanvasElement;
+			let ctx = canvas.getContext('2d');
 
-			this._state.pdf.getPage(i).then((page) => 
+			let divTextLayer: HTMLElement | null = null;
+			if (options.textSelection)
 			{
-				//#region Structure
-				let divCanvasTextContainer = div(this.canvasContainer(), { class: "vrPdfViewer_divCanvasTextContainer" });
-				let canvas = puma("<canvas style='border-top: solid 50px #e8e8e8;'></canvas>").vrAppendToPuma(divCanvasTextContainer)[0] as HTMLCanvasElement;
-				let ctx = canvas.getContext('2d');
+				divTextLayer = puma("<div class='vrPdfViewer_divTextLayer'></div>").vrAppendToPuma(divCanvasTextContainer)[0];
+				divTextLayer!.style.cssText += "--scale-factor: " + this._state.scale;
+			}
+			//#endregion
 
-				let divTextLayer: HTMLElement | null = null;
-				if (options.textSelection)
+			let viewport = page.getViewport({ scale: this._state.scale });
+			canvas.width = viewport.width;
+			canvas.height = viewport.height;
+
+			if (DeviceManager.isMobile())
+			{
+				canvas.width = (viewport.width > window.innerWidth) ? window.innerWidth : viewport.width;
+				canvas.height = (viewport.height > window.innerHeight) ? window.innerHeight : viewport.height;
+			}
+
+			//#region Popup
+			if (options.popup !== false)
+			{
+				options.popup = (options.popup! as PdfViewerWindowSettings);
+				if (options.popup.maximize)
+					this._window.maximize();
+				else
 				{
-					divTextLayer = puma("<div class='vrPdfViewer_divTextLayer'></div>").vrAppendToPuma(divCanvasTextContainer)[0];
-					divTextLayer!.style.cssText += "--scale-factor: " + this._state.scale;
+					let width = 957;
+					if (options.popup.width != null)
+						width = options.popup.width;
+
+					let height = document.body.clientHeight - 60;
+					if (options.popup.height != null)
+						height = options.popup.height;
+
+					this._window.width(width);
+					this._window.element().style.cssText += "height: " + height + "px;";
+					this._window.container().style.cssText += "height: " + (height + 30) + "px;";
+					this._window.center();
 				}
-				//#endregion
+			}
+			//#endregion
 
-				let viewport = page.getViewport({ scale: this._state.scale });
-				canvas.width = viewport.width;
-				canvas.height = viewport.height;
+			page.render({
+				canvasContext: ctx!,
+				viewport: viewport
+			});
 
-				if (DeviceManager.isMobile())
+			//#region Text selection
+			if (options.textSelection)
+			{
+				page.getTextContent().then((textContent) =>
 				{
-					canvas.width = (viewport.width > window.innerWidth) ? window.innerWidth : viewport.width;
-					canvas.height = (viewport.height > window.innerHeight) ? window.innerHeight : viewport.height;
-				}
-
-				//#region Popup
-				if (options.popup !== false)
-				{
-					options.popup = (options.popup! as PdfViewerWindowSettings);
-					if (options.popup.maximize)
-						this._window.maximize();
-					else
-					{
-						let width = 957;
-						if (options.popup.width != null)
-							width = options.popup.width;
-
-						let height = document.body.clientHeight - 60;
-						if (options.popup.height != null)
-							height = options.popup.height;
-
-						this._window.width(width);
-						this._window.element().style.cssText += "height: " + height + "px;";
-						this._window.container().style.cssText += "height: " + (height + 30) + "px;";
-						this._window.center();
-					}
-				}
-				//#endregion
-
-				page.render({
-					canvasContext: ctx!,
-					viewport: viewport
-				});
-
-				//#region Text selection
-				if (options.textSelection)
-				{
-					page.getTextContent().then((textContent) =>
-					{
-						pdfjsLib.renderTextLayer({
-							textContent: textContent,
-							container: divTextLayer,
-							viewport: viewport
-						});
+					pdfjsLib.renderTextLayer({
+						textContent: textContent,
+						container: divTextLayer,
+						viewport: viewport
 					});
-				}
-				//#endregion
-			}, (error: any) => notifyError(error));
-		}
+				});
+			}
+			//#endregion
+
+			pageIndex++;
+			this.internalRenderRecursive(pageIndex);
+		}, (error: any) => notifyError(error));
 	}
 
 	page(page?: number)
