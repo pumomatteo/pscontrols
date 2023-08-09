@@ -20,6 +20,7 @@ export declare class WindowOptions extends VrControlOptions {
     loader?: boolean;
     autoSize?: boolean | WindowAutoSizeDirectionEnum;
     cssHeader?: string;
+    scrollable?: boolean;
     onOpen?(e: WindowOpenEvent): void;
     onBeforeClose?(e: WindowBeforeCloseEvent): void;
     onClose?(e: WindowCloseEvent): void;

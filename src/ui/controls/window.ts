@@ -27,6 +27,7 @@ export class WindowOptions extends VrControlOptions
     loader?: boolean;
     autoSize?: boolean | WindowAutoSizeDirectionEnum;
     cssHeader?: string;
+    scrollable?: boolean;
 
     onOpen?(e: WindowOpenEvent): void;
     onBeforeClose?(e: WindowBeforeCloseEvent): void;
@@ -68,6 +69,7 @@ export class Window extends VrControl
         if (options.loader == null) options.loader = false;
         if (options.title == null) options.title = false;
         if (options.removeOnClose == null) options.removeOnClose = false;
+        if (options.scrollable == null) options.scrollable = false;
 
         if (options.footer == null || options.footer === true) options.footer =
             [
@@ -153,6 +155,11 @@ export class Window extends VrControl
                     puma(spanCloseIcon).hide();
             }
         }
+        //#endregion
+
+        //#region Scrollable
+        if (options.draggable)
+            this.css("overflow-y: auto;");
         //#endregion
 
         //#region Draggable
