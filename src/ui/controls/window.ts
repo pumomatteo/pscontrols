@@ -158,7 +158,7 @@ export class Window extends VrControl
         //#endregion
 
         //#region Scrollable
-        if (options.draggable)
+        if (options.scrollable)
             this.css("overflow-y: auto;");
         //#endregion
 
