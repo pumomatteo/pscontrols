@@ -2841,7 +2841,7 @@ export class Grid extends VrControl
                             //#endregion
 
                             //#region Bold
-                            if (labelSettings.bold != null)
+                            if (labelSettings.bold === true)
                                 customCss += "font-weight: 500;";
                             //#endregion
 
