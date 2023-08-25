@@ -69,7 +69,7 @@ export class SearchBar extends VrControl
 		//#region TextBox
 		this._textBox = createTextBox({
 			placeholder: options.placeholder,
-			width: (options.icon !== false) ? "Calc(100% - 15px)" : "100%",
+			width: (options.icon !== false) ? "Calc(100% - 16px)" : "100%",
 			onKeyDown: (e) => this._previousValue = this.value(),
 			onKeyUp: (e) =>
 			{
