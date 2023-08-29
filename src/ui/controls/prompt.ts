@@ -1,7 +1,7 @@
 import { createWindow, ButtonModeEnum, WindowFooterItemTypeEnum, createTextBox, puma } from "../vr";
 import { Window } from "./window";
 import { VrControlsEvent } from "../common";
-import { TextBox } from "./textbox";
+import { TextBox, TextBoxOptions } from "./textbox";
 import { Button } from "./button";
 
 //#region Options
@@ -12,7 +12,7 @@ export class PromptOptions
     content?: string;
     title?: string;
     defaultValue?: string;
-    placeHolder?: string;
+    textboxSettings?: TextBoxOptions;
     width?: number | string;
     height?: number | string;
     css?: string;
@@ -52,6 +52,15 @@ export class Prompt
             content = text;
         //#endregion
 
+        //#region TextBoxSettings
+        if (options.textboxSettings == null)
+            options.textboxSettings = new TextBoxOptions();
+
+        if (options.textboxSettings.width == null) options.textboxSettings.width = "100%";
+        if (options.textboxSettings.cssContainer == null) options.textboxSettings.cssContainer = "margin-top: 5px;";
+        if (options.textboxSettings.value == null) options.textboxSettings.value = options.defaultValue;
+        //#endregion
+
         this._window = createWindow(
             {
                 addToControlList: false,
@@ -70,14 +79,8 @@ export class Prompt
                 onContentLoaded: (e) => 
                 {
                     let contentContainer = puma(e.sender.element()).find(".contentContainer")[0];
-                    this._textBox = createTextBox(
-                        {
-                            width: "100%",
-                            cssContainer: "margin-top: 5px;",
-                            value: options!.defaultValue,
-                            placeholder: options!.placeHolder
-                        }, contentContainer);
-                    this._textBox.focus();
+                    this._textBox = createTextBox(options!.textboxSettings, contentContainer);
+                    window.setTimeout(() => this._textBox.focus());
                     this.onContentLoaded(contentContainer);
                 }
             });

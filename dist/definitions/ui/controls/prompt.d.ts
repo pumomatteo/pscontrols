@@ -1,11 +1,12 @@
 import { VrControlsEvent } from "../common";
+import { TextBoxOptions } from "./textbox";
 export declare class PromptOptions {
     textOkButton?: string;
     textCancelButton?: string;
     content?: string;
     title?: string;
     defaultValue?: string;
-    placeHolder?: string;
+    textboxSettings?: TextBoxOptions;
     width?: number | string;
     height?: number | string;
     css?: string;

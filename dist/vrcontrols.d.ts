@@ -2386,7 +2386,7 @@ export class PromptOptions
     content?: string;
     title?: string;
     defaultValue?: string;
-    placeHolder?: string;
+    textboxSettings?: TextBoxOptions;
     width?: number | string;
     height?: number | string;
     css?: string;
