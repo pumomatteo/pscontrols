@@ -8,6 +8,7 @@ export declare class IconOptions extends VrControlOptions {
     confirmationMessage?: string;
     tooltip?: string;
     onClick?: (e: VrIconClickEvent) => void;
+    onMouseDown?: (e: VrIconClickEvent) => void;
     onRejectedConfirm?: () => void;
 }
 export declare class Icon extends VrControl {
@@ -17,6 +18,8 @@ export declare class Icon extends VrControl {
     color(color?: string): string | undefined;
     click(): void;
     private internalClick;
+    mouseDown(): void;
+    private internalMouseDown;
     private rejectedConfirm;
     getOptions(): IconOptions;
 }

@@ -1905,6 +1905,7 @@ export class IconOptions extends VrControlOptions
     confirmationMessage?: string;
     tooltip?: string;
     onClick?: (e: VrIconClickEvent) => void;
+    onMouseDown?: (e: VrIconClickEvent) => void;
     onRejectedConfirm?: () => void;
 }
 export class Icon extends VrControl
@@ -1914,6 +1915,7 @@ export class Icon extends VrControl
     fontSize(fontSize?: number | string): string | number | undefined;
     color(color?: string): string | undefined;
     click(): void;
+    mouseDown(): void;
     getOptions(): IconOptions;
 }
 class VrIconClickEvent extends VrControlsEvent

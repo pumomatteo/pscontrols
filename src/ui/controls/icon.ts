@@ -12,6 +12,7 @@ export class IconOptions extends VrControlOptions
 	tooltip?: string;
 
 	onClick?: (e: VrIconClickEvent) => void;
+	onMouseDown?: (e: VrIconClickEvent) => void;
 	onRejectedConfirm?: () => void;
 }
 //#endregion
@@ -52,17 +53,22 @@ export class Icon extends VrControl
 		//#endregion
 
 		//#region Cursor
-		if (options.cursorPointer || options.onClick != null)
+		if (options.cursorPointer || options.onClick != null || options.onMouseDown)
 		{
 			this.container().style.cssText += "cursor: pointer;";
 			this.element().style.cssText += "cursor: pointer;";
 		}
 		//#endregion
 
-		//#region Click
+		//#region Events
 		puma(this.container()).on("click", (e: JQuery.ClickEvent) =>
 		{
 			this.click();
+		});
+
+		puma(this.container()).on("mousedown", (e: JQuery.ClickEvent) =>
+		{
+			this.mouseDown();
 		});
 		//#endregion
 	}
@@ -123,6 +129,27 @@ export class Icon extends VrControl
 			clickEvent.sender = this;
 			clickEvent.value = this.value();
 			options!.onClick(clickEvent);
+		}
+	}
+
+	mouseDown(): void
+	{
+		let options = this.getOptions();
+		if (options.confirmationMessage != null)
+			confirm(options.confirmationMessage).then(() => this.internalMouseDown(), () => this.rejectedConfirm());
+		else
+			this.internalMouseDown();
+	}
+
+	private internalMouseDown()
+	{
+		let options = this.getOptions();
+		if (options!.onMouseDown != null)
+		{
+			let clickEvent = new VrIconClickEvent();
+			clickEvent.sender = this;
+			clickEvent.value = this.value();
+			options!.onMouseDown(clickEvent);
 		}
 	}
 
