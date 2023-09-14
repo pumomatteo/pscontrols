@@ -9,7 +9,7 @@ export class LoaderManager
 		if (tag == null)
 			tag = "vrLoadingTemp";
 
-		//#region	Loader	element
+		//#region Loader	element
 		let loaderElement: HTMLElement | null = null;
 		if (element == null)
 			loaderElement = document.body;
@@ -29,13 +29,13 @@ export class LoaderManager
 			puma(loaderElement).css("position", "relative");
 		//#endregion
 
-		//#region	Transparency
+		//#region Transparency
 		let opacity = "0.5";
 		if (!transparency)
 			opacity = "1";
 		//#endregion
 
-		//#region	Width/Height
+		//#region Width/Height
 		let elementWidth = puma(loaderElement).outerWidth();
 		let elementHeight = puma(loaderElement).outerHeight();
 
@@ -47,11 +47,11 @@ export class LoaderManager
 			loaderHeightNumber = 80;
 		//#endregion
 
-		//#region	Background
+		//#region Background
 		let zIndex: number = 2500000;
 		zIndex = String((puma(loaderElement).css("z-index"))).vrGetNumericPart() + 1;
 		if (loaderElement == document.body)
-			zIndex = 999999999;
+			zIndex = 99999999;
 
 		let backgroundWidth = elementWidth + "px";
 		let backgroundHeight = elementHeight + "px";
@@ -66,7 +66,7 @@ export class LoaderManager
 		puma(background).vrAppendToPuma(loaderElement);
 		//#endregion
 
-		//#region	Loader
+		//#region Loader
 		let loaderLeftPosition = "Calc(50% - " + (loaderWidthNumber / 2 - loaderElement!.scrollLeft) + "px)";
 		let loaderTopPosition = "Calc(50% - " + (loaderWidthNumber / 2 - loaderElement!.scrollTop) + "px)";
 		let loaderWidth = loaderWidthNumber + "px";
@@ -76,8 +76,8 @@ export class LoaderManager
 		if (text != null && text != "") 
 		{
 			let labelWidth = UtilityManager.textWidth(text);
-			let css = "position: fixed; background-color: #51B3E1; color: #FFF; padding: 4px; font-weight: 600; border-radius: 10px; padding-left: 10px; padding-right: 10px;";
-			textLabel = "<label style='left: Calc(50% - " + (labelWidth / 2) + "px);" + css + "'>" + text + "</label>"
+			let css = "position: absolute; background-color: #51B3E1; color: #FFF; padding: 4px; font-weight: 600; border-radius: 10px; padding-left: 10px; padding-right: 10px;";
+			textLabel = "<label style='width: " + (labelWidth + 13) + "px; left: Calc(50% - " + (labelWidth / 2) + "px);" + css + "'>" + text + "</label>"
 		}
 
 		puma(`
