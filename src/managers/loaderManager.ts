@@ -75,9 +75,9 @@ export class LoaderManager
 		let textLabel = "";
 		if (text != null && text != "") 
 		{
-			let labelWidth = UtilityManager.textWidth(text);
+			let labelWidth = UtilityManager.textWidth(text) + 20;
 			let css = "position: absolute; background-color: #51B3E1; color: #FFF; padding: 4px; font-weight: 600; border-radius: 10px; padding-left: 10px; padding-right: 10px;";
-			textLabel = "<label style='width: " + (labelWidth + 13) + "px; left: Calc(50% - " + (labelWidth / 2) + "px);" + css + "'>" + text + "</label>"
+			textLabel = "<label style='width: " + (labelWidth - 7) + "px; left: Calc(50% - " + (labelWidth / 2) + "px);" + css + "'>" + text + "</label>"
 		}
 
 		puma(`
