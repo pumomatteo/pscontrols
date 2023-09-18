@@ -3424,9 +3424,12 @@ export class Grid extends VrControl
                     let value = this.fixValueWithoutSpecialChars(tr.getAttribute("value")!);
 
                     let lastChildren = children.vrLast()!;
-                    let clonedTr = lastChildren.cloneNode(true) as HTMLElement;
-                    clonedTr.classList.add("p-grid-totalsGroup", this._elementId + "_totalGroupBy" + value);
-                    lastChildren.parentNode!.insertBefore(clonedTr, lastChildren.nextSibling);
+                    if (lastChildren != null)
+                    {
+                        let clonedTr = lastChildren.cloneNode(true) as HTMLElement;
+                        clonedTr.classList.add("p-grid-totalsGroup", this._elementId + "_totalGroupBy" + value);
+                        lastChildren.parentNode!.insertBefore(clonedTr, lastChildren.nextSibling);
+                    }
 
                     let totalsGroupItem = new TotalsGroupItem();
                     totalsGroupItem.groupValue = value;
