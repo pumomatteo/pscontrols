@@ -193,6 +193,7 @@ export class TextBox extends VrControl
         //#region Text/Placeholder & Max/Min Length
         if (options.value != null)
             this.value(options.value, false);
+
         if (options.placeholder != null)
             this.placeholder(options.placeholder);
 

@@ -1032,6 +1032,7 @@ export class DatePickerOptions extends VrControlOptions
     depth?: DateDepthEnum;
     nullable?: boolean;
     popupSettings?: PopupSettings;
+    placeholder?: string;
     onBeforeChange?(e: DatePickerChangingEvent): void;
     onAfterChange?(e: DatePickerChangeEvent): void;
     onKeyUp?(e: DatePickerKeyUpEvent): void;
@@ -1045,6 +1046,7 @@ export class DatePicker extends VrControl
     constructor(element: HTMLElement, options?: DatePickerOptions | null);
     close(): void;
     open(): void;
+    placeholder(value?: string): string;
     value(date?: Date | null, triggerChange?: boolean): Date | null;
     mode(mode?: DateModeEnum): DateModeEnum | undefined;
     min(min?: Date): Date | undefined;

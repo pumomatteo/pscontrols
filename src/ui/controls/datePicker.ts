@@ -18,6 +18,7 @@ export class DatePickerOptions extends VrControlOptions
     depth?: DateDepthEnum;
     nullable?: boolean;
     popupSettings?: PopupSettings;
+    placeholder?: string;
 
     onBeforeChange?(e: DatePickerChangingEvent): void;
     onAfterChange?(e: DatePickerChangeEvent): void;
@@ -175,9 +176,12 @@ export class DatePicker extends VrControl
         }
         //#endregion
 
-        //#region Tooltip
+        //#region Tooltip/Placeholder
         if (options.tooltip != null)
             puma(this.element()).attr("title", options.tooltip);
+
+        if (options.placeholder != null)
+            this.placeholder(options.placeholder);
         //#endregion
 
         //#region Input events
@@ -376,6 +380,14 @@ export class DatePicker extends VrControl
             case DateModeEnum.Time: return this.formatInputTimePicker(inputText, onlyFormat); break;
         }
         return null;
+    }
+
+    placeholder(value?: string): string
+    {
+        if (value != null)
+            (this.element() as HTMLInputElement).placeholder = value;
+
+        return (this.element() as HTMLInputElement).placeholder;
     }
 
     //#region DatePicker

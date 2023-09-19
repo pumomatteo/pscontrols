@@ -14,6 +14,7 @@ export declare class DatePickerOptions extends VrControlOptions {
     depth?: DateDepthEnum;
     nullable?: boolean;
     popupSettings?: PopupSettings;
+    placeholder?: string;
     onBeforeChange?(e: DatePickerChangingEvent): void;
     onAfterChange?(e: DatePickerChangeEvent): void;
     onKeyUp?(e: DatePickerKeyUpEvent): void;
@@ -31,6 +32,7 @@ export declare class DatePicker extends VrControl {
     close(): void;
     open(): void;
     private formatDateInput;
+    placeholder(value?: string): string;
     private openPopupDatePicker;
     private formatInputDatePicker;
     private openPopupTimePicker;
