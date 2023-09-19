@@ -1641,13 +1641,15 @@ export class Grid extends VrControl
         }
     }
 
-    clear(triggerChange = false)
+    clear(triggerChange = false, clearFilters = true)
     {
         this._vrDateTimeFields = [];
 
         if (this.dataSource().filter(k => k["defaultRow"] == null || k["defaultRow"] == false).length > 0)
         {
-            this.clearFilters(false);
+            if (clearFilters)
+                this.clearFilters(false);
+
             this.dataSource([]);
             this.clearSelection(triggerChange);
         }
@@ -8024,7 +8026,7 @@ export class Grid extends VrControl
 
                         let newDatasource = response[(request as GridRebindRequest).itemsPropertyName!];
                         if (newDatasource.length == 0)
-                            this.clear();
+                            this.clear(undefined, clearFilters);
                         else
                             that.dataSource(newDatasource, clearFilters);
                     }

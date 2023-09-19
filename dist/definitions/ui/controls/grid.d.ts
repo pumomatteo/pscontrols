@@ -115,7 +115,7 @@ export declare class Grid extends VrControl {
     constructor(element: HTMLElement, options?: GridOptions | null);
     rebind(parameters?: any | null, filterWithWebService?: boolean, keepInfo?: boolean, loadingElement?: boolean | HTMLElement | JQuery | string): any;
     rebindSpecificRows(itemIdList: number[], update?: boolean, keepInfo?: boolean, loadingElement?: boolean | HTMLElement | JQuery | string): void;
-    clear(triggerChange?: boolean): void;
+    clear(triggerChange?: boolean, clearFilters?: boolean): void;
     private manageDataSourceControls;
     private manageControls;
     originalDataSource(): any[];
