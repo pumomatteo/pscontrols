@@ -6,8 +6,8 @@ export class DeviceManager
     static getScreenResolution()
     {
         let screenResolution = new ScreenResolution();
-        screenResolution.width = window.screen.width * window.devicePixelRatio;
-        screenResolution.height = window.screen.height * window.devicePixelRatio;
+        screenResolution.width = window.screen.width;
+        screenResolution.height = window.screen.height;
         return screenResolution;
     }
 

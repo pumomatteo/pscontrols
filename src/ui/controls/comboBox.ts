@@ -1,5 +1,5 @@
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
-import { ControlTypeEnum, ComboBoxTypeEnum, ComboBoxTreeModeEnum, ComboBoxItem, IconClassicLight, IconClass, createTextBox, ControlPositionEnum, TextAlignEnum, PositionEnum, PopupSettings, ComboBoxWebServiceSettings, puma, createCheckBox, CheckboxStateEnum, KeyEnum, WebApiModeEnum, shadowRoot, createButton, ComboBoxTemplateEvent, ComboBoxChangeEvent, ComboBoxChangingEvent, ComboBoxClearEvent, SortDirectionEnum, SortByComboSettings, IconClassicRegular, icon, IconClassicSolid } from "../vr";
+import { ControlTypeEnum, ComboBoxTypeEnum, ComboBoxTreeModeEnum, ComboBoxItem, IconClassicLight, IconClass, createTextBox, ControlPositionEnum, TextAlignEnum, PositionEnum, PopupSettings, ComboBoxWebServiceSettings, puma, createCheckBox, CheckboxStateEnum, KeyEnum, WebApiModeEnum, shadowRoot, createButton, ComboBoxTemplateEvent, ComboBoxChangeEvent, ComboBoxChangingEvent, ComboBoxClearEvent, SortDirectionEnum, SortByComboSettings, IconClassicRegular, icon, IconClassicSolid, isMobile, isIphone } from "../vr";
 import { UtilityManager } from "../../managers/utilityManager";
 import { TextBox } from "./textbox";
 import { CheckBox } from "./checkbox";
@@ -529,15 +529,18 @@ export class ComboBox extends VrControl
             puma(this.element()).click((e: any) => { (puma(this._popup).is(":visible")) ? this.close() : this.open() });
         //#endregion
 
-        let baseListener = (shadowRoot() != null) ? shadowRoot() : document;
-        baseListener!.addEventListener("scroll", (e) =>
+        if (!isMobile())
         {
-            if (!puma(e.target).hasClass("comboBox_divPopup") && puma(this._popup).is(":visible"))
+            let baseListener = (shadowRoot() != null) ? shadowRoot() : document;
+            baseListener!.addEventListener("scroll", (e) =>
             {
-                this.blur()
-                this.close();
-            }
-        }, true);
+                if (!puma(e.target).hasClass("comboBox_divPopup") && puma(this._popup).is(":visible"))
+                {
+                    this.blur();
+                    this.close();
+                }
+            }, true);
+        }
     }
 
     //#region Methods
