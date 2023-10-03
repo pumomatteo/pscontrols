@@ -404,16 +404,16 @@ export class VrControl
         return puma(this.container()).is(":visible");
     }
 
-    show()
+    show(duration?: number)
     {
-        puma(this.container()).show();
+        puma(this.container()).show(duration);
         if (puma(this.element()).is("button"))
             puma(this.element()).css({ "max-width": "100%" });
     }
 
-    hide()
+    hide(duration?: number)
     {
-        puma(this.container()).hide();
+        puma(this.container()).hide(duration);
     }
     //#endregion
 

@@ -1097,6 +1097,7 @@ export class ComboBox extends VrControl
         let options = this.getOptions();
         if (items != null)
         {
+            items.forEach(k => k.value = String(k.value));
             let realItems = UtilityManager.duplicate(items);
             if (options.nullable != null && options.nullable !== false)
             {

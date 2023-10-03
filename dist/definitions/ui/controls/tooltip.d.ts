@@ -18,7 +18,7 @@ export declare class TooltipOptions extends VrControlOptions {
 export declare class Tooltip extends VrControl {
     private _notifier;
     constructor(element: HTMLElement, options?: TooltipOptions | null);
-    show(content?: string): void;
+    show(content?: any): void;
     hide(): void;
     visible(state?: boolean): any;
     content(content?: string): string | undefined;

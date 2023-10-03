@@ -121,7 +121,7 @@ export class Tooltip extends VrControl
 		//#endregion
 	}
 
-	show(content?: string)
+	show(content?: any)
 	{
 		if (this._notifier != null && this._notifier.visible())
 			return;

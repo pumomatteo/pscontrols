@@ -25,8 +25,8 @@ export declare class VrControl {
     enable(): void;
     disable(): void;
     visible(state?: boolean): boolean;
-    show(): void;
-    hide(): void;
+    show(duration?: number): void;
+    hide(duration?: number): void;
     focus(): void;
     blur(): void;
     cssContainer(value: string): void;

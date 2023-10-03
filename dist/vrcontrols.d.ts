@@ -307,8 +307,8 @@ export class VrControl
     enable(): void;
     disable(): void;
     visible(state?: boolean): boolean;
-    show(): void;
-    hide(): void;
+    show(duration?: number): void;
+    hide(duration?: number): void;
     focus(): void;
     blur(): void;
     cssContainer(value: string): void;
@@ -3329,7 +3329,7 @@ export class TooltipOptions extends VrControlOptions
 export class Tooltip extends VrControl
 {
     constructor(element: HTMLElement, options?: TooltipOptions | null);
-    show(content?: string): void;
+    show(content?: any): void;
     hide(): void;
     visible(state?: boolean): any;
     content(content?: string): string | undefined;
