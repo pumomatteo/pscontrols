@@ -5710,6 +5710,7 @@ export class Grid extends VrControl
                 {
                     if (e.value != null)
                     {
+                        e.value.setHours(0, 0, 0);
                         let tag = new Date(JSON.parse(checkbox.getAttribute("tag")!));
                         if (Date.vrEquals(tag, e.value))
                             checkboxToShowList.push(checkbox.parentElement!);
@@ -5964,10 +5965,13 @@ export class Grid extends VrControl
         {
             let text = this.formatValue(k[column.field], column.type!, column.decimalDigits, column.roundingSettings, column.showSeconds, column.milesSeparator);
             let tag = k[column.field];
-            if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.DateTime
-                || column.type == GridColumnTypeEnum.Time || column.type == GridColumnTypeEnum.LongDate
-                || column.type == GridColumnTypeEnum.LongDateTime || column.type == GridColumnTypeEnum.LongWeekDate
-                || column.type == GridColumnTypeEnum.ShortWeekDate)
+            if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.LongDate || column.type == GridColumnTypeEnum.LongWeekDate || column.type == GridColumnTypeEnum.ShortWeekDate)
+            {
+                let date = new Date(k[column.field]);
+                date.setHours(0, 0, 0);
+                tag = date;
+            }
+            else if (column.type == GridColumnTypeEnum.Time || column.type == GridColumnTypeEnum.DateTime || column.type == GridColumnTypeEnum.LongDateTime)
                 tag = new Date(k[column.field]);
             else if (column.type == GridColumnTypeEnum.String || column.type == GridColumnTypeEnum.Label)
                 tag = tag.toLowerCase();
@@ -6123,7 +6127,7 @@ export class Grid extends VrControl
                                     for (let checkbox of Array.from<HTMLInputElement>(puma(this._wndFiltering.element()).find(".vrGrid_divSearchSpecificValues input")))
                                     {
                                         let tag = new Date(JSON.parse(checkbox.getAttribute("tag")!));
-                                        if (UtilityManager.equals(value, tag))
+                                        if (Date.vrEquals(new Date(value), tag))
                                         {
                                             checkbox.checked = true;
                                             break;
@@ -6570,7 +6574,11 @@ export class Grid extends VrControl
                     {
                         for (let specificValue of valueFilterSettings.dateFilterSettings.specificValues)
                         {
-                            if (Date.vrEquals(new Date(filterValue[columnField]), specificValue))
+                            let date = new Date(filterValue[columnField]);
+                            if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.LongDate || column.type == GridColumnTypeEnum.LongWeekDate || column.type == GridColumnTypeEnum.ShortWeekDate)
+                                date.setHours(0, 0, 0);
+
+                            if (Date.vrEquals(date, specificValue))
                                 dateFilteredArray.push(filterValue);
                         }
                     }
