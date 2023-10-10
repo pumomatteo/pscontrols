@@ -1,8 +1,7 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { UploadValidationErrorTypeEnum } from "../vr";
 export declare class UploadOptions extends VrControlOptions {
-    dropArea?: boolean | HTMLElement | string | JQuery;
-    dropAreaText?: boolean | string;
+    dropArea?: boolean | UploadDropAreaSettings;
     webApiSettings?: UploadWebApiSettings;
     multiple?: boolean;
     progressBar?: boolean;
@@ -32,7 +31,7 @@ export declare class Upload extends VrControl {
     private _uploadProgress;
     private _divProgressBar;
     private _divFileList;
-    private _divDropArea;
+    private _divDropAreaList;
     private _files;
     private _inputFile;
     private _dicFileXhr;
@@ -50,7 +49,7 @@ export declare class Upload extends VrControl {
     private uploadFile;
     private initializeProgress;
     private updateProgress;
-    dropArea(): HTMLElement | null;
+    dropArea(): HTMLElement[];
     divFileList(): HTMLElement;
     progressBar(): HTMLProgressElement;
     uploadButton(): HTMLInputElement;
@@ -66,6 +65,11 @@ export declare class Upload extends VrControl {
 declare class UploadWebApiSettings {
     url?: string;
     parameters?: UploadWebApiParameter[] | ((e: UploadParametersEvent) => UploadWebApiParameter[]);
+}
+declare class UploadDropAreaSettings {
+    addDefault?: boolean;
+    list?: HTMLElement[];
+    text?: string | boolean;
 }
 declare class UploadWebApiParameter {
     key: string;

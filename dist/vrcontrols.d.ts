@@ -3552,8 +3552,7 @@ export
 //#region upload
 export class UploadOptions extends VrControlOptions
 {
-    dropArea?: boolean | HTMLElement | string | JQuery;
-    dropAreaText?: boolean | string;
+    dropArea?: boolean | UploadDropAreaSettings;
     webApiSettings?: UploadWebApiSettings;
     multiple?: boolean;
     progressBar?: boolean;
@@ -3588,7 +3587,7 @@ export class Upload extends VrControl
     getFiles(): File[];
     getBase64Files(files: File[]): Promise<string[]>;
     removeFileAtIndex(index: number): void;
-    dropArea(): HTMLElement | null;
+    dropArea(): HTMLElement[];
     divFileList(): HTMLElement;
     progressBar(): HTMLProgressElement;
     uploadButton(): HTMLInputElement;
@@ -3602,6 +3601,12 @@ class UploadWebApiSettings
 {
     url?: string;
     parameters?: UploadWebApiParameter[] | ((e: UploadParametersEvent) => UploadWebApiParameter[]);
+}
+class UploadDropAreaSettings
+{
+    addDefault?: boolean;
+    list?: HTMLElement[];
+    text?: string | boolean;
 }
 class UploadWebApiParameter
 {

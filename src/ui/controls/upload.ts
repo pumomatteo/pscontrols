@@ -4,8 +4,7 @@ import { ControlTypeEnum, div, puma, confirm, createLabel, icon, IconClassicLigh
 //#region Options
 export class UploadOptions extends VrControlOptions
 {
-	dropArea?: boolean | HTMLElement | string | JQuery;
-	dropAreaText?: boolean | string;
+	dropArea?: boolean | UploadDropAreaSettings;
 	webApiSettings?: UploadWebApiSettings;
 	multiple?: boolean;
 	progressBar?: boolean;
@@ -40,7 +39,7 @@ export class Upload extends VrControl
 	private _uploadProgress: number[];
 	private _divProgressBar: HTMLProgressElement;
 	private _divFileList: HTMLElement;
-	private _divDropArea: HTMLElement | null;
+	private _divDropAreaList: HTMLElement[];
 	private _files: File[];
 	private _inputFile: HTMLInputElement;
 	private _dicFileXhr: Map<File, XMLHttpRequest>;
@@ -60,12 +59,6 @@ export class Upload extends VrControl
 
 		if (options.dropArea == null) options.dropArea = true;
 		if (options.dropArea !== true && options.progressBar == null) options.progressBar = false;
-		if (options.dropAreaText == null) options.dropAreaText = "Trascina qui il file";
-		if (typeof (options.dropArea) == "boolean")
-		{
-			if (options.dropArea) options.dropAreaText = "Trascina qui il file";
-			else options.dropAreaText = "";
-		}
 
 		if (options.progressBar == null) options.progressBar = true;
 		if (options.uploadButton == null) options.uploadButton = true;
@@ -76,136 +69,154 @@ export class Upload extends VrControl
 		//#endregion
 
 		super(element, options, ControlTypeEnum.Upload);
-		let uploadContainer = null;
+		let uploadContainer: HTMLElement | null = null;
 		this._files = [];
 		this._dicFileXhr = new Map<File, XMLHttpRequest>();
 
 		//#region Drop area
-		this._divDropArea = null;
+		this._divDropAreaList = [];
 		if (options.dropArea !== false)
 		{
 			//#region Drop area element
 			if (typeof (options.dropArea) == "boolean" && options.dropArea)
 			{
-				this._divDropArea = div(this.element(), { class: "vrUploadDropArea" });
-				uploadContainer = this._divDropArea;
+				this._divDropAreaList = [div(this.element(), { class: "vrUploadDropArea" })];
+				uploadContainer = this._divDropAreaList[0];
 			}
 			else
 			{
-				uploadContainer = this.element();
-				if (typeof (options.dropArea) == "string")
-				{
-					if (!options.dropArea.startsWith("#"))
-						options.dropArea = "#" + options.dropArea;
+				if (options.dropArea.addDefault == null) options.dropArea.addDefault = true;
+				if (options.dropArea.list == null) options.dropArea.list = [];
+				if (options.dropArea.text == null) options.dropArea.text = true;
 
-					this._divDropArea = puma(options.dropArea)[0];
+				if (options.dropArea.addDefault === true)
+				{
+					this._divDropAreaList = [div(this.element(), { class: "vrUploadDropArea" })];
+					uploadContainer = this._divDropAreaList[0];
 				}
 				else
-					this._divDropArea = puma(options.dropArea)[0];
+					uploadContainer = this.element();
+
+				if (options.dropArea.list != null)
+				{
+					for (let dropArea of options.dropArea.list)
+						this._divDropAreaList.push(dropArea);
+				}
 			}
 			//#endregion
 
 			//#region Events
 			["dragenter", "dragover", "dragleave", "drop"].forEach(eventName =>
 			{
-				this._divDropArea!.addEventListener(eventName, (e) =>
+				for (let divDropArea of this._divDropAreaList)
 				{
-					e.preventDefault()
-					e.stopPropagation()
-				}, false);
-			});
-
-			puma(this._divDropArea).on("dragenter", (e: JQuery.DragEnterEvent) =>
-			{
-				//#region DragEnter event
-				if (options!.onDragEnter != null)
-				{
-					let dragEnterEvent = new UploadDragEnterEvent();
-					dragEnterEvent.sender = this;
-					dragEnterEvent.element = e.currentTarget;
-					dragEnterEvent.event = e;
-					options!.onDragEnter(dragEnterEvent);
-
-					if (dragEnterEvent.isDefaultPrevented())
+					divDropArea.addEventListener(eventName, (e) =>
 					{
-						e.preventDefault();
-						return;
-					}
+						e.preventDefault()
+						e.stopPropagation()
+					}, false);
 				}
-				//#endregion
-
-				puma(e.currentTarget).addClass("highlight");
 			});
 
-			puma(this._divDropArea).on("dragover", (e: JQuery.DragOverEvent) =>
+			for (let divDropArea of this._divDropAreaList)
 			{
-				//#region DragEnter event
-				if (options!.onDragOver != null)
+				puma(divDropArea).on("dragenter", (e: JQuery.DragEnterEvent) =>
 				{
-					let dragOverEvent = new UploadDragOverEvent();
-					dragOverEvent.sender = this;
-					dragOverEvent.element = e.currentTarget;
-					dragOverEvent.event = e;
-					options!.onDragOver(dragOverEvent);
-
-					if (dragOverEvent.isDefaultPrevented())
+					//#region DragEnter event
+					if (options!.onDragEnter != null)
 					{
-						e.preventDefault();
-						return;
+						let dragEnterEvent = new UploadDragEnterEvent();
+						dragEnterEvent.sender = this;
+						dragEnterEvent.element = e.currentTarget;
+						dragEnterEvent.event = e;
+						options!.onDragEnter(dragEnterEvent);
+
+						if (dragEnterEvent.isDefaultPrevented())
+						{
+							e.preventDefault();
+							return;
+						}
 					}
-				}
-				//#endregion
+					//#endregion
 
-				puma(e.currentTarget).addClass("highlight");
-			});
+					puma(e.currentTarget).addClass("highlight");
+				});
 
-			puma(this._divDropArea).on("dragleave", (e: JQuery.DragLeaveEvent) =>
-			{
-				//#region DragEnter event
-				if (options!.onDragLeave != null)
+				puma(divDropArea).on("dragover", (e: JQuery.DragOverEvent) =>
 				{
-					let dragLeaveEvent = new UploadDragLeaveEvent();
-					dragLeaveEvent.sender = this;
-					dragLeaveEvent.element = e.currentTarget;
-					dragLeaveEvent.event = e;
-					options!.onDragLeave(dragLeaveEvent);
-
-					if (dragLeaveEvent.isDefaultPrevented())
+					//#region DragEnter event
+					if (options!.onDragOver != null)
 					{
-						e.preventDefault();
-						return;
+						let dragOverEvent = new UploadDragOverEvent();
+						dragOverEvent.sender = this;
+						dragOverEvent.element = e.currentTarget;
+						dragOverEvent.event = e;
+						options!.onDragOver(dragOverEvent);
+
+						if (dragOverEvent.isDefaultPrevented())
+						{
+							e.preventDefault();
+							return;
+						}
 					}
-				}
-				//#endregion
+					//#endregion
 
-				puma(e.currentTarget).removeClass("highlight");
-			});
+					puma(e.currentTarget).addClass("highlight");
+				});
 
-			puma(this._divDropArea).on("drop", (e: JQuery.DropEvent) =>
-			{
-				let dataTransfer = e.originalEvent!.dataTransfer!;
-				let files: File[] = [...dataTransfer.files as any];
-
-				//#region Drop event
-				if (options!.onDrop != null)
+				puma(divDropArea).on("dragleave", (e: JQuery.DragLeaveEvent) =>
 				{
-					let dropEvent = new UploadDropEvent();
-					dropEvent.sender = this;
-					dropEvent.files = files;
-					dropEvent.event = e;
-					options!.onDrop(dropEvent);
-
-					if (dropEvent.isDefaultPrevented())
+					//#region DragEnter event
+					if (options!.onDragLeave != null)
 					{
-						e.preventDefault();
-						return;
-					}
-				}
-				//#endregion
+						let dragLeaveEvent = new UploadDragLeaveEvent();
+						dragLeaveEvent.sender = this;
+						dragLeaveEvent.element = e.currentTarget;
+						dragLeaveEvent.event = e;
+						options!.onDragLeave(dragLeaveEvent);
 
-				puma(e.currentTarget).removeClass("highlight");
-				this.manageLoadingFiles(files);
-			});
+						if (dragLeaveEvent.isDefaultPrevented())
+						{
+							e.preventDefault();
+							return;
+						}
+					}
+					//#endregion
+
+					puma(e.currentTarget).removeClass("highlight");
+				});
+
+				puma(divDropArea).on("drop", (e: JQuery.DropEvent) =>
+				{
+					let dataTransfer = e.originalEvent!.dataTransfer!;
+					let files: File[] = [...dataTransfer.files as any];
+
+					//#region Drop event
+					if (options!.onDrop != null)
+					{
+						let dropEvent = new UploadDropEvent();
+						dropEvent.sender = this;
+						dropEvent.files = files;
+						dropEvent.event = e;
+						options!.onDrop(dropEvent);
+
+						if (dropEvent.isDefaultPrevented())
+						{
+							e.preventDefault();
+							return;
+						}
+					}
+					//#endregion
+
+					puma(e.currentTarget).removeClass("highlight");
+					this.manageLoadingFiles(files);
+				});
+
+				puma(divDropArea).on("paste", (e: any) =>
+				{
+					this.addFile(e.originalEvent.clipboardData.files[0]);
+				});
+			}
 			//#endregion
 		}
 		else
@@ -222,13 +233,28 @@ export class Upload extends VrControl
 		if (!options.uploadButton)
 			puma(labelInput).hide();
 
-		if (options.dropArea === true)
+		if (options.dropArea === true || (options.dropArea !== false && options.dropArea.addDefault))
 		{
+			let dropAreaText = "";
+			if (options.dropArea === true) dropAreaText = "Trascina qui il file";
+			else 
+			{
+				if (options.dropArea.text !== false)
+					dropAreaText = "Trascina qui il file";
+			}
+
 			createLabel({
-				text: String(options.dropAreaText),
+				text: String(dropAreaText),
 				cssContainer: "margin-left: 5px;",
 				css: "text-align: left; font-style: italic; color: #a0a0a0;"
-			}, this._divDropArea);
+			}, this._divDropAreaList[0]);
+		}
+		else
+		{
+			puma(this.container()).on("paste", (e: any) =>
+			{
+				this.addFile(e.originalEvent.clipboardData.files[0]);
+			});
 		}
 
 		puma(this._inputFile).on("click", (e: JQuery.ClickEvent) =>
@@ -450,7 +476,7 @@ export class Upload extends VrControl
 				if (filesAddedEvent.isDefaultPrevented())
 					return;
 			}
-		//#endregion
+			//#endregion
 		}
 
 		filesAdded = [];
@@ -794,7 +820,7 @@ export class Upload extends VrControl
 	//#region Utility
 	dropArea()
 	{
-		return this._divDropArea;
+		return this._divDropAreaList;
 	}
 
 	divFileList()
@@ -1069,6 +1095,13 @@ class UploadWebApiSettings
 {
 	url?: string;
 	parameters?: UploadWebApiParameter[] | ((e: UploadParametersEvent) => UploadWebApiParameter[]);
+}
+
+class UploadDropAreaSettings
+{
+	addDefault?: boolean;
+	list?: HTMLElement[];
+	text?: string | boolean;
 }
 
 class UploadWebApiParameter

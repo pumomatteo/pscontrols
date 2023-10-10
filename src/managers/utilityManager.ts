@@ -134,6 +134,7 @@ export class UtilityManager
             error: (response: JQueryXHR) => 
             {
                 notifyError("Errore nella chiamata alla webApi")
+                console.error(response);
 
                 if (errorCallback != null)
                     errorCallback();
