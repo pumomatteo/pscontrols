@@ -68,7 +68,7 @@ declare class UploadWebApiSettings {
 }
 declare class UploadDropAreaSettings {
     addDefault?: boolean;
-    list?: HTMLElement[];
+    list?: HTMLElement[] | string[];
     text?: string | boolean;
 }
 declare class UploadWebApiParameter {

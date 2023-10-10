@@ -100,7 +100,17 @@ export class Upload extends VrControl
 				if (options.dropArea.list != null)
 				{
 					for (let dropArea of options.dropArea.list)
-						this._divDropAreaList.push(dropArea);
+					{
+						if (typeof (dropArea) == "string")
+						{
+							if (!dropArea.startsWith("#"))
+								dropArea = "#" + dropArea;
+
+							this._divDropAreaList.push(puma(dropArea)[0]);
+						}
+						else
+							this._divDropAreaList.push(dropArea);
+					}
 				}
 			}
 			//#endregion
@@ -1100,7 +1110,7 @@ class UploadWebApiSettings
 class UploadDropAreaSettings
 {
 	addDefault?: boolean;
-	list?: HTMLElement[];
+	list?: HTMLElement[] | string[];
 	text?: string | boolean;
 }
 

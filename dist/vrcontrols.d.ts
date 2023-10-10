@@ -3605,7 +3605,7 @@ class UploadWebApiSettings
 class UploadDropAreaSettings
 {
     addDefault?: boolean;
-    list?: HTMLElement[];
+    list?: HTMLElement[] | string[];
     text?: string | boolean;
 }
 class UploadWebApiParameter
