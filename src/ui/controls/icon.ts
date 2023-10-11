@@ -113,6 +113,9 @@ export class Icon extends VrControl
 
 	click(): void
 	{
+		if (!this.enabled())
+			return;
+
 		let options = this.getOptions();
 		if (options.confirmationMessage != null)
 			confirm(options.confirmationMessage).then(() => this.internalClick(), () => this.rejectedConfirm());
@@ -134,6 +137,9 @@ export class Icon extends VrControl
 
 	mouseDown(): void
 	{
+		if (!this.enabled())
+			return;
+
 		let options = this.getOptions();
 		if (options.confirmationMessage != null)
 			confirm(options.confirmationMessage).then(() => this.internalMouseDown(), () => this.rejectedConfirm());

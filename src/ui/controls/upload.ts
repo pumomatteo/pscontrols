@@ -224,7 +224,7 @@ export class Upload extends VrControl
 
 				puma(divDropArea).on("paste", (e: any) =>
 				{
-					this.addFile(e.originalEvent.clipboardData.files[0]);
+					this.addFiles(e.originalEvent.clipboardData.files);
 				});
 			}
 			//#endregion
@@ -263,7 +263,7 @@ export class Upload extends VrControl
 		{
 			puma(this.container()).on("paste", (e: any) =>
 			{
-				this.addFile(e.originalEvent.clipboardData.files[0]);
+				this.addFiles(e.originalEvent.clipboardData.files);
 			});
 		}
 

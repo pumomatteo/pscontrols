@@ -659,6 +659,11 @@ input, button, textarea, ul, li, div, span, i, table, tr, td, label {
 
 /* ************ End hover ************ */
 
+.vrIcon[disabled='disabled'] {
+    opacity: 0.5;
+    cursor: default !important;
+}
+
 .vrDatePicker {
     height: 23px;
     font-size: 14px;

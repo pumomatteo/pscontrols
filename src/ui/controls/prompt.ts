@@ -96,7 +96,7 @@ export class Prompt
         window.setTimeout(() => puma(this._window.footerItem<Button>("ok")!.element()).focus());
     }
 
-    open(): Promise<any>
+    open(): Promise<string>
     {
         let promise = new Promise((okCallback?: (value: string) => void, cancelCallback?: Function) =>
         {

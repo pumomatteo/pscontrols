@@ -2400,7 +2400,7 @@ export class PromptOptions
 export class Prompt
 {
     constructor(text?: string | null, options?: PromptOptions | null);
-    open(): Promise<any>;
+    open(): Promise<string>;
     close(): void;
 }
 class ContentPromptLoadedEvent extends VrControlsEvent
@@ -4136,6 +4136,7 @@ export enum IconClassicSolid
     Bell = "fa-solid fa-bell",
     BellSlash = "fa-solid fa-bell-slash",
     Bolt = "fa-solid fa-bolt",
+    Bomb = "fa-solid fa-bomb",
     Book = "fa-solid fa-book",
     BookOpen = "fa-solid fa-book-open",
     Box = "fa-solid fa-box",
@@ -4477,6 +4478,7 @@ export enum IconClassicLight
     Bell = "fa-light fa-bell",
     BellSlash = "fa-light fa-bell-slash",
     Bolt = "fa-light fa-bolt",
+    Bomb = "fa-light fa-bomb",
     Book = "fa-light fa-book",
     BookOpen = "fa-light fa-book-open",
     Box = "fa-light fa-box",
@@ -4820,6 +4822,7 @@ export enum IconClassicRegular
     Bell = "fa-regular fa-bell",
     BellSlash = "fa-regular fa-bell-slash",
     Bolt = "fa-regular fa-bolt",
+    Bomb = "fa-regular fa-bomb",
     Book = "fa-regular fa-book",
     BookOpen = "fa-regular fa-book-open",
     Box = "fa-regular fa-box",
@@ -5163,6 +5166,7 @@ export enum IconClassicDuotone
     Bell = "fa-duotone fa-bell",
     BellSlash = "fa-duotone fa-bell-slash",
     Bolt = "fa-duotone fa-bolt",
+    Bomb = "fa-duotone fa-bomb",
     Book = "fa-duotone fa-book",
     BookOpen = "fa-duotone fa-book-open",
     Box = "fa-duotone fa-box",
@@ -5506,6 +5510,7 @@ export enum IconClassicThin
     Bell = "fa-thin fa-bell",
     BellSlash = "fa-thin fa-bell-slash",
     Bolt = "fa-thin fa-bolt",
+    Bomb = "fa-thin fa-bomb",
     Book = "fa-thin fa-book",
     BookOpen = "fa-thin fa-book-open",
     Box = "fa-thin fa-box",
@@ -5849,6 +5854,7 @@ export enum IconSharpSolid
     Bell = "fa-sharp fa-solid fa-bell",
     BellSlash = "fa-sharp fa-solid fa-bell-slash",
     Bolt = "fa-sharp fa-solid fa-bolt",
+    Bomb = "fa-sharp fa-solid fa-bomb",
     Book = "fa-sharp fa-solid fa-book",
     BookOpen = "fa-sharp fa-solid fa-book-open",
     Box = "fa-sharp fa-solid fa-box",
@@ -6190,6 +6196,7 @@ export enum IconSharpLight
     Bell = "fa-sharp fa-light fa-bell",
     BellSlash = "fa-sharp fa-light fa-bell-slash",
     Bolt = "fa-sharp fa-light fa-bolt",
+    Bomb = "fa-sharp fa-light fa-bomb",
     Book = "fa-sharp fa-light fa-book",
     BookOpen = "fa-sharp fa-light fa-book-open",
     Box = "fa-sharp fa-light fa-box",
@@ -6533,6 +6540,7 @@ export enum IconSharpRegular
     Bell = "fa-sharp fa-regular fa-bell",
     BellSlash = "fa-sharp fa-regular fa-bell-slash",
     Bolt = "fa-sharp fa-regular fa-bolt",
+    Bomb = "fa-sharp fa-regular fa-bomb",
     Book = "fa-sharp fa-regular fa-book",
     BookOpen = "fa-sharp fa-regular fa-book-open",
     Box = "fa-sharp fa-regular fa-box",
@@ -6876,6 +6884,7 @@ export enum IconSharpDuotone
     Bell = "fa-sharp fa-duotone fa-bell",
     BellSlash = "fa-sharp fa-duotone fa-bell-slash",
     Bolt = "fa-sharp fa-duotone fa-bolt",
+    Bomb = "fa-sharp fa-duotone fa-bomb",
     Book = "fa-sharp fa-duotone fa-book",
     BookOpen = "fa-sharp fa-duotone fa-book-open",
     Box = "fa-sharp fa-duotone fa-box",
@@ -7219,6 +7228,7 @@ export enum IconSharpThin
     Bell = "fa-sharp fa-thin fa-bell",
     BellSlash = "fa-sharp fa-thin fa-bell-slash",
     Bolt = "fa-sharp fa-thin fa-bolt",
+    Bomb = "fa-sharp fa-thin fa-bomb",
     Book = "fa-sharp fa-thin fa-book",
     BookOpen = "fa-sharp fa-thin fa-book-open",
     Box = "fa-sharp fa-thin fa-box",

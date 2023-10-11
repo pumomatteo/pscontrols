@@ -18,7 +18,7 @@ export declare class Prompt {
     private _options;
     private _textBox;
     constructor(text?: string | null, options?: PromptOptions | null);
-    open(): Promise<any>;
+    open(): Promise<string>;
     close(): void;
     private getOptions;
     private onContentLoaded;
