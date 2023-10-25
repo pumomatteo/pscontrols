@@ -9417,7 +9417,8 @@ export enum Color
     blueGrey600 = "#546e7a",
     blueGrey700 = "#455a64",
     blueGrey800 = "#37474f",
-    blueGrey900 = "#263238"
+    blueGrey900 = "#263238",
+    white = "#FFF"
 }
 export function pageError(callback?: (e: PageErrorEvent) => void): void;
 class PageErrorEvent
