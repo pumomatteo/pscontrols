@@ -162,20 +162,19 @@ export class AutoCompleteBox extends VrControl
 					let li = puma(this._popup).find("li:visible").first();
 					li.focus();
 				}
+			},
+			onBlur: (e) =>
+			{
+				if (this._txtInput.value() != "" && !$(this._popup).is(":visible"))
+				{
+					this.manageInput(this._txtInput, this._txtInput.value())
+					this.blurEvent();
+				}
 			}
 		}, this.element())
 
 		if (options.comboSettings != null && options.comboSettings.items != null)
 			this.comboItems(options.comboSettings.items);
-
-		puma(document.body).on("click", (e: JQuery.ClickEvent) =>
-		{
-			if (this._txtInput.value() != "" && e.target.id != this._txtInput.element().id && !e.target.classList.contains("vrAutoCompleteBoxItemText") && !e.target.classList.contains("comboBox_divPopup"))
-			{
-				this.manageInput(this._txtInput, this._txtInput.value())
-				this.blurEvent();
-			}
-		});
 
 		//#region Focus
 		puma(this.element()).on("focus", (e: JQuery.FocusEvent) => this.focus());
@@ -939,13 +938,11 @@ class AutoCompleteBoxItemInfo
 
 class AutoCompleteBoxFocusEvent extends AutoCompleteBoxEvent
 {
-	sender: AutoCompleteBox;
 	element: HTMLElement;
 }
 
 class AutoCompleteBoxBlurEvent extends AutoCompleteBoxEvent
 {
-	sender: AutoCompleteBox;
 	element: HTMLElement;
 }
 //#endregion

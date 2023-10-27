@@ -391,6 +391,7 @@ export class TextBox extends VrControl
                 let event = new TextBoxBlurEvent();
                 event.sender = this;
                 event.target = e.target;
+                event.relatedTarget = e.relatedTarget;
                 event.value = this.value();
                 options!.onBlur(event);
             }
@@ -873,6 +874,7 @@ class TextBoxFocusEvent extends TextBoxEvent
 class TextBoxBlurEvent extends TextBoxEvent
 {
     target: HTMLElement;
+    relatedTarget?: EventTarget | null;
 }
 
 class TextBoxPasteEvent extends TextBoxEvent

@@ -5390,7 +5390,8 @@ export declare enum Color {
     blueGrey700 = "#455a64",
     blueGrey800 = "#37474f",
     blueGrey900 = "#263238",
-    white = "#FFF"
+    white = "#FFFFFF",
+    black = "#000000"
 }
 export declare function pageError(callback?: (e: PageErrorEvent) => void): void;
 declare class PageErrorEvent {

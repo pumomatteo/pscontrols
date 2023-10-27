@@ -76,6 +76,7 @@ declare class TextBoxFocusEvent extends TextBoxEvent {
 }
 declare class TextBoxBlurEvent extends TextBoxEvent {
     target: HTMLElement;
+    relatedTarget?: EventTarget | null;
 }
 declare class TextBoxPasteEvent extends TextBoxEvent {
     pastedValue: string;

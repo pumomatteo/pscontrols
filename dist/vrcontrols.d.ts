@@ -451,12 +451,10 @@ class AutoCompleteBoxItemInfo
 }
 class AutoCompleteBoxFocusEvent extends AutoCompleteBoxEvent
 {
-    sender: AutoCompleteBox;
     element: HTMLElement;
 }
 class AutoCompleteBoxBlurEvent extends AutoCompleteBoxEvent
 {
-    sender: AutoCompleteBox;
     element: HTMLElement;
 }
 export
@@ -3279,6 +3277,7 @@ class TextBoxFocusEvent extends TextBoxEvent
 class TextBoxBlurEvent extends TextBoxEvent
 {
     target: HTMLElement;
+    relatedTarget?: EventTarget | null;
 }
 class TextBoxPasteEvent extends TextBoxEvent
 {
@@ -9418,7 +9417,8 @@ export enum Color
     blueGrey700 = "#455a64",
     blueGrey800 = "#37474f",
     blueGrey900 = "#263238",
-    white = "#FFF"
+    white = "#FFFFFF",
+    black = "#000000"
 }
 export function pageError(callback?: (e: PageErrorEvent) => void): void;
 class PageErrorEvent

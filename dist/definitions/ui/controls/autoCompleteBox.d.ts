@@ -72,11 +72,9 @@ declare class AutoCompleteBoxItemInfo {
     element: HTMLElement;
 }
 declare class AutoCompleteBoxFocusEvent extends AutoCompleteBoxEvent {
-    sender: AutoCompleteBox;
     element: HTMLElement;
 }
 declare class AutoCompleteBoxBlurEvent extends AutoCompleteBoxEvent {
-    sender: AutoCompleteBox;
     element: HTMLElement;
 }
 export {};
