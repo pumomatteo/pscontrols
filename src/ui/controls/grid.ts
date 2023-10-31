@@ -5965,16 +5965,24 @@ export class Grid extends VrControl
         {
             let text = this.formatValue(k[column.field], column.type!, column.decimalDigits, column.roundingSettings, column.showSeconds, column.milesSeparator);
             let tag = k[column.field];
-            if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.LongDate || column.type == GridColumnTypeEnum.LongWeekDate || column.type == GridColumnTypeEnum.ShortWeekDate)
+            if (tag != null)
             {
-                let date = new Date(k[column.field]);
-                date.setHours(0, 0, 0);
-                tag = date;
+                if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.LongDate || column.type == GridColumnTypeEnum.LongWeekDate || column.type == GridColumnTypeEnum.ShortWeekDate)
+                {
+                    let date = new Date(k[column.field]);
+                    date.setHours(0, 0, 0);
+                    tag = date;
+                }
+                else if (column.type == GridColumnTypeEnum.Time || column.type == GridColumnTypeEnum.DateTime || column.type == GridColumnTypeEnum.LongDateTime)
+                    tag = new Date(k[column.field]);
+                else if (column.type == GridColumnTypeEnum.String || column.type == GridColumnTypeEnum.Label)
+                    tag = tag.toLowerCase();
             }
-            else if (column.type == GridColumnTypeEnum.Time || column.type == GridColumnTypeEnum.DateTime || column.type == GridColumnTypeEnum.LongDateTime)
-                tag = new Date(k[column.field]);
-            else if (column.type == GridColumnTypeEnum.String || column.type == GridColumnTypeEnum.Label)
-                tag = tag.toLowerCase();
+            else
+            {
+                text = "";
+                tag = "";
+            }
 
             return { text: text, value: tag, tag: tag }
         }).vrDistinctBy(k => k.text).vrSortAsc("tag");
