@@ -74,7 +74,7 @@ input:checked+.vrSwitchSlider:before {
 }
 
 .vrSwitchContainer {
-    height: 27px;
+    min-height: 27px;
 }
 
 .vrSwitch {
