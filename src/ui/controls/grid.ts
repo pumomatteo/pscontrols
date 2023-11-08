@@ -2350,7 +2350,7 @@ export class Grid extends VrControl
                     if (e.shiftKey && options.checkboxes == GridCheckboxModeEnum.MultiCheck)
                         this.selectRangeShiftKey(tdCheckbox);
                     else
-                        this.selectRowInternal(dataItemId, true, false, false, true, false);
+                        this.selectRowInternal(dataItemId, true, { fromCheckboxInput: true, fromGroupOrRow: false, fromMethodCall: false, shiftKey: false });
                 });
             }
             //#endregion
@@ -3056,7 +3056,7 @@ export class Grid extends VrControl
                     else
                     {
                         if (!puma(e.target).is("input") && !puma(e.target).hasClass("vrButton") && !puma(e.target).hasClass("vrIcon"))
-                            this.selectRowInternal(dataItemId, false, true);
+                            this.selectRowInternal(dataItemId, false, { fromCheckboxInput: false, fromGroupOrRow: true, fromMethodCall: false, shiftKey: false });
                     }
                 });
             }
@@ -3953,7 +3953,7 @@ export class Grid extends VrControl
     {
         let tr = puma(this._divBody).find("tr[row='" + index + "']");
         let dataItemId = tr.attr("dataItemId");
-        this.selectRowInternal(dataItemId, false, false, triggerChange);
+        this.selectRowInternal(dataItemId, triggerChange, { fromCheckboxInput: false, fromGroupOrRow: false, fromMethodCall: false, shiftKey: false });
     }
 
     selectRows(itemIdList: string[], property?: string, triggerChange = true)
@@ -3976,7 +3976,7 @@ export class Grid extends VrControl
 
     selectRow(itemId: string, triggerChange = true)
     {
-        this.selectRowInternal(itemId, false, false, true, triggerChange);
+        this.selectRowInternal(itemId, triggerChange, { fromCheckboxInput: false, fromGroupOrRow: false, fromMethodCall: true, shiftKey: false });
     }
 
     private selectRangeShiftKey(target: HTMLElement)
@@ -4009,11 +4009,11 @@ export class Grid extends VrControl
         {
             let tr = puma(this._divBody).find("tr[row='" + i + "']");
             let dataItemId = tr.attr("dataItemId");
-            this.selectRowInternal(dataItemId, true, true, false, true, true);
+            this.selectRowInternal(dataItemId, true, { fromCheckboxInput: true, fromGroupOrRow: true, fromMethodCall: false, shiftKey: true });
         }
     }
 
-    private selectRowInternal(itemId: string, fromCheckboxInput = false, fromGroupOrRow = false, fromMethodCall = false, triggerChange = true, shiftKey = false)
+    private selectRowInternal(itemId: string, triggerChange = true, settings: { fromCheckboxInput: boolean, fromGroupOrRow:boolean, fromMethodCall: boolean, shiftKey: boolean})
     {
         let options = this.getOptions();
 
@@ -4029,9 +4029,9 @@ export class Grid extends VrControl
             if (checkboxToSelect.checked)
             {
                 let checkedCheckboxList = checkboxList.filter(k => k.checked);
-                if (options.checkboxes == GridCheckboxModeEnum.SingleCheck || (options.checkboxes == GridCheckboxModeEnum.MultiCheck && !fromCheckboxInput && checkedCheckboxList.length > 1))
+                if (options.checkboxes == GridCheckboxModeEnum.SingleCheck || (options.checkboxes == GridCheckboxModeEnum.MultiCheck && !settings.fromCheckboxInput && checkedCheckboxList.length > 1))
                 {
-                    if (!fromMethodCall)
+                    if (!settings.fromMethodCall)
                     {
                         for (let checkbox of checkboxList)
                         {
@@ -4054,7 +4054,7 @@ export class Grid extends VrControl
                 }
                 else 
                 {
-                    if (fromGroupOrRow)
+                    if (settings.fromGroupOrRow)
                         this.unselectRow(itemId, triggerChange);
                     else
                         this._rowCheckedIdList.push(String(itemId));
@@ -4062,7 +4062,7 @@ export class Grid extends VrControl
             }
             else
             {
-                if ((options.checkboxes == GridCheckboxModeEnum.SingleCheck || !fromCheckboxInput) && !fromMethodCall)
+                if ((options.checkboxes == GridCheckboxModeEnum.SingleCheck || !settings.fromCheckboxInput) && !settings.fromMethodCall)
                 {
                     for (let checkbox of checkboxList)
                     {
@@ -4077,7 +4077,7 @@ export class Grid extends VrControl
                     }
                 }
 
-                if (!fromGroupOrRow && !fromMethodCall)
+                if (!settings.fromGroupOrRow && !settings.fromMethodCall)
                 {
                     checkboxToSelect.checked = false;
                     this._rowCheckedIdList.vrDelete(String(itemId));
@@ -4145,8 +4145,8 @@ export class Grid extends VrControl
             selectRowEvent.checked = (checkboxToSelect != null) ? checkboxToSelect.checked : false;
             selectRowEvent.empty = (dataItem != null && dataItem[options.dataSourceFieldId!] == null);
             selectRowEvent.index = index;
-            selectRowEvent.shiftKey = shiftKey;
-            selectRowEvent.fromCheckbox = fromCheckboxInput && !shiftKey;
+            selectRowEvent.shiftKey = settings.shiftKey;
+            selectRowEvent.fromCheckbox = settings.fromCheckboxInput && !settings.shiftKey;
             options.onSelectRow(selectRowEvent);
         }
         //#endregion
@@ -10184,7 +10184,7 @@ export class Grid extends VrControl
                     callback: (response: any) =>
                     {
                         if (this._actualLayout != null)
-                            this._grdLayout.selectRowInternal(String(this._actualLayout.id), undefined, true);
+                            this.selectRowInternal(String(this._actualLayout.id), false, { fromCheckboxInput: false, fromGroupOrRow: true, fromMethodCall: false, shiftKey: false });
                     }
                 },
                 autoWindowSettings:
