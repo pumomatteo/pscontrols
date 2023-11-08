@@ -1,6 +1,6 @@
 import { VrControlOptions, VrControl } from "../common";
 import { GridToolbarItem, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridSortDirectionEnum, GridGroupBySettings, GridGroupByItem, GridSortSettings } from "../vr";
-import { GridRebindRequest, GridFooterSettings, GridOnDataBoundEvent, GridOnRowDataBoundEvent, GridSelectRowEvent, GridSelectAllRowsEvent, GridUnselectRowEvent, GridUnselectAllRowsEvent, GridTemplateEvent, GridFilterSettings, GridRow } from "./grid";
+import { GridRebindRequest, GridFooterSettings, GridOnDataBoundEvent, GridOnRowDataBoundEvent, GridSelectRowEvent, GridSelectAllRowsEvent, GridTemplateEvent, GridFilterSettings, GridRow } from "./grid";
 import { Button } from "./button";
 import { SplitButton } from "./splitButton";
 import { Switch } from "./switch";
@@ -34,8 +34,6 @@ export declare class RepeaterOptions extends VrControlOptions {
     onRowDataBound?: (e: RepeaterOnRowDataBoundEvent) => void | string;
     onSelectRow?: (e: GridSelectRowEvent) => void;
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
-    onUnselectRow?: (e: GridUnselectRowEvent) => void;
-    onUnselectAllRows?: (e: GridUnselectAllRowsEvent) => void;
 }
 export declare class Repeater extends VrControl {
     private _grid;

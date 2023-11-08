@@ -64,8 +64,6 @@ export class GridOptions extends VrControlOptions
     onRowDataBound?: (e: GridOnRowDataBoundEvent) => void | string;
     onSelectRow?: (e: GridSelectRowEvent) => void;
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
-    onUnselectRow?: (e: GridUnselectRowEvent) => void;
-    onUnselectAllRows?: (e: GridUnselectAllRowsEvent) => void;
     onGroupExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
@@ -93,12 +91,13 @@ export class Grid extends VrControl
     private _internalOptions: GridOptions;
     private _tempRebindInfo: TempRebindInfo | null;
     private _pageSizeUnlimited: boolean;
-    private _checkedItemsForFiltering: any[] | null;
+    private _rowCheckedIdList: string[];
     private _timeoutFilterText: number;
     private _firstDraw: boolean;
 
     //#region DataSource
     private _dataSource: any[] | null;
+    private _actualDatasource: any[];
     private _originalDataSource: any[];
     private _deletedItems: any[];
     private _actualEditedItem: any | null;
@@ -307,7 +306,9 @@ export class Grid extends VrControl
 
         this._originalHiddenColumnFields = [];
         this._originalDataSource = [];
+        this._actualDatasource = [];
         this._dictionaryFilterConditions = new Map<string, GridFilterSettings>();
+        this._rowCheckedIdList = [];
 
         if (options.pageSize === false)
             this._pageSizeUnlimited = true;
@@ -1246,8 +1247,6 @@ export class Grid extends VrControl
                                                         this.rebind(null, true);
                                                     else
                                                         this.applyFilters(true);
-
-                                                    this._checkedItemsForFiltering = this.getCheckedItems();
                                                 }, 100);
                                                 return;
                                             }
@@ -2351,7 +2350,7 @@ export class Grid extends VrControl
                     if (e.shiftKey && options.checkboxes == GridCheckboxModeEnum.MultiCheck)
                         this.selectRangeShiftKey(tdCheckbox);
                     else
-                        this.selectRowInternal(dataItemId, true, false, false, true, false, true);
+                        this.selectRowInternal(dataItemId, true, false, false, true, false);
                 });
             }
             //#endregion
@@ -3115,6 +3114,7 @@ export class Grid extends VrControl
             i++;
         }
 
+        this._actualDatasource = items;
         tbody.appendChild(rowFragment);
         if (options.lockable)
             tbodyLocked!.appendChild(rowFragmentLocked);
@@ -3383,8 +3383,7 @@ export class Grid extends VrControl
         //#endregion
 
         this._deletedItems = [];
-        if (this._checkedItemsForFiltering != null && this._checkedItemsForFiltering.length > 0)
-            this.selectRows(this._checkedItemsForFiltering.map(k => k[options.dataSourceFieldId!]), undefined, false);
+        this.selectRows(this._rowCheckedIdList, undefined, false);
 
         //#region GroupBy
         if (options.groupable! && options.groupBy != null)
@@ -3802,31 +3801,21 @@ export class Grid extends VrControl
     getCheckedItems()
     {
         let options = this.getOptions();
-        let checkboxList = Array.from(this._divBody.getElementsByClassName("vr-checkbox-column"));
-        if (this.thereAreLockedColumns())
-            checkboxList = Array.from(this._divBodyLocked.getElementsByClassName("vr-checkbox-column"));
-
-        let checkboxCheckedList = checkboxList.filter(k => (k as HTMLInputElement).checked);
+        let checkedValues = this.getCheckedValues();
 
         let checkedItems: any[] = [];
-        for (let checkboxChecked of checkboxCheckedList)
+        let datasourceIdList = this.dataSource().map(k => k[options.dataSourceFieldId!]);
+        for (let value of checkedValues)
         {
-            let rowElement = checkboxChecked.closest("tr");
-            if (rowElement != null)
-            {
-                let rowId = rowElement.getAttribute("dataItemId")!;
-                let checkedItem = this.dataSource().find(k => k[options.dataSourceFieldId!] == rowId);
-                if (checkedItem != null)
-                    checkedItems.push(checkedItem);
-            }
+            let item = datasourceIdList.find(k => k == value);
+            checkedItems.push(item);
         }
         return checkedItems;
     }
 
-    getCheckedValues()
+    getCheckedValues(): any[]
     {
-        let options = this.getOptions();
-        return this.getCheckedItems().map(k => k != null && k[options.dataSourceFieldId!]);
+        return this._rowCheckedIdList.vrToStringArrayList().vrDistinct();
     }
 
     getDeletedItems()
@@ -3883,13 +3872,25 @@ export class Grid extends VrControl
         }
         //#endregion
 
-        this._checkedItemsForFiltering = this.getCheckedItems();
+        let checkedIdList: string[] = [];
+        let datasourceIdList = this.dataSource().map(k => k[options.dataSourceFieldId!]);
+        let checkboxCheckedList = Array.from(checkboxList).filter(k => (k as HTMLInputElement).checked);
+        for (let checkboxChecked of checkboxCheckedList)
+        {
+            let dataItemId = checkboxChecked.getAttribute("dataItemId")!;
+            let checkedId = datasourceIdList.find(k => k == dataItemId);
+            if (checkedId != null)
+                checkedIdList.push(checkedId);
+        }
+
+        this._rowCheckedIdList = checkedIdList.vrToStringArrayList();
 
         //#region Event
         if (triggerChange && options.onSelectAllRows != null)
         {
             let selectAllRowsEvent = new GridSelectAllRowsEvent();
             selectAllRowsEvent.sender = this;
+            selectAllRowsEvent.checked = true;
             options.onSelectAllRows(selectAllRowsEvent);
         }
         //#endregion
@@ -3929,14 +3930,15 @@ export class Grid extends VrControl
         }
         //#endregion
 
-        this._checkedItemsForFiltering = [];
+        this._rowCheckedIdList = [];
 
         //#region Event
-        if (triggerChange && options.onUnselectAllRows != null)
+        if (triggerChange && options.onSelectAllRows != null)
         {
-            let unselectAllRowsEvent = new GridUnselectAllRowsEvent();
-            unselectAllRowsEvent.sender = this;
-            options.onUnselectAllRows(unselectAllRowsEvent);
+            let selectAllRowsEvent = new GridSelectAllRowsEvent();
+            selectAllRowsEvent.sender = this;
+            selectAllRowsEvent.checked = false;
+            options.onSelectAllRows(selectAllRowsEvent);
         }
         //#endregion
     }
@@ -3956,23 +3958,18 @@ export class Grid extends VrControl
 
     selectRows(itemIdList: string[], property?: string, triggerChange = true)
     {
+        if (itemIdList.length == 0)
+            return;
+
         let options = this.getOptions();
         if (options.checkboxes == GridCheckboxModeEnum.SingleCheck)
             itemIdList = [itemIdList.vrLast()];
 
-        //#region Other property instead of 'id'
+        // Other property instead of 'id'
         if (property != null)
-        {
-            let options = this.getOptions();
-            let filteredDataSourceList: any[] = [];
-            itemIdList = itemIdList.vrDistinct();
-            for (let itemId of itemIdList)
-                filteredDataSourceList.vrPushRange(this.dataSource().filter(k => k[property] == itemId));
+            itemIdList = this.dataSource().filter(k => itemIdList.includes(k[property])).map(k => k[options.dataSourceFieldId!]);
 
-            itemIdList = filteredDataSourceList.map(k => k[options.dataSourceFieldId!]);
-        }
-        //#endregion
-
+        itemIdList = itemIdList.vrToStringArrayList().vrDistinct();
         for (let itemId of itemIdList)
             this.selectRow(itemId, triggerChange);
     }
@@ -4016,7 +4013,7 @@ export class Grid extends VrControl
         }
     }
 
-    private selectRowInternal(itemId: string, fromCheckboxInput = false, fromGroupOrRow = false, fromMethodCall = false, triggerChange = true, shiftKey = false, checkbox = false)
+    private selectRowInternal(itemId: string, fromCheckboxInput = false, fromGroupOrRow = false, fromMethodCall = false, triggerChange = true, shiftKey = false)
     {
         let options = this.getOptions();
 
@@ -4040,6 +4037,7 @@ export class Grid extends VrControl
                         {
                             checkbox.checked = false;
                             checkbox.classList.remove("indeterminateVrCheckbox");
+                            this._rowCheckedIdList.vrDelete(String(checkbox.getAttribute("dataItemId")));
                         }
 
                         for (let checkbox of checkboxGroupList)
@@ -4048,14 +4046,19 @@ export class Grid extends VrControl
                             checkbox.classList.remove("indeterminateVrCheckbox");
                         }
 
-                        if (this._checkedItemsForFiltering != null)
-                            this._checkedItemsForFiltering.vrDeleteAllBy(k => k[options.dataSourceFieldId!] == itemId);
+                        this._rowCheckedIdList.vrDelete(String(itemId));
                     }
 
                     checkboxToSelect.checked = true;
+                    this._rowCheckedIdList.push(String(itemId));
                 }
-                else if (fromGroupOrRow)
-                    this.unselectRow(itemId, triggerChange);
+                else 
+                {
+                    if (fromGroupOrRow)
+                        this.unselectRow(itemId, triggerChange);
+                    else
+                        this._rowCheckedIdList.push(String(itemId));
+                }
             }
             else
             {
@@ -4064,9 +4067,7 @@ export class Grid extends VrControl
                     for (let checkbox of checkboxList)
                     {
                         checkbox.checked = false;
-
-                        if (this._checkedItemsForFiltering != null)
-                            this._checkedItemsForFiltering.vrDeleteAllBy(k => k[options.dataSourceFieldId!] == itemId);
+                        this._rowCheckedIdList.vrDelete(String(checkbox.getAttribute("dataItemId")));
                     }
 
                     for (let checkbox of checkboxGroupList)
@@ -4079,13 +4080,12 @@ export class Grid extends VrControl
                 if (!fromGroupOrRow && !fromMethodCall)
                 {
                     checkboxToSelect.checked = false;
-
-                    if (this._checkedItemsForFiltering != null)
-                        this._checkedItemsForFiltering.vrDeleteAllBy(k => k[options.dataSourceFieldId!] == itemId);
+                    this._rowCheckedIdList.vrDelete(String(itemId));
                 }
                 else
                 {
                     checkboxToSelect.checked = true;
+                    this._rowCheckedIdList.push(String(itemId));
                 }
             }
 
@@ -4098,25 +4098,29 @@ export class Grid extends VrControl
             headerCheckbox.classList.add("indeterminateVrCheckbox");
 
         //#region All rows checked
-        let checkedItems = this.getCheckedItems();
-        if (this._checkedItemsForFiltering != null)
+        let checkedIdList: string[] = [];
+        let datasourceIdList = this.dataSource().map(k => k[options.dataSourceFieldId!]);
+        let checkboxCheckedList = checkboxList.filter(k => (k as HTMLInputElement).checked);
+        for (let checkboxChecked of checkboxCheckedList)
         {
-            for (let checkedItem of checkedItems)
-            {
-                if (this._checkedItemsForFiltering.length == 0 || !this._checkedItemsForFiltering.map(k => k[options.dataSourceFieldId!]).includes(checkedItem[options.dataSourceFieldId!]))
-                    this._checkedItemsForFiltering.push(checkedItem);
-            }
+            let dataItemId = checkboxChecked.getAttribute("dataItemId")!;
+            let checkedId = datasourceIdList.find(k => k == dataItemId);
+            if (checkedId != null)
+                checkedIdList.push(checkedId);
         }
 
         if (headerCheckbox != null)
         {
-            if (checkedItems.length == checkboxList.length)
+            if (checkedIdList.length == checkboxList.length)
             {
                 headerCheckbox.classList.remove("indeterminateVrCheckbox");
                 headerCheckbox.checked = true;
             }
-            else if (checkedItems.length == 0)
+            else if (checkedIdList.length == 0)
+            {
+                headerCheckbox.checked = false;
                 headerCheckbox.classList.remove("indeterminateVrCheckbox");
+            }
         }
         //#endregion
 
@@ -4142,7 +4146,7 @@ export class Grid extends VrControl
             selectRowEvent.empty = (dataItem != null && dataItem[options.dataSourceFieldId!] == null);
             selectRowEvent.index = index;
             selectRowEvent.shiftKey = shiftKey;
-            selectRowEvent.fromCheckbox = checkbox;
+            selectRowEvent.fromCheckbox = fromCheckboxInput && !shiftKey;
             options.onSelectRow(selectRowEvent);
         }
         //#endregion
@@ -4215,19 +4219,15 @@ export class Grid extends VrControl
 
     unselectRows(itemIdList: string[], property?: string, triggerChange = true)
     {
-        //#region Other property instead of 'id'
+        if (itemIdList.length == 0)
+            return;
+
+        // Other property instead of 'id'
+        let options = this.getOptions();
         if (property != null)
-        {
-            let options = this.getOptions();
-            let filteredDataSourceList: any[] = [];
-            itemIdList = itemIdList.vrDistinct();
-            for (let itemId of itemIdList)
-                filteredDataSourceList.vrPushRange(this.dataSource().filter(k => k[property] == itemId));
+            itemIdList = this.dataSource().filter(k => itemIdList.includes(k[property])).map(k => k[options.dataSourceFieldId!]);
 
-            itemIdList = filteredDataSourceList.map(k => k[options.dataSourceFieldId!]);
-        }
-        //#endregion
-
+        itemIdList = itemIdList.vrToStringArrayList().vrDistinct();
         for (let itemId of itemIdList)
             this.unselectRow(itemId, triggerChange);
     }
@@ -4243,36 +4243,45 @@ export class Grid extends VrControl
         if (headerCheckbox != null)
             headerCheckbox.checked = false;
 
-        let checkedItems = this.getCheckedItems();
-        if (this._checkedItemsForFiltering != null)
-        {
-            for (let checkedItem of checkedItems)
-                this._checkedItemsForFiltering.vrDeleteItem(checkedItem, options.dataSourceFieldId!);
-        }
+        this._rowCheckedIdList.vrDelete(String(itemId));
 
-        if (checkedItems.length == 0)
+        let checkedValues = this.getCheckedValues();
+        if (checkedValues.length == 0)
             headerCheckbox.classList.remove("indeterminateVrCheckbox");
         else
             headerCheckbox.classList.add("indeterminateVrCheckbox");
 
         let dataItem = null;
-        let checkboxToSelect = checkboxList.find(k => k.getAttribute("dataItemId") == itemId);
-        if (checkboxToSelect != null)
+        let checkboxToDeselect = checkboxList.find(k => k.getAttribute("dataItemId") == itemId);
+        if (checkboxToDeselect != null)
         {
-            if (checkboxToSelect.checked)
-                checkboxToSelect.checked = false;
+            if (checkboxToDeselect.checked)
+                checkboxToDeselect.checked = false;
 
             dataItem = this.dataSource().find(k => k[options.dataSourceFieldId!] == itemId);
+            this.manageGroupCheckParent(checkboxToDeselect);
         }
 
         //#region Event
-        if (options.onUnselectRow != null && triggerChange)
+        if (options.onSelectRow != null && checkboxToDeselect != null && triggerChange)
         {
-            let unselectRowEvent = new GridUnselectRowEvent();
-            unselectRowEvent.sender = this;
-            unselectRowEvent.rowElement = (checkboxToSelect != null) ? checkboxToSelect.closest("tr") as HTMLTableRowElement : null as any;
-            unselectRowEvent.dataItem = dataItem;
-            options.onUnselectRow(unselectRowEvent);
+            let rowElement = checkboxToDeselect.closest("tr") as HTMLTableRowElement;
+
+            let dataSourceIdList = this.dataSource().map(k => k[options!.dataSourceFieldId!]);
+            let index = dataSourceIdList.indexOf(dataItem[options!.dataSourceFieldId!]);
+            if (index == -1 || options!.dataSourceFieldId == null)
+                index = puma(rowElement).index();
+
+            let selectRowEvent = new GridSelectRowEvent();
+            selectRowEvent.sender = this;
+            selectRowEvent.rowElement = rowElement;
+            selectRowEvent.dataItem = dataItem;
+            selectRowEvent.checked = false;
+            selectRowEvent.empty = (dataItem != null && dataItem[options.dataSourceFieldId!] == null);
+            selectRowEvent.index = index;
+            selectRowEvent.shiftKey = false;
+            selectRowEvent.fromCheckbox = false;
+            options.onSelectRow(selectRowEvent);
         }
         //#endregion
     }
@@ -4372,32 +4381,41 @@ export class Grid extends VrControl
         //#endregion
 
         if (this.dataSource().length > 2500)
-            showLoader();
-
-        window.setTimeout(() =>
         {
-            this._cellButtons = new Map<string, GridControlData>();
-            this._cellIcons = new Map<string, GridControlData>();
-            this._cellCustoms = new Map<string, GridControlData>();
-            this._cellLabels = new Map<string, GridControlData>();
-            this._cellImages = new Map<string, GridControlData>();
-
-            let items: any[] = this.dataSource().map(k => k);
-            if (options.groupBy != null)
+            showLoader();
+            window.setTimeout(() => 
             {
-                (options.groupBy as GridGroupBySettings).sortBy = { field: field, direction: gridSortModeEnum };
-                this.sortingGroupFields(items);
-            }
-            else
-                items.vrSortBy([field], (gridSortModeEnum == GridSortDirectionEnum.Asc));
+                this.sortInternal(field, gridSortModeEnum, rebind)
+                hideLoader();
+            });
+        }
+        else
+            this.sortInternal(field, gridSortModeEnum, rebind)
+    }
 
-            if (rebind)
-            {
-                this.drawTable(items);
-                this.manageControls();
-            }
-            hideLoader();
-        });
+    private sortInternal(field: string, gridSortModeEnum?: GridSortDirectionEnum, rebind = true)
+    {
+        let options = this.getOptions();
+        this._cellButtons = new Map<string, GridControlData>();
+        this._cellIcons = new Map<string, GridControlData>();
+        this._cellCustoms = new Map<string, GridControlData>();
+        this._cellLabels = new Map<string, GridControlData>();
+        this._cellImages = new Map<string, GridControlData>();
+
+        let items: any[] = this.dataSource().map(k => k);
+        if (options.groupBy != null)
+        {
+            (options.groupBy as GridGroupBySettings).sortBy = { field: field, direction: gridSortModeEnum };
+            this.sortingGroupFields(items);
+        }
+        else
+            items.vrSortBy([field], (gridSortModeEnum == GridSortDirectionEnum.Asc));
+
+        if (rebind)
+        {
+            this.drawTable(items);
+            this.manageControls();
+        }
     }
 
     private sortingGroupFields(dataItems: any[])
@@ -8894,8 +8912,8 @@ export class Grid extends VrControl
                         //#region Delete
                         if (toolbarItem.type == GridToolbarItemType.Delete)
                         {
-                            let checkedItems = this.getCheckedItems();
-                            if (checkedItems.length == 0)
+                            let checkedValues = this.getCheckedValues();
+                            if (checkedValues.length == 0)
                             {
                                 notifyWarning("Selezionare almeno una riga per proseguire");
                                 return;
@@ -8904,8 +8922,8 @@ export class Grid extends VrControl
                             {
                                 if (toolbarItem.confirmationMessage == null)
                                 {
-                                    if (checkedItems.length == 1) toolbarItem.confirmationMessage = "Proseguendo, verrà eliminato l'elemento selezionato. Continuare?";
-                                    else if (checkedItems.length > 1) toolbarItem.confirmationMessage = "Proseguendo, verranno eliminati gli elementi selezionati. Continuare?";
+                                    if (checkedValues.length == 1) toolbarItem.confirmationMessage = "Proseguendo, verrà eliminato l'elemento selezionato. Continuare?";
+                                    else if (checkedValues.length > 1) toolbarItem.confirmationMessage = "Proseguendo, verranno eliminati gli elementi selezionati. Continuare?";
                                 }
                             }
                         }
@@ -10809,6 +10827,7 @@ export class GridSelectRowEvent
 export class GridSelectAllRowsEvent
 {
     sender: Grid;
+    checked: boolean;
 }
 
 export class GridUnselectRowEvent

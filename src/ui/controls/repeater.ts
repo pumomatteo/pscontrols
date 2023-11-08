@@ -39,8 +39,6 @@ export class RepeaterOptions extends VrControlOptions
     onRowDataBound?: (e: RepeaterOnRowDataBoundEvent) => void | string;
     onSelectRow?: (e: GridSelectRowEvent) => void;
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
-    onUnselectRow?: (e: GridUnselectRowEvent) => void;
-    onUnselectAllRows?: (e: GridUnselectAllRowsEvent) => void;
 }
 //#endregion
 
@@ -179,9 +177,7 @@ export class Repeater extends VrControl
                     if (options!.onSelectRow != null && !e.empty)
                         options!.onSelectRow(e);
                 },
-                onSelectAllRows: options.onSelectAllRows,
-                onUnselectRow: options.onUnselectRow,
-                onUnselectAllRows: options.onUnselectAllRows
+                onSelectAllRows: options.onSelectAllRows
             }, this.element());
         //#endregion
 

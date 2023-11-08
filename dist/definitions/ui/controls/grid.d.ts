@@ -44,8 +44,6 @@ export declare class GridOptions extends VrControlOptions {
     onRowDataBound?: (e: GridOnRowDataBoundEvent) => void | string;
     onSelectRow?: (e: GridSelectRowEvent) => void;
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
-    onUnselectRow?: (e: GridUnselectRowEvent) => void;
-    onUnselectAllRows?: (e: GridUnselectAllRowsEvent) => void;
     onGroupExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
@@ -67,10 +65,11 @@ export declare class Grid extends VrControl {
     private _internalOptions;
     private _tempRebindInfo;
     private _pageSizeUnlimited;
-    private _checkedItemsForFiltering;
+    private _rowCheckedIdList;
     private _timeoutFilterText;
     private _firstDraw;
     private _dataSource;
+    private _actualDatasource;
     private _originalDataSource;
     private _deletedItems;
     private _actualEditedItem;
@@ -153,6 +152,7 @@ export declare class Grid extends VrControl {
     private applySorting;
     removeSort(updateDataSource?: boolean): void;
     sort(field: string, gridSortModeEnum?: GridSortDirectionEnum, rebind?: boolean): void;
+    private sortInternal;
     private sortingGroupFields;
     column(field: string): GridColumn;
     columnTitle(field: string, title?: string): string | undefined;
@@ -358,6 +358,7 @@ export declare class GridSelectRowEvent {
 }
 export declare class GridSelectAllRowsEvent {
     sender: Grid;
+    checked: boolean;
 }
 export declare class GridUnselectRowEvent {
     sender: Grid;

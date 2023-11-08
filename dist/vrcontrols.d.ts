@@ -1371,8 +1371,6 @@ export class GridOptions extends VrControlOptions
     onRowDataBound?: (e: GridOnRowDataBoundEvent) => void | string;
     onSelectRow?: (e: GridSelectRowEvent) => void;
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
-    onUnselectRow?: (e: GridUnselectRowEvent) => void;
-    onUnselectAllRows?: (e: GridUnselectAllRowsEvent) => void;
     onGroupExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
     onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
     onPageSelected?: (e: GridPageSelectedEvent) => void;
@@ -1604,6 +1602,7 @@ export class GridSelectRowEvent
 export class GridSelectAllRowsEvent
 {
     sender: Grid;
+    checked: boolean;
 }
 export class GridUnselectRowEvent
 {
@@ -2583,8 +2582,6 @@ export class RepeaterOptions extends VrControlOptions
     onRowDataBound?: (e: RepeaterOnRowDataBoundEvent) => void | string;
     onSelectRow?: (e: GridSelectRowEvent) => void;
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
-    onUnselectRow?: (e: GridUnselectRowEvent) => void;
-    onUnselectAllRows?: (e: GridUnselectAllRowsEvent) => void;
 }
 export class Repeater extends VrControl
 {

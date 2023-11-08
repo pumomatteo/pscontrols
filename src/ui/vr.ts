@@ -8791,9 +8791,9 @@ Array.prototype.vrDelete = function (value: any)
 {
 	if (Array.isArray(this))
 	{
-		let index = this.indexOf(value);
-		if (index != -1)
-			this.splice(index, 1);
+		let i = -1;
+		while ((i = this.indexOf(value)) != -1)
+			this.splice(i, 1);
 	}
 }
 
