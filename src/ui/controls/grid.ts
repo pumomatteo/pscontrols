@@ -4433,8 +4433,9 @@ export class Grid extends VrControl
         this._grdCart = createGrid(
             {
                 addToControlList: false,
+                dataSourceFieldId: options.dataSourceFieldId,
                 footer: { totalElements: true },
-                pageSize: 400,
+                pageSize: 500,
                 filterable: false,
                 height: this._wndCart.height() - 180,
                 groupable: true,
@@ -10324,7 +10325,7 @@ export class Grid extends VrControl
             {
                 addToControlList: false,
                 footer: false,
-                pageSize: 400,
+                pageSize: 500,
                 filterable: false,
                 checkboxes: GridCheckboxModeEnum.SingleCheck,
                 height: 144,
