@@ -1,4 +1,4 @@
-import { IconClass, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, GridColumn, GridToolbarItem, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, NumberFormatRoundingSettings, GridPageSelectedEvent, GridScrollEvent, GridStringFilterTypeEnum, GridServerBindSettings, GridStickerSettings, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, GridBeforeGroupCheckEvent, GridAfterGroupCheckEvent } from "../vr";
+import { IconClass, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, GridColumn, GridToolbarItem, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, NumberFormatRoundingSettings, GridPageSelectedEvent, GridScrollEvent, GridStringFilterTypeEnum, GridServerBindSettings, GridStickerSettings, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, GridBeforeGroupCheckEvent, GridAfterGroupCheckEvent, GridCartSettings } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./window";
 import { Label } from "./label";
@@ -69,7 +69,6 @@ export declare class Grid extends VrControl {
     private _timeoutFilterText;
     private _firstDraw;
     private _dataSource;
-    private _actualDatasource;
     private _originalDataSource;
     private _deletedItems;
     private _actualEditedItem;
@@ -79,6 +78,8 @@ export declare class Grid extends VrControl {
     private _wndFiltering;
     private _dictionaryDataValues;
     private _dictionaryFilterConditions;
+    private _wndCart;
+    private _grdCart;
     private _wndActions;
     private _groupByActualValue;
     private _originalHiddenColumnFields;
@@ -149,6 +150,9 @@ export declare class Grid extends VrControl {
     private manageGroupCheckParent;
     unselectRows(itemIdList: string[], property?: string, triggerChange?: boolean): void;
     unselectRow(itemId: string, triggerChange?: boolean): void;
+    private updateCart;
+    private openWindowCart;
+    private createWindowCart;
     private applySorting;
     removeSort(updateDataSource?: boolean): void;
     sort(field: string, gridSortModeEnum?: GridSortDirectionEnum, rebind?: boolean): void;
@@ -394,6 +398,7 @@ export declare class GridFooterSettings {
     showPagination?: boolean;
     showPageSize?: boolean;
     showSettings?: boolean;
+    cartSettings?: GridCartSettings;
 }
 declare class GridTotalElementTemplateEvent {
     firstIndex?: number;

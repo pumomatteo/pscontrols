@@ -4544,6 +4544,14 @@ export declare enum GridStringFilterTypeEnum {
     Includes = 3,
     IncludesFromSimpleSearch = 4
 }
+export declare class GridCartSettings {
+    fields: string[];
+    onClick?: (e: GridCartSettingsClickEvent) => void;
+}
+export declare class GridCartSettingsClickEvent {
+    sender: Grid;
+    selectedValues: any[];
+}
 export declare class GridStickerSettings {
     textColor?: string;
     backgroundColor?: string;

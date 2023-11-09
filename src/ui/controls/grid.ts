@@ -1,4 +1,4 @@
-import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, createCheckBoxList, OrientationEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, DateTime, DateTimeTypeEnum, span, GridBeforeGroupCheckEvent, GridAfterGroupCheckEvent } from "../vr";
+import { ControlTypeEnum, IconClassicLight, IconClass, WindowAutoSizeDirectionEnum, dialog, confirm, alert, ButtonModeEnum, createSplitButton, createComboBox, ComboBoxTypeEnum, prompt, createButton, DateModeEnum, createTextBox, createCheckBox, createWindow, WindowFooterItemTypeEnum, createDatePicker, PositionEnum, TextModeEnum, WindowFooterItemAlignEnum, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridColumnTypeEnum, GridAlignEnum, GridAggregateMode, GridLabelUnderlineMode, GridToolbarItemType, GridDateFilterTypeEnum, GridNumberFilterTypeEnum, createGrid, createSwitch, GridColumn, GridToolbarItem, puma, GridButtonSettings, KeyEnum, GridSortDirectionEnum, GridGroupBySettings, GridSortSettings, GridGroupByItem, createButtonGroup, SelectionModeEnum, createLabel, createColorPicker, GridGroupExpandCollapseEvent, GridGroupEditClickEvent, GridGroupDisplayValueEvent, notify, showLoader, hideLoader, IconClassicRegular, IconClassicSolid, notifyError, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, GridPageSelectedEvent, notifyWarning, GridScrollEvent, div, ControlPositionEnum, GridStringFilterTypeEnum, CheckboxStateEnum, GridServerBindSettings, GridStickerSettings, TextAlignEnum, GridStickerClickEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent, ComboBoxItem, DateTime, GridBeforeGroupCheckEvent, GridAfterGroupCheckEvent, GridCartSettings } from "../vr";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
 import { Window } from "./window";
 import { SplitButton, SplitButtonOptions } from "./splitButton";
@@ -97,7 +97,6 @@ export class Grid extends VrControl
 
     //#region DataSource
     private _dataSource: any[] | null;
-    private _actualDatasource: any[];
     private _originalDataSource: any[];
     private _deletedItems: any[];
     private _actualEditedItem: any | null;
@@ -110,6 +109,11 @@ export class Grid extends VrControl
     private _wndFiltering: Window;
     private _dictionaryDataValues: Map<string, string[]>;
     private _dictionaryFilterConditions: Map<string, GridFilterSettings>;
+    //#endregion
+
+    //#region Cart
+    private _wndCart: Window;
+    private _grdCart: Grid;
     //#endregion
 
     //#region Show/Hide & Group
@@ -306,7 +310,6 @@ export class Grid extends VrControl
 
         this._originalHiddenColumnFields = [];
         this._originalDataSource = [];
-        this._actualDatasource = [];
         this._dictionaryFilterConditions = new Map<string, GridFilterSettings>();
         this._rowCheckedIdList = [];
 
@@ -682,6 +685,33 @@ export class Grid extends VrControl
                 if (layoutList.length == 0)
                     window.setTimeout(() => spbSettingsControl.hideItem("manageLayout"));
                 //#endregion
+            }
+            //#endregion
+
+            //#region Footer Cart
+            if (options.footer.cartSettings != null)
+            {
+                if (!options.footer.cartSettings.fields.vrAny(k => k != "" && k != null))
+                    throw Error("Cart fields required");
+
+                let btnCart = createButton({
+                    icon: IconClassicLight.CartShopping,
+                    cssContainer: "position: absolute; border: none; border-left: solid 1px #CCC; right: 10px; margin-top: 3px;",
+                    css: "background: none; border: none;",
+                    onClick: (e) =>
+                    {
+                        let cartSettings = (options!.footer! as GridFooterSettings).cartSettings!;
+                        if (cartSettings.onClick != null)
+                            cartSettings.onClick!({ sender: this, selectedValues: this.getCheckedValues() });
+                        else
+                        {
+                            let checkedValues = this.getCheckedValues();
+                            if (checkedValues.length > 0)
+                                this.openWindowCart();
+                        }
+                    }
+                }, this._divFooter, null, element.id + "_btnCart");
+                btnCart.badge("0");
             }
             //#endregion
         }
@@ -3114,7 +3144,6 @@ export class Grid extends VrControl
             i++;
         }
 
-        this._actualDatasource = items;
         tbody.appendChild(rowFragment);
         if (options.lockable)
             tbodyLocked!.appendChild(rowFragmentLocked);
@@ -3277,6 +3306,9 @@ export class Grid extends VrControl
                         spanTotalElements.classList.add("p-grid-totalElements");
                         divPagination.appendChild(spanTotalElements);
 
+                        if (footer.cartSettings != null)
+                            spanTotalElements.style.cssText += "right: 50px;";
+
                         if (typeof (footer.totalElements) == "boolean" && footer.totalElements === true)
                         {
                             if (options.pageSize == 0)
@@ -3325,6 +3357,9 @@ export class Grid extends VrControl
                         spanTotalElements.id = this._elementId + "TotalsLabel";
                         spanTotalElements.classList.add("p-grid-totalElements");
                         divPagination.appendChild(spanTotalElements);
+
+                        if (footer.cartSettings != null)
+                            spanTotalElements.style.cssText += "right: 50px;";
 
                         let realDataItems = dataItems.filter(k => k["defaultRow"] == null || k["defaultRow"] == false);
 
@@ -3804,11 +3839,11 @@ export class Grid extends VrControl
         let checkedValues = this.getCheckedValues();
 
         let checkedItems: any[] = [];
-        let datasourceIdList = this.dataSource().map(k => k[options.dataSourceFieldId!]);
         for (let value of checkedValues)
         {
-            let item = datasourceIdList.find(k => k == value);
-            checkedItems.push(item);
+            let item = this.dataSource().find(k => k[options.dataSourceFieldId!] == value);
+            if (item != null)
+                checkedItems.push(item);
         }
         return checkedItems;
     }
@@ -3833,6 +3868,7 @@ export class Grid extends VrControl
     //#region Check/Select
     clearSelection(triggerChange = true)
     {
+        this._rowCheckedIdList = [];
         this.unCheckAllRows(triggerChange);
     }
 
@@ -3872,6 +3908,7 @@ export class Grid extends VrControl
         }
         //#endregion
 
+        //#region Update checkedValues
         let checkedIdList: string[] = [];
         let datasourceIdList = this.dataSource().map(k => k[options.dataSourceFieldId!]);
         let checkboxCheckedList = Array.from(checkboxList).filter(k => (k as HTMLInputElement).checked);
@@ -3883,7 +3920,9 @@ export class Grid extends VrControl
                 checkedIdList.push(checkedId);
         }
 
-        this._rowCheckedIdList = checkedIdList.vrToStringArrayList();
+        this._rowCheckedIdList.vrPushRange(checkedIdList.vrToStringArrayList());
+        this.updateCart();
+        //#endregion
 
         //#region Event
         if (triggerChange && options.onSelectAllRows != null)
@@ -3930,7 +3969,22 @@ export class Grid extends VrControl
         }
         //#endregion
 
-        this._rowCheckedIdList = [];
+        //#region Update checkedValues
+        let uncheckedIdList: string[] = [];
+        let datasourceIdList = this.dataSource().map(k => k[options.dataSourceFieldId!]);
+        for (let checkbox of Array.from(checkboxList))
+        {
+            let dataItemId = checkbox.getAttribute("dataItemId")!;
+            let uncheckedId = datasourceIdList.find(k => k == dataItemId);
+            if (uncheckedId != null)
+                uncheckedIdList.push(uncheckedId);
+        }
+
+        for (let uncheckedId of uncheckedIdList)
+            this._rowCheckedIdList.vrDelete(String(uncheckedId));
+
+        this.updateCart();
+        //#endregion
 
         //#region Event
         if (triggerChange && options.onSelectAllRows != null)
@@ -4013,7 +4067,7 @@ export class Grid extends VrControl
         }
     }
 
-    private selectRowInternal(itemId: string, triggerChange = true, settings: { fromCheckboxInput: boolean, fromGroupOrRow:boolean, fromMethodCall: boolean, shiftKey: boolean})
+    private selectRowInternal(itemId: string, triggerChange = true, settings: { fromCheckboxInput: boolean, fromGroupOrRow: boolean, fromMethodCall: boolean, shiftKey: boolean })
     {
         let options = this.getOptions();
 
@@ -4091,6 +4145,7 @@ export class Grid extends VrControl
 
             dataItem = this.dataSource().find(k => k[options.dataSourceFieldId!] == itemId);
         }
+        this.updateCart();
         //#endregion
 
         let headerCheckbox = document.getElementById(this._elementId + "header_CheckboxColumn") as HTMLInputElement;
@@ -4244,6 +4299,7 @@ export class Grid extends VrControl
             headerCheckbox.checked = false;
 
         this._rowCheckedIdList.vrDelete(String(itemId));
+        this.updateCart();
 
         let checkedValues = this.getCheckedValues();
         if (checkedValues.length == 0)
@@ -4284,6 +4340,107 @@ export class Grid extends VrControl
             options.onSelectRow(selectRowEvent);
         }
         //#endregion
+    }
+    //#endregion
+
+    //#region Cart
+    private updateCart()
+    {
+        let btnCart = ControlManager.get<Button>(this._elementId + "_btnCart");
+        if (btnCart != null)
+        {
+            let checkedValues = this.getCheckedValues();
+            btnCart.badge(String(checkedValues.length));
+        }
+    }
+
+    private openWindowCart()
+    {
+        let options = this.getOptions();
+        this.createWindowCart();
+        this._wndCart.open();
+
+        this._grdCart.dataSource(this.getCheckedItems());
+        this._grdCart.removeAllGroups(false);
+
+        if (options.groupBy != null)
+            this._grdCart.addGroups((options.groupBy as GridGroupBySettings).fields);
+    }
+
+    private createWindowCart()
+    {
+        if (this._wndCart != null)
+            return;
+
+        let options = this.getOptions();
+        this._wndCart = createWindow(
+            {
+                addToControlList: false,
+                classContainer: this.element().id + "_wndUtility",
+                width: puma(this.container()).width() / 2 + 100,
+                height: puma(this.container()).height() / 2 + 100,
+                position: { right: 10, bottom: 40 },
+                title: "Gestisci elementi selezionati",
+                onClose: (e) =>
+                {
+                    puma(this._wndCart.container()).remove();
+                    (this._wndCart as any) = null;
+                },
+                footer: [
+                    { text: "Chiudi", type: WindowFooterItemTypeEnum.Close },
+                    {
+                        text: "Rimuovi tutto", type: WindowFooterItemTypeEnum.Ok, confirmationMessage: "Confermi di voler rimuovere tutti gli elementi?", onClick: (e) =>
+                        {
+                            this.clearSelection();
+                            this._grdCart.clear();
+                            this._wndCart.close();
+                        }
+                    }
+                ]
+            });
+        puma(this.container()).append(this._wndCart.container());
+
+        puma(this._wndCart.element()).vrAppendPuma("<div id='" + this._elementId + "_divWindowCartContainer' class='vrContainer'></div>");
+        let divContainer = puma("#" + this._elementId + "_divWindowCartContainer")[0];
+
+        let columns = options.columns!.filter(k => (options.footer! as GridFooterSettings).cartSettings!.fields.includes(k.field));
+        columns.unshift({
+            field: "remove",
+            type: GridColumnTypeEnum.Button,
+            width: 40,
+            buttonSettings: (e) =>
+            {
+                return {
+                    icon: IconClassicLight.Remove,
+                    onClick: (e) => 
+                    {
+                        this.unselectRow(e.dataItem[options.dataSourceFieldId!])
+                        this._grdCart.dataSource(this.getCheckedItems());
+                        if (this.getCheckedValues().length == 0)
+                            this._wndCart.close();
+                    }
+                }
+            }
+        })
+
+        columns.forEach(k =>
+        {
+            k.fitSpace = undefined;
+            if (k.width == null || k.fitSpace != null)
+                k.width = 100;
+        })
+
+        this._grdCart = createGrid(
+            {
+                addToControlList: false,
+                footer: { totalElements: true },
+                pageSize: 400,
+                filterable: false,
+                height: this._wndCart.height() - 180,
+                groupable: true,
+                hideEditButton: true,
+                columns: columns
+            }, divContainer);
     }
     //#endregion
 
@@ -4884,6 +5041,9 @@ export class Grid extends VrControl
 
     addGroups(fields: (string | GridGroupByItem)[], updateDataSource = true, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings)
     {
+        if (fields.length == 0)
+            return;
+
         let options = this.getOptions();
         if (options.groupBy == null)
             options.groupBy = new GridGroupBySettings();
@@ -10885,6 +11045,7 @@ export class GridFooterSettings
     showPagination?: boolean;
     showPageSize?: boolean;
     showSettings?: boolean;
+    cartSettings?: GridCartSettings;
 }
 
 class GridTotalElementTemplateEvent

@@ -1645,6 +1645,7 @@ export class GridFooterSettings
     showPagination?: boolean;
     showPageSize?: boolean;
     showSettings?: boolean;
+    cartSettings?: GridCartSettings;
 }
 class GridTotalElementTemplateEvent
 {
@@ -8489,6 +8490,16 @@ export enum GridStringFilterTypeEnum
     EqualsTo = 2,
     Includes = 3,
     IncludesFromSimpleSearch = 4
+}
+export class GridCartSettings
+{
+    fields: string[];
+    onClick?: (e: GridCartSettingsClickEvent) => void;
+}
+export class GridCartSettingsClickEvent
+{
+    sender: Grid;
+    selectedValues: any[];
 }
 export class GridStickerSettings
 {

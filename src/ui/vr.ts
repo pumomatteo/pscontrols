@@ -6613,6 +6613,18 @@ export enum GridStringFilterTypeEnum
 	IncludesFromSimpleSearch
 }
 
+export class GridCartSettings
+{
+	fields: string[];
+	onClick?: (e: GridCartSettingsClickEvent) => void;
+}
+
+export class GridCartSettingsClickEvent
+{
+	sender: Grid;
+	selectedValues: any[];
+}
+
 export class GridStickerSettings
 {
 	textColor?: string;
