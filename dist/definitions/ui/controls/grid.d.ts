@@ -135,7 +135,8 @@ export declare class Grid extends VrControl {
     rows(): GridRow[];
     getAllItems(toSavePurpose?: boolean): any[];
     getCheckedItems(): any[];
-    getCheckedValues(): any[];
+    getCheckedValues(): string[];
+    getCheckedNumberValues(): number[];
     getDeletedItems(): any[];
     getDeletedItemValues(key?: string): any[];
     clearSelection(triggerChange?: boolean): void;

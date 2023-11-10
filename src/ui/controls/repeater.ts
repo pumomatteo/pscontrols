@@ -270,9 +270,14 @@ export class Repeater extends VrControl
         return this._grid.getCheckedItems();
     }
 
-    getCheckedValues()
+    getCheckedValues(): string[]
     {
         return this._grid.getCheckedValues();
+    }
+
+    getCheckedNumberValues(): number[]
+    {
+        return this._grid.getCheckedNumberValues();
     }
 
     getDeletedItems()

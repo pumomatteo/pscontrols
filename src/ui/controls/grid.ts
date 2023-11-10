@@ -3086,7 +3086,7 @@ export class Grid extends VrControl
                     else
                     {
                         if (!puma(e.target).is("input") && !puma(e.target).hasClass("vrButton") && !puma(e.target).hasClass("vrIcon"))
-                            this.selectRowInternal(dataItemId, false, { fromCheckboxInput: false, fromGroupOrRow: true, fromMethodCall: false, shiftKey: false });
+                            this.selectRowInternal(dataItemId, true, { fromCheckboxInput: false, fromGroupOrRow: true, fromMethodCall: false, shiftKey: false });
                     }
                 });
             }
@@ -3848,9 +3848,14 @@ export class Grid extends VrControl
         return checkedItems;
     }
 
-    getCheckedValues(): any[]
+    getCheckedValues(): string[]
     {
-        return this._rowCheckedIdList.vrToStringArrayList().vrDistinct();
+        return this._rowCheckedIdList.vrDistinct();
+    }
+
+    getCheckedNumberValues(): number[]
+    {
+        return this._rowCheckedIdList.vrToNumberArrayList().vrDistinct();
     }
 
     getDeletedItems()

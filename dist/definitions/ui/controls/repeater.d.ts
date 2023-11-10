@@ -53,7 +53,8 @@ export declare class Repeater extends VrControl {
     rows(): GridRow[];
     getAllItems(): any[];
     getCheckedItems(): any[];
-    getCheckedValues(): any[];
+    getCheckedValues(): string[];
+    getCheckedNumberValues(): number[];
     getDeletedItems(): any[];
     getDeletedItemValues(key?: string): any[];
     clearSelection(triggerChange?: boolean): void;
