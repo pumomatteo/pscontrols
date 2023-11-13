@@ -4026,7 +4026,7 @@ export class Grid extends VrControl
 
         // Other property instead of 'id'
         if (property != null)
-            itemIdList = this.dataSource().filter(k => itemIdList.includes(k[property])).map(k => k[options.dataSourceFieldId!]);
+            itemIdList = this.dataSource().filter(k => itemIdList.includes(String(k[property]))).map(k => k[options.dataSourceFieldId!]);
 
         itemIdList = itemIdList.vrToStringArrayList().vrDistinct();
         for (let itemId of itemIdList)
@@ -4285,7 +4285,7 @@ export class Grid extends VrControl
         // Other property instead of 'id'
         let options = this.getOptions();
         if (property != null)
-            itemIdList = this.dataSource().filter(k => itemIdList.includes(k[property])).map(k => k[options.dataSourceFieldId!]);
+            itemIdList = this.dataSource().filter(k => itemIdList.includes(String(k[property]))).map(k => k[options.dataSourceFieldId!]);
 
         itemIdList = itemIdList.vrToStringArrayList().vrDistinct();
         for (let itemId of itemIdList)
