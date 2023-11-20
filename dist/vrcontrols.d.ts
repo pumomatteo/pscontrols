@@ -1350,8 +1350,7 @@ export class GridOptions extends VrControlOptions
     hoverRowColor?: boolean;
     rowColorProperty?: string;
     rowTextColorProperty?: string;
-    pageSize?: number | boolean;
-    largePageSize?: boolean;
+    pageSize?: number | boolean | GridPageSettings;
     footer?: boolean | GridFooterSettings;
     header?: boolean;
     resizable?: boolean;
@@ -1655,6 +1654,11 @@ class GridTotalElementTemplateEvent
     dataItems: any[];
     pageSelected: number;
     numberOfPages: number;
+}
+export class GridPageSettings
+{
+    value?: number;
+    otherValues: number[];
 }
 class TotalsResult
 {
@@ -2565,8 +2569,7 @@ export class RepeaterOptions extends VrControlOptions
     hideEditButton?: boolean;
     mode?: GridModeEnum;
     filterable?: boolean;
-    pageSize?: number | boolean;
-    largePageSize?: boolean;
+    pageSize?: number | boolean | GridPageSettings;
     footer?: boolean | GridFooterSettings;
     padding?: number | PaddingSettings;
     alternateRowColors?: boolean | string;

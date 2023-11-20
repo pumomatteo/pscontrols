@@ -1,6 +1,6 @@
 import { VrControlOptions, VrControl } from "../common";
 import { ControlTypeEnum, GridToolbarItem, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, createGrid, GridColumnTypeEnum, puma, GridAlignEnum, createLabel, TextAlignEnum, GridSortDirectionEnum, GridGroupBySettings, ControlPositionEnum, GridGroupByItem, GridSortSettings } from "../vr";
-import { GridRebindRequest, GridFooterSettings, GridOnDataBoundEvent, GridOnRowDataBoundEvent, GridSelectRowEvent, GridSelectAllRowsEvent, GridUnselectRowEvent, GridUnselectAllRowsEvent, GridTemplateEvent, GridCustomSettings, Grid, GridFilterSettings, GridRow } from "./grid";
+import { GridRebindRequest, GridFooterSettings, GridOnDataBoundEvent, GridOnRowDataBoundEvent, GridSelectRowEvent, GridSelectAllRowsEvent, GridUnselectRowEvent, GridUnselectAllRowsEvent, GridTemplateEvent, GridCustomSettings, Grid, GridFilterSettings, GridRow, GridPageSettings } from "./grid";
 import { Button } from "./button";
 import { SplitButton } from "./splitButton";
 import { Switch } from "./switch";
@@ -19,8 +19,7 @@ export class RepeaterOptions extends VrControlOptions
     hideEditButton?: boolean;
     mode?: GridModeEnum;
     filterable?: boolean;
-    pageSize?: number | boolean;
-    largePageSize?: boolean;
+    pageSize?: number | boolean | GridPageSettings;
     footer?: boolean | GridFooterSettings;
     padding?: number | PaddingSettings;
     alternateRowColors?: boolean | string;
@@ -124,7 +123,6 @@ export class Repeater extends VrControl
                 mode: options.mode,
                 filterable: options.filterable,
                 pageSize: options.pageSize,
-                largePageSize: options.largePageSize,
                 footer: options.footer,
                 header: options.title !== false,
                 alternateRowColors: options.alternateRowColors,

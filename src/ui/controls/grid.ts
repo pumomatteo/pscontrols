@@ -38,8 +38,7 @@ export class GridOptions extends VrControlOptions
     hoverRowColor?: boolean;
     rowColorProperty?: string;
     rowTextColorProperty?: string;
-    pageSize?: number | boolean;
-    largePageSize?: boolean;
+    pageSize?: number | boolean | GridPageSettings;
     footer?: boolean | GridFooterSettings;
     header?: boolean;
     resizable?: boolean;
@@ -189,7 +188,6 @@ export class Grid extends VrControl
         if (options.header == null) options.header = true;
         if (options.resizable == null) options.resizable = true;
         if (options.reorderable == null) options.reorderable = true;
-        if (options.largePageSize == null) options.largePageSize = false;
         if (options.enable == null) options.enable = true;
         if (options.excel == null) options.excel = options.rebind;
         if (options.lockable == null) options.lockable = false;
@@ -343,7 +341,7 @@ export class Grid extends VrControl
         {
             let layoutJson = new GridLayoutStructure();
             layoutJson.filterConditions = null;
-            layoutJson.pageSize = JSON.parse(JSON.stringify(options.pageSize!));
+            layoutJson.pageSize = options.pageSize;
             layoutJson.sortingInfo = null;
 
             if (options.groupBy != null)
@@ -417,7 +415,7 @@ export class Grid extends VrControl
         this._lastIndexAdded = -1;
         this._dictionaryDataValues = new Map<string, string[]>();
         this._groupByActualValue = {};
-        this._actualPageSize = (options.pageSize === false) ? 50 : options.pageSize;
+        this._actualPageSize = (options.pageSize === false) ? 50 : ((typeof (options.pageSize) == "number") ? options.pageSize : ((options.pageSize.value != null) ? options.pageSize.value : 50));
         this._actualPageSelected = 1;
 
         this._serverBindingPagination = new GridServerBindPagination();
@@ -567,18 +565,23 @@ export class Grid extends VrControl
                         { text: "100", value: "100", numberValue: 100 }
                     ];
 
-                if (options.pageSize! >= 200)
-                    options.largePageSize = true;
-
-                if (options.largePageSize)
+                if (this._actualPageSize > 100)
                 {
                     pageSizeItems.push({ text: "200", value: "200", numberValue: 200 });
                     pageSizeItems.push({ text: "500", value: "500", numberValue: 500 });
                 }
 
-                if (options.pageSize! != 50 && options.pageSize! != 100 && options.pageSize! != 200 && options.pageSize != 500)
-                    pageSizeItems.push({ text: String(options.pageSize!), value: String(options.pageSize!), numberValue: Number(options.pageSize!) });
+                if (typeof (options.pageSize) != "number")
+                {
+                    let otherValues = options.pageSize.otherValues;
+                    options.pageSize = (options.pageSize.value != null) ? options.pageSize.value : 50;
+                    for (let otherValue of otherValues)
+                        pageSizeItems.push({ text: String(otherValue), value: String(otherValue), numberValue: otherValue });
+                }
 
+                pageSizeItems.push({ text: String(options.pageSize!), value: String(options.pageSize!), numberValue: Number(options.pageSize!) });
+
+                pageSizeItems = pageSizeItems.vrDistinctBy(k => k.numberValue);
                 pageSizeItems.vrSortBy(["numberValue"], true);
                 //#endregion
 
@@ -1899,6 +1902,9 @@ export class Grid extends VrControl
         let options = this.getOptions();
         if (typeof (options.pageSize) == "boolean" || this._pageSizeUnlimited)
             options.pageSize = dataItems.length;
+
+        if (typeof (options.pageSize) != "number" && options.pageSize != null)
+            options.pageSize = (options.pageSize!.value != null) ? options.pageSize!.value : 50;
 
         //#region Body
         let tbody = this.element().getElementsByTagName("tbody")[0];
@@ -11062,6 +11068,12 @@ class GridTotalElementTemplateEvent
     pageSelected: number;
     numberOfPages: number;
 }
+
+export class GridPageSettings
+{
+    value?: number;
+    otherValues: number[];
+}
 //#endregion
 
 //#region Totals
@@ -11284,7 +11296,7 @@ class GridLayoutStructure
 {
     filterConditions?: any[] | null;
     groupBy?: GridGroupBySettings | null;
-    pageSize: number;
+    pageSize?: number | boolean | GridPageSettings;
     sortingInfo?: GridSortingInfo | null;
     columns: GridLayoutColumn[];
 }

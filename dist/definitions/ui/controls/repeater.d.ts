@@ -1,6 +1,6 @@
 import { VrControlOptions, VrControl } from "../common";
 import { GridToolbarItem, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridSortDirectionEnum, GridGroupBySettings, GridGroupByItem, GridSortSettings } from "../vr";
-import { GridRebindRequest, GridFooterSettings, GridOnDataBoundEvent, GridOnRowDataBoundEvent, GridSelectRowEvent, GridSelectAllRowsEvent, GridTemplateEvent, GridFilterSettings, GridRow } from "./grid";
+import { GridRebindRequest, GridFooterSettings, GridOnDataBoundEvent, GridOnRowDataBoundEvent, GridSelectRowEvent, GridSelectAllRowsEvent, GridTemplateEvent, GridFilterSettings, GridRow, GridPageSettings } from "./grid";
 import { Button } from "./button";
 import { SplitButton } from "./splitButton";
 import { Switch } from "./switch";
@@ -15,8 +15,7 @@ export declare class RepeaterOptions extends VrControlOptions {
     hideEditButton?: boolean;
     mode?: GridModeEnum;
     filterable?: boolean;
-    pageSize?: number | boolean;
-    largePageSize?: boolean;
+    pageSize?: number | boolean | GridPageSettings;
     footer?: boolean | GridFooterSettings;
     padding?: number | PaddingSettings;
     alternateRowColors?: boolean | string;

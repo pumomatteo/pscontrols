@@ -23,8 +23,7 @@ export declare class GridOptions extends VrControlOptions {
     hoverRowColor?: boolean;
     rowColorProperty?: string;
     rowTextColorProperty?: string;
-    pageSize?: number | boolean;
-    largePageSize?: boolean;
+    pageSize?: number | boolean | GridPageSettings;
     footer?: boolean | GridFooterSettings;
     header?: boolean;
     resizable?: boolean;
@@ -407,6 +406,10 @@ declare class GridTotalElementTemplateEvent {
     dataItems: any[];
     pageSelected: number;
     numberOfPages: number;
+}
+export declare class GridPageSettings {
+    value?: number;
+    otherValues: number[];
 }
 declare class TotalsResult {
     field: string;
