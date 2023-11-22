@@ -441,6 +441,71 @@ export class DatePicker extends VrControl
             return;
         }
 
+        let todayYear = new Date().getFullYear();
+        let todayMonth = new Date().getMonth();
+
+        //#region Special
+        let specialDates = ["oggi", "adesso", "ieri", "domani", "dopodomani", "natale", "vettore", "pumo", "pumetta", "pumettina",
+            "sanvalentino", "fineanno", "inizioanno"];
+        if (specialDates.includes(inputText.toLowerCase()))
+        {
+            switch (inputText.toLowerCase())
+            {
+                case "oggi":
+                    {
+                        let today = new Date();
+                        today.setHours(0, 0);
+                        this.value(today, !onlyFormat);
+                    }
+                    break;
+                case "adesso": this.value(new Date(), !onlyFormat); break;
+                case "ieri": this.value(new Date().vrAddDays(-1), !onlyFormat); break;
+                case "domani": this.value(new Date().vrAddDays(1), !onlyFormat); break;
+                case "dopodomani": this.value(new Date().vrAddDays(2), !onlyFormat); break;
+                case "natale": this.value(new Date(todayYear, 11, 25), !onlyFormat); break;
+                case "vettore": this.value(new Date(2013, 0, 1), !onlyFormat); break;
+                case "doctolib": this.value(new Date(2022, 9, 1), !onlyFormat); break;
+                case "pumo": { this.value(new Date(1993, 9, 10), !onlyFormat); } break;
+                case "pumetta": { this.value(new Date(1992, 6, 9), !onlyFormat); } break;
+                case "pumettina": { this.value(new Date(2022, 8, 24), !onlyFormat); } break;
+                case "sanvalentino": this.value(new Date(todayYear, 1, 14), !onlyFormat); break;
+                case "fineanno": this.value(new Date(todayYear, 12, 31), !onlyFormat); break;
+                case "inizioanno": this.value(new Date(todayYear, 1, 1), !onlyFormat); break;
+            }
+            return this.value()!;
+        }
+        //#endregion
+
+        //#region Months
+        let monthNumber = UtilityManager.getMonthNumberByName(inputText.toLowerCase());
+        if (monthNumber != -1)
+        {
+            this.value(new Date(todayYear, monthNumber, ((this.getOptions().defaultDay == DefaultDayEnum.First) ? 1 : Date.vrGetLastDayOfMonthByDate(new Date(todayYear, monthNumber, 1)).getDate())), !onlyFormat);
+            return this.value()!;
+        }
+        //#endregion
+
+        //#region Month and Year
+        let inputTextArray = inputText.toLowerCase().split(" ");
+        if (inputTextArray.length > 1)
+        {
+            let monthNumber = UtilityManager.getMonthNumberByName(inputTextArray[0]);
+            if (monthNumber != -1)
+            {
+                if (inputTextArray[1].length == 2 || inputTextArray[1].length == 4)
+                {
+                    let year = parseInt(inputTextArray[1]);
+                    if (inputTextArray[1].length == 2)
+                        year = this.getFinalYear(inputTextArray[1]);
+
+                    let day = (this.getOptions().defaultDay == DefaultDayEnum.First) ? 1 : Date.vrGetLastDayOfMonthByDate(new Date(new Date().getFullYear(), monthNumber, 1)).getDate();
+                    this.value(new Date(year, monthNumber, day), !onlyFormat);
+                    return this.value()!;
+                }
+            }
+        }
+        //#endregion
+
         if (this.format() != DateFormatEnum.ShortDate && this.value() != null)
             inputText = this.value()!.vrToItalyString();
 
@@ -476,7 +541,7 @@ export class DatePicker extends VrControl
                 && (dateToReturn.getMonth() + 1) == Number(month))
             {
                 if (this.value() == null || !Date.vrEquals(this.value()!, dateToReturn))
-                    this.value(dateToReturn);
+                    this.value(dateToReturn, !onlyFormat);
                 else
                     this.formatValue();
             }
@@ -489,27 +554,6 @@ export class DatePicker extends VrControl
         }
         //#endregion
 
-        //#region Month and Year
-        let inputTextArray = inputText.toLowerCase().split(" ");
-        if (inputTextArray.length > 1)
-        {
-            let monthNumber = UtilityManager.getMonthNumberByName(inputTextArray[0]);
-            if (monthNumber != -1)
-            {
-                if (inputTextArray[1].length == 2 || inputTextArray[1].length == 4)
-                {
-                    let year = parseInt(inputTextArray[1]);
-                    if (inputTextArray[1].length == 2)
-                        year = this.getFinalYear(inputTextArray[1]);
-
-                    let day = (this.getOptions().defaultDay == DefaultDayEnum.First) ? 1 : Date.vrGetLastDayOfMonthByDate(new Date(new Date().getFullYear(), monthNumber, 1)).getDate();
-                    this.value(new Date(year, monthNumber, day));
-                    return;
-                }
-            }
-        }
-        //#endregion
-
         let originalInput = inputText;
         inputText = inputText.replace(/[^\w\s]/gi, '');
         inputText = inputText.replace(/\s/g, '');
@@ -519,50 +563,6 @@ export class DatePicker extends VrControl
         let month: number | null = 0;
         let year: number | null = 0;
         let dateToReturn: Date | null = null;
-
-        let todayYear = new Date().getFullYear();
-        let todayMonth = new Date().getMonth();
-
-        //#region Special
-        let specialDates = ["oggi", "adesso", "ieri", "domani", "dopodomani", "natale", "vettore", "pumo", "pumetta", "pumettina",
-            "sanvalentino", "fineanno", "inizioanno"];
-        if (specialDates.includes(inputText.toLowerCase()))
-        {
-            switch (inputText.toLowerCase())
-            {
-                case "oggi":
-                    {
-                        let today = new Date();
-                        today.setHours(0, 0);
-                        this.value(today);
-                    }
-                    break;
-                case "adesso": this.value(new Date()); break;
-                case "ieri": this.value(new Date().vrAddDays(-1)); break;
-                case "domani": this.value(new Date().vrAddDays(1)); break;
-                case "dopodomani": this.value(new Date().vrAddDays(2)); break;
-                case "natale": this.value(new Date(todayYear, 11, 25)); break;
-                case "vettore": this.value(new Date(2013, 0, 1)); break;
-                case "doctolib": this.value(new Date(2022, 9, 1)); break;
-                case "pumo": { this.value(new Date(1993, 9, 10)); } break;
-                case "pumetta": { this.value(new Date(1992, 6, 9)); } break;
-                case "pumettina": { this.value(new Date(2022, 8, 24)); } break;
-                case "sanvalentino": this.value(new Date(todayYear, 1, 14)); break;
-                case "fineanno": this.value(new Date(todayYear, 12, 31)); break;
-                case "inizioanno": this.value(new Date(todayYear, 1, 1)); break;
-            }
-            return this.value()!;
-        }
-        //#endregion
-
-        //#region Months
-        let monthNumber = UtilityManager.getMonthNumberByName(inputText.toLowerCase());
-        if (monthNumber != -1)
-        {
-            this.value(new Date(todayYear, monthNumber, ((this.getOptions().defaultDay == DefaultDayEnum.First) ? 1 : Date.vrGetLastDayOfMonthByDate(new Date(todayYear, monthNumber, 1)).getDate())));
-            return;
-        }
-        //#endregion
 
         let yearStringToday = new Date().getFullYear().toString();
         let todayYearFull = parseInt(yearStringToday.substr(0, 2) + "00");
@@ -686,20 +686,31 @@ export class DatePicker extends VrControl
 
         dateToReturn = new Date(year, month, day);
         if (onlyFormat)
-            return dateToReturn;
-
-        if (dateToReturn != null && Date.vrIsValidDate(dateToReturn) && Number(month) >= 0 && Number(month) <= 11
-            && (dateToReturn.getMonth()) == Number(month))
         {
-            if (this.value() == null || !Date.vrEquals(this.value()!, dateToReturn))
-                this.value(dateToReturn);
+            if (dateToReturn != null && Date.vrIsValidDate(dateToReturn) && Number(month) >= 0 && Number(month) <= 11
+                && (dateToReturn.getMonth()) == Number(month))
+                return dateToReturn;
             else
-                this.formatValue();
+            {
+                UtilityManager.interval(() => puma(this.element()).toggleClass("errorInput"), 200, 800);
+                this.clear();
+            }
         }
         else
         {
-            UtilityManager.interval(() => puma(this.element()).toggleClass("errorInput"), 200, 800);
-            this.clear();
+            if (dateToReturn != null && Date.vrIsValidDate(dateToReturn) && Number(month) >= 0 && Number(month) <= 11
+                && (dateToReturn.getMonth()) == Number(month))
+            {
+                if (this.value() == null || !Date.vrEquals(this.value()!, dateToReturn))
+                    this.value(dateToReturn);
+                else
+                    this.formatValue();
+            }
+            else
+            {
+                UtilityManager.interval(() => puma(this.element()).toggleClass("errorInput"), 200, 800);
+                this.clear();
+            }
         }
     }
     //#endregion
