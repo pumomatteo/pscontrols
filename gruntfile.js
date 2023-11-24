@@ -179,8 +179,8 @@ module.exports = function (grunt)
                 path.resolve("N://Vettore.Client/client.MedicalReportDelivery/types/"),
                 path.resolve("N://Mediblu/Vettore.Doctor/Vettore.Doctor/Scripts/"),
                 path.resolve("N://Vettore/Vettore.Web/Vettore.Web/Scripts/"),
-                path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/Scripts/"),
-                path.resolve("N://Vettore.Web/25.prod/Vettore.Web/Vettore.Web/Scripts/"),
+                // path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/Scripts/"),
+                // path.resolve("N://Vettore.Web/25.prod/Vettore.Web/Vettore.Web/Scripts/"),
                 path.resolve("N://Vettore.Client/client.Totem/trunk/types/"),
             ];
 
@@ -208,8 +208,8 @@ module.exports = function (grunt)
                 path.resolve("N://Vettore.CRM/server/Vettore.CRM/wwwroot/scripts/"),
                 path.resolve("N://Mediblu/Vettore.Doctor/Vettore.Doctor/Scripts/"),
                 path.resolve("N://Vettore/Vettore.Web/Vettore.Web/Scripts/"),
-                path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/Scripts/"),
-                path.resolve("N://Vettore.Web/25.prod/Vettore.Web/Vettore.Web/Scripts/"),
+                // path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/Scripts/"),
+                // path.resolve("N://Vettore.Web/25.prod/Vettore.Web/Vettore.Web/Scripts/"),
             ];
         for (let path of productionJsFiles)
         {
@@ -232,8 +232,8 @@ module.exports = function (grunt)
                 path.resolve("N://Vettore.CRM/server/Vettore.CRM/wwwroot/styles/"),
                 path.resolve("N://Mediblu/Vettore.Doctor/Vettore.Doctor/styles/"),
                 path.resolve("N://Vettore/Vettore.Web/Vettore.Web/styles/"),
-                path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/styles/"),
-                path.resolve("N://Vettore.Web/25.prod/Vettore.Web/Vettore.Web/styles/"),
+                // path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/styles/"),
+                // path.resolve("N://Vettore.Web/25.prod/Vettore.Web/Vettore.Web/styles/"),
             ];
         for (let path of productionCssFiles)
         {
@@ -254,7 +254,7 @@ module.exports = function (grunt)
     // Run tasks
     grunt.registerTask("default", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "asciiart"]);
     grunt.registerTask("dev", ["removeDefinitionsFolder", "webpack:dev", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "asciiart"]);
-    
+
     grunt.registerTask("withDoc", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "mergeCss", "cssmin", "copyFilesToProduction", "run:compodoc", "asciiart"]);
     grunt.registerTask("withPrettierAndDoc", ["removeDefinitionsFolder", "webpack:prod", "createDefinitionFiles", "prettier", "mergeCss", "cssmin", "copyFilesToProduction", "run:compodoc", "asciiart"]);
 

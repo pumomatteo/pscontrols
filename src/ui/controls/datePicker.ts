@@ -506,9 +506,6 @@ export class DatePicker extends VrControl
         }
         //#endregion
 
-        if (this.format() != DateFormatEnum.ShortDate && this.value() != null)
-            inputText = this.value()!.vrToItalyString();
-
         //#region Slash or Minus
         if (inputText.includes("/") || inputText.includes("-") || inputText.includes(",") || inputText.includes("."))
         {
@@ -866,6 +863,9 @@ export class DatePicker extends VrControl
     private formatInputDateTimePicker(inputText: string)
     {
         let timeString = inputText.split(" ")[1];
+        if (timeString == null)
+            timeString = String(new Date().getHours()) + String(new Date().getMinutes());
+
         let time = this.formatInputTimePicker(timeString, true) as Date;
 
         let dateString = inputText.split(" ")[0];
