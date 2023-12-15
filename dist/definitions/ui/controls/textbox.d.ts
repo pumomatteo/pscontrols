@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { TextAlignEnum, TextModeEnum, TextTransformModeEnum, ErrorModeEnum, ErrorPositionEnum, ErrorHideModeEnum, IconClass, NumberFormatRoundingSettings, TextBoxValidationSettings } from "../vr";
+import { TextAlignEnum, TextModeEnum, TextTransformModeEnum, ErrorModeEnum, ErrorPositionEnum, ErrorHideModeEnum, IconClass, NumberFormatRoundingSettings, TextBoxValidationSettings, TextBoxAutoCompleteEnum } from "../vr";
 export declare class TextBoxOptions extends VrControlOptions {
     value?: string | number;
     placeholder?: string;
@@ -18,6 +18,7 @@ export declare class TextBoxOptions extends VrControlOptions {
     tooltip?: string;
     roundingSettings?: NumberFormatRoundingSettings;
     validation?: TextBoxValidationSettings;
+    autocomplete?: TextBoxAutoCompleteEnum | string;
     onChanged?(e: TextBoxChangeEvent): void;
     onKeyUp?(e: TextBoxKeyUpEvent): void;
     onKeyDown?(e: TextBoxKeyDownEvent): void;

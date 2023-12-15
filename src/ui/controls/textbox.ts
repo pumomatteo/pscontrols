@@ -1,5 +1,5 @@
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ControlTypeEnum, TextAlignEnum, TextModeEnum, TextTransformModeEnum, PositionEnum, ErrorModeEnum, ErrorPositionEnum, ErrorHideModeEnum, puma, IconClassicLight, IconClass, KeyEnum, icon, TextBoxLengthSettings, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, TextBoxValidationSettings, TextBoxValidationErrorEnum, TextBoxRegexSettings } from "../vr";
+import { ControlTypeEnum, TextAlignEnum, TextModeEnum, TextTransformModeEnum, PositionEnum, ErrorModeEnum, ErrorPositionEnum, ErrorHideModeEnum, puma, IconClassicLight, IconClass, KeyEnum, icon, TextBoxLengthSettings, NumberFormatRoundingSettings, NumberFormatSettings, RoundingModeEnum, TextBoxValidationSettings, TextBoxValidationErrorEnum, TextBoxRegexSettings, TextBoxAutoCompleteEnum } from "../vr";
 import { UtilityManager } from "../../managers/utilityManager";
 import { DeviceManager } from "../../../src/managers/deviceManager";
 
@@ -23,6 +23,7 @@ export class TextBoxOptions extends VrControlOptions
     tooltip?: string;
     roundingSettings?: NumberFormatRoundingSettings;
     validation?: TextBoxValidationSettings;
+    autocomplete?: TextBoxAutoCompleteEnum | string;
 
     onChanged?(e: TextBoxChangeEvent): void;
     onKeyUp?(e: TextBoxKeyUpEvent): void;
@@ -58,6 +59,7 @@ export class TextBox extends VrControl
         if (options.bold == null) options.bold = false;
         if (options.nullable == null) options.nullable = true;
         if (options.growWithContent == null) options.growWithContent = false;
+        if (options.autocomplete == null) options.autocomplete = TextBoxAutoCompleteEnum.Off;
 
         if (options.decimals == null) 
         {
@@ -145,7 +147,7 @@ export class TextBox extends VrControl
                     let textArea = document.createElement("textarea");
                     textArea.id = element.id;
                     puma(textArea).addClass("vrTextArea");
-                    puma(textArea).attr("autocomplete", "off");
+                    puma(textArea).attr("autocomplete", options.autocomplete);
 
                     //#region Rows for height
                     if (options.height == null)
@@ -165,7 +167,7 @@ export class TextBox extends VrControl
         if (!DeviceManager.isMobile() && options.mode != TextModeEnum.Password)
             puma(element).attr("type", "text");
 
-        puma(element).attr("autocomplete", "off");
+        puma(element).attr("autocomplete", options.autocomplete);
         //#endregion
 
         element.style.cssText += "padding-left: 10px; padding-right: 10px;";

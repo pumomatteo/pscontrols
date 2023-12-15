@@ -1863,6 +1863,8 @@ export class Grid extends VrControl
         let options = this.getOptions();
         this._dataSource = dataItems;
 
+        this._rowCheckedIdList = this._rowCheckedIdList.filter(k => dataItems.map(j => String(j[options.dataSourceFieldId!])).includes(k));
+
         if (this._actualSortingInfo != null && !options.serverBinding)
             this.applySorting();
         else
