@@ -93,7 +93,6 @@ export class Prompt
 
         puma(this._window.element()).addClass("vrPrompt");
         puma(this._window.container()).addClass("vrPromptContainer");
-        window.setTimeout(() => puma(this._window.footerItem<Button>("ok")!.element()).focus());
     }
 
     open(): Promise<string>
