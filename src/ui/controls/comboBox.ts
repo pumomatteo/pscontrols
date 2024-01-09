@@ -1097,7 +1097,26 @@ export class ComboBox extends VrControl
         let options = this.getOptions();
         if (items != null)
         {
+            //#region Fix datasource
             items.forEach(k => k.value = String(k.value));
+
+            let itemsGrouped = items.vrGroupBy(k => k.parentValue);
+            for (let key in itemsGrouped)
+            {
+                if (key == null)
+                    continue;
+
+                let parentExists = items.vrAny(k => k.value == key);
+                if (parentExists)
+                    continue;
+
+                let fakeParent = new ComboBoxItem();
+                fakeParent.text = "Non identificato";
+                fakeParent.value = key;
+                items.push(fakeParent);
+            }
+            //#endregion
+
             let realItems = UtilityManager.duplicate(items);
             if (options.nullable != null && options.nullable !== false)
             {
