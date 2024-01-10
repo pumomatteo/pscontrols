@@ -1098,12 +1098,10 @@ export class ComboBox extends VrControl
         if (items != null)
         {
             //#region Fix datasource
-            items.forEach(k => k.value = String(k.value));
-
             let itemsGrouped = items.vrGroupBy(k => k.parentValue);
             for (let key in itemsGrouped)
             {
-                if (key == null)
+                if (key == null || key == "null" || key == "undefined")
                     continue;
 
                 let parentExists = items.vrAny(k => k.value == key);
@@ -1115,6 +1113,7 @@ export class ComboBox extends VrControl
                 fakeParent.value = key;
                 items.push(fakeParent);
             }
+            items.forEach(k => k.value = String(k.value));
             //#endregion
 
             let realItems = UtilityManager.duplicate(items);
