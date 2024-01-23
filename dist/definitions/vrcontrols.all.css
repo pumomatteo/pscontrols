@@ -176,7 +176,7 @@
     margin-left: -1px;
 }
 
-.buttonGroupItem .vrCheckBox:after {
+.buttonGroupItem .vrCheckBox:checked:after {
     content: '\2713';
     font-size: 12px !important;
     position: absolute;

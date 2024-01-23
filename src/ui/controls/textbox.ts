@@ -266,9 +266,9 @@ export class TextBox extends VrControl
                 event.sender = this;
                 event.value = (this.isNumericTextBox()) ? this._numberValue : value;
                 event.key = e.key;
-                event.shiftKey = e.shiftKey;
-                event.altKey = e.altKey;
-                event.ctrlKey = e.ctrlKey;
+                event.shiftKey = e.key == KeyEnum.Shift;
+                event.altKey = e.key == KeyEnum.ArrowLeft;
+                event.ctrlKey = e.key == KeyEnum.Control;
                 event.enterKey = e.key == KeyEnum.Enter;
                 event.backSpaceKey = e.key == KeyEnum.Backspace;
                 event.tabKey = e.key == KeyEnum.Tab;

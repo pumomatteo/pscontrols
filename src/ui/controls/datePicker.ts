@@ -469,8 +469,8 @@ export class DatePicker extends VrControl
                 case "pumetta": { this.value(new Date(1992, 6, 9), !onlyFormat); } break;
                 case "pumettina": { this.value(new Date(2022, 8, 24), !onlyFormat); } break;
                 case "sanvalentino": this.value(new Date(todayYear, 1, 14), !onlyFormat); break;
-                case "fineanno": this.value(new Date(todayYear, 12, 31), !onlyFormat); break;
-                case "inizioanno": this.value(new Date(todayYear, 1, 1), !onlyFormat); break;
+                case "fineanno": this.value(new Date(todayYear, 1, 31), !onlyFormat); break;
+                case "inizioanno": this.value(new Date(todayYear, 2, 1), !onlyFormat); break;
             }
             return this.value()!;
         }
