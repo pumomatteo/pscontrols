@@ -860,6 +860,9 @@ table.vrDatePickerPopup_table td {
 .vrGridContainer tr.p-grid-body td {
     font-weight: normal;
     font-size: 13px;
+    display: table-cell;
+    text-align: left;
+    height: 27px;
 }
 
 .vrGridContainer tr.p-grid-body td .vrLabel {
@@ -957,6 +960,21 @@ table.vrDatePickerPopup_table td {
     line-height: 14px;
 }
 
+.vrGridContainer .p-grid .grid_headerTh i {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+
+.vrGridContainer .p-grid .divResizable {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+}
+
 .vrGridContainer .p-grid .grid_headerThContent {
     height: 30px;
     display: flex;
@@ -970,6 +988,19 @@ table.vrDatePickerPopup_table td {
     font-weight: normal;
     font-size: 13px;
     position: relative;
+    background-color: #51B3E1;
+    border: 1px solid #dddddd;
+    color: #000;
+    text-align: left;
+    cursor: pointer;
+}
+
+.vrGridContainer tr.p-grid-headerColumn th.groupByHeader, .vrGridContainer tr.p-grid-filters td.groupByFilter, .vrGridContainer tr.p-grid-totals td.groupByTotal {
+    width: 16px;
+}
+
+.vrGridContainer tr.p-grid-filters td, .vrGridContainer tr.p-grid-totals td {
+    border: 1px solid rgb(221, 221, 221);
 }
 
 .vrGridContainer .grid_Header {
