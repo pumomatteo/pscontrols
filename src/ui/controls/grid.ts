@@ -6151,7 +6151,7 @@ export class Grid extends VrControl
                 else if (column.type == GridColumnTypeEnum.Time || column.type == GridColumnTypeEnum.DateTime || column.type == GridColumnTypeEnum.LongDateTime)
                     tag = new Date(k[column.field]);
                 else if (column.type == GridColumnTypeEnum.String || column.type == GridColumnTypeEnum.Label)
-                    tag = tag.toLowerCase();
+                    tag = String(tag).toLowerCase();
             }
             else
             {
