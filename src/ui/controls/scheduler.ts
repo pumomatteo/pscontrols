@@ -1167,7 +1167,7 @@ export class Scheduler extends VrControl
 			let slotWidthList: number[] = Array.from(puma(this.container()).find(".vrSchedulerDivContent table tr:first-child td")).map(k => { return puma(k).outerWidth() });
 			let slotWidth = slotWidthList[0];
 
-			let schedulerStart = new Date(options.startTime!);
+			let schedulerStartTime = new Date(options.startTime!);
 
 			//#region Draw appointments
 			let dictionaryResourceAppointments: any = datasource.vrGroupBy(k => k.resourceId);
@@ -1232,9 +1232,8 @@ export class Scheduler extends VrControl
 					{
 						//#region If appointment starts before the scheduler's start time
 						let differenceFromStartTime = 0;
-						schedulerStart.setFullYear(start.getFullYear());
-						schedulerStart.setMonth(start.getMonth());
-						schedulerStart.setDate(start.getDate());
+						let schedulerStart = new Date(start);
+						schedulerStart.setHours(schedulerStartTime.getHours(), schedulerStartTime.getMinutes());
 						if (start.vrIsLessThan(schedulerStart))
 							differenceFromStartTime = Date.vrDifferenceBetweenDatesInMinutes(start, schedulerStart);
 						//#endregion
