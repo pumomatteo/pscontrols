@@ -175,13 +175,13 @@ module.exports = function (grunt)
         let definitionFilesToCopy = [path.resolve("./dist/vrcontrols.d.ts")];
         let productionDefitinionFolders =
             [
-                path.resolve("N://Vettore.CRM/client.Patient/types/"),
-                path.resolve("N://Vettore.Client/client.MedicalReportDelivery/types/"),
+                path.resolve("N://Vettore.OnlineBooking/client.Patient/types/"),
+                path.resolve("N://Vettore.Client/MedicalReportDelivery/types/"),
                 path.resolve("N://Mediblu/Vettore.Doctor/Vettore.Doctor/Scripts/"),
                 path.resolve("N://Vettore/Vettore.Web/Vettore.Web/Scripts/"),
                 // path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/Scripts/"),
                 // path.resolve("N://Vettore.Web/25.prod/Vettore.Web/Vettore.Web/Scripts/"),
-                path.resolve("N://Vettore.Client/client.Totem/trunk/types/"),
+                path.resolve("N://Vettore.Client/Totem/types/"),
             ];
 
         for (let path of productionDefitinionFolders)
@@ -205,7 +205,7 @@ module.exports = function (grunt)
             ];
         let productionJsFiles =
             [
-                path.resolve("N://Vettore.CRM/server/Vettore.CRM/wwwroot/scripts/"),
+                path.resolve("N://Vettore.OnlineBooking/server/Vettore.CRM/wwwroot/scripts/"),
                 path.resolve("N://Mediblu/Vettore.Doctor/Vettore.Doctor/Scripts/"),
                 path.resolve("N://Vettore/Vettore.Web/Vettore.Web/Scripts/"),
                 // path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/Scripts/"),
@@ -229,7 +229,7 @@ module.exports = function (grunt)
             ];
         let productionCssFiles =
             [
-                path.resolve("N://Vettore.CRM/server/Vettore.CRM/wwwroot/styles/"),
+                path.resolve("N://Vettore.OnlineBooking/server/Vettore.CRM/wwwroot/styles/"),
                 path.resolve("N://Mediblu/Vettore.Doctor/Vettore.Doctor/styles/"),
                 path.resolve("N://Vettore/Vettore.Web/Vettore.Web/styles/"),
                 // path.resolve("N://Vettore.Web/25.dev/Vettore.Web/Vettore.Web/styles/"),

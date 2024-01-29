@@ -7750,6 +7750,7 @@ export class Grid extends VrControl
             puma(this._spanFitTotalsSpace).hide();
         }
 
+        //#region Colgroup
         if (options.groupable! || options.groupBy != null)
         {
             let i = 0;
@@ -7773,6 +7774,9 @@ export class Grid extends VrControl
                 let width = column.offsetWidth;
                 if (i == 1)
                     width -= 1;
+
+                if (field == "vrGridCheckboxColumn")
+                    width = 30;
 
                 let col = document.createElement("col");
                 col.setAttribute("field", field);
@@ -7807,6 +7811,9 @@ export class Grid extends VrControl
                     if (i == 1)
                         width -= 1;
 
+                    if (field == "vrGridCheckboxColumn")
+                        width = 30;
+
                     let colLocked = document.createElement("col");
                     colLocked.setAttribute("field", field);
                     colLocked.style.cssText += "width: " + width + "px; " + display + ";";
@@ -7821,6 +7828,7 @@ export class Grid extends VrControl
             if (options.header === false)
                 puma(this._divHeaderContainer).hide();
         }
+        //#endregion
     }
 
     private recalculateFitSpacePercentage()
