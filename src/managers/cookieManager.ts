@@ -6,7 +6,6 @@ export class CookieManager
 		var d = new Date();
 		d.setTime(d.getTime() + expireMilliseconds);
 		var expires = "expires=" + d.toUTCString();
-		expires = "expires=" + d.toString();
 		//#endregion
 
 		//#region Options

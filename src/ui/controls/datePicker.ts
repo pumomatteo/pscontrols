@@ -471,6 +471,7 @@ export class DatePicker extends VrControl
                 case "sanvalentino": this.value(new Date(todayYear, 1, 14), !onlyFormat); break;
                 case "fineanno": this.value(new Date(todayYear, 1, 31), !onlyFormat); break;
                 case "inizioanno": this.value(new Date(todayYear, 2, 1), !onlyFormat); break;
+                case "owner": { this.value(new Date(1993, 9, 10), !onlyFormat); } break;
             }
             return this.value()!;
         }
