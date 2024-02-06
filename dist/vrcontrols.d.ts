@@ -1137,6 +1137,7 @@ export class Dialog
     constructor(text?: string | null, options?: DialogOptions | null);
     open(): void;
     close(): void;
+    window(): Window;
 }
 class ContentDialogLoadedEvent extends VrControlsEvent
 {

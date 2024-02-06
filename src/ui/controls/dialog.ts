@@ -120,6 +120,11 @@ export class Dialog
         puma(this._window.background()).remove();
     }
 
+    window()
+    {
+        return this._window;
+    }
+
     private getOptions(): DialogOptions
     {
         return this._options;

@@ -1,5 +1,5 @@
 import { TextAlignEnum } from "../vr";
-import { WindowFooterItem } from "./window";
+import { Window, WindowFooterItem } from "./window";
 import { VrControlsEvent } from "../common";
 export declare class DialogOptions {
     content?: string;
@@ -20,6 +20,7 @@ export declare class Dialog {
     constructor(text?: string | null, options?: DialogOptions | null);
     open(): void;
     close(): void;
+    window(): Window;
     private getOptions;
     private onContentLoaded;
 }

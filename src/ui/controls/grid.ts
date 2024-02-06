@@ -7649,6 +7649,7 @@ export class Grid extends VrControl
 
     private recalculateHeightWidth()
     {
+        this.recalculateFitSpacePercentage();
         this.recalculateHeight();
         this.recalculateWidth();
         this.recalculateHeight();
@@ -7699,7 +7700,7 @@ export class Grid extends VrControl
                 bodyJQueryLocked.width(puma(this._divHeaderLocked).width())
             }
             else
-                this._divBody.style.cssText += "width: Calc(100% - 1px);";
+                this._divBody.style.cssText += "width: Calc(100% - 2px);";
 
             this._divTotals.style.cssText += "width: Calc(100% - " + minusWidth + "px);";
             divTotalJQuery.find("td[fitSpace='true']").each((index: number, element: HTMLElement) =>
