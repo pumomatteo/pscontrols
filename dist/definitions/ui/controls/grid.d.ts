@@ -334,6 +334,8 @@ export declare class GridTemplateEvent {
     className?: string;
     element?: HTMLTableCellElement;
     empty?: boolean;
+    field: string;
+    sender: Grid;
 }
 export declare class GridTooltipEvent {
     dataItem: any;

@@ -2542,6 +2542,8 @@ export class Grid extends VrControl
                                 templateEvent.className = className;
                                 templateEvent.element = td;
                                 templateEvent.empty = (dataItem[options.dataSourceFieldId!] == null);
+                                templateEvent.field = column.field;
+                                templateEvent.sender = this;
                                 buttonSettings = column.buttonSettings(templateEvent);
                             }
 
@@ -2644,6 +2646,8 @@ export class Grid extends VrControl
                                 templateEvent.className = className;
                                 templateEvent.element = td;
                                 templateEvent.empty = (dataItem[options.dataSourceFieldId!] == null);
+                                templateEvent.field = column.field;
+                                templateEvent.sender = this;
                                 customSettings = column.customSettings(templateEvent);
                             }
 
@@ -2685,6 +2689,8 @@ export class Grid extends VrControl
                                 templateEvent.className = className;
                                 templateEvent.element = td;
                                 templateEvent.empty = (dataItem[options.dataSourceFieldId!] == null);
+                                templateEvent.field = column.field;
+                                templateEvent.sender = this;
                                 iconSettings = column.iconSettings(templateEvent);
                             }
 
@@ -2759,6 +2765,8 @@ export class Grid extends VrControl
                                 templateEvent.className = className;
                                 templateEvent.element = td;
                                 templateEvent.empty = (dataItem[options.dataSourceFieldId!] == null);
+                                templateEvent.field = column.field;
+                                templateEvent.sender = this;
                                 imageSettings = column.imageSettings(templateEvent);
                             }
 
@@ -2827,6 +2835,8 @@ export class Grid extends VrControl
                                 templateEvent.className = className;
                                 templateEvent.element = td;
                                 templateEvent.empty = (dataItem[options.dataSourceFieldId!] == null);
+                                templateEvent.field = column.field;
+                                templateEvent.sender = this;
                                 labelSettings = column.labelSettings(templateEvent);
                             }
 
@@ -3795,7 +3805,7 @@ export class Grid extends VrControl
         {
             let row = new GridRow();
             row.element = rowElement;
-            row.cells = puma(rowElement).find("td");
+            row.cells = Array.from<HTMLElement>(puma(rowElement).find("td"));
             row.id = rowElement.id;
             row.dataItemId = rowElement.getAttribute("dataItemId")!;
             row.index = Number(rowElement.getAttribute("row")!);
@@ -8538,7 +8548,7 @@ export class Grid extends VrControl
                                         {
                                             try
                                             {
-                                                let settings = column.customSettings({ dataItem: item });
+                                                let settings = column.customSettings({ dataItem: item, field: column.field, sender: this });
                                                 if (settings && settings.template !== "" && textHTML == "")
                                                     textHTML = settings.template;
                                             }
@@ -8558,7 +8568,7 @@ export class Grid extends VrControl
                                         {
                                             try
                                             {
-                                                let settings = column.labelSettings({ dataItem: item });
+                                                let settings = column.labelSettings({ dataItem: item, field: column.field, sender: this });
                                                 textHTML = (settings.text == null) ? "" : settings.text;
                                             }
                                             catch (e) { }
@@ -10941,6 +10951,8 @@ export class GridTemplateEvent
     className?: string;
     element?: HTMLTableCellElement;
     empty?: boolean;
+    field: string;
+    sender: Grid;
 }
 
 export class GridTooltipEvent

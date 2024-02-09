@@ -1570,6 +1570,8 @@ export class GridTemplateEvent
     className?: string;
     element?: HTMLTableCellElement;
     empty?: boolean;
+    field: string;
+    sender: Grid;
 }
 export class GridTooltipEvent
 {
