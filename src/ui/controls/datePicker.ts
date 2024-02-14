@@ -523,14 +523,17 @@ export class DatePicker extends VrControl
             let day = splittedDate[0];
             if (day == null)
                 day = String(-1);
+            day = String(day.vrGetNumericPart());
 
             let month = splittedDate[1];
             if (month == null)
                 month = String(new Date().getMonth());
+            month = String(month.vrGetNumericPart());
 
             let year = splittedDate[2];
             if (year == null)
                 year = String(new Date().getFullYear());
+            year = String(year.vrGetNumericPart());
 
             year = String(this.getFinalYear(year));
 
