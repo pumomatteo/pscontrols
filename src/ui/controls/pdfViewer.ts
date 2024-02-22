@@ -325,7 +325,7 @@ export class PdfViewer extends VrControl
 				options.content = content;
 
 				//#region Load document
-				const loadingTask = pdfjsLib.getDocument((!options.base64) ? content : { data: atob(content) });
+				const loadingTask = pdfjsLib.getDocument((!options.base64) ? content : { data: Buffer.from(content, "base64"), useSystemFonts: true });
 				loadingTask.promise.then((pdf: PDFDocumentProxy) =>
 				{
 					this._state.pdf = pdf;
