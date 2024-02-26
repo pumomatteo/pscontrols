@@ -43,6 +43,7 @@ export class ComboBoxOptions extends VrControlOptions
     onAfterOpen?(e: ComboBoxOpenEvent): void;
     onClose?(e: ComboBoxCloseEvent): void;
     onItemDataBound?(e: ComboBoxItemDataBoundEvent): void;
+    onFocus?(e: ComboBoxFocusEvent): void;
     onBlur?(e: ComboBoxBlurEvent): void;
     onClear?(e: ComboBoxClearEvent): void;
     onPaste?(e: ComboBoxPasteEvent): void;
@@ -507,6 +508,14 @@ export class ComboBox extends VrControl
                     this.open();
 
                 this._openPopupAfterFocus = true;
+
+                if (options!.onFocus != null)
+                {
+                    let blurEvent = new ComboBoxFocusEvent();
+                    blurEvent.sender = this;
+                    blurEvent.value = this.value();
+                    options!.onFocus(blurEvent);
+                }
             });
             puma(this.element()).blur((e: any) => window.setTimeout(() => 
             {
@@ -2177,6 +2186,12 @@ class ComboBoxItemDataBoundEvent extends VrControlsEvent
 }
 
 class ComboBoxBlurEvent extends VrControlsEvent
+{
+    sender: ComboBox;
+    value: any;
+}
+
+class ComboBoxFocusEvent extends VrControlsEvent
 {
     sender: ComboBox;
     value: any;

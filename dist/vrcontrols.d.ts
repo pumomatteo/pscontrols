@@ -866,6 +866,7 @@ export class ComboBoxOptions extends VrControlOptions
     onAfterOpen?(e: ComboBoxOpenEvent): void;
     onClose?(e: ComboBoxCloseEvent): void;
     onItemDataBound?(e: ComboBoxItemDataBoundEvent): void;
+    onFocus?(e: ComboBoxFocusEvent): void;
     onBlur?(e: ComboBoxBlurEvent): void;
     onClear?(e: ComboBoxClearEvent): void;
     onPaste?(e: ComboBoxPasteEvent): void;
@@ -977,6 +978,11 @@ class ComboBoxItemDataBoundEvent extends VrControlsEvent
     dataItem: any;
 }
 class ComboBoxBlurEvent extends VrControlsEvent
+{
+    sender: ComboBox;
+    value: any;
+}
+class ComboBoxFocusEvent extends VrControlsEvent
 {
     sender: ComboBox;
     value: any;
