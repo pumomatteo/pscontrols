@@ -463,6 +463,7 @@ export class ButtonGroup extends VrControl
     clear(): void
     {
         puma(this.container()).find(".buttonGroupItem").removeClass("buttonGroupItemSelected");
+        this._items = [];
 
         let options = this.getOptions();
         if (options.checkboxes)
