@@ -17,9 +17,9 @@ export declare class ButtonGroup extends VrControl {
     constructor(element: HTMLElement, options?: ButtonGroupOptions | null);
     items(items?: ButtonGroupItem[]): ButtonGroupItem[];
     addItem(item: ButtonGroupItem): void;
-    private manageScrolling;
-    private scrollBack;
-    private scrollForward;
+    manageScrolling(): void;
+    scrollBack(interval?: number): void;
+    scrollForward(interval?: number): void;
     item(value: string): ButtonGroupItem;
     removeItem(value: string): void;
     showItems(values: any[]): void;
