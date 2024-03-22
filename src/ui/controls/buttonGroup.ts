@@ -243,7 +243,7 @@ export class ButtonGroup extends VrControl
         //#endregion
     }
 
-    private manageScrolling()
+    manageScrolling()
     {
         let scrolling = puma(this.element()).vrHasScrollBar(true);
         if (scrolling)
@@ -264,7 +264,7 @@ export class ButtonGroup extends VrControl
         }
     }
 
-    private scrollBack(interval?: number)
+    scrollBack(interval?: number)
     {
         let leftPos = puma(this.element()).scrollLeft();
         puma(this.element()).animate({ scrollLeft: leftPos - 20 }, 10);
@@ -277,7 +277,7 @@ export class ButtonGroup extends VrControl
         }
     }
 
-    private scrollForward(interval?: number)
+    scrollForward(interval?: number)
     {
         let leftPos = puma(this.element()).scrollLeft();
         puma(this.element()).animate({ scrollLeft: leftPos + 20 }, 10);
