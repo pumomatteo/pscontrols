@@ -295,7 +295,14 @@ export class ButtonGroup extends VrControl
         return this.items().filter(k => k.value == value)[0];
     }
 
-    removeItem(value: string)
+    clearItems()
+    {
+        let items = this.items().filter(k => k);
+        for (let item of items)
+            this.removeItem(String(item.value), false);
+    }
+
+    removeItem(value: string, triggerChange = true)
     {
         let options = this.getOptions();
         puma(this.container()).find(".buttonGroupItem[value='" + value + "']").remove();
@@ -307,7 +314,7 @@ export class ButtonGroup extends VrControl
         this.manageScrolling();
 
         //#region Event
-        if (options.onItemRemoved != null)
+        if (triggerChange && options.onItemRemoved != null)
         {
             let event = new ButtonGroupItemRemovedEvent();
             event.sender = this;

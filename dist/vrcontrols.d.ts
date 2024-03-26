@@ -568,7 +568,8 @@ export class ButtonGroup extends VrControl
     scrollBack(interval?: number): void;
     scrollForward(interval?: number): void;
     item(value: string): ButtonGroupItem;
-    removeItem(value: string): void;
+    clearItems(): void;
+    removeItem(value: string, triggerChange?: boolean): void;
     showItems(values: any[]): void;
     showItem(value: any): void;
     showAllItems(): void;
