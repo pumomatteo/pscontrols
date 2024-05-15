@@ -2889,8 +2889,15 @@ export class Grid extends VrControl
                             //#endregion
 
                             //#region NoBr
-                            if (labelSettings.noBr === true)
-                                customCss += "white-space: nowrap; overflow: hidden; text-overflow: ellipsis;";
+                            if (labelSettings.noBr !== false)
+                            {
+                                if (labelSettings.noBr === true)
+                                {
+                                    customCss += "white-space: nowrap; overflow:hidden; margin-bottom: -6px; text-overflow: ellipsis; display: inline-block;";
+                                }
+                                else
+                                    customCss += "overflow: hidden; display: -webkit-inline-box; -webkit-line-clamp: " + labelSettings.noBr + "; -webkit-box-orient: vertical;white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;";
+                            }
                             //#endregion
 
                             //#region Icon or Image url
@@ -9610,7 +9617,8 @@ export class Grid extends VrControl
                                 items: column.dataItems,
                                 nullable: column.ddlNullable,
                                 clearButton: column.ddlNullable,
-                                tooltip: tooltip
+                                tooltip: tooltip,
+                                filter: column.filterable
                             }, autoWindowId, null, this._elementId + "_dropDownList_" + column.field);
                     }
                     break;
@@ -9633,7 +9641,8 @@ export class Grid extends VrControl
                                 items: column.dataItems,
                                 checkboxes: (column.type == GridColumnTypeEnum.DropDownTreeCheckboxes),
                                 clearButton: column.ddlNullable,
-                                tooltip: tooltip
+                                tooltip: tooltip,
+                                filter: column.filterable
                             }, autoWindowId, null, this._elementId + "_dropDownTree_" + column.field);
                     }
                     break;
@@ -9648,7 +9657,8 @@ export class Grid extends VrControl
                                 width: "100%",
                                 items: column.dataItems,
                                 tooltip: tooltip,
-                                clearButton: column.ddlNullable
+                                clearButton: column.ddlNullable,
+                                filter: column.filterable
                             }, autoWindowId, null, this._elementId + "_comboBox_" + column.field);
                     }
                     break;
@@ -10893,7 +10903,7 @@ export class GridLabelSettings extends GridControlsSettings
     underlineMode?: GridLabelUnderlineMode;
     bold?: boolean;
     color?: string;
-    noBr?: boolean;
+    noBr?: boolean | number;
     icon?: IconClass;
 }
 //#endregion

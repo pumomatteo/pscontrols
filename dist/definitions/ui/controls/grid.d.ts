@@ -314,7 +314,7 @@ export declare class GridLabelSettings extends GridControlsSettings {
     underlineMode?: GridLabelUnderlineMode;
     bold?: boolean;
     color?: string;
-    noBr?: boolean;
+    noBr?: boolean | number;
     icon?: IconClass;
 }
 export declare class GridRebindRequest extends GridWebApiRequest {

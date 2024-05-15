@@ -40,6 +40,10 @@
     cursor: pointer;
 }
 
+.vrCheckBox:disabled~div label {
+    opacity: 0.7;
+}
+
 /*#region Error*/
 
 .vrCheckBoxErrorIcon {

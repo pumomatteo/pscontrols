@@ -1556,7 +1556,7 @@ export class GridLabelSettings extends GridControlsSettings
     underlineMode?: GridLabelUnderlineMode;
     bold?: boolean;
     color?: string;
-    noBr?: boolean;
+    noBr?: boolean | number;
     icon?: IconClass;
 }
 export class GridRebindRequest extends GridWebApiRequest
