@@ -444,7 +444,7 @@ export class Upload extends VrControl
 
 					if (!isValid)
 					{
-						let errorMessage = (options.validation.extensionsErrorMessage == null) ? "Estensioni consentite: " + options.validation.extensions : options.validation.extensionsErrorMessage;
+						let errorMessage = (options.validation.extensionsErrorMessage == null) ? "Estensioni consentite: " + options.validation.extensions.vrToCommaSeparatedList() : options.validation.extensionsErrorMessage;
 						notify(errorMessage, { type: NotifierTypeEnum.Error });
 
 						if (options.validation.showFileIfError)

@@ -5664,7 +5664,7 @@ declare global {
         vrDeleteAllBy<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): void;
         vrToNumberArrayList(): number[];
         vrToStringArrayList(): string[];
-        vrToCommaSeparatedList(): string;
+        vrToCommaSeparatedList(addSpaceAfterComma?: boolean): string;
         vrPushRange(arrayToAdd: any[]): void;
         vrAll<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): boolean;
         vrAny<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): boolean;

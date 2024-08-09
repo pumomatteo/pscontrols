@@ -27,7 +27,7 @@ export declare class Button extends VrControl {
     text(value?: string): string;
     value(value?: string): string;
     tooltip(value?: string | number): string;
-    badge(text?: string | number): any;
+    badge(text?: string | number): string;
     badgeBackgroundColor(color: string): void;
     badgeColor(color: string): void;
     showBadge(): void;

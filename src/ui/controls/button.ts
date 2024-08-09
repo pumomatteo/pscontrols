@@ -268,7 +268,7 @@ export class Button extends VrControl
     //#endregion
 
     //#region Badge
-    badge(text?: string | number)
+    badge(text?: string | number): string
     {
         if (text != null)
         {

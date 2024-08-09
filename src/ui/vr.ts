@@ -8269,7 +8269,7 @@ declare global
 		vrDeleteAllBy<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): void;
 		vrToNumberArrayList(): number[];
 		vrToStringArrayList(): string[];
-		vrToCommaSeparatedList(): string;
+		vrToCommaSeparatedList(addSpaceAfterComma?: boolean): string;
 		vrPushRange(arrayToAdd: any[]): void;
 		vrAll<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): boolean;
 		vrAny<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): boolean;
@@ -8836,15 +8836,15 @@ Array.prototype.vrToStringArrayList = function ()
 	return [];
 }
 
-Array.prototype.vrToCommaSeparatedList = function ()
+Array.prototype.vrToCommaSeparatedList = function (addSpaceAfterComma: boolean = true)
 {
 	if (Array.isArray(this))
 	{
 		let result = "";
 		for (let item of this)
-			result += item.toString() + ", ";
+			result += item.toString() + ((addSpaceAfterComma) ? ", " : ",");
 
-		return result.substring(0, result.length - 2);
+		return result.substring(0, result.length - ((addSpaceAfterComma) ? 2 : 1));
 	}
 	else
 		return "";
