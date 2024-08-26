@@ -1,6 +1,6 @@
 import { ColorPickerManager } from "../../../src/managers/colorPickerManager";
 import { VrControl, VrControlOptions, VrControlsEvent } from "../common";
-import { ColorPickerModeEnum, ColorPickerRgbaValue, ControlTypeEnum, createIcon, div, IconClassicLight, IconClass, puma } from "../vr";
+import { ColorPickerModeEnum, ColorPickerRgbaValue, ControlTypeEnum, createIcon, div, IconClassicLight, IconClass, puma, IconClassicSolid } from "../vr";
 
 declare var JSColor: any;
 
@@ -118,52 +118,13 @@ export class ColorPicker extends VrControl
 		//#endregion
 
 		//#region Clear icon
-		if (options.clearButton)
-		{
-			let clearIcon = createIcon({
-				id: element.id + "_someStuff",
-				cssContainer: "background-color: #FFF; width: 20px; height: 20px; cursor: pointer; position: absolute; left: 13px; z-index: 9999999; top: " + ((options.showInput) ? "155" : "152") + "px;",
-				value: IconClassicLight.Eraser,
-				classContainer: "vrColorPickerClearIcon",
-				visible: false,
-				onClick: (e) => this.clear(true)
-			}, document.body, null, this.element().id + "_vrColorPickerClearIcon");
-
-			puma("body").on("DOMNodeRemoved", ".jscolor-picker-wrap", (e: any) =>
-			{
-				e.target.style.cssText += "z-index: 999999 !important;";
-				if (clearIcon.element() != null) clearIcon.element().style.cssText += "color: transparent;";
-				if (clearIcon.container() != null) clearIcon.container().style.cssText += "background-color: transparent;";
-
-				window.setTimeout(() => 
-				{
-					clearIcon.hide();
-					e.target.style.cssText += "z-index: 999999 !important;";
-				}, 300);
-			});
-
-			puma("body").on("DOMNodeInserted", ".jscolor-picker-wrap", (e: any) =>
-			{
-				let top = puma(puma(".jscolor-picker-wrap")[0]).position().top + 125;
-				let left = puma(puma(".jscolor-picker-wrap")[0]).position().left + 13;
-				if (clearIcon.container() != null) clearIcon.container().style.cssText += "top: " + top + "px; left: " + left + "px;";
-
-				e.target.style.cssText += "z-index: 999999 !important;";
-				if (clearIcon.element() != null) clearIcon.element().style.cssText += "color: #000;";
-				if (clearIcon.container() != null) clearIcon.container().style.cssText += "background-color: #FFF;";
-				clearIcon.show();
-
-				window.setTimeout(() => 
-				{
-					clearIcon.show();
-					e.target.style.cssText += "z-index: 999999 !important;";
-
-					let top = puma(puma(".jscolor-picker-wrap")[0]).position().top + 125;
-					let left = puma(puma(".jscolor-picker-wrap")[0]).position().left + 13;
-					if (clearIcon.container() != null) clearIcon.container().style.cssText += "top: " + top + "px; left: " + left + "px;";
-				}, 300);
-			});
-		}
+		let clearIcon = createIcon({
+			id: element.id + "_someStuff",
+			cssContainer: "cursor: pointer; position: absolute; left: 24px; bottom: 17px; background-color: #FFF; border-radius: 10px; border: solid 1px #51B3E1; padding: 1px; font-size: 13px; padding-left: 2px; padding-right: 2px;",
+			css: "color: #51B3E1 !important;",
+			value: IconClassicLight.Delete,
+			onClick: (e) => this.clear(true)
+		}, this.container(), null, this.element().id + "_vrColorPickerClearIcon");
 		//#endregion
 	}
 
