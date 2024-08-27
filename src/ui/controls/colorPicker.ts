@@ -118,13 +118,16 @@ export class ColorPicker extends VrControl
 		//#endregion
 
 		//#region Clear icon
-		let clearIcon = createIcon({
-			id: element.id + "_someStuff",
-			cssContainer: "cursor: pointer; position: absolute; left: 24px; bottom: 17px; background-color: #FFF; border-radius: 10px; border: solid 1px #51B3E1; padding: 1px; font-size: 13px; padding-left: 2px; padding-right: 2px;",
-			css: "color: #51B3E1 !important;",
-			value: IconClassicLight.Delete,
-			onClick: (e) => this.clear(true)
-		}, this.container(), null, this.element().id + "_vrColorPickerClearIcon");
+		if (options.clearButton)
+		{
+			let clearIcon = createIcon({
+				id: element.id + "_someStuff",
+				cssContainer: "cursor: pointer; position: absolute; left: 24px; bottom: 17px; background-color: #FFF; border-radius: 10px; border: solid 1px #51B3E1; padding: 1px; font-size: 13px; padding-left: 2px; padding-right: 2px;",
+				css: "color: #51B3E1 !important;",
+				value: IconClassicLight.Delete,
+				onClick: (e) => this.clear(true)
+			}, this.container(), null, this.element().id + "_vrColorPickerClearIcon");
+		}
 		//#endregion
 	}
 
