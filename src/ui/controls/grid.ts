@@ -577,7 +577,7 @@ export class Grid extends VrControl
                     options.pageSize = (options.pageSize.value != null) ? options.pageSize.value : 50;
                     for (let otherValue of otherValues)
                         pageSizeItems.push({ text: String(otherValue), value: String(otherValue), numberValue: otherValue });
-                }
+                } 
 
                 pageSizeItems.push({ text: String(options.pageSize!), value: String(options.pageSize!), numberValue: Number(options.pageSize!) });
 
