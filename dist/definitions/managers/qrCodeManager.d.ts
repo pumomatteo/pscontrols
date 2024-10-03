@@ -1,6 +1,6 @@
-declare type bit = number;
-declare type byte = number;
-declare type int = number;
+type bit = number;
+type byte = number;
+type int = number;
 export declare class QrCodeManager {
     readonly version: int;
     readonly errorCorrectionLevel: Ecc;

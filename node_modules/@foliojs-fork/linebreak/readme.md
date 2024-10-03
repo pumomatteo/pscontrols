@@ -12,13 +12,15 @@ An implementation of the Unicode Line Breaking Algorithm (UAX #14)
 
 This is a JavaScript implementation of the [Unicode Line Breaking Algorithm](http://www.unicode.org/reports/tr14/#SampleCode) for Node.js
 (and browsers I guess). Currently supports Unicode version 13. It is used by [PDFKit](http://github.com/devongovett/pdfkit/) for
-line wrapping text in PDF documents, but since the algorithm knows nothing about the actual visual appearance or layout of text, 
+line wrapping text in PDF documents, but since the algorithm knows nothing about the actual visual appearance or layout of text,
 it could be used for other things as well.
 
 ## Why fork?
 
 Because on original repo is not possible release new version on npm see [foliojs/linebreak#24](https://github.com/foliojs/linebreak/issues/24).
 This fork is same as original repo and is maintained up-to-date.
+This forks contains these changes:
+- Move brfs package as devDependencies
 
 ## Installation
 
