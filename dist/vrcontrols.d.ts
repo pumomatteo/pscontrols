@@ -2600,6 +2600,10 @@ export class RepeaterOptions extends VrControlOptions
     onRowDataBound?: (e: RepeaterOnRowDataBoundEvent) => void | string;
     onSelectRow?: (e: GridSelectRowEvent) => void;
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
+    onPageSelected?: (e: GridPageSelectedEvent) => void;
+    onScroll?: (e: GridScrollEvent) => void;
+    onBeforeExcelExport?: (e: GridBeforeExcelExportEvent) => void;
+    onAfterExcelExport?: (e: GridAfterExcelExportEvent) => void;
 }
 export class Repeater extends VrControl
 {

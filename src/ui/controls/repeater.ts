@@ -1,5 +1,5 @@
 import { VrControlOptions, VrControl } from "../common";
-import { ControlTypeEnum, GridToolbarItem, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, createGrid, GridColumnTypeEnum, puma, GridAlignEnum, createLabel, TextAlignEnum, GridSortDirectionEnum, GridGroupBySettings, ControlPositionEnum, GridGroupByItem, GridSortSettings } from "../vr";
+import { ControlTypeEnum, GridToolbarItem, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, createGrid, GridColumnTypeEnum, puma, GridAlignEnum, createLabel, TextAlignEnum, GridSortDirectionEnum, GridGroupBySettings, ControlPositionEnum, GridGroupByItem, GridSortSettings, GridPageSelectedEvent, GridScrollEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent } from "../vr";
 import { GridRebindRequest, GridFooterSettings, GridOnDataBoundEvent, GridOnRowDataBoundEvent, GridSelectRowEvent, GridSelectAllRowsEvent, GridUnselectRowEvent, GridUnselectAllRowsEvent, GridTemplateEvent, GridCustomSettings, Grid, GridFilterSettings, GridRow, GridPageSettings } from "./grid";
 import { Button } from "./button";
 import { SplitButton } from "./splitButton";
@@ -38,6 +38,10 @@ export class RepeaterOptions extends VrControlOptions
     onRowDataBound?: (e: RepeaterOnRowDataBoundEvent) => void | string;
     onSelectRow?: (e: GridSelectRowEvent) => void;
     onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
+    onPageSelected?: (e: GridPageSelectedEvent) => void;
+    onScroll?: (e: GridScrollEvent) => void;
+    onBeforeExcelExport?: (e: GridBeforeExcelExportEvent) => void;
+    onAfterExcelExport?: (e: GridAfterExcelExportEvent) => void;
 }
 //#endregion
 
@@ -175,7 +179,11 @@ export class Repeater extends VrControl
                     if (options!.onSelectRow != null && !e.empty)
                         options!.onSelectRow(e);
                 },
-                onSelectAllRows: options.onSelectAllRows
+                onSelectAllRows: options.onSelectAllRows,
+                onPageSelected: options.onPageSelected,
+                onScroll: options.onScroll,
+                onBeforeExcelExport: options.onBeforeExcelExport,
+                onAfterExcelExport: options.onAfterExcelExport
             }, this.element());
         //#endregion
 
