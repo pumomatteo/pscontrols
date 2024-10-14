@@ -385,26 +385,26 @@ export class Grid extends VrControl
                     let layoutToLoad = layoutList[0];
                     let layoutClass = JSON.parse(layoutToLoad.layoutJson) as GridLayoutStructure;
 
-                    //#region Check if saved layout correspond with actual layout
-                    let same = true;
+                    //#region Check if saved layout match with current layout
+                    let columnFieldsToDelete = [];
                     for (let layoutColumn of layoutClass.columns)
                     {
                         if (layoutColumn.field == "editButton" && !options!.hideEditButton)
                             continue;
 
                         if (!options!.columns!.map(k => k.field).includes(layoutColumn.field))
-                        {
-                            same = false;
-                            break;
-                        }
+                            columnFieldsToDelete.push(layoutColumn.field);
+                    }
+
+                    for (let fieldToDelete of columnFieldsToDelete)
+                    {
+                        let indexToDelete = layoutClass.columns.map(k => k.field).indexOf(fieldToDelete);
+                        if (indexToDelete != -1)
+                            layoutClass.columns.splice(indexToDelete, 1);
                     }
                     //#endregion
 
-                    if (same)
-                    {
-                        this._actualLayout = layoutToLoad;
-                        //this.changeLayout();
-                    }
+                    this._actualLayout = layoutToLoad;
                 }
             });
             //**********************TODO//**********************
@@ -577,7 +577,7 @@ export class Grid extends VrControl
                     options.pageSize = (options.pageSize.value != null) ? options.pageSize.value : 50;
                     for (let otherValue of otherValues)
                         pageSizeItems.push({ text: String(otherValue), value: String(otherValue), numberValue: otherValue });
-                } 
+                }
 
                 pageSizeItems.push({ text: String(options.pageSize!), value: String(options.pageSize!), numberValue: Number(options.pageSize!) });
 
