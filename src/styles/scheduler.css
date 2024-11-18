@@ -231,7 +231,11 @@
 }
 
 .borderRightSolid {
-	border-right: solid 1px #797979;
+	border-right: solid 1px #797979 !important;
+}
+
+.borderRightChangedMonth {
+	border-right: solid 1px #51B3E1 !important;
 }
 
 .vrSchedulerDivResize {

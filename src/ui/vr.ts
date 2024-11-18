@@ -7994,7 +7994,9 @@ export enum DateFormatEnum
 	Month,
 	Year,
 	LongDateWithoutYear,
-	ShortDateWithoutYear
+	ShortDateWithoutYear,
+	LongWeekRange,
+	LongFourWeeksRange
 }
 
 export enum KeyEnum

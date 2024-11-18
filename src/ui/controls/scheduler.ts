@@ -205,7 +205,7 @@ export class Scheduler extends VrControl
 		this._dtpSchedulerDate = createDatePicker({
 			format: DateFormatEnum.LongDate,
 			value: options.date,
-			width: 250,
+			width: 300,
 			cssContainer: "margin-left: 5px;",
 			onBeforeChange: (e) =>
 			{
@@ -427,6 +427,9 @@ export class Scheduler extends VrControl
 								th.colSpan = numberOfDays;
 								rowResources.appendChild(th);
 
+								if (this.resources().length > 1)
+									th.classList.add("borderRightSolid");
+
 								//#region Text
 								let spanResouceText = document.createElement("span");
 								spanResouceText.innerHTML = resourceText.toUpperCase();
@@ -460,13 +463,20 @@ export class Scheduler extends VrControl
 								let dayNumber = dayOfWeek.getDate();
 
 								let th = document.createElement("th");
-								th.title = dayNumber + " " + dayName;
+								th.title = dayOfWeek.vrToLongDateString();
 								th.className = "vrSchedulerWeekDay";
 								th.setAttribute("day", String(dayNumber));
 								th.setAttribute("month", String(dayOfWeek.getMonth()));
 								th.setAttribute("year", String(dayOfWeek.getFullYear()));
 								th.setAttribute("resourceId", resource.value);
 								rowDays.appendChild(th);
+
+								if (i == numberOfDays - 1)
+									th.classList.add("borderRightSolid");
+
+								let lastDateOfMonth = Date.vrGetLastDayOfMonthByDate(dayOfWeek);
+								if (dayOfWeek.getDate() == lastDateOfMonth.getDate())
+									th.classList.add("borderRightChangedMonth");
 
 								//#region Text
 								let spanResouceText = document.createElement("span");
@@ -513,7 +523,7 @@ export class Scheduler extends VrControl
 							let dayNumber = dayOfWeek.getDate();
 
 							let th = document.createElement("th");
-							th.title = dayNumber + " " + dayName;
+							th.title = dayOfWeek.vrToLongDateString();
 							th.colSpan = this.resources().length;
 							th.className = "vrSchedulerWeekDay";
 							th.setAttribute("day", String(dayNumber));
@@ -522,6 +532,13 @@ export class Scheduler extends VrControl
 							th.innerHTML = dayNumber + " " + dayName;
 							th.innerHTML = dayNumber + " " + dayName;
 							rowDays.appendChild(th);
+
+							if (numberOfDays > 1)
+								th.classList.add("borderRightSolid");
+
+							let lastDateOfMonth = Date.vrGetLastDayOfMonthByDate(dayOfWeek);
+							if (dayOfWeek.getDate() == lastDateOfMonth.getDate())
+								th.classList.add("borderRightChangedMonth");
 
 							addingDays++;
 						}
@@ -540,6 +557,7 @@ export class Scheduler extends VrControl
 							let dayOfWeek = firstDayOfWeek.vrAddDays(addingDaysForResources);
 							let dayNumber = dayOfWeek.getDate();
 
+							let j = 0;
 							for (let resource of this.resources())
 							{
 								let resourceText = (resource.text != null) ? resource.text : "";
@@ -553,6 +571,15 @@ export class Scheduler extends VrControl
 								th.setAttribute("month", String(dayOfWeek.getMonth()));
 								th.setAttribute("year", String(dayOfWeek.getFullYear()));
 								rowResources.appendChild(th);
+
+								if (j == this.resources().length - 1)
+								{
+									th.classList.add("borderRightSolid");
+
+									let lastDateOfMonth = Date.vrGetLastDayOfMonthByDate(dayOfWeek);
+									if (dayOfWeek.getDate() == lastDateOfMonth.getDate())
+										th.classList.add("borderRightChangedMonth");
+								}
 
 								//#region Text
 								let spanResouceText = document.createElement("span");
@@ -572,6 +599,8 @@ export class Scheduler extends VrControl
 								spanSaturationBar.classList.add("vrSchedulerSpanSaturation");
 								divSaturation.appendChild(spanSaturationBar);
 								//#endregion
+
+								j++;
 							}
 							addingDaysForResources++;
 						}
@@ -767,6 +796,10 @@ export class Scheduler extends VrControl
 									if (j == numberOfDays - 1)
 										td.classList.add("borderRightSolid");
 
+									let lastDateOfMonth = Date.vrGetLastDayOfMonthByDate(dayOfWeek);
+									if (dayOfWeek.getDate() == lastDateOfMonth.getDate())
+										td.classList.add("borderRightChangedMonth");
+
 									addingDays++;
 
 									// To fast appointment collocation
@@ -830,7 +863,13 @@ export class Scheduler extends VrControl
 									row.appendChild(td);
 
 									if (((columnIndex + 1) % this.resources().length) == 0)
+									{
 										td.classList.add("borderRightSolid");
+
+										let lastDateOfMonth = Date.vrGetLastDayOfMonthByDate(dayOfWeek);
+										if (dayOfWeek.getDate() == lastDateOfMonth.getDate())
+											td.classList.add("borderRightChangedMonth");
+									}
 
 									// To fast appointment collocation
 									let slotElement = new SchedulerSlotElement();
@@ -941,13 +980,13 @@ export class Scheduler extends VrControl
 				case SchedulerViewEnum.Week:
 					{
 						this._swtGroupByDateResource.show();
-						this._dtpSchedulerDate.format(DateFormatEnum.WeekRange);
+						this._dtpSchedulerDate.format(DateFormatEnum.LongWeekRange);
 					}
 					break;
 				case SchedulerViewEnum.FourWeeks:
 					{
 						this._swtGroupByDateResource.hide();
-						this._dtpSchedulerDate.format(DateFormatEnum.FourWeeksRange);
+						this._dtpSchedulerDate.format(DateFormatEnum.LongFourWeeksRange);
 					}
 					break;
 			}

@@ -1099,11 +1099,39 @@ export class DatePicker extends VrControl
                 let lastDayOfWeek = firstDayOfWeek.vrAddDays(5);
                 dateString = firstDayOfWeek.vrToItalyString() + " - " + lastDayOfWeek.vrToItalyString();
             }
+            else if (options.format == DateFormatEnum.LongWeekRange)
+            {
+                let firstDayOfWeek = Date.vrGetFirstDayOfWeekByDate(this._value!);
+                let lastDayOfWeek = firstDayOfWeek.vrAddDays(5);
+
+                dateOptions = {
+                    timeZone: "Europe/Rome",
+                    year: 'numeric',
+                    month: 'long',
+                    day: '2-digit',
+                }
+                dateFormatter = new Intl.DateTimeFormat("it", dateOptions);
+                dateString = dateFormatter.format(firstDayOfWeek) + " - " + dateFormatter.format(lastDayOfWeek);
+            }
             else if (options.format == DateFormatEnum.FourWeeksRange)
             {
                 let firstDayOfWeek = Date.vrGetFirstDayOfWeekByDate(this._value!);
                 let lastDayOfWeek = firstDayOfWeek.vrAddDays(26);
                 dateString = firstDayOfWeek.vrToItalyString() + " - " + lastDayOfWeek.vrToItalyString();
+            }
+            else if (options.format == DateFormatEnum.LongFourWeeksRange)
+            {
+                let firstDayOfWeek = Date.vrGetFirstDayOfWeekByDate(this._value!);
+                let lastDayOfWeek = firstDayOfWeek.vrAddDays(26);
+
+                dateOptions = {
+                    timeZone: "Europe/Rome",
+                    year: 'numeric',
+                    month: 'long',
+                    day: '2-digit',
+                }
+                dateFormatter = new Intl.DateTimeFormat("it", dateOptions);
+                dateString = dateFormatter.format(firstDayOfWeek) + " - " + dateFormatter.format(lastDayOfWeek);
             }
 
             switch (options.mode)

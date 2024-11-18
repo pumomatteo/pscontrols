@@ -9579,7 +9579,9 @@ export enum DateFormatEnum
     Month = 5,
     Year = 6,
     LongDateWithoutYear = 7,
-    ShortDateWithoutYear = 8
+    ShortDateWithoutYear = 8,
+    LongWeekRange = 9,
+    LongFourWeeksRange = 10
 }
 export enum KeyEnum
 {

@@ -385,26 +385,46 @@ export class Grid extends VrControl
                     let layoutToLoad = layoutList[0];
                     let layoutClass = JSON.parse(layoutToLoad.layoutJson) as GridLayoutStructure;
 
-                    //#region Check if saved layout match with current layout
-                    let columnFieldsToDelete = [];
+                    // //#region Check if saved layout match with current layout
+                    // let columnFieldsToDelete = [];
+                    // for (let layoutColumn of layoutClass.columns)
+                    // {
+                    //     if (layoutColumn.field == "editButton" && !options!.hideEditButton)
+                    //         continue;
+
+                    //     if (!options!.columns!.map(k => k.field).includes(layoutColumn.field))
+                    //         columnFieldsToDelete.push(layoutColumn.field);
+                    // }
+
+                    // for (let fieldToDelete of columnFieldsToDelete)
+                    // {
+                    //     let indexToDelete = layoutClass.columns.map(k => k.field).indexOf(fieldToDelete);
+                    //     if (indexToDelete != -1)
+                    //         layoutClass.columns.splice(indexToDelete, 1);
+                    // }
+                    // //#endregion
+
+                    let same = true;
                     for (let layoutColumn of layoutClass.columns)
                     {
                         if (layoutColumn.field == "editButton" && !options!.hideEditButton)
                             continue;
 
                         if (!options!.columns!.map(k => k.field).includes(layoutColumn.field))
-                            columnFieldsToDelete.push(layoutColumn.field);
-                    }
-
-                    for (let fieldToDelete of columnFieldsToDelete)
-                    {
-                        let indexToDelete = layoutClass.columns.map(k => k.field).indexOf(fieldToDelete);
-                        if (indexToDelete != -1)
-                            layoutClass.columns.splice(indexToDelete, 1);
+                        {
+                            same = false;
+                            break;
+                        }
                     }
                     //#endregion
 
-                    this._actualLayout = layoutToLoad;
+                    if (same)
+                    {
+                        this._actualLayout = layoutToLoad;
+                        //this.changeLayout();
+                    }
+
+                    //this._actualLayout = layoutToLoad;
                 }
             });
             //**********************TODO//**********************
