@@ -8278,7 +8278,7 @@ export class Grid extends VrControl
                         options.onDataSourceChanged();
 
                     if (promiseCallback != null)
-                        promiseCallback();
+                        promiseCallback(response);
                 }
                 else
                 {

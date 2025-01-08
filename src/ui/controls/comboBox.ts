@@ -86,7 +86,7 @@ export class ComboBox extends VrControl
         if (options.treeMode == null) options.treeMode = ComboBoxTreeModeEnum.AllExpanded;
         if (options.freeText == null) options.freeText = false;
         if (options.checkboxes == null) options.checkboxes = false;
-        if (options.filter == null) options.filter = false;
+        if (options.filter == null) options.filter = true;
         if (options.clearButton == null) options.clearButton = false;
         if (options.addButton == null) options.addButton = false;
         if (options.textAlign == null) options.textAlign = TextAlignEnum.Left;
