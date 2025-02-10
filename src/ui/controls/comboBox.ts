@@ -1037,7 +1037,13 @@ export class ComboBox extends VrControl
                 });
             }
 
-            let rowText = item.text.replace(/'/g, "&#39;");
+            //#region Row text
+            let rowText = "";
+            if (item.icon != null && item.icon != "")
+                rowText = "<i class='" + item.icon + "'></i> ";
+
+            rowText += item.text.replace(/'/g, "&#39;");
+
             if (options.template != null)
             {
                 let templateEvent = new ComboBoxTemplateEvent();
@@ -1047,9 +1053,18 @@ export class ComboBox extends VrControl
                 rowText = options.template(templateEvent);
             }
 
+            if (item.backgroundColor != null)
+                li[0].style.cssText += "background-color: " + item.backgroundColor + ";";
+
             let classIfCheckbox = (options.checkboxes) ? "vrComboBoxItemTextCheckbox" : "";
             let classIfNoBr = (options.noBr) ? "" : "vrComboBoxItemTextBr";
-            let comboItemText = puma("<span title='" + item.text + "' text='" + item.text.replace(/'/g, "&#39;") + "' class='vrComboBoxItemText " + classIfCheckbox + " " + classIfNoBr + "'>" + rowText + "</span>").vrAppendToPuma(comboItem);
+            let styleIfTextColor = (item.textColor != null) ? "color: " + item.textColor + ";" : "";
+            if (item.whiteFont)
+                styleIfTextColor = "color: #FFF;";
+
+            let comboItemText = puma("<span title='" + item.text + "' text='" + item.text.replace(/'/g, "&#39;") + "' class='vrComboBoxItemText " + classIfCheckbox + " " + classIfNoBr + "' " + "style='" + " " + styleIfTextColor + "'" + ">" + rowText + "</span>").vrAppendToPuma(comboItem);
+            //#endregion
+
             puma(comboItemText).on("mousedown", (e: JQuery.MouseDownEvent) =>
             {
                 let value = item.value;

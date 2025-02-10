@@ -443,7 +443,7 @@ export class Repeater extends VrControl
         this._grid.hideToolbar();
     }
 
-    toolbarItem<T extends Button | SplitButton | Switch>(value: string)
+    toolbarItem<T extends VrControl>(value: string)
     {
         return this._grid.toolbarItem<T>(value);
     }

@@ -1241,7 +1241,7 @@ export class Grid extends VrControl
                                     {
                                         icon: (column.type == GridColumnTypeEnum.Custom) ? IconClassicLight.Search : undefined,
                                         placeholder: (column.type == GridColumnTypeEnum.Custom) ? "Cerca..." : undefined,
-                                        width: "Calc(100% - 27px)",
+                                        width: (this.isRepeater()) ? "100%" : "Calc(100% - 27px)",
                                         attributes: [{ name: "field", value: column.field }],
                                         onPaste: (e) =>
                                         {
@@ -1260,7 +1260,11 @@ export class Grid extends VrControl
                                             btnStringFilter.tooltip("");
                                             btnStringFilter.element().style.cssText += "background-color: #f3f3f3; color: #000;";
                                             btnStringFilterRemove.hide();
-                                            e.sender.width("Calc(100% - 27px)");
+
+                                            if (this.isRepeater())
+                                                e.sender.width("100%");
+                                            else
+                                                e.sender.width("Calc(100% - 27px)");
                                             //#endregion
 
                                             clearTimeout(this._timeoutFilterText);
@@ -1306,6 +1310,7 @@ export class Grid extends VrControl
                                     {
                                         icon: IconClassicLight.Filter,
                                         tooltip: "Applica filtro",
+                                        visible: !this.isRepeater(),
                                         onClick: (e) =>
                                         {
                                             this.openWindowFiltering(column);
@@ -2002,6 +2007,9 @@ export class Grid extends VrControl
         for (let row of items)
         {
             let dataItem = dataItems[i];
+            if (dataItem == null)
+                continue;
+
             let dataItemId = dataItem[options.dataSourceFieldId!];
             let rowId = "row" + i + "_" + dataItemId;
 
@@ -10676,17 +10684,23 @@ export class Grid extends VrControl
             //#region PageSize
             if (json.pageSize != null)
             {
-                options.pageSize = json.pageSize;
+                if (typeof (json.pageSize) == "boolean")
+                    options.pageSize = 50;
+                else if (typeof (json.pageSize) == "number")
+                    options.pageSize = json.pageSize;
+                else
+                    options.pageSize = (json.pageSize.value == null) ? 50 : json.pageSize.value;
+
                 if (updateDataSource)
                 {
                     let ddlPageSize = ControlManager.get<ComboBox>(this._elementId + "_ddlPageSize");
-                    if (!ddlPageSize.items().map(k => k.value).includes(String(json.pageSize)))
+                    if (!ddlPageSize.items().map(k => k.value).includes(String(options.pageSize)))
                     {
                         let items = ddlPageSize.items();
-                        items.push({ text: String(json.pageSize), value: String(json.pageSize) });
+                        items.push({ text: String(options.pageSize), value: String(options.pageSize) });
                         ddlPageSize.items(items);
                     }
-                    ddlPageSize.value(String(json.pageSize), true);
+                    ddlPageSize.value(String(options.pageSize), true);
                 }
             }
             //#endregion

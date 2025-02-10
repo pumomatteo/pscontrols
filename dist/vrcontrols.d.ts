@@ -2654,7 +2654,7 @@ export class Repeater extends VrControl
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;
-    toolbarItem<T extends Button | SplitButton | Switch>(value: string): T;
+    toolbarItem<T extends VrControl>(value: string): T;
     showToolbarItem(value: string): void;
     hideToolbarItem(value: string): void;
     enableToolbarItem<T extends VrControl>(value: string): void;
@@ -4480,6 +4480,7 @@ export enum IconClassicLight
     ArrowRotateRight = "fa-light fa-arrow-rotate-right",
     ArrowsRepeat = "fa-light fa-arrows-repeat",
     ArrowsRotate = "fa-light fa-arrows-rotate",
+    ArrowsSpin = "fa-light fa-arrows-spin",
     ArrowUp = "fa-light fa-arrow-up",
     Asterisk = "fa-light fa-asterisk",
     At = "fa-light fa-at",
@@ -4640,6 +4641,7 @@ export enum IconClassicLight
     LevelRightAlt = "fa-light fa-level-right-alt",
     LevelUp = "fa-light fa-level-up",
     LevelUpAlt = "fa-light fa-level-up-alt",
+    LineColumns = "fa-light fa-line-columns",
     Link = "fa-light fa-link",
     LinkExternal = "fa-light fa-arrow-up-right-from-square",
     LinkHorizontal = "fa-light fa-link-horizontal",
@@ -4746,6 +4748,7 @@ export enum IconClassicLight
     SquareCheck = "fa-light fa-square-check",
     SquareMinus = "fa-light fa-square-minus",
     SquarePen = "fa-light fa-square-pen",
+    SquareQuote = "fa-light fa-square-quote",
     Stamp = "fa-light fa-stamp",
     Star = "fa-light fa-star",
     StepBackward = "fa-light fa-step-backward",
@@ -7897,6 +7900,10 @@ export class ComboBoxItem
 {
     text: string;
     value: any;
+    icon?: IconClass;
+    backgroundColor?: string;
+    textColor?: string;
+    whiteFont?: boolean;
     parentValue?: any;
 }
 export class ComboBoxWebServiceSettings

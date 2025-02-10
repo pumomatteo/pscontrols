@@ -1,9 +1,6 @@
 import { VrControlOptions, VrControl } from "../common";
 import { GridToolbarItem, GridHeightModeEnum, GridCheckboxModeEnum, GridModeEnum, GridSortDirectionEnum, GridGroupBySettings, GridGroupByItem, GridSortSettings, GridPageSelectedEvent, GridScrollEvent, GridBeforeExcelExportEvent, GridAfterExcelExportEvent } from "../vr";
 import { GridRebindRequest, GridFooterSettings, GridOnDataBoundEvent, GridOnRowDataBoundEvent, GridSelectRowEvent, GridSelectAllRowsEvent, GridTemplateEvent, GridFilterSettings, GridRow, GridPageSettings } from "./grid";
-import { Button } from "./button";
-import { SplitButton } from "./splitButton";
-import { Switch } from "./switch";
 export declare class RepeaterOptions extends VrControlOptions {
     toolbar?: GridToolbarItem[];
     height?: string | number | GridHeightModeEnum;
@@ -87,7 +84,7 @@ export declare class Repeater extends VrControl {
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;
-    toolbarItem<T extends Button | SplitButton | Switch>(value: string): T;
+    toolbarItem<T extends VrControl>(value: string): T;
     showToolbarItem(value: string): void;
     hideToolbarItem(value: string): void;
     enableToolbarItem<T extends VrControl>(value: string): void;
