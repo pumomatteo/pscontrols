@@ -84,6 +84,7 @@ export declare class Repeater extends VrControl {
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;
+    toolbar(): HTMLElement;
     toolbarItem<T extends VrControl>(value: string): T;
     showToolbarItem(value: string): void;
     hideToolbarItem(value: string): void;
