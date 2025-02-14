@@ -230,6 +230,10 @@ export declare class Grid extends VrControl {
     enable(state?: boolean | string): void;
     private toolbarCustomLogic;
     excelExport(fileName?: string, exportHiddenColumns?: boolean, download?: boolean): Promise<ExcelExportPromise>;
+    visibleFooter(state?: boolean): any;
+    showFooter(): void;
+    hideFooter(): void;
+    footer(): HTMLElement;
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;

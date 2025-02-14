@@ -1472,6 +1472,10 @@ export class Grid extends VrControl
     recalculateHeight(afterFilter?: boolean): void;
     enable(state?: boolean | string): void;
     excelExport(fileName?: string, exportHiddenColumns?: boolean, download?: boolean): Promise<ExcelExportPromise>;
+    visibleFooter(state?: boolean): any;
+    showFooter(): void;
+    hideFooter(): void;
+    footer(): HTMLElement;
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;
@@ -2651,6 +2655,10 @@ export class Repeater extends VrControl
     height(height?: number | string): any;
     recalculateHeight(afterFilter?: boolean): void;
     recalculateWidth(): void;
+    visibleFooter(state?: boolean): any;
+    showFooter(): void;
+    hideFooter(): void;
+    footer(): HTMLElement;
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;

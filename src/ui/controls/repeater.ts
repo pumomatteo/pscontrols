@@ -427,7 +427,29 @@ export class Repeater extends VrControl
     }
     //#endregion
 
-    //#region Visible toolbar
+    //#region Footer
+    visibleFooter(state?: boolean)
+    {
+        return this._grid.visibleFooter(state);
+    }
+
+    showFooter()
+    {
+        this._grid.showFooter();
+    }
+
+    hideFooter()
+    {
+        this._grid.hideFooter();
+    }
+
+    footer()
+    {
+        return this._grid.footer();
+    }
+    //#endregion
+
+    //#region Toolbar
     visibleToolbar(state?: boolean)
     {
         return this._grid.visibleToolbar(state);

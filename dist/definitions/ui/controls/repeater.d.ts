@@ -81,6 +81,10 @@ export declare class Repeater extends VrControl {
     height(height?: number | string): any;
     recalculateHeight(afterFilter?: boolean): void;
     recalculateWidth(): void;
+    visibleFooter(state?: boolean): any;
+    showFooter(): void;
+    hideFooter(): void;
+    footer(): HTMLElement;
     visibleToolbar(state?: boolean): any;
     showToolbar(): void;
     hideToolbar(): void;

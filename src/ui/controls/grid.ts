@@ -8893,6 +8893,33 @@ export class Grid extends VrControl
     }
     //#endregion
 
+    //#region Footer
+    visibleFooter(state?: boolean)
+    {
+        if (state != null)
+        {
+            if (state) puma(this._divFooter).show();
+            else puma(this._divFooter).hide();
+        }
+        return puma(this._divFooter).is(":visible");
+    }
+
+    showFooter()
+    {
+        this.visibleFooter(true);
+    }
+
+    hideFooter()
+    {
+        this.visibleFooter(false);
+    }
+
+    footer()
+    {
+        return this._divFooter;
+    }
+    //#endregion
+
     //#region Toolbar
     visibleToolbar(state?: boolean)
     {
@@ -9184,6 +9211,11 @@ export class Grid extends VrControl
                         css: toolbarItem.css,
                         classContainer: "grid-toolbarItemsContainer " + ((toolbarItem.classContainer != null) ? toolbarItem.classContainer : ""),
                         class: "grid-toolbarItems grid-splitButton " + itemClass,
+                        onSelect: (e) =>
+                        {
+                            if (toolbarItem.splitButtonOptions!.onSelect != null)
+                                toolbarItem.splitButtonOptions?.onSelect(e);
+                        },
                         onClick: (toolbarItem.onClick == null) ? undefined : (e) =>
                         {
                             //#region Event
