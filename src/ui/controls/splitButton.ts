@@ -309,7 +309,7 @@ export class SplitButton extends VrControl
     }
 
     //#region Visibility
-    itemVisible(value: string, state?: boolean): boolean
+    itemVisible(value: string | number, state?: boolean): boolean
     {
         let itemButton = this._itemButtonList.filter(k => k.tag() == value)[0];
         if (state != null)
@@ -322,35 +322,35 @@ export class SplitButton extends VrControl
         return itemButton.visible();
     }
 
-    showItem(value: string): void
+    showItem(value: string | number): void
     {
         this.itemVisible(value, true);
     }
 
-    showItems(values: string[])
+    showItems(values: string[] | number[])
     {
         for (let value of values)
             this.showItem(value);
     }
 
-    showOnlyThisItem(value: string)
+    showOnlyThisItem(value: string | number)
     {
         for (let item of this._itemButtonList)
             this.itemVisible(item.tag(), item.tag() == value);
     }
 
-    hideItem(value: string): void
+    hideItem(value: string | number): void
     {
         this.itemVisible(value, false);
     }
 
-    hideItems(values: string[])
+    hideItems(values: string[] | number[])
     {
         for (let value of values)
             this.hideItem(value);
     }
 
-    hideOnlyThisItem(value: string)
+    hideOnlyThisItem(value: string | number)
     {
         for (let item of this._itemButtonList)
             this.itemVisible(item.tag(), item.tag() != value);
@@ -358,7 +358,7 @@ export class SplitButton extends VrControl
     //#endregion
 
     //#region Enable
-    itemEnable(value: string, state?: boolean): boolean
+    itemEnable(value: string | number, state?: boolean): boolean
     {
         let itemButton = this._itemButtonList.filter(k => k.tag() == value)[0];
         if (state != null)
@@ -377,13 +377,13 @@ export class SplitButton extends VrControl
         this.enableItems(this.items().map(k => String(k.value)));
     }
 
-    enableItems(values: string[])
+    enableItems(values: string[] | number[])
     {
         for (let value of values)
             this.enableItem(value);
     }
 
-    enableItem(value: string): void
+    enableItem(value: string | number): void
     {
         this.itemEnable(value, true);
     }
@@ -393,13 +393,13 @@ export class SplitButton extends VrControl
         this.disableItems(this.items().map(k => String(k.value)));
     }
 
-    disableItems(values: string[])
+    disableItems(values: string[] | number[])
     {
         for (let value of values)
             this.disableItem(value);
     }
 
-    disableItem(value: string): void
+    disableItem(value: string | number): void
     {
         this.itemEnable(value, false);
     }
