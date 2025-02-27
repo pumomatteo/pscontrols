@@ -865,6 +865,7 @@ export declare enum IconClassicLight {
     Print = "fa-light fa-print",
     Pumo = "fa-light fa-font-awesome",
     Question = "fa-light fa-question",
+    Receipt = "fa-light fa-receipt",
     Redo = "fa-light fa-redo",
     RedoAlt = "fa-light fa-redo-alt",
     Refresh = "fa-light fa-arrows-rotate",

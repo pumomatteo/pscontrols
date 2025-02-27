@@ -10,6 +10,7 @@ export class ButtonOptions extends VrControlOptions
     tooltip?: string;
     colorSettings?: ColorSettings;
     icon?: IconClass;
+    onlyIcon?: boolean;
     imageUrl?: string;
     iconSettings?: IconSettings;
     confirmationMessage?: string;
@@ -77,6 +78,9 @@ export class Button extends VrControl
             this.icon(options.icon);
         else if (options.imageUrl != null)
             this.imageUrl(options.imageUrl);
+
+        if ((options.icon != null || options.imageUrl != null) && options.onlyIcon === true)
+            this.css("border: none; background: none;");
         //#endregion
 
         //#region Text/Tooltip/Value

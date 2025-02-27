@@ -66,6 +66,7 @@ export declare class Repeater extends VrControl {
     selectRow(itemId: string, triggerChange?: boolean): void;
     unselectRows(itemIdList: string[], property?: string, triggerChange?: boolean): void;
     unselectRow(itemId: string): void;
+    hasGroup(): boolean;
     removeGroup(field: string, updateDataSource?: boolean): void;
     removeGroups(fields: string[], updateDataSource?: boolean): void;
     removeAllGroups(updateDataSource?: boolean): void;

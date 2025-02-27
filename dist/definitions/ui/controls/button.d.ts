@@ -7,6 +7,7 @@ export declare class ButtonOptions extends VrControlOptions {
     tooltip?: string;
     colorSettings?: ColorSettings;
     icon?: IconClass;
+    onlyIcon?: boolean;
     imageUrl?: string;
     iconSettings?: IconSettings;
     confirmationMessage?: string;

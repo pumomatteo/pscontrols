@@ -345,6 +345,11 @@ export class Repeater extends VrControl
     //#endregion
 
     //#region GroupBy
+    hasGroup()
+    {
+        return this._grid.hasGroup();
+    }
+
     removeGroup(field: string, updateDataSource = true)
     {
         this.removeGroups([field], updateDataSource);

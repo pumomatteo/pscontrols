@@ -470,6 +470,7 @@ export class ButtonOptions extends VrControlOptions
     tooltip?: string;
     colorSettings?: ColorSettings;
     icon?: IconClass;
+    onlyIcon?: boolean;
     imageUrl?: string;
     iconSettings?: IconSettings;
     confirmationMessage?: string;
@@ -1443,6 +1444,7 @@ export class Grid extends VrControl
     unlockColumn(field: string, update?: boolean): void;
     lockedColumns(): GridColumn[];
     thereAreLockedColumns(): boolean | undefined;
+    hasGroup(): boolean;
     removeGroup(field: string, updateDataSource?: boolean): void;
     removeGroups(fields: string[], updateDataSource?: boolean): void;
     removeAllGroups(updateDataSource?: boolean): void;
@@ -2640,6 +2642,7 @@ export class Repeater extends VrControl
     selectRow(itemId: string, triggerChange?: boolean): void;
     unselectRows(itemIdList: string[], property?: string, triggerChange?: boolean): void;
     unselectRow(itemId: string): void;
+    hasGroup(): boolean;
     removeGroup(field: string, updateDataSource?: boolean): void;
     removeGroups(fields: string[], updateDataSource?: boolean): void;
     removeAllGroups(updateDataSource?: boolean): void;
@@ -4723,6 +4726,7 @@ export enum IconClassicLight
     Print = "fa-light fa-print",
     Pumo = "fa-light fa-font-awesome",
     Question = "fa-light fa-question",
+    Receipt = "fa-light fa-receipt",
     Redo = "fa-light fa-redo",
     RedoAlt = "fa-light fa-redo-alt",
     Refresh = "fa-light fa-arrows-rotate",

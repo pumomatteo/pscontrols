@@ -52,17 +52,20 @@ export class Label extends VrControl
         if (options.label != null && options.labelSettings!.position == PositionEnum.Left)
             this.element().style.cssText += "margin-top: -2px;";
 
+        if (options.width == "100%" && options.align == TextAlignEnum.Left && (options.labelSettings == null || options.labelSettings.position == PositionEnum.Left))
+            this.element().style.cssText += "width: unset;";
+
         //#region NoBr
         if (options.noBr !== false)
         {
             if (options.noBr === true)
             {
-                this.element().style.cssText += "white-space: nowrap; overflow:hidden; margin-bottom: -6px; text-overflow: ellipsis; display: inline-block;";
+                this.element().style.cssText += "white-space: nowrap; overflow:hidden; margin-bottom: -6px; text-overflow: ellipsis; display: inline-block; width: unset;";
                 if (options.width == null)
-                    this.element().style.cssText += "width: 100%;";
+                    this.container().style.cssText += "width: 100%;";
             }
             else
-                this.element().style.cssText += "overflow: hidden; display: -webkit-inline-box; -webkit-line-clamp: " + options.noBr + "; -webkit-box-orient: vertical;white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;";
+                this.element().style.cssText += "overflow: hidden; display: -webkit-inline-box; -webkit-line-clamp: " + options.noBr + "; -webkit-box-orient: vertical; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;";
         }
         //#endregion
 
@@ -133,15 +136,13 @@ export class Label extends VrControl
 
         //#region Events
         if (options.onClick != null)
-        {
-            this.container().style.cssText += "cursor: pointer;";
             this.element().style.cssText += "cursor: pointer;";
-        }
-        puma(this.container()).click(() => this.click());
+
+        puma(this.element()).click(() => this.click());
 
         if (options.onHover != null)
         {
-            puma(this.container()).on("hover", () =>
+            puma(this.element()).on("hover", () =>
             {
                 let hoverEvent = new LabelHoverEvent();
                 hoverEvent.sender = this;

@@ -13,6 +13,7 @@ export class RatingOptions extends VrControlOptions
     tooltip?: boolean;
     colorSettings?: RatingColorSettings;
     total?: number;
+    readonly?: boolean;
 
     onSelect?: (e: RatingSelectEvent) => void;
 }
@@ -143,17 +144,17 @@ export class Rating extends VrControl
             if (colorSettings.notSelected != null) options.colorSettings!.notSelected = colorSettings.notSelected;
 
             UtilityManager.addCssStyle(
-                `.vrRating>label {
+                `#${this.id()}>label {
                     color: ` + options.colorSettings!.notSelected + `;
                     float: right;
                     cursor: pointer;
                 }
 
-                .vrRating>input:checked~label, .vrRating.hover:not(:checked)>label:hover, .vrRating.hover:not(:checked)>label:hover~label {
+                #${this.id()}>input:checked~label, #${this.id()}.hover:not(:checked)>label:hover, #${this.id()}.hover:not(:checked)>label:hover~label {
                     color: ` + options.colorSettings!.selected + `;
                 }
 
-                .vrRating.hover>input:checked+label:hover, .vrRating.hover>input:checked~label:hover, .vrRating.hover>label:hover~input:checked~label, .vrRating.hover>input:checked~label:hover~label {
+                #${this.id()}.hover>input:checked+label:hover, #${this.id()}.hover>input:checked~label:hover, #${this.id()}.hover>label:hover~input:checked~label, #${this.id()}.hover>input:checked~label:hover~label {
                     color: ` + options.colorSettings!.hover + `;
                 }`
             );
@@ -169,7 +170,7 @@ export class Rating extends VrControl
                 size = size + "px";
 
             UtilityManager.addCssStyle(
-                `.vrRating>label:before {
+                `#${this.id}>label:before {
                     font-size: ` + size + `;
                 }`
             );

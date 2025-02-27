@@ -2106,6 +2106,7 @@ export enum IconClassicLight
 	//#endregion
 
 	//#region R
+	Receipt = "fa-light fa-receipt",
 	Redo = "fa-light fa-redo",
 	RedoAlt = "fa-light fa-redo-alt",
 	Refresh = "fa-light fa-arrows-rotate",

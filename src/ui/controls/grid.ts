@@ -2173,8 +2173,9 @@ export class Grid extends VrControl
                             if (options.onGroupEditClick != null || groupByField.onEditClick != null)
                             {
                                 let divEdit = document.createElement("div");
-                                divEdit.style.cssText += "position: relative; display: inline-flex; margin-left: 6px; " + ((options.checkboxes !== false) ? "top: -4px;" : "");
+                                divEdit.style.cssText += "position: relative; display: inline-flex; margin-left: 6px; " + ((options.checkboxes !== false) ? "top: -5px;" : "");
                                 divEdit.innerHTML = "<i class='grid_groupByEdit " + IconClassicLight.Pencil + "' style='cursor: pointer;'></i>";
+                                tdGroupByName.appendChild(divEdit);
                             }
 
                             this._groupByActualValue[groupByField.field] = cellValue;
@@ -5038,6 +5039,11 @@ export class Grid extends VrControl
     //#endregion
 
     //#region GroupBy
+    hasGroup()
+    {
+        return this.getOptions().groupBy != null;
+    }
+
     removeGroup(field: string, updateDataSource = true)
     {
         this.removeGroups([field], updateDataSource);
