@@ -8,6 +8,7 @@ export declare class RatingOptions extends VrControlOptions {
     tooltip?: boolean;
     colorSettings?: RatingColorSettings;
     total?: number;
+    readonly?: boolean;
     onSelect?: (e: RatingSelectEvent) => void;
 }
 export declare class Rating extends VrControl {
@@ -15,6 +16,7 @@ export declare class Rating extends VrControl {
     private _lblTotal;
     constructor(element: HTMLElement, options?: RatingOptions | null);
     value(value?: number, triggerChange?: boolean): any;
+    clear(): void;
     color(colorSettings?: RatingColorSettings): RatingColorSettings | undefined;
     size(size?: string | number): number;
     total(total?: number): number;

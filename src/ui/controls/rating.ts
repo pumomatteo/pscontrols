@@ -116,22 +116,33 @@ export class Rating extends VrControl
     {
         if (value != null)
         {
-            let realValue = 0;
-            let decimalPart = value % 1;
-            let integerPart = Math.trunc(value);
-            if (decimalPart == 0 || (decimalPart > integerPart && decimalPart < 0.2))
-                realValue = integerPart;
-            else if (decimalPart > 0.2 && decimalPart < 0.7)
-                realValue = integerPart + 0.5;
-            else if (decimalPart > 0.7)
-                realValue = integerPart + 1;
+            this.clear();
 
-            puma(this.element()).find("input[value='" + realValue + "']").attr("checked", true);
-            this._value = realValue;
+            if (value > 0)
+            {
+                let realValue = 0;
+                let decimalPart = value % 1;
+                let integerPart = Math.trunc(value);
+                if (decimalPart == 0 || (decimalPart > integerPart && decimalPart < 0.2))
+                    realValue = integerPart;
+                else if (decimalPart > 0.2 && decimalPart < 0.7)
+                    realValue = integerPart + 0.5;
+                else if (decimalPart > 0.7)
+                    realValue = integerPart + 1;
+
+                puma(this.element()).find("input[value='" + realValue + "']").attr("checked", true);
+                this._value = realValue;
+            }
         }
 
         let checkedInput = puma(this.element()).find("input:checked")[0];
         return (checkedInput != null) ? checkedInput.value : null;
+    }
+
+    clear()
+    {
+        puma(this.element()).find("input").removeAttr("checked");
+        this._value = 0;
     }
 
     color(colorSettings?: RatingColorSettings)
