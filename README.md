@@ -15,4 +15,4 @@ This project has been released under the [Apache License, version 2.0](http://ww
    See the License for the specific language governing permissions and
    limitations under the License.
    
-*Copyright © 2022 - Matteo Pumo and Stefano Matteuzzi. All Rights Reserved.*
+*Copyright © 2022 - Matteo Pumo. All Rights Reserved.*
