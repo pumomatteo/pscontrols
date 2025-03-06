@@ -2738,14 +2738,17 @@ export class Scheduler extends VrControl
     drawToolbar(): void;
     adaptHeight(): void;
     height(value?: string | number): number;
-    view(view?: SchedulerViewEnum): SchedulerViewEnum;
+    view(view?: SchedulerViewEnum, drawScheduler?: boolean): SchedulerViewEnum;
     date(date?: Date, triggerChange?: boolean): Date | null;
-    resources(resources?: SchedulerResource[]): SchedulerResource[];
+    resources(resources?: SchedulerResource[], drawScheduler?: boolean): SchedulerResource[];
     groupedByResource(): boolean;
-    timeslotInterval(timeslotIntervalDuration?: number): number;
+    timeslotInterval(timeslotIntervalDuration?: number, drawScheduler?: boolean): number;
+    daysOfWeekNames(names?: string[], drawScheduler?: boolean): string[] | undefined;
+    numberOfWorkDays(workDaysNumber?: number, drawScheduler?: boolean): number | undefined;
     firstDayOfWeek(): DayOfWeekEnum;
-    startTime(): Date;
-    endTime(): Date;
+    startTime(time?: Date, drawScheduler?: boolean): Date;
+    endTime(time?: Date, drawScheduler?: boolean): Date;
+    maxResourcesNumber(maxNumber?: SchedulerMaxResourceNumber): SchedulerMaxResourceNumber | undefined;
     groupWeekByDate(group?: boolean): boolean;
     fullscreen(state?: boolean): boolean;
     datasource<T extends SchedulerData>(datasource?: T[]): T[];
@@ -8952,7 +8955,7 @@ export enum DayOfWeekEnum
 export class SchedulerView
 {
     type: SchedulerViewEnum;
-    selected: boolean;
+    selected?: boolean;
 }
 export enum SchedulerViewEnum
 {

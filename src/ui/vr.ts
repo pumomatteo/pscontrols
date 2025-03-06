@@ -7104,7 +7104,7 @@ export enum DayOfWeekEnum
 export class SchedulerView
 {
 	type: SchedulerViewEnum;
-	selected: boolean;
+	selected?: boolean;
 }
 
 export enum SchedulerViewEnum

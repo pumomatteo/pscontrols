@@ -946,7 +946,7 @@ export class Scheduler extends VrControl
 	//#endregion
 
 	//#region Properties
-	view(view?: SchedulerViewEnum): SchedulerViewEnum
+	view(view?: SchedulerViewEnum, drawScheduler = true): SchedulerViewEnum
 	{
 		if (view != null)
 		{
@@ -966,7 +966,9 @@ export class Scheduler extends VrControl
 
 			this._actualView = view;
 			this._btgMenuView.select([view], false);
-			this.drawScheduler();
+
+			if (drawScheduler)
+				this.drawScheduler();
 			//#endregion			
 
 			switch (view)
@@ -1030,7 +1032,7 @@ export class Scheduler extends VrControl
 		return this._dtpSchedulerDate.value();
 	}
 
-	resources(resources?: SchedulerResource[])
+	resources(resources?: SchedulerResource[], drawScheduler = true)
 	{
 		let options = this.getOptions();
 		if (resources != null)
@@ -1049,7 +1051,10 @@ export class Scheduler extends VrControl
 					.then(() =>
 					{
 						options.resources = resources;
-						this.drawScheduler();
+
+						if (drawScheduler)
+							this.drawScheduler();
+
 						this.triggerResourceChangeEvent();
 					},
 						() => this.triggerResourceChangeEvent()); // If not
@@ -1057,7 +1062,10 @@ export class Scheduler extends VrControl
 			else
 			{
 				options.resources = resources;
-				this.drawScheduler();
+
+				if (drawScheduler)
+					this.drawScheduler();
+
 				this.triggerResourceChangeEvent();
 			}
 		}
@@ -1082,7 +1090,7 @@ export class Scheduler extends VrControl
 		}
 	}
 
-	timeslotInterval(timeslotIntervalDuration?: number): number
+	timeslotInterval(timeslotIntervalDuration?: number, drawScheduler = true): number
 	{
 		let options = this.getOptions();
 		if (timeslotIntervalDuration != null)
@@ -1101,9 +1109,39 @@ export class Scheduler extends VrControl
 			}
 
 			options.timeslotIntervalDuration = timeslotIntervalDuration;
-			this.drawScheduler();
+
+			if (drawScheduler)
+				this.drawScheduler();
 		}
 		return options.timeslotIntervalDuration!;
+	}
+
+	daysOfWeekNames(names?: string[], drawScheduler = true)
+	{
+		let options = this.getOptions();
+		if (names != null)
+		{
+			options.daysOfWeekNames = names;
+
+			if (drawScheduler)
+				this.drawScheduler();
+		}
+
+		return options.daysOfWeekNames;
+	}
+
+	numberOfWorkDays(workDaysNumber?: number, drawScheduler = true)
+	{
+		let options = this.getOptions();
+		if (workDaysNumber != null)
+		{
+			options.numberOfWorkDays = workDaysNumber;
+
+			if (drawScheduler)
+				this.drawScheduler();
+		}
+
+		return options.numberOfWorkDays;
 	}
 
 	firstDayOfWeek(): DayOfWeekEnum
@@ -1111,14 +1149,39 @@ export class Scheduler extends VrControl
 		return this.getOptions().firstDayOfWeek!;
 	}
 
-	startTime(): Date
+	startTime(time?: Date, drawScheduler = true): Date
 	{
-		return this.getOptions().startTime!;
+		let options = this.getOptions();
+		if (time != null)
+		{
+			options.startTime = time;
+
+			if (drawScheduler)
+				this.drawScheduler();
+		}
+		return options.startTime!;
 	}
 
-	endTime(): Date
+	endTime(time?: Date, drawScheduler = true): Date
 	{
-		return this.getOptions().endTime!;
+		let options = this.getOptions();
+		if (time != null)
+		{
+			options.endTime = time;
+
+			if (drawScheduler)
+				this.drawScheduler();
+		}
+		return options.endTime!;
+	}
+
+	maxResourcesNumber(maxNumber?: SchedulerMaxResourceNumber)
+	{
+		let options = this.getOptions();
+		if (maxNumber != null)
+			options.maxResourcesNumber = maxNumber;
+
+		return options.maxResourcesNumber;
 	}
 
 	groupWeekByDate(group?: boolean): boolean
