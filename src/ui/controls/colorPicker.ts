@@ -134,7 +134,7 @@ export class ColorPicker extends VrControl
 	//#region Methods
 	value(value?: string | ColorPickerRgbaValue, triggerChange = true)
 	{
-		if (value != null)
+		if (value != null && value != "")
 		{
 			if (typeof (value) == "string")
 				this.valueHex(value, triggerChange);

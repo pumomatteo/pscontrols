@@ -199,8 +199,8 @@ export class Label extends VrControl
 
             this.element().innerHTML = String(value);
 
-            let textWidth = UtilityManager.textWidth(this.element());
-            if (options.tooltip === true || (options.tooltip !== false && textWidth != null && textWidth > 0 && (textWidth + 10) > this.width()))
+            //let textWidth = UtilityManager.textWidth(this.element());
+            if (options.tooltip === true)// || (options.tooltip !== false && textWidth != null && textWidth > 0 && (textWidth + 10) > this.width()))
                 this.tooltip(this.element().textContent!);
         }
         return this.element().innerHTML;

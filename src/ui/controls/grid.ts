@@ -2355,6 +2355,7 @@ export class Grid extends VrControl
                                     }
                                     editClickEvent.childrenItems = childrenItems;
                                     editClickEvent.childrenRows = childrenRows.allRows;
+                                    editClickEvent.dataItem = row;
 
                                     if (options.onGroupEditClick != null)
                                         options.onGroupEditClick(editClickEvent);

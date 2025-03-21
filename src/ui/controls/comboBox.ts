@@ -1140,7 +1140,7 @@ export class ComboBox extends VrControl
             items.forEach(k => k.value = String(k.value));
             //#endregion
 
-            let realItems = UtilityManager.duplicate(items);
+            let realItems = UtilityManager.duplicate(items) as ComboBoxItem[];
             if (options.nullable != null && options.nullable !== false)
             {
                 let nullableItem = new ComboBoxItem();
@@ -1154,7 +1154,11 @@ export class ComboBox extends VrControl
             if (options.webService == null)
             {
                 this.drawDataSource();
-                if (options.mode == ComboBoxTypeEnum.DropDown && this.items().vrFirst() != null)
+                let checkedItemIdList = realItems.filter(k => k.checked === true).map(k => k.value);
+
+                if (options.checkboxes === true && checkedItemIdList.length > 0)
+                    this.valueInternal(checkedItemIdList, triggerChange);
+                else if (options.mode == ComboBoxTypeEnum.DropDown && this.items().vrFirst() != null)
                     this.valueInternal(this.items().vrFirst().value, triggerChange);
             }
             else
@@ -1790,6 +1794,15 @@ export class ComboBox extends VrControl
     hideError()
     {
         this.element().style.cssText += "border-bottom: solid 1px #CCC;";
+    }
+
+    treeMode(mode: ComboBoxTreeModeEnum, triggerChange = true)
+    {
+        let options = this.getOptions();
+        options.treeMode = mode;
+
+        if (triggerChange)
+            this.items(this.items(), triggerChange);
     }
     //#endregion
 

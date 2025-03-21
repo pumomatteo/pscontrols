@@ -111,6 +111,7 @@ export declare class ComboBox extends VrControl {
     isEmpty(): boolean;
     error(): void;
     hideError(): void;
+    treeMode(mode: ComboBoxTreeModeEnum, triggerChange?: boolean): void;
     checkAll(triggerChange?: boolean): void;
     unCheckAll(triggerChange?: boolean): void;
     check(value: string, triggerChange?: boolean): void;

@@ -1846,6 +1846,7 @@ export enum IconClassicLight
 	BarcodeScan = "fa-light fa-barcode-scan",
 	Bars = "fa-light fa-bars",
 	BarsSort = "fa-light fa-bars-sort",
+	BedEmpty = "fa-light fa-bed-empty",
 	Bell = "fa-light fa-bell",
 	BellSlash = "fa-light fa-bell-slash",
 	Bolt = "fa-light fa-bolt",
@@ -1865,6 +1866,7 @@ export enum IconClassicLight
 	CalendarAlt = "fa-light fa-calendar-alt",
 	CalendarCheck = "fa-light fa-calendar-check",
 	CalendarDay = "fa-light fa-calendar-day",
+	CalendarLinesPen = "fa-light fa-calendar-lines-pen",
 	CalendarPlus = "fa-light fa-calendar-plus",
 	Camera = "fa-light fa-camera",
 	CameraAlt = "fa-light fa-camera-alt",
@@ -2188,6 +2190,7 @@ export enum IconClassicLight
 	UserHair = "fa-light fa-user-hair",
 	UserHairLong = "fa-light fa-user-hair-long",
 	UserHeadset = "fa-light fa-user-headset",
+	UserPen = "fa-light fa-user-pen",
 	Users = "fa-light fa-users",
 	UserSecret = "fa-light fa-user-secret",
 	UsersMedical = "fa-light fa-users-medical",
@@ -5940,6 +5943,7 @@ export class ComboBoxItem
 	textColor?: string;
 	whiteFont?: boolean;
 	parentValue?: any;
+	checked?: boolean;
 }
 
 export class ComboBoxWebServiceSettings
@@ -6773,6 +6777,7 @@ export class GridGroupEditClickEvent
 	value: any;
 	childrenRows: HTMLElement[];
 	displayValue: any;
+    dataItem: any;
 }
 
 export class GridPageSelectedEvent extends VrControlsEvent
