@@ -61,12 +61,12 @@ export declare class Scheduler extends VrControl {
     private drawContent;
     adaptHeight(): void;
     height(value?: string | number): number;
-    view(view?: SchedulerViewEnum, drawScheduler?: boolean): SchedulerViewEnum;
+    view(view?: SchedulerViewEnum, drawScheduler?: boolean, triggerChange?: boolean): SchedulerViewEnum;
     date(date?: Date, triggerChange?: boolean): Date | null;
-    resources(resources?: SchedulerResource[], drawScheduler?: boolean): SchedulerResource[];
+    resources(resources?: SchedulerResource[], drawScheduler?: boolean, triggerChange?: boolean): SchedulerResource[];
     groupedByResource(): boolean;
     private triggerResourceChangeEvent;
-    timeslotInterval(timeslotIntervalDuration?: number, drawScheduler?: boolean): number;
+    timeslotInterval(timeslotIntervalDuration?: number, drawScheduler?: boolean, triggerChange?: boolean): number;
     daysOfWeekNames(names?: string[], drawScheduler?: boolean): string[] | undefined;
     numberOfWorkDays(workDaysNumber?: number, drawScheduler?: boolean): number | undefined;
     firstDayOfWeek(): DayOfWeekEnum;

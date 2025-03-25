@@ -946,13 +946,13 @@ export class Scheduler extends VrControl
 	//#endregion
 
 	//#region Properties
-	view(view?: SchedulerViewEnum, drawScheduler = true): SchedulerViewEnum
+	view(view?: SchedulerViewEnum, drawScheduler = true, triggerChange = true): SchedulerViewEnum
 	{
 		if (view != null)
 		{
 			//#region Event
 			let options = this.getOptions();
-			if (options.onViewChange != null)
+			if (options.onViewChange != null && triggerChange)
 			{
 				let viewChangeEvent = new SchedulerViewChangeEvent();
 				viewChangeEvent.sender = this;
@@ -1032,7 +1032,7 @@ export class Scheduler extends VrControl
 		return this._dtpSchedulerDate.value();
 	}
 
-	resources(resources?: SchedulerResource[], drawScheduler = true)
+	resources(resources?: SchedulerResource[], drawScheduler = true, triggerChange = true)
 	{
 		let options = this.getOptions();
 		if (resources != null)
@@ -1055,9 +1055,14 @@ export class Scheduler extends VrControl
 						if (drawScheduler)
 							this.drawScheduler();
 
-						this.triggerResourceChangeEvent();
+						if (triggerChange)
+							this.triggerResourceChangeEvent();
 					},
-						() => this.triggerResourceChangeEvent()); // If not
+						() =>
+						{
+							if (triggerChange)
+								this.triggerResourceChangeEvent()
+						}); // If not
 			}
 			else
 			{
@@ -1066,7 +1071,8 @@ export class Scheduler extends VrControl
 				if (drawScheduler)
 					this.drawScheduler();
 
-				this.triggerResourceChangeEvent();
+				if (triggerChange)
+					this.triggerResourceChangeEvent();
 			}
 		}
 		return options.resources!;
@@ -1090,12 +1096,12 @@ export class Scheduler extends VrControl
 		}
 	}
 
-	timeslotInterval(timeslotIntervalDuration?: number, drawScheduler = true): number
+	timeslotInterval(timeslotIntervalDuration?: number, drawScheduler = true, triggerChange = true): number
 	{
 		let options = this.getOptions();
 		if (timeslotIntervalDuration != null)
 		{
-			if (options.onIntervalChange != null)
+			if (options.onIntervalChange != null && triggerChange)
 			{
 				let intervalChangeEvent = new SchedulerIntervalChangeEvent();
 				intervalChangeEvent.sender = this;
