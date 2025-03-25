@@ -650,6 +650,7 @@ export declare enum IconClassicLight {
     BedEmpty = "fa-light fa-bed-empty",
     Bell = "fa-light fa-bell",
     BellSlash = "fa-light fa-bell-slash",
+    BlockQuote = "fa-light fa-block-quote",
     Bolt = "fa-light fa-bolt",
     Bomb = "fa-light fa-bomb",
     Book = "fa-light fa-book",
