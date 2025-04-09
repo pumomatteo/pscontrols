@@ -7480,7 +7480,7 @@ export class Grid extends VrControl
                 case GridAggregateMode.Sum: aggregateResult = dataItems.map(k => k[column.field]).vrSum(); break;
                 case GridAggregateMode.Average:
                     {
-                        if (column.type == 3)
+                        if (column.type == GridColumnTypeEnum.Percentage)
                             aggregateResult = dataItems.map(k => k[column.field]).vrAvg(undefined, column.countZeroInAverage) / 100;
                         else
                             aggregateResult = dataItems.map(k => k[column.field]).vrAvg(undefined, column.countZeroInAverage);
@@ -7692,7 +7692,7 @@ export class Grid extends VrControl
             .replace(/%/, "").replace(/ /g, "").replace(/\./g, "").replace(/-/g, "").replace(/\//g, "").replace(/&/g, "e")
             .replace(/\(/g, "").replace(/\)/g, "").replace(/,/g, "").replace(/\[/g, "").replace(/\]/g, "").replace(/:/g, "")
             .replace(/'/g, "").replace(/@/g, "").replace(/\s/g, "").replace(/€/g, "").replace(/∞/g, "").replace(/>/g, "")
-            .replace(/</g, "").replace(/\+/g, "");
+            .replace(/</g, "").replace(/\+/g, "").replace(/\*/g, "");
     }
 
     getOptions()

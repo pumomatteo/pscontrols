@@ -51,6 +51,7 @@ import { SpeechRecognizer, SpeechRecognizerAudioEndEvent, SpeechRecognizerAudioS
 import { Div, DivOptions } from "./controls/div";
 import { Button, ButtonOptions } from "./controls/button";
 import { Legend, LegendOptions } from "./controls/legend";
+import { Menu, MenuOnClickEvent, MenuOptions } from "./controls/menu";
 //#endregion
 
 //#region Factory
@@ -181,6 +182,12 @@ export function createDropDown(options?: ComboBoxOptions | null, container?: HTM
 export function createSplitButton(options?: SplitButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SplitButton
 {
 	let control = createControls<SplitButton>(ControlTypeEnum.SplitButton, container, position, existingElement, options);
+	return control;
+}
+
+export function createMenu(options?: MenuOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Menu
+{
+	let control = createControls<Menu>(ControlTypeEnum.Menu, container, position, existingElement, options);
 	return control;
 }
 
@@ -457,6 +464,7 @@ function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, c
 		case ControlTypeEnum.Image: elementTag = "img"; break;
 		case ControlTypeEnum.DatePicker: elementTag = "input"; break;
 		case ControlTypeEnum.SplitButton: elementTag = "div"; break;
+		case ControlTypeEnum.Menu: elementTag = "div"; break;
 		case ControlTypeEnum.Editor: elementTag = "textarea"; break;
 		case ControlTypeEnum.Grid: elementTag = "table"; break;
 		case ControlTypeEnum.Switch: elementTag = "div"; break;
@@ -606,6 +614,11 @@ jQuery.fn.extend(
 		{
 			let element = (this as any)[0];
 			return new SplitButton(element, options);
+		},
+		vrMenu: function (options?: MenuOptions | null)
+		{
+			let element = (this as any)[0];
+			return new Menu(element, options);
 		},
 		vrEditor: function (options?: EditorOptions | null)
 		{
@@ -821,6 +834,7 @@ export enum ControlTypeEnum
 	DatePicker = "DatePicker",
 	ComboBox = "ComboBox",
 	SplitButton = "SplitButton",
+	Menu = "Menu",
 	Editor = "Editor",
 	Grid = "Grid",
 	Switch = "Switch",
@@ -1201,7 +1215,7 @@ export function icon(iconClass: IconClass, container?: string | HTMLElement | JQ
 	}
 	//#endregion
 
-	let icon = puma("<i class='" + iconClass + " vrIcon " + classAttribute + "' aria-hidden='true'"
+	let icon = puma("<i class='" + iconClass + " vrIcon " + classAttribute + "'"
 		+ " id='" + idAttribute + "' style='" + css + "'></i>")[0];
 
 	if (container != null)
@@ -1240,12 +1254,6 @@ export function iframe(container: string | HTMLElement | JQuery, settings?: VrIf
 	let iframe = puma("<iframe>").vrAppendToPuma(container)[0];
 	iframe.style.cssText += "width: " + settings.width + "; height: " + settings.height + "; border: none;" + settings.css;
 
-	let iframeBody: HTMLElement | null = null;
-	let iframeContentDocument = iframe.contentDocument;
-	puma(iframeContentDocument).find("body").css("margin", "0px");
-	if (iframeContentDocument != null)
-		iframeBody = iframeContentDocument.body;
-
 	if (settings.content.includes(".html") || settings.content.includes(".php") || settings.content.includes(".aspx") || settings.content.includes("http"))
 	{
 		if (settings.loader || settings.loader !== false)
@@ -1270,6 +1278,12 @@ export function iframe(container: string | HTMLElement | JQuery, settings?: VrIf
 	}
 	else
 	{
+		let iframeBody: HTMLElement | null = null;
+		let iframeContentDocument = iframe.contentDocument;
+		puma(iframeContentDocument).find("body").css("margin", "0px");
+		if (iframeContentDocument != null)
+			iframeBody = iframeContentDocument.body;
+
 		puma(settings.content).vrAppendToPuma(iframeBody);
 
 		if (settings!.callback != null)
@@ -5996,6 +6010,27 @@ export class SortByComboSettings
 {
 	field: string;
 	direction?: SortDirectionEnum;
+}
+//#endregion
+
+//#region Menu
+export class MenuItem
+{
+	text: string;
+	value?: string | number;
+	icon?: IconClass;
+	parentValue?: string;
+	url?: string;
+	urlSettings?: MenuItemUrlSettings;
+	tag?: string | number;
+
+	onClick?: (e: MenuOnClickEvent) => void;
+}
+
+export class MenuItemUrlSettings
+{
+	url: string;
+	newTab?: boolean;
 }
 //#endregion
 

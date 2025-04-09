@@ -1619,6 +1619,58 @@ table.vrDatePickerPopup_table td {
 	font-size: 10px !important;
 }
 
+.vrMenuBlock {
+	padding-top: 6px;
+	padding-bottom: 8px;
+	border-bottom: solid 1px #ccc;
+	cursor: pointer;
+}
+
+.vrMenuBlock.opened {
+	font-weight: 600;
+}
+
+.vrMenuBlock.opened>i {
+	font-weight: 600;
+}
+
+.vrMenuBlock.selected {
+	background-color: #e3f1fa;
+}
+
+.vrMenuBlock.selected:hover {
+	background-color: #e3f1fa;
+}
+
+.vrMenuBlock span {
+	display: inline-block;
+	white-space: nowrap;
+	width: Calc(100% - 45px);
+	padding-right: 5px;
+	user-select: none;
+}
+
+.vrMenuBlock:hover {
+	background-color: #f3f3f3;
+}
+
+.vrMenuIcon {
+	padding-right: 5px;
+	width: 16px;
+}
+
+.vrMenuBlockChild {
+	display: none;
+}
+
+.vrMenuBlockParent>i {
+	font-weight: 600;
+}
+
+.vrMenu {
+	font-size: 14px;
+}
+
 .vrNotifier {
 	z-index: 9999999;
 	padding: 8px 15px 8px 14px;

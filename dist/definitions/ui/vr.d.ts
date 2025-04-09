@@ -46,6 +46,7 @@ import { SpeechRecognizer, SpeechRecognizerAudioEndEvent, SpeechRecognizerAudioS
 import { Div, DivOptions } from "./controls/div";
 import { Button, ButtonOptions } from "./controls/button";
 import { Legend, LegendOptions } from "./controls/legend";
+import { Menu, MenuOnClickEvent, MenuOptions } from "./controls/menu";
 export declare function createLabel(options?: LabelOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Label;
 export declare function createButton(options?: ButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Button;
 export declare function createButtonGroup(options?: ButtonGroupOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ButtonGroup;
@@ -66,6 +67,7 @@ export declare function createYearPicker(options?: DatePickerOptions | null, con
 export declare function createComboBox(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ComboBox;
 export declare function createDropDown(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DropDown;
 export declare function createSplitButton(options?: SplitButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SplitButton;
+export declare function createMenu(options?: MenuOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Menu;
 export declare function createEditor(options?: EditorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Editor;
 export declare function createWindow(options?: WindowOptions | null, container?: HTMLElement | JQuery | string | null): Window;
 export declare function createGrid(options?: GridOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Grid;
@@ -117,6 +119,7 @@ export declare enum ControlTypeEnum {
     DatePicker = "DatePicker",
     ComboBox = "ComboBox",
     SplitButton = "SplitButton",
+    Menu = "Menu",
     Editor = "Editor",
     Grid = "Grid",
     Switch = "Switch",
@@ -4049,6 +4052,20 @@ export declare class ComboBoxClearEvent extends VrControlsEvent {
 export declare class SortByComboSettings {
     field: string;
     direction?: SortDirectionEnum;
+}
+export declare class MenuItem {
+    text: string;
+    value?: string | number;
+    icon?: IconClass;
+    parentValue?: string;
+    url?: string;
+    urlSettings?: MenuItemUrlSettings;
+    tag?: string | number;
+    onClick?: (e: MenuOnClickEvent) => void;
+}
+export declare class MenuItemUrlSettings {
+    url: string;
+    newTab?: boolean;
 }
 export declare class AutoCompleteBoxItem {
     text: string;

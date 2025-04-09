@@ -2119,6 +2119,27 @@ export
 {};
 //#endregion
 
+//#region menu
+export class MenuOptions extends VrControlOptions
+{
+    items?: MenuItem[];
+    onClick?: (onClickEvent: MenuOnClickEvent) => void;
+}
+export class Menu extends VrControl
+{
+    constructor(element: HTMLElement, options?: MenuOptions | null);
+    clear(): void;
+    items(items?: MenuItem[]): MenuItem[];
+    value(value?: string | number): string | number;
+    getOptions(): MenuOptions;
+}
+export class MenuOnClickEvent extends VrControlsEvent
+{
+    sender: Menu;
+    dataItem: MenuItem;
+}
+//#endregion
+
 //#region multiScheduler
 export class MultiSchedulerOptions extends VrControlOptions
 {
@@ -3921,6 +3942,7 @@ export function createYearPicker(options?: DatePickerOptions | null, container?:
 export function createComboBox(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ComboBox;
 export function createDropDown(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DropDown;
 export function createSplitButton(options?: SplitButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SplitButton;
+export function createMenu(options?: MenuOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Menu;
 export function createEditor(options?: EditorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Editor;
 export function createWindow(options?: WindowOptions | null, container?: HTMLElement | JQuery | string | null): Window;
 export function createGrid(options?: GridOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Grid;
@@ -3973,6 +3995,7 @@ export enum ControlTypeEnum
     DatePicker = "DatePicker",
     ComboBox = "ComboBox",
     SplitButton = "SplitButton",
+    Menu = "Menu",
     Editor = "Editor",
     Grid = "Grid",
     Switch = "Switch",
@@ -7972,6 +7995,22 @@ export class SortByComboSettings
 {
     field: string;
     direction?: SortDirectionEnum;
+}
+export class MenuItem
+{
+    text: string;
+    value?: string | number;
+    icon?: IconClass;
+    parentValue?: string;
+    url?: string;
+    urlSettings?: MenuItemUrlSettings;
+    tag?: string | number;
+    onClick?: (e: MenuOnClickEvent) => void;
+}
+export class MenuItemUrlSettings
+{
+    url: string;
+    newTab?: boolean;
 }
 export class AutoCompleteBoxItem
 {
