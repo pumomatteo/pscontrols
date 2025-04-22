@@ -2,6 +2,8 @@ import { MenuItem } from "../vr";
 import { VrControlOptions, VrControl, VrControlsEvent } from "../common";
 export declare class MenuOptions extends VrControlOptions {
     items?: MenuItem[];
+    showValueInDom?: boolean;
+    showParentValueInDom?: boolean;
     onClick?: (onClickEvent: MenuOnClickEvent) => void;
 }
 export declare class Menu extends VrControl {

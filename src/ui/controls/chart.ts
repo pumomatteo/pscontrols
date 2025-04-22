@@ -344,6 +344,8 @@ export class ChartVr extends VrControl
 				responsive: options.responsive,
 				maintainAspectRatio: options.aspectRatio!.maintain,
 				aspectRatio: options.aspectRatio!.value,
+				circumference: options.circumference,
+				rotation: options.rotation,
 				scales: options.scales,
 				parsing: options.parsing,
 				plugins: {
@@ -351,7 +353,8 @@ export class ChartVr extends VrControl
 					title: this._plugins.title,
 					subtitle: this._plugins.subtitle,
 					legend: this._plugins.legend,
-					tooltip: this._plugins.tooltip
+					tooltip: this._plugins.tooltip,
+					annotation: options.annotation
 				},
 				indexAxis: (options.type == ChartTypeEnum.HorizontalBar) ? "y" : "x",
 			},

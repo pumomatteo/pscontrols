@@ -2123,6 +2123,8 @@ export
 export class MenuOptions extends VrControlOptions
 {
     items?: MenuItem[];
+    showValueInDom?: boolean;
+    showParentValueInDom?: boolean;
     onClick?: (onClickEvent: MenuOnClickEvent) => void;
 }
 export class Menu extends VrControl
@@ -8004,7 +8006,7 @@ export class MenuItem
     parentValue?: string;
     url?: string;
     urlSettings?: MenuItemUrlSettings;
-    tag?: string | number;
+    hidden?: boolean;
     onClick?: (e: MenuOnClickEvent) => void;
 }
 export class MenuItemUrlSettings
@@ -8293,6 +8295,9 @@ export class ChartOptions extends VrControlOptions
     responsive?: boolean;
     aspectRatio?: ChartAspectRatioSettings;
     scales?: any;
+    circumference?: number;
+    rotation?: number;
+    annotation?: any;
     onLegendHover?: (e: ChartLegendHoverEvent) => void;
     onLegendLeave?: (e: ChartLegendLeaveEvent) => void;
     onLegendClick?: (e: ChartLegendClickEvent) => void;

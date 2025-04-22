@@ -6022,7 +6022,7 @@ export class MenuItem
 	parentValue?: string;
 	url?: string;
 	urlSettings?: MenuItemUrlSettings;
-	tag?: string | number;
+	hidden?: boolean;
 
 	onClick?: (e: MenuOnClickEvent) => void;
 }
@@ -6333,6 +6333,9 @@ export class ChartOptions extends VrControlOptions
 	responsive?: boolean;
 	aspectRatio?: ChartAspectRatioSettings;
 	scales?: any;
+	circumference?: number;
+	rotation?: number;
+	annotation?: any;
 
 	onLegendHover?: (e: ChartLegendHoverEvent) => void;
 	onLegendLeave?: (e: ChartLegendLeaveEvent) => void;

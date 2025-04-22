@@ -6,6 +6,8 @@ import { UtilityManager } from "../../../src/managers/utilityManager";
 export class MenuOptions extends VrControlOptions
 {
 	items?: MenuItem[];
+	showValueInDom?: boolean;
+	showParentValueInDom?: boolean;
 
 	onClick?: (onClickEvent: MenuOnClickEvent) => void;
 }
@@ -27,6 +29,8 @@ export class Menu extends VrControl
 
 		if (options.width == null) options.width = "100%";
 		if (options.height == null) options.height = "100%";
+		if (options.showValueInDom == null) options.showValueInDom = false;
+		if (options.showParentValueInDom == null) options.showParentValueInDom = false;
 		//#endregion
 
 		super(element, options, ControlTypeEnum.Menu);
@@ -110,12 +114,10 @@ export class Menu extends VrControl
 		if (items.length == 0)
 			return;
 
-		let i = 0;
 		for (let item of items)
 		{
 			//#region Menu block
 			let menuBlock = document.createElement("div");
-			menuBlock.setAttribute("id", String(i))
 			menuBlock.setAttribute("level", String(level));
 			menuBlock.classList.add("vrMenuBlock");
 			menuBlock.style.cssText += "padding-left: " + (level * 20 + 10) + "px;";
@@ -126,8 +128,14 @@ export class Menu extends VrControl
 			if (level > 0)
 				menuBlock.classList.add("vrMenuBlockChild");
 
-			if (item.tag != null)
-				menuBlock.setAttribute("tag", String(item.tag));
+			if (item.hidden)
+				menuBlock.style.cssText += "display: none;";
+
+			if (options.showValueInDom && item.value != null)
+				menuBlock.setAttribute("value", String(item.value));
+
+			if (options.showParentValueInDom && item.value != null)
+				menuBlock.setAttribute("value", String(item.parentValue));
 			//#endregion
 
 			//#region Menu block events
@@ -237,10 +245,20 @@ export class Menu extends VrControl
 		puma(menuBlock).nextAll().each((index: number, element: HTMLElement) =>
 		{
 			const childrenLevel = Number(element.getAttribute("level"));
-			if ((toShow && (level + 1) != childrenLevel) || (!toShow && level >= childrenLevel))
-				return false;
+			if (toShow)
+			{
+				if (level + 1 == childrenLevel)
+					children.push(element);
+				else if (level == childrenLevel)
+					return false;
+			}
 			else
-				children.push(element);
+			{
+				if (level < childrenLevel)
+					children.push(element);
+				else
+					return false;
+			}
 
 			return;
 		});
