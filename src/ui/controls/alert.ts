@@ -4,8 +4,7 @@ import { VrControlsEvent } from "../common";
 import { Button } from "./button";
 
 //#region Options
-export class AlertOptions
-{
+export class AlertOptions {
     textOkButton?: string;
     content?: string;
     title?: string;
@@ -20,13 +19,11 @@ export class AlertOptions
 //#endregion
 
 //#region Control
-export class Alert
-{
+export class Alert {
     private _window: Window;
     private _options: AlertOptions;
 
-    constructor(text?: string | null, options?: AlertOptions | null)
-    {
+    constructor(text?: string | null, options?: AlertOptions | null) {
         //#region Options
         if (options == null)
             options = new AlertOptions();
@@ -50,8 +47,7 @@ export class Alert
 
         //#region Text align
         let textAlign = "";
-        switch (options.textAlign)
-        {
+        switch (options.textAlign) {
             case TextAlignEnum.Left: textAlign = "text-align: left;"; break;
             case TextAlignEnum.Center: textAlign = "text-align: center;"; break;
             case TextAlignEnum.Right: textAlign = "text-align: right;"; break;
@@ -65,6 +61,7 @@ export class Alert
                 title: options.title,
                 width: options.width,
                 height: options.height,
+                removeOnClose: true,
                 content: "<div class='contentContainer'>" + content + "</div>",
                 cssContainer: "height: auto !important;",
                 css: "height: auto !important;" + textAlign,
@@ -86,15 +83,12 @@ export class Alert
         window.setTimeout(() => puma(this._window.footerItem<Button>("ok")!.element()).focus());
     }
 
-    open(): Promise<any>
-    {
-        let promise = new Promise((okCallback?: Function) =>
-        {
+    open(): Promise<any> {
+        let promise = new Promise((okCallback?: Function) => {
             this._window.open(
                 [
                     {
-                        value: "ok", callback: () => 
-                        {
+                        value: "ok", callback: () => {
                             if (okCallback != null)
                                 okCallback();
                         }
@@ -105,23 +99,19 @@ export class Alert
         return promise;
     }
 
-    close(): void
-    {
+    close(): void {
         this._window.close();
         puma(this._window.container()).remove();
         puma(this._window.background()).remove();
     }
 
-    private getOptions(): AlertOptions
-    {
+    private getOptions(): AlertOptions {
         return this._options;
     }
 
-    private onContentLoaded(contentElement: HTMLElement): void
-    {
+    private onContentLoaded(contentElement: HTMLElement): void {
         let options = this.getOptions();
-        if (options.onContentLoaded != null)
-        {
+        if (options.onContentLoaded != null) {
             let contentLoadedEvent = new ContentAlertLoadedEvent();
             contentLoadedEvent.sender = this;
             contentLoadedEvent.contentElement = contentElement;
@@ -132,8 +122,7 @@ export class Alert
 //#endregion
 
 //#region Events
-class ContentAlertLoadedEvent extends VrControlsEvent
-{
+class ContentAlertLoadedEvent extends VrControlsEvent {
     sender: Alert;
     contentElement: HTMLElement;
 }

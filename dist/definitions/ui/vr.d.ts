@@ -868,6 +868,7 @@ export declare enum IconClassicLight {
     Play = "fa-light fa-play",
     PlayPause = "fa-light fa-play-pause",
     Plus = "fa-light fa-plus",
+    PowerOff = "fa-light fa-power-off",
     Print = "fa-light fa-print",
     Pumo = "fa-light fa-font-awesome",
     Question = "fa-light fa-question",

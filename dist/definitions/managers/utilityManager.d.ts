@@ -1,6 +1,8 @@
 import { WebApiModeEnum, IconClass } from "../ui/vr";
 export declare class UtilityManager {
     static createGuid(): string;
+    static currentSequence: number;
+    static getCurrentSequence(): number;
     static interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;
     static createIcon(icon: IconClass): HTMLElement;
     static duplicate(element: any): any;

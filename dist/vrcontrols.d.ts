@@ -210,6 +210,8 @@ export
 export class UtilityManager
 {
     static createGuid(): string;
+    static currentSequence: number;
+    static getCurrentSequence(): number;
     static interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;
     static createIcon(icon: IconClass): HTMLElement;
     static duplicate(element: any): any;
@@ -4757,6 +4759,7 @@ export enum IconClassicLight
     Play = "fa-light fa-play",
     PlayPause = "fa-light fa-play-pause",
     Plus = "fa-light fa-plus",
+    PowerOff = "fa-light fa-power-off",
     Print = "fa-light fa-print",
     Pumo = "fa-light fa-font-awesome",
     Question = "fa-light fa-question",

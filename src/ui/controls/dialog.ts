@@ -3,8 +3,7 @@ import { Window, WindowFooterItem } from "./window";
 import { VrControlsEvent } from "../common";
 
 //#region Options
-export class DialogOptions
-{
+export class DialogOptions {
     content?: string;
     title?: string;
     width?: number;
@@ -21,13 +20,11 @@ export class DialogOptions
 //#endregion
 
 //#region Control
-export class Dialog
-{
+export class Dialog {
     private _window: Window;
     private _options: DialogOptions;
 
-    constructor(text?: string | null, options?: DialogOptions | null)
-    {
+    constructor(text?: string | null, options?: DialogOptions | null) {
         //#region Options
         if (options == null)
             options = new DialogOptions();
@@ -50,8 +47,7 @@ export class Dialog
 
         //#region Text align
         let textAlign = "";
-        switch (options.textAlign)
-        {
+        switch (options.textAlign) {
             case TextAlignEnum.Left: textAlign = "text-align: left;"; break;
             case TextAlignEnum.Center: textAlign = "text-align: center;"; break;
             case TextAlignEnum.Right: textAlign = "text-align: right;"; break;
@@ -59,8 +55,7 @@ export class Dialog
         //#endregion
 
         //#region Footer items
-        if (options.footerItems != null)
-        {
+        if (options.footerItems != null) {
             let totalWidth = options.footerItems.filter(k => k.width != null).map(k => k.width).vrSum();
             let noWidthItems = options.footerItems.filter(k => k.width == null);
             let widthItems = options.footerItems.filter(k => k.width != null);
@@ -70,8 +65,7 @@ export class Dialog
             if (noWidthItems.length > 0)
                 singleItemWidth = footerAvailableWidth / noWidthItems.length - 5;
 
-            for (let footerItem of options.footerItems)
-            {
+            for (let footerItem of options.footerItems) {
                 if (footerItem.width == null)
                     footerItem.width = singleItemWidth;
             }
@@ -82,6 +76,7 @@ export class Dialog
             {
                 addToControlList: false,
                 closeable: false,
+                removeOnClose: true,
                 hideCloseIcon: options.hideCloseIcon,
                 title: options.title,
                 width: options.width,
@@ -91,8 +86,7 @@ export class Dialog
                 css: "height: auto !important;" + textAlign,
                 footer: options.footerItems,
                 onContentLoaded: (e) => this.onContentLoaded(puma(e.sender.element()).find(".contentContainer")[0]),
-                onClose: () =>
-                {
+                onClose: () => {
                     if (options!.onClose != null)
                         options!.onClose();
                 }
@@ -108,33 +102,27 @@ export class Dialog
         puma(this._window.container()).addClass("vrDialogContainer");
     }
 
-    open(): void
-    {
+    open(): void {
         this._window.open();
     }
 
-    close(): void
-    {
+    close(): void {
         this._window.close();
         puma(this._window.container()).remove();
         puma(this._window.background()).remove();
     }
 
-    window()
-    {
+    window() {
         return this._window;
     }
 
-    private getOptions(): DialogOptions
-    {
+    private getOptions(): DialogOptions {
         return this._options;
     }
 
-    private onContentLoaded(contentElement: HTMLElement): void
-    {
+    private onContentLoaded(contentElement: HTMLElement): void {
         let options = this.getOptions();
-        if (options.onContentLoaded != null)
-        {
+        if (options.onContentLoaded != null) {
             let contentLoadedEvent = new ContentDialogLoadedEvent();
             contentLoadedEvent.sender = this;
             contentLoadedEvent.contentElement = contentElement;
@@ -145,8 +133,7 @@ export class Dialog
 //#endregion
 
 //#region Events
-class ContentDialogLoadedEvent extends VrControlsEvent
-{
+class ContentDialogLoadedEvent extends VrControlsEvent {
     sender: Dialog;
     contentElement: HTMLElement;
 }

@@ -1,4 +1,4 @@
-import { IconClassicLight, jqueryVariable, puma, WebApiModeEnum, span, notifyError, IconClass } from "../ui/vr";
+import { jqueryVariable, puma, WebApiModeEnum, span, notifyError, IconClass } from "../ui/vr";
 
 export class UtilityManager
 {
@@ -12,6 +12,12 @@ export class UtilityManager
         return [...r.entries()]
             .map(([index, int]) => [4, 6, 8, 10].includes(index) ? `-${hex[int]}` : hex[int])
             .join('');
+    }
+
+    static currentSequence: number = 0;
+    static getCurrentSequence()
+    {
+        return ++this.currentSequence;
     }
 
     static interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function)

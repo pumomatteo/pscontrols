@@ -55,394 +55,331 @@ import { Menu, MenuOnClickEvent, MenuOptions } from "./controls/menu";
 //#endregion
 
 //#region Factory
-export function createLabel(options?: LabelOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Label
-{
+export function createLabel(options?: LabelOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Label {
 	let control = createControls<Label>(ControlTypeEnum.Label, container, position, existingElement, options);
 	return control;
 }
 
-export function createButton(options?: ButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Button
-{
+export function createButton(options?: ButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Button {
 	let control = createControls<Button>(ControlTypeEnum.Button, container, position, existingElement, options);
 	return control;
 }
 
-export function createButtonGroup(options?: ButtonGroupOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ButtonGroup
-{
+export function createButtonGroup(options?: ButtonGroupOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ButtonGroup {
 	let control = createControls<ButtonGroup>(ControlTypeEnum.ButtonGroup, container, position, existingElement, options);
 	return control;
 }
 
-export function createTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBox
-{
+export function createTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBox {
 	let control = createControls<TextBox>(ControlTypeEnum.TextBox, container, position, existingElement, options);
 	return control;
 }
 
-export function createNumericTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxNumeric
-{
+export function createNumericTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxNumeric {
 	if (options == null) options = new TextBoxOptions();
 	options.mode = TextModeEnum.Numeric;
 	return createTextBox(options, container, position, existingElement);
 }
 
-export function createPercentageTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxPercentage
-{
+export function createPercentageTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxPercentage {
 	if (options == null) options = new TextBoxOptions();
 	options.mode = TextModeEnum.Percentage;
 	return createTextBox(options, container, position, existingElement);
 }
 
-export function createCurrencyTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxCurrency
-{
+export function createCurrencyTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxCurrency {
 	if (options == null) options = new TextBoxOptions();
 	options.mode = TextModeEnum.Currency;
 	return createTextBox(options, container, position, existingElement);
 }
 
-export function createPasswordTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxPassword
-{
+export function createPasswordTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxPassword {
 	if (options == null) options = new TextBoxOptions();
 	options.mode = TextModeEnum.Password;
 	return createTextBox(options, container, position, existingElement);
 }
 
-export function createMultilineTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxMultiline
-{
+export function createMultilineTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxMultiline {
 	if (options == null) options = new TextBoxOptions();
 	options.mode = TextModeEnum.MultiLine;
 	return createTextBox(options, container, position, existingElement);
 }
 
-export function createCheckBox(options?: CheckBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): CheckBox
-{
+export function createCheckBox(options?: CheckBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): CheckBox {
 	let control = createControls<CheckBox>(ControlTypeEnum.CheckBox, container, position, existingElement, options);
 	return control;
 }
 
-export function createSeparator(options?: SeparatorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Separator
-{
+export function createSeparator(options?: SeparatorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Separator {
 	let control = createControls<Separator>(ControlTypeEnum.Separator, container, position, existingElement, options);
 	return control;
 }
 
-export function createImage(options?: ImageOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Image
-{
+export function createImage(options?: ImageOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Image {
 	let control = createControls<Image>(ControlTypeEnum.Image, container, position, existingElement, options);
 	return control;
 }
 
-export function createDatePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DatePicker
-{
+export function createDatePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DatePicker {
 	let control = createControls<DatePicker>(ControlTypeEnum.DatePicker, container, position, existingElement, options);
 	return control;
 }
 
-export function createTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TimePicker
-{
+export function createTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TimePicker {
 	if (options == null) options = new DatePickerOptions();
 	options.mode = DateModeEnum.Time;
 	return createDatePicker(options, container, position, existingElement);
 }
 
-export function createDateTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DateTimePicker
-{
+export function createDateTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DateTimePicker {
 	if (options == null) options = new DatePickerOptions();
 	options.mode = DateModeEnum.DateTime;
 	return createDatePicker(options, container, position, existingElement);
 }
 
-export function createMonthPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): MonthPicker
-{
+export function createMonthPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): MonthPicker {
 	if (options == null) options = new DatePickerOptions();
 	options.depth = DateDepthEnum.Month;
 	return createDatePicker(options, container, position, existingElement);
 }
 
-export function createYearPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): YearPicker
-{
+export function createYearPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): YearPicker {
 	if (options == null) options = new DatePickerOptions();
 	options.depth = DateDepthEnum.Year;
 	return createDatePicker(options, container, position, existingElement);
 }
 
-export function createComboBox(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ComboBox
-{
+export function createComboBox(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ComboBox {
 	let control = createControls<ComboBox>(ControlTypeEnum.ComboBox, container, position, existingElement, options);
 	return control;
 }
 
-export function createDropDown(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DropDown
-{
+export function createDropDown(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DropDown {
 	if (options == null) options = new ComboBoxOptions();
 	options.mode = ComboBoxTypeEnum.DropDown;
 	return createComboBox(options, container, position, existingElement);
 }
 
-export function createSplitButton(options?: SplitButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SplitButton
-{
+export function createSplitButton(options?: SplitButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SplitButton {
 	let control = createControls<SplitButton>(ControlTypeEnum.SplitButton, container, position, existingElement, options);
 	return control;
 }
 
-export function createMenu(options?: MenuOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Menu
-{
+export function createMenu(options?: MenuOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Menu {
 	let control = createControls<Menu>(ControlTypeEnum.Menu, container, position, existingElement, options);
 	return control;
 }
 
-export function createEditor(options?: EditorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Editor
-{
+export function createEditor(options?: EditorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Editor {
 	let control = createControls<Editor>(ControlTypeEnum.Editor, container, position, existingElement, options);
 	return control;
 }
 
-export function createWindow(options?: WindowOptions | null, container?: HTMLElement | JQuery | string | null): Window
-{
+export function createWindow(options?: WindowOptions | null, container?: HTMLElement | JQuery | string | null): Window {
 	let control = <Window>createControls(ControlTypeEnum.Window, container, null, null, options);
 	return control;
 }
 
-export function createGrid(options?: GridOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Grid
-{
+export function createGrid(options?: GridOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Grid {
 	let control = createControls<Grid>(ControlTypeEnum.Grid, container, position, existingElement, options);
 	return control;
 }
 
-export function createSwitch(options?: SwitchOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Switch
-{
+export function createSwitch(options?: SwitchOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Switch {
 	let control = createControls<Switch>(ControlTypeEnum.Switch, container, position, existingElement, options);
 	return control;
 }
 
-export function createCheckBoxList(options?: CheckBoxListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): CheckBoxList
-{
+export function createCheckBoxList(options?: CheckBoxListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): CheckBoxList {
 	let control = createControls<CheckBoxList>(ControlTypeEnum.CheckBoxList, container, position, existingElement, options);
 	return control;
 }
 
-export function createRadioButton(options?: RadioButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButton
-{
+export function createRadioButton(options?: RadioButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButton {
 	let control = createControls<RadioButton>(ControlTypeEnum.RadioButton, container, position, existingElement, options);
 	return control;
 }
-export function createRadioButtonList(options?: RadioButtonListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButtonList
-{
+export function createRadioButtonList(options?: RadioButtonListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButtonList {
 	let control = createControls<RadioButtonList>(ControlTypeEnum.RadioButtonList, container, position, existingElement, options);
 	return control;
 }
 
-export function createRepeater(options?: RepeaterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Repeater
-{
+export function createRepeater(options?: RepeaterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Repeater {
 	let control = createControls<Repeater>(ControlTypeEnum.Repeater, container, position, existingElement, options);
 	return control;
 }
 
-export function createMap(options?: MapsOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Maps
-{
+export function createMap(options?: MapsOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Maps {
 	let control = createControls<Maps>(ControlTypeEnum.Map, container, position, existingElement, options);
 	return control;
 }
 
-export function createPainter(options?: PainterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Painter
-{
+export function createPainter(options?: PainterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Painter {
 	let control = createControls<Painter>(ControlTypeEnum.Painter, container, position, existingElement, options);
 	return control;
 }
 
-export function createCalendar(options?: CalendarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Calendar
-{
+export function createCalendar(options?: CalendarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Calendar {
 	let control = createControls<Calendar>(ControlTypeEnum.Calendar, container, position, existingElement, options);
 	return control;
 }
 
-export function createRating(options?: RatingOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Rating
-{
+export function createRating(options?: RatingOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Rating {
 	let control = createControls<Rating>(ControlTypeEnum.Rating, container, position, existingElement, options);
 	return control;
 }
 
-export function createGroupBox(options?: GroupBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): GroupBox
-{
+export function createGroupBox(options?: GroupBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): GroupBox {
 	let control = createControls<GroupBox>(ControlTypeEnum.GroupBox, container, position, existingElement, options);
 	return control;
 }
 
-export function createPdfViewer(options?: PdfViewerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PdfViewer
-{
+export function createPdfViewer(options?: PdfViewerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PdfViewer {
 	let control = createControls<PdfViewer>(ControlTypeEnum.PdfViewer, container, position, existingElement, options);
 	return control;
 }
 
-export function createPaypalButton(options?: PaypalButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PaypalButton
-{
+export function createPaypalButton(options?: PaypalButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PaypalButton {
 	let control = createControls<PaypalButton>(ControlTypeEnum.PaypalButton, container, position, existingElement, options);;
 	return control;
 }
 
-export function createUpload(options?: UploadOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Upload
-{
+export function createUpload(options?: UploadOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Upload {
 	let control = createControls<Upload>(ControlTypeEnum.Upload, container, position, existingElement, options);
 	return control;
 }
 
-export function createTreeView(options?: TreeViewOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TreeView
-{
+export function createTreeView(options?: TreeViewOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TreeView {
 	let control = createControls<TreeView>(ControlTypeEnum.TreeView, container, position, existingElement, options);
 	return control;
 }
 
-export function createScheduler(options?: SchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Scheduler
-{
+export function createScheduler(options?: SchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Scheduler {
 	let control = createControls<Scheduler>(ControlTypeEnum.Scheduler, container, position, existingElement, options);
 	return control;
 }
 
-export function createMultiScheduler(options?: MultiSchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): MultiScheduler
-{
+export function createMultiScheduler(options?: MultiSchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): MultiScheduler {
 	let control = createControls<MultiScheduler>(ControlTypeEnum.MultiScheduler, container, position, existingElement, options);
 	return control;
 }
 
-export function createQrCode(options?: QrCodeOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): QrCode
-{
+export function createQrCode(options?: QrCodeOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): QrCode {
 	let control = createControls<QrCode>(ControlTypeEnum.QrCode, container, position, existingElement, options);
 	return control;
 }
 
-export function createIcon(options?: IconOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Icon
-{
+export function createIcon(options?: IconOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Icon {
 	let control = createControls<Icon>(ControlTypeEnum.Icon, container, position, existingElement, options);
 	return control;
 }
 
-export function createColorPicker(options?: ColorPickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ColorPicker
-{
+export function createColorPicker(options?: ColorPickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ColorPicker {
 	let control = createControls<ColorPicker>(ControlTypeEnum.ColorPicker, container, position, existingElement, options);
 	return control;
 }
 
-export function createSearchBar(options?: SearchBarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SearchBar
-{
+export function createSearchBar(options?: SearchBarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SearchBar {
 	let control = createControls<SearchBar>(ControlTypeEnum.SearchBar, container, position, existingElement, options);
 	return control;
 }
 
-export function createSplitter(options?: SplitterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Splitter
-{
+export function createSplitter(options?: SplitterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Splitter {
 	let control = createControls<Splitter>(ControlTypeEnum.Splitter, container, position, existingElement, options);
 	return control;
 }
 
-export function createAutoCompleteBox(options?: AutoCompleteBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): AutoCompleteBox
-{
+export function createAutoCompleteBox(options?: AutoCompleteBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): AutoCompleteBox {
 	let control = createControls<AutoCompleteBox>(ControlTypeEnum.AutoCompleteBox, container, position, existingElement, options);
 	return control;
 }
 
-export function createChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ChartVr
-{
+export function createChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ChartVr {
 	let control = createControls<ChartVr>(ControlTypeEnum.Chart, container, position, existingElement, options);
 	return control;
 }
 
-export function createBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): BarChart
-{
+export function createBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): BarChart {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.Bar;
 	return createChart(options, container, position, existingElement);
 }
 
-export function createHorizontalBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): HorizontalBarChart
-{
+export function createHorizontalBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): HorizontalBarChart {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.HorizontalBar;
 	return createChart(options, container, position, existingElement);
 }
 
-export function createLineChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): LineChart
-{
+export function createLineChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): LineChart {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.Line;
 	return createChart(options, container, position, existingElement);
 }
 
-export function createDonutChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DonutChart
-{
+export function createDonutChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DonutChart {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.Donut;
 	return createChart(options, container, position, existingElement);
 }
 
-export function createPieChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PieChart
-{
+export function createPieChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PieChart {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.Pie;
 	return createChart(options, container, position, existingElement);
 }
 
-export function createAreaChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): AreaChart
-{
+export function createAreaChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): AreaChart {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.Area;
 	return createChart(options, container, position, existingElement);
 }
 
-export function createStackedBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): StackedBarChart
-{
+export function createStackedBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): StackedBarChart {
 	if (options == null) options = new ChartOptions();
 	options.type = ChartTypeEnum.StackedBar;
 	return createChart(options, container, position, existingElement);
 }
 
-export function createTabStrip(options?: TabStripOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TabStrip
-{
+export function createTabStrip(options?: TabStripOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TabStrip {
 	let control = createControls<TabStrip>(ControlTypeEnum.TabStrip, container, position, existingElement, options);
 	return control;
 }
 
-export function createTooltip(options?: TooltipOptions | null): Tooltip
-{
+export function createTooltip(options?: TooltipOptions | null): Tooltip {
 	let control = createControls<Tooltip>(ControlTypeEnum.Tooltip, null, null, null, options);
 	return control;
 }
 
-export function createSpeechRecognizer(options?: SpeechRecognizerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SpeechRecognizer
-{
+export function createSpeechRecognizer(options?: SpeechRecognizerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SpeechRecognizer {
 	let control = createControls<SpeechRecognizer>(ControlTypeEnum.SpeechRecognizer, container, position, existingElement, options);
 	return control;
 }
 
-export function createLegend(options?: LegendOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Legend
-{
+export function createLegend(options?: LegendOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Legend {
 	let control = createControls<Legend>(ControlTypeEnum.Legend, container, position, existingElement, options);
 	return control;
 }
 
-export function getControl<T extends VrControl>(controlId: string)
-{
+export function getControl<T extends VrControl>(controlId: string) {
 	return ControlManager.get<T>(controlId);
 }
 
-export function addControl(control: VrControl)
-{
+export function addControl(control: VrControl) {
 	ControlManager.add(control);
 }
 
-function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null, options?: VrControlOptions | null): T
-{
+function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null, options?: VrControlOptions | null): T {
 	if (options == null)
 		options = new VrControlOptions();
 
 	let elementId = "vrpm_" + UtilityManager.createGuid();
 	let element = null;
 
-	if (existingElement != null)
-	{
+	if (existingElement != null) {
 		if (typeof (existingElement) == "string")
 			elementId = existingElement;
-		else
-		{
+		else {
 			element = puma(existingElement)[0];
 			if (element.id != null && element.id != "")
 				elementId = element.id;
@@ -451,8 +388,7 @@ function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, c
 
 	//#region ControlTypeEnum
 	let elementTag = "";
-	switch (controlTypeEnum)
-	{
+	switch (controlTypeEnum) {
 		case ControlTypeEnum.Label: elementTag = "label"; break;
 		case ControlTypeEnum.Button: elementTag = "button"; break;
 		case ControlTypeEnum.ButtonGroup: elementTag = "div"; break;
@@ -505,8 +441,7 @@ function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, c
 			{
 				if ((options as ComboBoxOptions).mode == null || (options as ComboBoxOptions).checkboxes === true || (options as ComboBoxOptions).webService != null)
 					(options as ComboBoxOptions).mode = ComboBoxTypeEnum.Combo;
-				switch ((options as ComboBoxOptions).mode)
-				{
+				switch ((options as ComboBoxOptions).mode) {
 					case ComboBoxTypeEnum.Combo: elementTag = ((options as ComboBoxOptions).checkboxes === true) ? "div" : "input"; break;
 					case ComboBoxTypeEnum.DropDown: elementTag = "div"; break;
 				}
@@ -515,13 +450,11 @@ function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, c
 	//#endregion
 
 	//#region Element
-	if (element == null)
-	{
+	if (element == null) {
 		if (container != null || controlTypeEnum == ControlTypeEnum.Window || controlTypeEnum == ControlTypeEnum.PdfViewer
 			|| controlTypeEnum == ControlTypeEnum.Tooltip)
 			element = puma("<" + elementTag + " id='" + elementId + "'></" + elementTag + ">")[0];
-		else
-		{
+		else {
 			if (!elementId.startsWith("#"))
 				elementId = "#" + elementId;
 
@@ -540,8 +473,7 @@ function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, c
 	if ((controlTypeEnum == ControlTypeEnum.Window || controlTypeEnum == ControlTypeEnum.Tooltip) && container == null)
 		container = (shadowRoot() != null) ? (shadowRoot() as any as HTMLElement) : document.body;
 
-	if (container != null)
-	{
+	if (container != null) {
 		if (typeof (container) == "string" && !container.startsWith("#"))
 			container = "#" + container;
 
@@ -560,229 +492,182 @@ function createControls<T extends VrControl>(controlTypeEnum: ControlTypeEnum, c
 
 jQuery.fn.extend(
 	{
-		vrLabel: function (options?: LabelOptions | null)
-		{
+		vrLabel: function (options?: LabelOptions | null) {
 			let element = (this as any)[0];
 			return new Label(element, options);
 		},
-		vrButton: function (options?: ButtonOptions | null)
-		{
+		vrButton: function (options?: ButtonOptions | null) {
 			let element = (this as any)[0];
 			return new Button(element, options);
 		},
-		vrButtonGroup: function (options?: ButtonGroupOptions | null)
-		{
+		vrButtonGroup: function (options?: ButtonGroupOptions | null) {
 			let element = (this as any)[0];
 			return new ButtonGroup(element, options);
 		},
-		vrTextBox: function (options?: TextBoxOptions | null)
-		{
+		vrTextBox: function (options?: TextBoxOptions | null) {
 			let element = (this as any)[0];
 			return new TextBox(element, options);
 		},
-		vrCheckBox: function (options?: CheckBoxOptions | null)
-		{
+		vrCheckBox: function (options?: CheckBoxOptions | null) {
 			let element = (this as any)[0];
 			return new CheckBox(element, options);
 		},
-		vrCheckBoxList: function (options?: CheckBoxListOptions | null)
-		{
+		vrCheckBoxList: function (options?: CheckBoxListOptions | null) {
 			let element = (this as any)[0];
 			return new CheckBoxList(element, options);
 		},
-		vrSeparator: function (options?: SeparatorOptions | null)
-		{
+		vrSeparator: function (options?: SeparatorOptions | null) {
 			let element = (this as any)[0];
 			return new Separator(element, options);
 		},
-		vrImage: function (options?: ImageOptions | null)
-		{
+		vrImage: function (options?: ImageOptions | null) {
 			let element = (this as any)[0];
 			return new Image(element, options);
 		},
-		vrDatePicker: function (options?: DatePickerOptions | null)
-		{
+		vrDatePicker: function (options?: DatePickerOptions | null) {
 			let element = (this as any)[0];
 			return new DatePicker(element, options);
 		},
-		vrComboBox: function (options?: ComboBoxOptions | null)
-		{
+		vrComboBox: function (options?: ComboBoxOptions | null) {
 			let element = (this as any)[0];
 			return new ComboBox(element, options);
 		},
-		vrSplitButton: function (options?: SplitButtonOptions | null)
-		{
+		vrSplitButton: function (options?: SplitButtonOptions | null) {
 			let element = (this as any)[0];
 			return new SplitButton(element, options);
 		},
-		vrMenu: function (options?: MenuOptions | null)
-		{
+		vrMenu: function (options?: MenuOptions | null) {
 			let element = (this as any)[0];
 			return new Menu(element, options);
 		},
-		vrEditor: function (options?: EditorOptions | null)
-		{
+		vrEditor: function (options?: EditorOptions | null) {
 			let element = (this as any)[0];
 			return new Editor(element, options);
 		},
-		vrWindow: function (options?: WindowOptions | null)
-		{
+		vrWindow: function (options?: WindowOptions | null) {
 			let element = (this as any)[0];
 			return new Window(element, options);
 		},
-		vrGrid: function (options?: GridOptions | null)
-		{
+		vrGrid: function (options?: GridOptions | null) {
 			let element = (this as any)[0];
 			return new Grid(element, options);
 		},
-		vrSwitch: function (options?: SwitchOptions | null)
-		{
+		vrSwitch: function (options?: SwitchOptions | null) {
 			let element = (this as any)[0];
 			return new Switch(element, options);
 		},
-		vrRadioButton: function (options?: RadioButtonOptions | null)
-		{
+		vrRadioButton: function (options?: RadioButtonOptions | null) {
 			let element = (this as any)[0];
 			return new RadioButton(element, options);
 		},
-		vrRadioButtonList: function (options?: RadioButtonListOptions | null)
-		{
+		vrRadioButtonList: function (options?: RadioButtonListOptions | null) {
 			let element = (this as any)[0];
 			return new RadioButtonList(element, options);
 		},
-		vrRepeater: function (options?: RepeaterOptions | null)
-		{
+		vrRepeater: function (options?: RepeaterOptions | null) {
 			let element = (this as any)[0];
 			return new Repeater(element, options);
 		},
-		vrMap: function (options?: MapsOptions | null)
-		{
+		vrMap: function (options?: MapsOptions | null) {
 			let element = (this as any)[0];
 			return new Maps(element, options);
 		},
-		vrPainter: function (options?: PainterOptions | null)
-		{
+		vrPainter: function (options?: PainterOptions | null) {
 			let element = (this as any)[0];
 			return new Painter(element, options);
 		},
-		vrCalendar: function (options?: CalendarOptions | null)
-		{
+		vrCalendar: function (options?: CalendarOptions | null) {
 			let element = (this as any)[0];
 			return new Calendar(element, options);
 		},
-		vrRating: function (options?: RatingOptions | null)
-		{
+		vrRating: function (options?: RatingOptions | null) {
 			let element = (this as any)[0];
 			return new Rating(element, options);
 		},
-		vrGroupBox: function (options?: GroupBoxOptions | null)
-		{
+		vrGroupBox: function (options?: GroupBoxOptions | null) {
 			let element = (this as any)[0];
 			return new GroupBox(element, options);
 		},
-		vrPdfViewer: function (options?: PdfViewerOptions | null)
-		{
+		vrPdfViewer: function (options?: PdfViewerOptions | null) {
 			let element = (this as any)[0];
 			return new PdfViewer(element, options);
 		},
-		vrPaypalButton: function (options?: PaypalButtonOptions | null)
-		{
+		vrPaypalButton: function (options?: PaypalButtonOptions | null) {
 			let element = (this as any)[0];
 			return new PaypalButton(element, options);
 		},
-		vrUpload: function (options?: UploadOptions | null)
-		{
+		vrUpload: function (options?: UploadOptions | null) {
 			let element = (this as any)[0];
 			return new Upload(element, options);
 		},
-		vrTreeView: function (options?: TreeViewOptions | null)
-		{
+		vrTreeView: function (options?: TreeViewOptions | null) {
 			let element = (this as any)[0];
 			return new TreeView(element, options);
 		},
-		vrScheduler: function (options?: SchedulerOptions | null)
-		{
+		vrScheduler: function (options?: SchedulerOptions | null) {
 			let element = (this as any)[0];
 			return new Scheduler(element, options);
 		},
-		vrMultiScheduler: function (options?: MultiSchedulerOptions | null)
-		{
+		vrMultiScheduler: function (options?: MultiSchedulerOptions | null) {
 			let element = (this as any)[0];
 			return new MultiScheduler(element, options);
 		},
-		vrQrCode: function (options?: QrCodeOptions | null)
-		{
+		vrQrCode: function (options?: QrCodeOptions | null) {
 			let element = (this as any)[0];
 			return new QrCode(element, options);
 		},
-		vrIcon: function (options?: IconOptions | null)
-		{
+		vrIcon: function (options?: IconOptions | null) {
 			let element = (this as any)[0];
 			return new Icon(element, options);
 		},
-		vrColorPicker: function (options?: ColorPickerOptions | null)
-		{
+		vrColorPicker: function (options?: ColorPickerOptions | null) {
 			let element = (this as any)[0];
 			return new ColorPicker(element, options);
 		},
-		vrSearchBar: function (options?: SearchBarOptions | null)
-		{
+		vrSearchBar: function (options?: SearchBarOptions | null) {
 			let element = (this as any)[0];
 			return new SearchBar(element, options);
 		},
-		vrSplitter: function (options?: SplitterOptions | null)
-		{
+		vrSplitter: function (options?: SplitterOptions | null) {
 			let element = (this as any)[0];
 			return new Splitter(element, options);
 		},
-		vrAutoCompleteBox: function (options?: AutoCompleteBoxOptions | null)
-		{
+		vrAutoCompleteBox: function (options?: AutoCompleteBoxOptions | null) {
 			let element = (this as any)[0];
 			return new AutoCompleteBox(element, options);
 		},
-		vrChart: function (options?: ChartOptions | null)
-		{
+		vrChart: function (options?: ChartOptions | null) {
 			let element = (this as any)[0];
 			return new ChartVr(element, options);
 		},
-		vrTabStrip: function (options?: TabStripOptions | null)
-		{
+		vrTabStrip: function (options?: TabStripOptions | null) {
 			let element = (this as any)[0];
 			return new TabStrip(element, options);
 		},
-		vrTooltip: function (options?: TooltipOptions | null)
-		{
+		vrTooltip: function (options?: TooltipOptions | null) {
 			let element = (this as any)[0];
 			return new Tooltip(element, options);
 		},
-		vrSpeechRecognizer: function (options?: SpeechRecognizerOptions | null)
-		{
+		vrSpeechRecognizer: function (options?: SpeechRecognizerOptions | null) {
 			let element = (this as any)[0];
 			return new SpeechRecognizer(element, options);
 		},
-		vrDiv: function (options?: DivOptions | null)
-		{
+		vrDiv: function (options?: DivOptions | null) {
 			let element = (this as any)[0];
 			return new Div(element, options);
 		},
-		vrLegend: function (options?: LegendOptions | null)
-		{
+		vrLegend: function (options?: LegendOptions | null) {
 			let element = (this as any)[0];
 			return new Legend(element, options);
 		}
 	});
 
 //#region Memory leaks' destroyer
-$(() =>
-{
-	const observer = new MutationObserver((mutations_list) =>
-	{
-		mutations_list.forEach((mutations) =>
-		{
-			mutations.removedNodes.forEach((currentValue, currentIndex, listObj) =>
-			{
-				if ((currentValue as HTMLElement).classList != null)
-				{
+$(() => {
+	const observer = new MutationObserver((mutations_list) => {
+		mutations_list.forEach((mutations) => {
+			mutations.removedNodes.forEach((currentValue, currentIndex, listObj) => {
+				if ((currentValue as HTMLElement).classList != null) {
 					if (!currentValue.isConnected)
 						removeItems(currentValue);
 				}
@@ -791,14 +676,10 @@ $(() =>
 	});
 	observer.observe(document.body, { subtree: true, childList: true });
 
-	function removeItems(element: any)
-	{
-		if (element != null)
-		{
-			try
-			{
-				if (element.id != null)
-				{
+	function removeItems(element: any) {
+		if (element != null) {
+			try {
+				if (element.id != null) {
 					let idElement = element.id.replace("Container", "").replace("#", "").replace(".", "");
 					ControlManager.remove(idElement);
 
@@ -821,8 +702,7 @@ $(() =>
 });
 //#endregion
 
-export enum ControlTypeEnum
-{
+export enum ControlTypeEnum {
 	Label = "Label",
 	Button = "Button",
 	Window = "Window",
@@ -867,8 +747,7 @@ export enum ControlTypeEnum
 	Legend = "Legend"
 }
 
-export enum ControlPositionEnum
-{
+export enum ControlPositionEnum {
 	Before,
 	After,
 	None
@@ -876,40 +755,34 @@ export enum ControlPositionEnum
 //#endregion
 
 //#region Notifications
-export function hideNotify()
-{
+export function hideNotify() {
 	puma(".vrNotifierContainer").hide();
 }
 
-export function notify(text: string, options?: NotifierOptions): Notifier
-{
+export function notify(text: string, options?: NotifierOptions): Notifier {
 	let notifier = new Notifier(text, options);
 	return notifier;
 }
 
-export function notifyError(text: string, options?: NotifierOptions | null): Notifier
-{
+export function notifyError(text: string, options?: NotifierOptions | null): Notifier {
 	if (options == null) options = new NotifierOptions();
 	if (options.type == null) options.type = NotifierTypeEnum.Error;
 	return new Notifier(text, options)!;
 }
 
-export function notifyWarning(text: string, options?: NotifierOptions | null): Notifier
-{
+export function notifyWarning(text: string, options?: NotifierOptions | null): Notifier {
 	if (options == null) options = new NotifierOptions();
 	if (options.type == null) options.type = NotifierTypeEnum.Warning;
 	return new Notifier(text, options)!;
 }
 
-export function notifySuccess(text: string, options?: NotifierOptions | null): Notifier
-{
+export function notifySuccess(text: string, options?: NotifierOptions | null): Notifier {
 	if (options == null) options = new NotifierOptions();
 	if (options.type == null) options.type = NotifierTypeEnum.Success;
 	return new Notifier(text, options)!;
 }
 
-export function notifyInfo(text: string, options?: NotifierOptions | null): Notifier
-{
+export function notifyInfo(text: string, options?: NotifierOptions | null): Notifier {
 	if (options == null) options = new NotifierOptions();
 	if (options.type == null) options.type = NotifierTypeEnum.Info;
 	return new Notifier(text, options)!;
@@ -917,137 +790,112 @@ export function notifyInfo(text: string, options?: NotifierOptions | null): Noti
 //#endregion
 
 //#region Dialog
-export function confirm(text?: string | null, options?: ConfirmOptions | null): Promise<any>
-{
+export function confirm(text?: string | null, options?: ConfirmOptions | null): Promise<any> {
 	let confirm = new Confirm(text, options);
 	return confirm.open();
 }
 
-export function alert(text?: string | null, options?: AlertOptions | null): Promise<any>
-{
+export function alert(text?: string | null, options?: AlertOptions | null): Promise<any> {
 	let alert = new Alert(text, options);
 	return alert.open();
 }
 
-export function dialog(text?: string | null, options?: DialogOptions | null)
-{
+export function dialog(text?: string | null, options?: DialogOptions | null) {
 	let dialog = new Dialog(text, options);
 	dialog.open();
 	return dialog;
 }
 
-export function prompt(text?: string | null, options?: PromptOptions | null): Promise<any>
-{
+export function prompt(text?: string | null, options?: PromptOptions | null): Promise<any> {
 	let prompt = new Prompt(text, options);
 	return prompt.open();
 }
 //#endregion
 
 //#region Print
-export function printElement(element: string | HTMLElement | JQuery, options?: PrintHtmlOptions)
-{
+export function printElement(element: string | HTMLElement | JQuery, options?: PrintHtmlOptions) {
 	PrintManager.printElement(element, options);
 }
 
-export function printHtml(elementId: string, options?: PrintFileOptions)
-{
+export function printHtml(elementId: string, options?: PrintFileOptions) {
 	PrintManager.printHtml(elementId, options);
 }
 
-export function printBytes(base64Bytes: string, options?: PrintFileOptions)
-{
+export function printBytes(base64Bytes: string, options?: PrintFileOptions) {
 	PrintManager.printBytes(base64Bytes, options);
 }
 
-export function printPdf(path: string, options?: PrintFileOptions)
-{
+export function printPdf(path: string, options?: PrintFileOptions) {
 	PrintManager.printPdf(path, options);
 }
 
-export function printImage(path: string, options?: PrintFileOptions)
-{
+export function printImage(path: string, options?: PrintFileOptions) {
 	PrintManager.printImage(path, options);
 }
 //#endregion
 
 //#region Device manager
-export function isSmartphone()
-{
+export function isSmartphone() {
 	return DeviceManager.isSmartphone();
 }
 
-export function isTablet()
-{
+export function isTablet() {
 	return DeviceManager.isTablet();
 }
 
-export function isDesktop()
-{
+export function isDesktop() {
 	return DeviceManager.isDesktop();
 }
 
-export function isMobile()
-{
+export function isMobile() {
 	return DeviceManager.isMobile();
 }
 
-export function isIphoneX()
-{
+export function isIphoneX() {
 	return DeviceManager.isIphoneX();
 }
 
-export function isIphone()
-{
+export function isIphone() {
 	return DeviceManager.isIphone();
 }
 
-export function browser()
-{
+export function browser() {
 	return DeviceManager.browser();
 }
 
-export function isInternetExplorer()
-{
+export function isInternetExplorer() {
 	return DeviceManager.isInternetExplorer();
 }
 
-export function isSafari()
-{
+export function isSafari() {
 	return DeviceManager.isSafari();
 }
 
-export function isChrome()
-{
+export function isChrome() {
 	return DeviceManager.isChrome();
 }
 
-export function isFirefox()
-{
+export function isFirefox() {
 	return DeviceManager.isFirefox();
 }
 
-export function isEdge()
-{
+export function isEdge() {
 	return DeviceManager.isEdge();
 }
 
-export function isOpera()
-{
+export function isOpera() {
 	return DeviceManager.isOpera();
 }
 
-export function isVivaldi()
-{
+export function isVivaldi() {
 	return DeviceManager.isVivaldi();
 }
 
-export function isSeamonkey()
-{
+export function isSeamonkey() {
 	return DeviceManager.isSeamonkey();
 }
 
-export enum BrowserTypeEnum
-{
+export enum BrowserTypeEnum {
 	InternetExplorer = "InternetExplorer",
 	Safari = "Safari",
 	Chrome = "Chrome",
@@ -1060,22 +908,19 @@ export enum BrowserTypeEnum
 //#endregion
 
 //#region HtmlElement
-export function createDiv(options?: DivOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null): Div
-{
+export function createDiv(options?: DivOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null): Div {
 	let control = createControls<Div>(ControlTypeEnum.Div, container, position, null, options);
 	return control;
 }
 
-export function div(container?: string | HTMLElement | JQuery, settings?: DivSettings, prepend = false): HTMLElement
-{
+export function div(container?: string | HTMLElement | JQuery, settings?: DivSettings, prepend = false): HTMLElement {
 	let classAttribute = "";
 	let idAttribute = "";
 	let css = "";
 	let content = "";
 	let title = "";
 
-	if (settings != null)
-	{
+	if (settings != null) {
 		if (settings.class != null)
 			classAttribute = "class = '" + settings.class + "'";
 
@@ -1093,8 +938,7 @@ export function div(container?: string | HTMLElement | JQuery, settings?: DivSet
 	}
 
 	let div = puma("<div " + title + " " + classAttribute + " " + idAttribute + " " + css + ">" + content + "</div>")[0];
-	if (container != null)
-	{
+	if (container != null) {
 		if (typeof (container) == "string" && !container.startsWith("#") && !container.startsWith("."))
 			container = "#" + container;
 
@@ -1104,16 +948,14 @@ export function div(container?: string | HTMLElement | JQuery, settings?: DivSet
 			puma(div).vrPrependToPuma(container);
 	}
 
-	if (settings != null && settings.attributes != null)
-	{
+	if (settings != null && settings.attributes != null) {
 		for (let attribute of settings.attributes)
 			puma(div).attr(attribute.name, attribute.value);
 	}
 
 	return div;
 }
-class DivSettings
-{
+class DivSettings {
 	class?: string;
 	id?: string;
 	content?: string;
@@ -1122,16 +964,14 @@ class DivSettings
 	attributes?: AttributeSettings[];
 }
 
-export function span(container?: string | HTMLElement | JQuery, settings?: SpanSettings, prepend = false): HTMLElement
-{
+export function span(container?: string | HTMLElement | JQuery, settings?: SpanSettings, prepend = false): HTMLElement {
 	let classAttribute = "";
 	let idAttribute = "";
 	let css = "";
 	let content = "";
 	let title = "";
 
-	if (settings != null)
-	{
+	if (settings != null) {
 		if (settings.class != null)
 			classAttribute = "class = '" + settings.class + "'";
 
@@ -1149,8 +989,7 @@ export function span(container?: string | HTMLElement | JQuery, settings?: SpanS
 	}
 
 	let span = puma("<span " + title + " " + classAttribute + " " + idAttribute + " " + css + ">" + content + "</span>")[0];
-	if (container != null)
-	{
+	if (container != null) {
 		if (typeof (container) == "string" && !container.startsWith("#") && !container.startsWith("."))
 			container = "#" + container;
 
@@ -1160,16 +999,14 @@ export function span(container?: string | HTMLElement | JQuery, settings?: SpanS
 			puma(span).vrPrependToPuma(container);
 	}
 
-	if (settings != null && settings.attributes != null)
-	{
+	if (settings != null && settings.attributes != null) {
 		for (let attribute of settings.attributes)
 			puma(span).attr(attribute.name, attribute.value);
 	}
 
 	return span;
 }
-class SpanSettings
-{
+class SpanSettings {
 	class?: string;
 	id?: string;
 	content?: string;
@@ -1178,8 +1015,7 @@ class SpanSettings
 	attributes?: AttributeSettings[];
 }
 
-export function icon(iconClass: IconClass, container?: string | HTMLElement | JQuery | null, settings?: IconSettings | null, prepend = false): HTMLElement
-{
+export function icon(iconClass: IconClass, container?: string | HTMLElement | JQuery | null, settings?: IconSettings | null, prepend = false): HTMLElement {
 	if (container != null && typeof (container) == "string" && !container.startsWith("#") && !container.startsWith("."))
 		container = "#" + container;
 
@@ -1188,16 +1024,14 @@ export function icon(iconClass: IconClass, container?: string | HTMLElement | JQ
 	let css = "";
 
 	//#region Settings
-	if (settings != null)
-	{
+	if (settings != null) {
 		if (settings.id != null)
 			idAttribute = "id = '" + settings.id + "'";
 
 		if (settings.css != null)
 			css += settings.css + ";";
 
-		if (settings.fontSize != null)
-		{
+		if (settings.fontSize != null) {
 			if (typeof (settings.fontSize) == "number")
 				settings.fontSize = settings.fontSize + "px";
 
@@ -1218,8 +1052,7 @@ export function icon(iconClass: IconClass, container?: string | HTMLElement | JQ
 	let icon = puma("<i class='" + iconClass + " vrIcon " + classAttribute + "'"
 		+ " id='" + idAttribute + "' style='" + css + "'></i>")[0];
 
-	if (container != null)
-	{
+	if (container != null) {
 		if (!prepend)
 			puma(icon).vrAppendToPuma(container);
 		else
@@ -1228,8 +1061,7 @@ export function icon(iconClass: IconClass, container?: string | HTMLElement | JQ
 
 	return icon;
 }
-export class IconSettings
-{
+export class IconSettings {
 	fontSize?: string | number;
 	css?: string;
 	id?: string;
@@ -1239,8 +1071,7 @@ export class IconSettings
 	position?: PositionEnum;
 }
 
-export function iframe(container: string | HTMLElement | JQuery, settings?: VrIframeSettings)
-{
+export function iframe(container: string | HTMLElement | JQuery, settings?: VrIframeSettings) {
 	if (typeof (container) == "string" && !container.startsWith("#") && !container.startsWith("."))
 		container = "#" + container;
 
@@ -1254,10 +1085,8 @@ export function iframe(container: string | HTMLElement | JQuery, settings?: VrIf
 	let iframe = puma("<iframe>").vrAppendToPuma(container)[0];
 	iframe.style.cssText += "width: " + settings.width + "; height: " + settings.height + "; border: none;" + settings.css;
 
-	if (settings.content.includes(".html") || settings.content.includes(".php") || settings.content.includes(".aspx") || settings.content.includes("http"))
-	{
-		if (settings.loader || settings.loader !== false)
-		{
+	if (settings.content.includes(".html") || settings.content.includes(".php") || settings.content.includes(".aspx") || settings.content.includes("http")) {
+		if (settings.loader || settings.loader !== false) {
 			if (settings.loader === true)
 				settings.loader = iframe;
 
@@ -1265,8 +1094,7 @@ export function iframe(container: string | HTMLElement | JQuery, settings?: VrIf
 		}
 
 		puma(iframe).attr("src", settings.content);
-		puma(iframe).on("load", () => 
-		{
+		puma(iframe).on("load", () => {
 			let iframeContentDocument = iframe!.contentDocument;
 			puma(iframeContentDocument).find("body").css("margin", "0px");
 
@@ -1276,8 +1104,7 @@ export function iframe(container: string | HTMLElement | JQuery, settings?: VrIf
 			LoaderManager.hide();
 		});
 	}
-	else
-	{
+	else {
 		let iframeBody: HTMLElement | null = null;
 		let iframeContentDocument = iframe.contentDocument;
 		puma(iframeContentDocument).find("body").css("margin", "0px");
@@ -1292,16 +1119,14 @@ export function iframe(container: string | HTMLElement | JQuery, settings?: VrIf
 		LoaderManager.hide();
 	}
 
-	if (settings != null && settings.attributes != null)
-	{
+	if (settings != null && settings.attributes != null) {
 		for (let attribute of settings.attributes)
 			puma(iframe).attr(attribute.name, attribute.value);
 	}
 
 	return iframe as HTMLIFrameElement;
 }
-class VrIframeSettings
-{
+class VrIframeSettings {
 	content?: string;
 	loader?: boolean | HTMLElement | JQuery | string;
 	callback?: Function;
@@ -1311,8 +1136,7 @@ class VrIframeSettings
 	attributes?: AttributeSettings[];
 }
 
-export function br(container: string | HTMLElement | JQuery, count = 1)
-{
+export function br(container: string | HTMLElement | JQuery, count = 1) {
 	if (typeof (container) == "string" && !container.startsWith("#") && !container.startsWith("."))
 		container = "#" + container;
 
@@ -1320,8 +1144,7 @@ export function br(container: string | HTMLElement | JQuery, count = 1)
 		puma("<br />").vrAppendToPuma(container);
 }
 
-export function hr(container: string | HTMLElement | JQuery, css: string = "", id?: string): HTMLElement
-{
+export function hr(container: string | HTMLElement | JQuery, css: string = "", id?: string): HTMLElement {
 	if (typeof (container) == "string" && !container.startsWith("#") && !container.startsWith("."))
 		container = "#" + container;
 
@@ -1330,8 +1153,7 @@ export function hr(container: string | HTMLElement | JQuery, css: string = "", i
 	return puma("<hr " + idString + " style='" + css + "' />").vrAppendToPuma(container)[0];
 }
 
-export function guid()
-{
+export function guid() {
 	const hex = [...Array(256).keys()].map(index => (index).toString(16).padStart(2, '0'));
 	const r = crypto.getRandomValues(new Uint8Array(16));
 	r[6] = (r[6] & 0x0f) | 0x40;
@@ -1342,36 +1164,31 @@ export function guid()
 		.join('');
 }
 
-export class VrMarginSettings
-{
+export class VrMarginSettings {
 	top?: number;
 	right?: number;
 	bottom?: number;
 	left?: number;
 }
 
-export function showLoader(element?: string | HTMLElement | JQuery | boolean, transparency = true, tag?: any | null, text?: string | null)
-{
+export function showLoader(element?: string | HTMLElement | JQuery | boolean, transparency = true, tag?: any | null, text?: string | null) {
 	if (typeof (element) == "boolean") element = undefined;
 	LoaderManager.show(element, transparency, tag, text);
 }
 
-export function hideLoader(tag?: any)
-{
+export function hideLoader(tag?: any) {
 	LoaderManager.hide(tag);
 }
 //#endregion
 
 //#region Creator
-export function pumo()
-{
+export function pumo() {
 	confirm("Giuri solennemente di non avere buone intenzioni?")
 		.then(() => alert("Il signor Matteo Pumo è fiero di presentarti 'I controlli del malandrino'! So che saprai usarli nel modo giusto"))
 		.catch(() => alert("Peggio per te, non saprai mai quant'è profonda la tana del bianconiglio"))
 }
 
-export enum CreatorEnum
-{
+export enum CreatorEnum {
 	MatteoPumo = "MatteoPumo",
 	MatteoPumoSite = "https://www.matteopumo.com",
 	MatteoPumoMail = "info@matteopumo.com",
@@ -1390,8 +1207,7 @@ export type IconClass = IconClassicSolid | IconClassicLight | IconClassicRegular
 //#region Icon Classic
 
 //#region Icon Brands
-export enum IconClassicBrands
-{
+export enum IconClassicBrands {
 	Amazon = "fa-brands fa-amazon",
 	Android = "fa-brands fa-android",
 	Apple = "fa-brands fa-apple",
@@ -1409,8 +1225,7 @@ export enum IconClassicBrands
 //#endregion
 
 //#region Icon Solid
-export enum IconClassicSolid
-{
+export enum IconClassicSolid {
 	//#region A
 	Add = "fa-solid fa-plus",
 	AddressCard = "fa-solid fa-address-card",
@@ -1819,8 +1634,7 @@ export enum IconClassicSolid
 //#endregion
 
 //#region Icon Light
-export enum IconClassicLight
-{
+export enum IconClassicLight {
 	//#region A
 	Add = "fa-light fa-plus",
 	AddressCard = "fa-light fa-address-card",
@@ -2114,6 +1928,7 @@ export enum IconClassicLight
 	Play = "fa-light fa-play",
 	PlayPause = "fa-light fa-play-pause",
 	Plus = "fa-light fa-plus",
+	PowerOff = "fa-light fa-power-off",
 	Print = "fa-light fa-print",
 	Pumo = "fa-light fa-font-awesome",
 	//#endregion
@@ -2239,8 +2054,7 @@ export enum IconClassicLight
 //#endregion
 
 //#region Icon Regular
-export enum IconClassicRegular
-{
+export enum IconClassicRegular {
 	//#region A
 	Add = "fa-regular fa-plus",
 	AddressCard = "fa-regular fa-address-card",
@@ -2651,8 +2465,7 @@ export enum IconClassicRegular
 //#endregion
 
 //#region Icon Duotone
-export enum IconClassicDuotone
-{
+export enum IconClassicDuotone {
 	//#region A
 	Add = "fa-duotone fa-plus",
 	AddressCard = "fa-duotone fa-address-card",
@@ -3063,8 +2876,7 @@ export enum IconClassicDuotone
 //#endregion
 
 //#region Icon Thin
-export enum IconClassicThin
-{
+export enum IconClassicThin {
 	//#region A
 	Add = "fa-thin fa-plus",
 	AddressCard = "fa-thin fa-address-card",
@@ -3479,8 +3291,7 @@ export enum IconClassicThin
 //#region Icon Sharp
 
 //#region Icon Sharp Solid
-export enum IconSharpSolid
-{
+export enum IconSharpSolid {
 	//#region A
 	Add = "fa-sharp fa-solid fa-plus",
 	AddressCard = "fa-sharp fa-solid fa-address-card",
@@ -3889,8 +3700,7 @@ export enum IconSharpSolid
 //#endregion
 
 //#region Icon Sharp Light
-export enum IconSharpLight
-{
+export enum IconSharpLight {
 	//#region A
 	Add = "fa-sharp fa-light fa-plus",
 	AddressCard = "fa-sharp fa-light fa-address-card",
@@ -4301,8 +4111,7 @@ export enum IconSharpLight
 //#endregion
 
 //#region Icon Sharp Regular
-export enum IconSharpRegular
-{
+export enum IconSharpRegular {
 	//#region A
 	Add = "fa-sharp fa-regular fa-plus",
 	AddressCard = "fa-sharp fa-regular fa-address-card",
@@ -4713,8 +4522,7 @@ export enum IconSharpRegular
 //#endregion
 
 //#region Icon Sharp Duotone
-export enum IconSharpDuotone
-{
+export enum IconSharpDuotone {
 	//#region A
 	Add = "fa-sharp fa-duotone fa-plus",
 	AddressCard = "fa-sharp fa-duotone fa-address-card",
@@ -5125,8 +4933,7 @@ export enum IconSharpDuotone
 //#endregion
 
 //#region Icon Sharp Thin
-export enum IconSharpThin
-{
+export enum IconSharpThin {
 	//#region A
 	Add = "fa-sharp fa-thin fa-plus",
 	AddressCard = "fa-sharp fa-thin fa-address-card",
@@ -5541,22 +5348,19 @@ export enum IconSharpThin
 //#endregion
 
 //#region Common
-export enum PositionEnum
-{
+export enum PositionEnum {
 	Left,
 	Top,
 	Right,
 	Bottom
 }
 
-export enum OrientationEnum
-{
+export enum OrientationEnum {
 	Horizontal,
 	Vertical
 }
 
-export class PopupSettings
-{
+export class PopupSettings {
 	width?: number | string;
 	minWidth?: number | string;
 	maxWidth?: number | string;
@@ -5567,15 +5371,13 @@ export class PopupSettings
 	direction?: PopupDirectionEnum;
 }
 
-export enum PopupDirectionEnum
-{
+export enum PopupDirectionEnum {
 	Auto,
 	Up,
 	Down
 }
 
-export enum BorderStyleEnum
-{
+export enum BorderStyleEnum {
 	Dashed = "dashed",
 	Dotted = "dotted",
 	Double = "double",
@@ -5587,8 +5389,7 @@ export enum BorderStyleEnum
 //#endregion
 
 //#region Button
-export enum ButtonModeEnum
-{
+export enum ButtonModeEnum {
 	Default = "vrButtonDefaultMode",
 	Primary = "vrButtonPrimaryMode",
 	Delete = "vrButtonDeleteMode",
@@ -5597,8 +5398,7 @@ export enum ButtonModeEnum
 	Warning = "vrButtonWarningMode"
 }
 
-export class ColorSettings
-{
+export class ColorSettings {
 	textColor?: string;
 	background?: string;
 	border?: string;
@@ -5606,21 +5406,18 @@ export class ColorSettings
 //#endregion
 
 //#region Div
-export class DivColorSettings
-{
+export class DivColorSettings {
 	textColor?: string;
 	background?: string;
 }
 
-export class DivBorderSpecificSettings
-{
+export class DivBorderSpecificSettings {
 	type?: string;
 	size?: number;
 	color?: string;
 }
 
-export class DivBorderSettings extends DivBorderSpecificSettings
-{
+export class DivBorderSettings extends DivBorderSpecificSettings {
 	top?: boolean | DivBorderSpecificSettings;
 	right?: boolean | DivBorderSpecificSettings;
 	bottom?: boolean | DivBorderSpecificSettings;
@@ -5629,14 +5426,12 @@ export class DivBorderSettings extends DivBorderSpecificSettings
 //#endregion
 
 //#region ButtonGroup
-export enum SelectionModeEnum
-{
+export enum SelectionModeEnum {
 	Single,
 	Multiple
 }
 
-export class ButtonGroupItem
-{
+export class ButtonGroupItem {
 	value?: string | number;
 	text?: string;
 	icon?: IconClass;
@@ -5654,23 +5449,20 @@ export class ButtonGroupItem
 //#endregion
 
 //#region TabStrip
-export class TabStripItem extends ButtonGroupItem
-{
+export class TabStripItem extends ButtonGroupItem {
 	elementId?: string;
 }
 //#endregion
 
 //#region Rating
-export enum RatingPrecisionEnum
-{
+export enum RatingPrecisionEnum {
 	Half,
 	Full
 }
 //#endregion
 
 //#region Label
-export enum LabelModeEnum
-{
+export enum LabelModeEnum {
 	Default,
 	Primary,
 	Error,
@@ -5683,8 +5475,7 @@ export enum LabelModeEnum
 	DateTime
 }
 
-export enum LabelUnderlineMode
-{
+export enum LabelUnderlineMode {
 	Always,
 	None,
 	OnHover
@@ -5692,22 +5483,19 @@ export enum LabelUnderlineMode
 //#endregion
 
 //#region TextBox
-export enum TextAlignEnum
-{
+export enum TextAlignEnum {
 	Left = "left",
 	Center = "center",
 	Right = "right",
 	Justify = "justify"
 }
 
-export class TextBoxLengthSettings
-{
+export class TextBoxLengthSettings {
 	substituteChar?: string;
 	value: number;
 }
 
-export enum TextModeEnum
-{
+export enum TextModeEnum {
 	Text,
 	Link,
 	Phone,
@@ -5721,16 +5509,14 @@ export enum TextModeEnum
 	Currency
 }
 
-export enum TextTransformModeEnum
-{
+export enum TextTransformModeEnum {
 	Capitalize = "capitalize",
 	Uppercase = "uppercase",
 	Lowercase = "lowercase",
 	Default = "none"
 }
 
-export enum TextBoxAutoCompleteEnum
-{
+export enum TextBoxAutoCompleteEnum {
 	On = "on",
 	Off = "off",
 	AddressLine1 = "address-line1",
@@ -5789,8 +5575,7 @@ export enum TextBoxAutoCompleteEnum
 	Impp = "impp"
 }
 
-export class TextBoxValidationSettings
-{
+export class TextBoxValidationSettings {
 	minValue?: number;
 	maxValue?: number;
 	minLength?: number | TextBoxLengthSettings;
@@ -5799,8 +5584,7 @@ export class TextBoxValidationSettings
 	error?: TextBoxValidationErrorEnum;
 }
 
-export class TextBoxRegexSettings
-{
+export class TextBoxRegexSettings {
 	value?: string;
 	flags?: string;
 	checkOnValue?: boolean;
@@ -5813,8 +5597,7 @@ export class TextBoxRegexSettings
 	onlyLowerCase?: boolean;
 }
 
-export enum TextBoxValidationErrorEnum
-{
+export enum TextBoxValidationErrorEnum {
 	Flashing,
 	Stable,
 	None
@@ -5822,21 +5605,18 @@ export enum TextBoxValidationErrorEnum
 //#endregion
 
 //#region Error
-export enum ErrorModeEnum
-{
+export enum ErrorModeEnum {
 	Tooltip,
 	Overlay,
 	Solid
 }
 
-export enum ErrorPositionEnum
-{
+export enum ErrorPositionEnum {
 	Right,
 	Bottom
 }
 
-export enum ErrorHideModeEnum
-{
+export enum ErrorHideModeEnum {
 	OnFocus,
 	OnAction,
 	Never
@@ -5844,36 +5624,31 @@ export enum ErrorHideModeEnum
 //#endregion
 
 //#region Paypal
-export enum PaypalEnvironmentEnum
-{
+export enum PaypalEnvironmentEnum {
 	Sandbox = "sandbox",
 	Production = "production"
 }
 
-export enum PaypalStyleSizeEnum
-{
+export enum PaypalStyleSizeEnum {
 	Medium = "medium",
 	Large = "large",
 	Small = "small",
 	Responsive = "responsive"
 }
 
-export enum PaypalStyleColorEnum
-{
+export enum PaypalStyleColorEnum {
 	Gold = "gold",
 	Blue = "blue",
 	Silver = "silver",
 	Black = "black"
 }
 
-export enum PaypalStyleShapeEnum
-{
+export enum PaypalStyleShapeEnum {
 	Rect = "rect",
 	Pill = "pill"
 }
 
-export enum PaypalStyleLabelEnum
-{
+export enum PaypalStyleLabelEnum {
 	Checkout = "checkout",
 	Credit = "credit",
 	Pay = "pay",
@@ -5882,23 +5657,20 @@ export enum PaypalStyleLabelEnum
 	Installment = "installment"
 }
 
-export enum PaypalStyleLayoutEnum
-{
+export enum PaypalStyleLayoutEnum {
 	Vertical = "vertical",
 	Horizontal = "horizontal"
 }
 //#endregion
 
 //#region CheckBox
-export enum CheckboxStateEnum
-{
+export enum CheckboxStateEnum {
 	Checked,
 	Unchecked,
 	Undefined
 }
 
-export class CheckBoxItem
-{
+export class CheckBoxItem {
 	text?: string;
 	value?: string | number;
 	checked?: boolean;
@@ -5910,8 +5682,7 @@ export class CheckBoxItem
 //#endregion
 
 //#region Image
-export enum ImagePositionTypeEnum
-{
+export enum ImagePositionTypeEnum {
 	Center,
 	Fit,
 	Fill,
@@ -5919,8 +5690,7 @@ export enum ImagePositionTypeEnum
 	Original
 }
 
-export enum ImageToolbarTypeEnum
-{
+export enum ImageToolbarTypeEnum {
 	Download,
 	Delete,
 	Custom
@@ -5928,29 +5698,25 @@ export enum ImageToolbarTypeEnum
 //#endregion
 
 //#region DatePicker
-export enum DefaultDayEnum
-{
+export enum DefaultDayEnum {
 	First,
 	Last
 }
 //#endregion
 
 //#region ComboBox
-export enum ComboBoxTypeEnum
-{
+export enum ComboBoxTypeEnum {
 	Combo,
 	DropDown
 }
 
-export enum ComboBoxTreeModeEnum
-{
+export enum ComboBoxTreeModeEnum {
 	AllExpanded,
 	OnlyFirstLevelExpanded,
 	AllCollapsed
 }
 
-export class ComboBoxItem
-{
+export class ComboBoxItem {
 	text: string;
 	value: any;
 	icon?: IconClass;
@@ -5961,8 +5727,7 @@ export class ComboBoxItem
 	checked?: boolean;
 }
 
-export class ComboBoxWebServiceSettings
-{
+export class ComboBoxWebServiceSettings {
 	method: string;
 	authKey?: string;
 	itemsPropertyName?: string;
@@ -5972,15 +5737,13 @@ export class ComboBoxWebServiceSettings
 	parameters?: () => any;
 }
 
-export class ComboBoxTemplateEvent
-{
+export class ComboBoxTemplateEvent {
 	sender: ComboBox;
 	dataItem: any;
 	element: HTMLElement;
 }
 
-export class ComboBoxEvent extends VrControlsEvent
-{
+export class ComboBoxEvent extends VrControlsEvent {
 	sender: ComboBox;
 	value: any;
 	text: string;
@@ -5990,32 +5753,27 @@ export class ComboBoxEvent extends VrControlsEvent
 	isParent?: boolean;
 }
 
-export class ComboBoxChangeEvent extends ComboBoxEvent
-{
+export class ComboBoxChangeEvent extends ComboBoxEvent {
 
 }
 
-export class ComboBoxChangingEvent extends ComboBoxEvent
-{
+export class ComboBoxChangingEvent extends ComboBoxEvent {
 	previousValue?: string | null;
 	previousCheckedValues?: string[] | null;
 }
 
-export class ComboBoxClearEvent extends VrControlsEvent
-{
+export class ComboBoxClearEvent extends VrControlsEvent {
 	sender: ComboBox;
 }
 
-export class SortByComboSettings
-{
+export class SortByComboSettings {
 	field: string;
 	direction?: SortDirectionEnum;
 }
 //#endregion
 
 //#region Menu
-export class MenuItem
-{
+export class MenuItem {
 	text: string;
 	value?: string | number;
 	icon?: IconClass;
@@ -6027,23 +5785,20 @@ export class MenuItem
 	onClick?: (e: MenuOnClickEvent) => void;
 }
 
-export class MenuItemUrlSettings
-{
+export class MenuItemUrlSettings {
 	url: string;
 	newTab?: boolean;
 }
 //#endregion
 
 //#region AutoCompleteBox
-export class AutoCompleteBoxItem
-{
+export class AutoCompleteBoxItem {
 	text: string;
 	value?: string;
 	settings?: AutoCompleteBoxItemSettings;
 }
 
-export class AutoCompleteBoxItemSettings
-{
+export class AutoCompleteBoxItemSettings {
 	backgroundColor?: string;
 	textColor?: string;
 	deleteIconColor?: string;
@@ -6052,8 +5807,7 @@ export class AutoCompleteBoxItemSettings
 	maxWidth?: number;
 }
 
-export class AutoCompleteBoxComboSettings
-{
+export class AutoCompleteBoxComboSettings {
 	items?: ComboBoxItem[];
 	freeText?: boolean;
 	webService?: ComboBoxWebServiceSettings;
@@ -6063,8 +5817,7 @@ export class AutoCompleteBoxComboSettings
 //#endregion
 
 //#region Chart
-export enum ChartTypeEnum
-{
+export enum ChartTypeEnum {
 	Bar = "bar",
 	HorizontalBar = "horizontalBar",
 	Line = "line",
@@ -6074,15 +5827,13 @@ export enum ChartTypeEnum
 	StackedBar = "stackedBar"
 }
 
-export class ChartAreaSettings
-{
+export class ChartAreaSettings {
 	target?: number | string | boolean | object;
 	above?: string;
 	below?: string;
 }
 
-export class ChartTitleSettings
-{
+export class ChartTitleSettings {
 	align?: ChartTitleAlignEnum;
 	color?: string;
 	fullSize?: boolean;
@@ -6092,23 +5843,20 @@ export class ChartTitleSettings
 	text?: string;
 }
 
-export enum ChartTitleAlignEnum
-{
+export enum ChartTitleAlignEnum {
 	Start = "start",
 	Center = "center",
 	End = "end"
 }
 
-export enum ChartTitlePositionEnum
-{
+export enum ChartTitlePositionEnum {
 	Top = "top",
 	Left = "left",
 	Bottom = "bottom",
 	Right = "right"
 }
 
-export class ChartFont
-{
+export class ChartFont {
 	family?: string;
 	size?: number;
 	style?: string;
@@ -6116,8 +5864,7 @@ export class ChartFont
 	lineHeight?: number | string;
 }
 
-export class ChartDataLabelsSettings
-{
+export class ChartDataLabelsSettings {
 	color?: string;
 	backgroundColor?: string;
 	borderColor?: string;
@@ -6131,15 +5878,13 @@ export class ChartDataLabelsSettings
 	rotation?: number;
 }
 
-export enum ChartDataLabelsAnchorEnum
-{
+export enum ChartDataLabelsAnchorEnum {
 	Center = "center",
 	Start = "start",
 	End = "end"
 }
 
-export enum ChartDataLabelsTextAlignEnum
-{
+export enum ChartDataLabelsTextAlignEnum {
 	Center = "center",
 	Start = "start",
 	End = "end",
@@ -6147,8 +5892,7 @@ export enum ChartDataLabelsTextAlignEnum
 	Left = "left",
 }
 
-export enum ChartDataLabelAlignEnum
-{
+export enum ChartDataLabelAlignEnum {
 	Center = "center",
 	Start = "start",
 	End = "end",
@@ -6158,16 +5902,14 @@ export enum ChartDataLabelAlignEnum
 	Top = "top"
 }
 
-export class ChartLegendSettings
-{
+export class ChartLegendSettings {
 	position?: ChartLegendPositionEnum;
 	align?: ChartLegendAlignEnum;
 	labels?: ChartLegendLabelsSettings;
 	title?: ChartLegendTitleSettings;
 }
 
-export enum ChartLegendPositionEnum
-{
+export enum ChartLegendPositionEnum {
 	Top = "top",
 	Left = "left",
 	Bottom = "bottom",
@@ -6175,38 +5917,33 @@ export enum ChartLegendPositionEnum
 	ChartArea = "chartArea"
 }
 
-export enum ChartLegendAlignEnum
-{
+export enum ChartLegendAlignEnum {
 	Center = "center",
 	Start = "start",
 	End = "end"
 }
 
-export class ChartLegendLabelsSettings
-{
+export class ChartLegendLabelsSettings {
 	color?: string;
 	boxHeight?: number;
 	padding?: number;
 	textAlign?: ChartLegendLabelsAlignEnum;
 }
 
-export enum ChartLegendLabelsAlignEnum
-{
+export enum ChartLegendLabelsAlignEnum {
 	Left = "left",
 	Right = "right",
 	Center = "center"
 }
 
-export class ChartLegendTitleSettings
-{
+export class ChartLegendTitleSettings {
 	color?: string;
 	display?: boolean;
 	padding?: number;
 	text?: string;
 }
 
-export class ChartTooltipSettings
-{
+export class ChartTooltipSettings {
 	position?: ChartTooltipPositionEnum;
 	backgroundColor?: string;
 	titleColor?: string;
@@ -6224,48 +5961,41 @@ export class ChartTooltipSettings
 	yAlign?: ChartTooltipYAlignEnum;
 }
 
-export enum ChartTooltipPositionEnum
-{
+export enum ChartTooltipPositionEnum {
 	Average = "average",
 	Nearest = "nearest"
 }
 
-export enum ChartTooltipAlignEnum
-{
+export enum ChartTooltipAlignEnum {
 	Left = "left",
 	Right = "right",
 	Center = "center"
 }
 
-export enum ChartTooltipYAlignEnum
-{
+export enum ChartTooltipYAlignEnum {
 	Top = "top",
 	Center = "center",
 	Bottom = "bottom"
 }
 
-export class ChartStackedSettings
-{
+export class ChartStackedSettings {
 	x?: boolean;
 	y?: boolean;
 }
 
-export class ChartAspectRatioSettings
-{
+export class ChartAspectRatioSettings {
 	maintain?: boolean;
 	value?: number;
 }
 
-export class ChartLimitSettings
-{
+export class ChartLimitSettings {
 	minX?: number;
 	maxX?: number;
 	minY?: number;
 	maxY?: number;
 }
 
-export class ChartDataSource
-{
+export class ChartDataSource {
 	areaSettings?: ChartAreaSettings;
 	type?: ChartTypeEnum;
 	title?: string;
@@ -6281,14 +6011,12 @@ export class ChartDataSource
 	smoothLine?: boolean;
 }
 
-export class ChartParsingSettings
-{
+export class ChartParsingSettings {
 	xAxisKey?: string;
 	yAxisKey?: string;
 }
 
-export class ChartLegendEvent extends VrControlsEvent
-{
+export class ChartLegendEvent extends VrControlsEvent {
 	sender: ChartVr;
 	event: any;
 	legendItem: any;
@@ -6299,8 +6027,7 @@ export class ChartLegendHoverEvent extends ChartLegendEvent { }
 export class ChartLegendLeaveEvent extends ChartLegendEvent { }
 export class ChartLegendClickEvent extends ChartLegendEvent { }
 
-export class ChartLabelEvent extends VrControlsEvent
-{
+export class ChartLabelEvent extends VrControlsEvent {
 	sender: ChartVr;
 	context: any;
 }
@@ -6309,15 +6036,13 @@ export class ChartLabelHoverEvent extends ChartLabelEvent { }
 export class ChartLabelLeaveEvent extends ChartLabelEvent { }
 export class ChartLabelClickEvent extends ChartLabelEvent { }
 
-export class ChartAxisFormatterEvent extends VrControlsEvent
-{
+export class ChartAxisFormatterEvent extends VrControlsEvent {
 	value: any;
 	context: any;
 	sender: ChartVr;
 }
 
-export class ChartOptions extends VrControlOptions
-{
+export class ChartOptions extends VrControlOptions {
 	type?: ChartTypeEnum;
 	padding?: number;
 	parsing?: ChartParsingSettings;
@@ -6349,8 +6074,7 @@ export class ChartOptions extends VrControlOptions
 //#endregion
 
 //#region Window
-export enum WindowFooterItemTypeEnum
-{
+export enum WindowFooterItemTypeEnum {
 	Close,
 	Ok,
 	Custom,
@@ -6365,22 +6089,19 @@ export enum WindowFooterItemTypeEnum
 	Separator
 }
 
-export enum WindowFooterItemAlignEnum
-{
+export enum WindowFooterItemAlignEnum {
 	Left,
 	Right
 }
 
-export enum WindowAutoSizeDirectionEnum
-{
+export enum WindowAutoSizeDirectionEnum {
 	Width,
 	Height
 }
 //#endregion
 
 //#region Editor
-export enum vrEditorItemEnum
-{
+export enum vrEditorItemEnum {
 	Separator = "|",
 	Undo = "undo",
 	Redo = "redo",
@@ -6434,16 +6155,14 @@ export enum vrEditorItemEnum
 	RemoveFormat = "removeformat"
 }
 
-export enum vrEditorToolbarModeEnum
-{
+export enum vrEditorToolbarModeEnum {
 	Floating = "floating",
 	Sliding = "sliding",
 	Scrolling = "scrolling",
 	Wrap = "wrap"
 }
 
-export enum TinyMceIconEnum
-{
+export enum TinyMceIconEnum {
 	CaretDown = "action-next",
 	CaretUp = "action-prev",
 	AlignCenter = "align-center",
@@ -6504,8 +6223,7 @@ export enum TinyMceIconEnum
 	ZoomOut = "zoom-out"
 }
 
-export class vrEditorCustomItem
-{
+export class vrEditorCustomItem {
 	icon?: TinyMceIconEnum;
 	imageUrl?: string;
 	text?: string;
@@ -6513,8 +6231,7 @@ export class vrEditorCustomItem
 	onClick?(e: EditorItemClickEvent): void;
 }
 
-export class vrEditorCustomMenuItem
-{
+export class vrEditorCustomMenuItem {
 	type: EditorCustomMenuItemType;
 	buttonOptions?: ButtonOptions;
 	separatorOptions?: SeparatorOptions;
@@ -6527,8 +6244,7 @@ export class vrEditorCustomMenuItem
 	labelOptions?: LabelOptions;
 }
 
-export enum EditorCustomMenuItemType
-{
+export enum EditorCustomMenuItemType {
 	Button,
 	Separator,
 	SplitButton,
@@ -6541,36 +6257,31 @@ export enum EditorCustomMenuItemType
 	TextBox
 }
 
-export class vrEditorSpeechRecognizerSettings
-{
+export class vrEditorSpeechRecognizerSettings {
 	stopAtClick: boolean;
 	position?: EditorSpeechRecognizerPositionEnum;
 	mode?: EditorSpeechRecognizerModeEnum;
 	showInfoCommands?: boolean;
 }
 
-export enum EditorSpeechRecognizerModeEnum
-{
+export enum EditorSpeechRecognizerModeEnum {
 	Popup,
 	Direct
 }
 
-export enum EditorSpeechRecognizerPositionEnum
-{
+export enum EditorSpeechRecognizerPositionEnum {
 	MenuBar,
 	MenuItems
 }
 
-export class vrEditorFontSizeSettings
-{
+export class vrEditorFontSizeSettings {
 	defaultSize?: number;
 	formatSizeList?: number[];
 }
 //#endregion
 
 //#region Speech recognizer
-export class SpeechRecognizerOptions extends VrControlOptions
-{
+export class SpeechRecognizerOptions extends VrControlOptions {
 	grammars?: string[];
 	continuous?: boolean;
 	stopAtClick?: boolean;
@@ -6595,39 +6306,33 @@ export class SpeechRecognizerOptions extends VrControlOptions
 //#endregion
 
 //#region Grid
-export enum GridCheckboxModeEnum
-{
+export enum GridCheckboxModeEnum {
 	None,
 	SingleCheck,
 	MultiCheck
 }
 
-export enum GridSortDirectionEnum
-{
+export enum GridSortDirectionEnum {
 	Asc,
 	Desc
 }
 
-export enum SortDirectionEnum
-{
+export enum SortDirectionEnum {
 	Asc,
 	Desc
 }
 
-export enum GridHeightModeEnum
-{
+export enum GridHeightModeEnum {
 	FitScreen,
 	FitContent
 }
 
-export enum GridModeEnum
-{
+export enum GridModeEnum {
 	Sync,
 	NotSync
 }
 
-export enum GridAggregateMode
-{
+export enum GridAggregateMode {
 	Average,
 	Count,
 	Max,
@@ -6636,15 +6341,13 @@ export enum GridAggregateMode
 	None
 }
 
-export enum GridAlignEnum
-{
+export enum GridAlignEnum {
 	Left = "left",
 	Center = "center",
 	Right = "right"
 }
 
-export enum GridColumnTypeEnum
-{
+export enum GridColumnTypeEnum {
 	String = 0,
 	Number = 1,
 	Currency = 2,
@@ -6673,15 +6376,13 @@ export enum GridColumnTypeEnum
 	ShortWeekDate = 25
 }
 
-export enum GridLabelUnderlineMode
-{
+export enum GridLabelUnderlineMode {
 	Always,
 	None,
 	OnFocus
 }
 
-export enum GridToolbarItemType
-{
+export enum GridToolbarItemType {
 	Add,
 	Delete,
 	Separator,
@@ -6699,24 +6400,21 @@ export enum GridToolbarItemType
 	TextBox
 }
 
-export enum GridDateFilterTypeEnum
-{
+export enum GridDateFilterTypeEnum {
 	GreaterThan,
 	LessThan,
 	EqualsTo,
 	Between
 }
 
-export enum GridNumberFilterTypeEnum
-{
+export enum GridNumberFilterTypeEnum {
 	GreaterThan,
 	LessThan,
 	EqualsTo,
 	Between
 }
 
-export enum GridStringFilterTypeEnum
-{
+export enum GridStringFilterTypeEnum {
 	StartsWith,
 	EndsWith,
 	EqualsTo,
@@ -6724,20 +6422,17 @@ export enum GridStringFilterTypeEnum
 	IncludesFromSimpleSearch
 }
 
-export class GridCartSettings
-{
+export class GridCartSettings {
 	fields: string[];
 	onClick?: (e: GridCartSettingsClickEvent) => void;
 }
 
-export class GridCartSettingsClickEvent
-{
+export class GridCartSettingsClickEvent {
 	sender: Grid;
 	selectedValues: any[];
 }
 
-export class GridStickerSettings
-{
+export class GridStickerSettings {
 	textColor?: string;
 	backgroundColor?: string;
 	text?: string;
@@ -6748,36 +6443,31 @@ export class GridStickerSettings
 	onClick?: (e: GridStickerClickEvent) => void;
 }
 
-export class GridStickerClickEvent
-{
+export class GridStickerClickEvent {
 	sender: Grid;
 	control: Label;
 	value?: string | null;
 }
 
-export class GridServerBindSettings
-{
+export class GridServerBindSettings {
 	public itemCountPropertyName?: string;
 	public totalsPropertyName?: string;
 	public excelDownloadUrlPropertyName?: string;
 }
 
-export class GridGroupBySettings
-{
+export class GridGroupBySettings {
 	sortBy?: GridSortSettings;
 	internalSortBy?: GridSortSettings;
 	fields: string[] | GridGroupByItem[];
 	automaticSort?: boolean;
 }
 
-export class GridSortSettings
-{
+export class GridSortSettings {
 	field: string;
 	direction?: GridSortDirectionEnum;
 }
 
-export class GridGroupByItem
-{
+export class GridGroupByItem {
 	field: string;
 	displayField?: string;
 	groupNameIfEmpty?: string;
@@ -6787,16 +6477,14 @@ export class GridGroupByItem
 	onEditClick?: (e: GridGroupEditClickEvent) => void;
 }
 
-export class GridGroupDisplayValueEvent
-{
+export class GridGroupDisplayValueEvent {
 	sender: Grid;
 	dataItem: any;
 	field: string;
 	displayField?: string;
 }
 
-export class GridGroupExpandCollapseEvent
-{
+export class GridGroupExpandCollapseEvent {
 	sender: Grid;
 	groupByField: string;
 	childrenItems: any[];
@@ -6807,8 +6495,7 @@ export class GridGroupExpandCollapseEvent
 	displayValue: any;
 }
 
-export class GridGroupEditClickEvent
-{
+export class GridGroupEditClickEvent {
 	sender: Grid;
 	groupByField: string;
 	childrenItems: any[];
@@ -6819,33 +6506,28 @@ export class GridGroupEditClickEvent
 	dataItem: any;
 }
 
-export class GridPageSelectedEvent extends VrControlsEvent
-{
+export class GridPageSelectedEvent extends VrControlsEvent {
 	sender: Grid;
 	pageSelected: number;
 }
 
-export class GridScrollEvent extends VrControlsEvent
-{
+export class GridScrollEvent extends VrControlsEvent {
 	sender: Grid;
 	target: HTMLElement;
 	scrollLeft: number;
 	scrollTop: number;
 }
 
-class GridExcelExportEvent extends VrControlsEvent
-{
+class GridExcelExportEvent extends VrControlsEvent {
 	sender: Grid;
 }
 
-export class GridBeforeExcelExportEvent extends GridExcelExportEvent
-{
+export class GridBeforeExcelExportEvent extends GridExcelExportEvent {
 	fileName: string;
 	exportHiddenColumns: boolean;
 }
 
-export class GridAfterExcelExportEvent extends GridExcelExportEvent
-{
+export class GridAfterExcelExportEvent extends GridExcelExportEvent {
 	headerRow: GridExcelRow;
 	contentRows: GridExcelRow[];
 	footerRow: GridExcelRow;
@@ -6854,23 +6536,19 @@ export class GridAfterExcelExportEvent extends GridExcelExportEvent
 	exportHiddenColumns: boolean;
 }
 
-class GridGroupCheckEvent extends VrControlsEvent
-{
+class GridGroupCheckEvent extends VrControlsEvent {
 	sender: Grid;
 	checked: boolean;
 	childrenIdList: string[];
 }
 
-export class GridBeforeGroupCheckEvent extends GridGroupCheckEvent
-{
+export class GridBeforeGroupCheckEvent extends GridGroupCheckEvent {
 }
 
-export class GridAfterGroupCheckEvent extends GridGroupCheckEvent
-{
+export class GridAfterGroupCheckEvent extends GridGroupCheckEvent {
 }
 
-export class GridColumn
-{
+export class GridColumn {
 	field: string;
 	title?: string;
 	width?: number;
@@ -6914,8 +6592,7 @@ export class GridColumn
 	//#endregion
 }
 
-export class GridButtonSettings extends GridControlsSettings
-{
+export class GridButtonSettings extends GridControlsSettings {
 	text?: string;
 	icon?: IconClass;
 	imageUrl?: string;
@@ -6924,8 +6601,7 @@ export class GridButtonSettings extends GridControlsSettings
 	backgroundColor?: string;
 }
 
-export class GridToolbarItem
-{
+export class GridToolbarItem {
 	type?: GridToolbarItemType;
 	text?: string;
 	icon?: IconClass;
@@ -6960,22 +6636,19 @@ export class GridToolbarItem
 //#endregion
 
 //#region PdfViewer
-export enum PdfViewerToolbarAreaEnum
-{
+export enum PdfViewerToolbarAreaEnum {
 	Left,
 	Center,
 	Right
 }
 
-export class OnContentRenderedEvent
-{
+export class OnContentRenderedEvent {
 	sender: PdfViewer;
 	pdf: any;
 	base64bytes: string;
 }
 
-export class PdfViewerToolbarSettings
-{
+export class PdfViewerToolbarSettings {
 	navigation?: boolean;
 	zoom?: boolean;
 	print?: boolean;
@@ -6983,8 +6656,7 @@ export class PdfViewerToolbarSettings
 	items?: PdfViewerToolbarItem[];
 }
 
-export class PdfViewerToolbarItem
-{
+export class PdfViewerToolbarItem {
 	text?: string;
 	icon?: IconClass;
 	value?: string;
@@ -6994,8 +6666,7 @@ export class PdfViewerToolbarItem
 	onClick?: (e: ToolbarItemOnClickEvent) => void;
 }
 
-export class ToolbarItemOnClickEvent
-{
+export class ToolbarItemOnClickEvent {
 	sender: PdfViewer;
 	text?: string;
 	value?: string;
@@ -7003,30 +6674,26 @@ export class ToolbarItemOnClickEvent
 //#endregion
 
 //#region Splitter
-export enum SplitterDirectionEnum
-{
+export enum SplitterDirectionEnum {
 	Horizontal = "horizontal",
 	Vertical = "vertical"
 }
 
-export enum SplitterCollapseDirectionEnum
-{
+export enum SplitterCollapseDirectionEnum {
 	Left,
 	Right,
 	Up,
 	Down
 }
 
-export class SplitterCollapsableSettings
-{
+export class SplitterCollapsableSettings {
 	direction: SplitterCollapseDirectionEnum;
 	color?: string;
 }
 //#endregion
 
 //#region Switch
-export class SwitchLabelSettings
-{
+export class SwitchLabelSettings {
 	text: string;
 	tooltip?: string;
 	color?: string;
@@ -7036,16 +6703,14 @@ export class SwitchLabelSettings
 	onClick?: (e: SwitchLabelSettingsOnClickEvent) => void;
 }
 
-export class SwitchLabelSettingsOnClickEvent extends VrControlsEvent
-{
+export class SwitchLabelSettingsOnClickEvent extends VrControlsEvent {
 	sender: Switch;
 	checked: boolean;
 }
 //#endregion
 
 //#region Badge
-export class BadgeSettings
-{
+export class BadgeSettings {
 	text?: string | number;
 	color?: string;
 	backgroundColor?: string;
@@ -7054,8 +6719,7 @@ export class BadgeSettings
 	click?: (e: BadgeClickEvent) => void;
 }
 
-export class BadgeClickEvent
-{
+export class BadgeClickEvent {
 	sender: VrControl;
 	text: string;
 	leftButton?: boolean;
@@ -7065,16 +6729,14 @@ export class BadgeClickEvent
 //#endregion
 
 //#region Scheduler
-export class SchedulerSaturationInfo
-{
+export class SchedulerSaturationInfo {
 	manual?: boolean;
 	dayMode?: SchedulerSaturationDay[];
 	weekMode?: SchedulerSaturationWeek;
 	fourWeeksMode?: SchedulerSaturationFourWeeks[];
 }
 
-export class SchedulerSaturationDay
-{
+export class SchedulerSaturationDay {
 	resourceId: number;
 	date?: Date;
 	percentageValue?: number;
@@ -7082,14 +6744,12 @@ export class SchedulerSaturationDay
 	borderColor?: string;
 }
 
-export class SchedulerSaturationWeek
-{
+export class SchedulerSaturationWeek {
 	groupedByResource?: SchedulerSaturationWeekByResource[];
 	groupedByDate?: SchedulerSaturationWeekByDate[];
 }
 
-export class SchedulerSaturationWeekByResource
-{
+export class SchedulerSaturationWeekByResource {
 	resourceId: number;
 	percentageValue?: number;
 	dateList?: SaturationDate[];
@@ -7097,30 +6757,26 @@ export class SchedulerSaturationWeekByResource
 	titleColor?: string;
 }
 
-export class SaturationDate
-{
+export class SaturationDate {
 	date: Date;
 	percentageValue?: number;
 	color?: string;
 	borderColor?: string;
 }
 
-export class SchedulerSaturationWeekByDate
-{
+export class SchedulerSaturationWeekByDate {
 	date: Date;
 	resourceList?: SaturationResource[];
 }
 
-export class SaturationResource
-{
+export class SaturationResource {
 	id: number;
 	percentageValue?: number;
 	color?: string;
 	borderColor?: string;
 }
 
-export class SchedulerSaturationFourWeeks
-{
+export class SchedulerSaturationFourWeeks {
 	resourceId: number;
 	percentageValue?: number;
 	dateList?: SaturationDate[];
@@ -7128,14 +6784,12 @@ export class SchedulerSaturationFourWeeks
 	titleColor?: string;
 }
 
-export class SchedulerResource
-{
+export class SchedulerResource {
 	text: string;
 	value: string;
 }
 
-export enum DayOfWeekEnum
-{
+export enum DayOfWeekEnum {
 	Sunday,
 	Monday,
 	Tuesday,
@@ -7145,21 +6799,18 @@ export enum DayOfWeekEnum
 	Saturday
 }
 
-export class SchedulerView
-{
+export class SchedulerView {
 	type: SchedulerViewEnum;
 	selected?: boolean;
 }
 
-export enum SchedulerViewEnum
-{
+export enum SchedulerViewEnum {
 	Day = 0,
 	Week = 1,
 	FourWeeks = 2
 }
 
-export class SchedulerSlotElement
-{
+export class SchedulerSlotElement {
 	resourceId: string;
 	start: Date;
 	end: Date;
@@ -7170,8 +6821,7 @@ export class SchedulerSlotElement
 	rowIndex: number;
 }
 
-export class SchedulerData
-{
+export class SchedulerData {
 	id: string;
 	resourceId: string;
 	start: Date;
@@ -7184,20 +6834,17 @@ export class SchedulerData
 	class?: string;
 	attributes?: SchedulerAttribute[];
 
-	get duration(): number
-	{
+	get duration(): number {
 		return Date.vrDifferenceBetweenDatesInMinutes(new Date(this.start), new Date(this.end));
 	}
 }
 
-export class SchedulerAttribute
-{
+export class SchedulerAttribute {
 	key: string;
 	value: string;
 }
 
-export enum SchedulerNavigateActionEnum
-{
+export enum SchedulerNavigateActionEnum {
 	NextDate = 0,
 	PrevDate = 1,
 	Today = 2,
@@ -7206,8 +6853,7 @@ export enum SchedulerNavigateActionEnum
 //#endregion
 
 //#region Notifier
-export class NotifierOptions
-{
+export class NotifierOptions {
 	target?: HTMLElement | JQuery | string;
 	type?: NotifierTypeEnum;
 	position?: NotifierPositionEnum;
@@ -7226,8 +6872,7 @@ export class NotifierOptions
 	onClick?: (e: NotifierOnClickEvent) => void;
 }
 
-export enum NotifierTypeEnum
-{
+export enum NotifierTypeEnum {
 	Default,
 	Success,
 	Info,
@@ -7235,8 +6880,7 @@ export enum NotifierTypeEnum
 	Error
 }
 
-export enum NotifierPositionEnum
-{
+export enum NotifierPositionEnum {
 	TopLeft = "TopLeft",
 	TopCenter = "TopCenter",
 	TopRight = "TopRight",
@@ -7252,16 +6896,14 @@ export enum NotifierPositionEnum
 	MiddleScreen = "MiddleScreen"
 }
 
-export enum AnimationShowEnum
-{
+export enum AnimationShowEnum {
 	None,
 	Default,
 	FadeIn,
 	SlideDown
 }
 
-export enum AnimationHideEnum
-{
+export enum AnimationHideEnum {
 	None,
 	Default,
 	FadeOut,
@@ -7272,16 +6914,14 @@ export enum AnimationHideEnum
 //#endregion
 
 //#region Tooltip
-export enum TooltipShowOnEnum
-{
+export enum TooltipShowOnEnum {
 	Click,
 	Focus,
 	Hover,
 	Never
 }
 
-export enum TooltipHideOnEnum
-{
+export enum TooltipHideOnEnum {
 	Default,
 	Never,
 	Click,
@@ -7289,8 +6929,7 @@ export enum TooltipHideOnEnum
 	Leave
 }
 
-export enum TooltipTypeEnum
-{
+export enum TooltipTypeEnum {
 	Default,
 	Success,
 	Info,
@@ -7298,8 +6937,7 @@ export enum TooltipTypeEnum
 	Error
 }
 
-export enum TooltipPositionEnum
-{
+export enum TooltipPositionEnum {
 	TopLeft = "TopLeft",
 	TopCenter = "TopCenter",
 	TopRight = "TopRight",
@@ -7317,8 +6955,7 @@ export enum TooltipPositionEnum
 //#endregion
 
 //#region TreeView
-export class TreeViewColumn
-{
+export class TreeViewColumn {
 	field: string;
 	title?: string;
 	width?: number;
@@ -7335,8 +6972,7 @@ export class TreeViewColumn
 	cellSettings?: TreeViewCellSettings;
 }
 
-export class TreeViewToolbarItem
-{
+export class TreeViewToolbarItem {
 	type?: TreeViewToolbarItemType;
 	text?: string;
 	icon?: IconClass;
@@ -7364,39 +7000,33 @@ export class TreeViewToolbarItem
 	onClick?: (e: TreeViewToolbarClickEvent) => void;
 }
 
-export class TreeViewToolbarSwitchSettings
-{
+export class TreeViewToolbarSwitchSettings {
 	labelOff?: string;
 	labelOn?: string;
 	checked?: boolean;
 	onCheck?: (e: TreeViewToolbarSwitchEvent) => void;
 }
 
-export class TreeViewToolbarSwitchEvent
-{
+export class TreeViewToolbarSwitchEvent {
 	checked: boolean;
 }
 
-export class TreeViewToolbarClickEvent
-{
+export class TreeViewToolbarClickEvent {
 	sender: any;
 	type: TreeViewToolbarItemType;
 	isDefaultPrevented: boolean;
 	deletedItems?: any[];
 
-	preventDefault()
-	{
+	preventDefault() {
 		this.isDefaultPrevented = true;
 	}
 }
 
-export class UpdateRowRebindSettings
-{
+export class UpdateRowRebindSettings {
 	onlyText: boolean;
 }
 
-export enum TreeViewToolbarItemType
-{
+export enum TreeViewToolbarItemType {
 	Separator,
 	Excel,
 	Custom,
@@ -7411,8 +7041,7 @@ export enum TreeViewToolbarItemType
 	TextBox
 }
 
-export class TreeViewItem
-{
+export class TreeViewItem {
 	text: string;
 	value: string;
 	icon?: IconClass;
@@ -7421,13 +7050,11 @@ export class TreeViewItem
 	bold?: boolean;
 }
 
-export class TreeViewItemExtraCell extends TreeViewColumn
-{
+export class TreeViewItemExtraCell extends TreeViewColumn {
 	value?: string;
 }
 
-export class TreeViewContextMenuItem
-{
+export class TreeViewContextMenuItem {
 	text?: string;
 	value?: string;
 	icon?: IconClass;
@@ -7437,22 +7064,19 @@ export class TreeViewContextMenuItem
 	onClick?: (e: TreeViewContextMenuClickEvent) => void;
 }
 
-export enum TreeModeEnum
-{
+export enum TreeModeEnum {
 	AllExpanded,
 	OnlyFirstLevelExpanded,
 	AllCollapsed
 }
 
-export enum TreeViewNumericTypeEnum
-{
+export enum TreeViewNumericTypeEnum {
 	Default = 0,
 	Currency = 1,
 	Percentage = 2
 }
 
-export enum TreeViewColumnTypeEnum
-{
+export enum TreeViewColumnTypeEnum {
 	String = 0,
 	Number = 1,
 	Currency = 2,
@@ -7466,22 +7090,19 @@ export enum TreeViewColumnTypeEnum
 	Color = 21,
 }
 
-export enum TreeViewAlignEnum
-{
+export enum TreeViewAlignEnum {
 	Left = "left",
 	Center = "center",
 	Right = "right"
 }
 
-export class TreeViewFilterSettings
-{
+export class TreeViewFilterSettings {
 	onlyParents?: boolean;
 }
 //#endregion
 
 //#region Maps
-export class MapMarker
-{
+export class MapMarker {
 	latitude: number;
 	longitude: number;
 	title: string;
@@ -7489,8 +7110,7 @@ export class MapMarker
 	draggable: boolean;
 }
 
-export enum MapModeEnum
-{
+export enum MapModeEnum {
 	Streets = "mapbox/streets-v11",
 	Outdoors = "mapbox/outdoors-v11",
 	Light = "mapbox/light-v10",
@@ -7503,24 +7123,21 @@ export enum MapModeEnum
 //#endregion
 
 //#region Color Picker
-export class ColorPickerRgbaValue
-{
+export class ColorPickerRgbaValue {
 	r: number;
 	g: number;
 	b: number;
 	a?: number;
 }
 
-export enum ColorPickerModeEnum
-{
+export enum ColorPickerModeEnum {
 	Hex = "hex",
 	Rgba = "rgba"
 }
 //#endregion
 
 //#region Upload
-export enum UploadValidationErrorTypeEnum
-{
+export enum UploadValidationErrorTypeEnum {
 	MinSize,
 	MaxSize,
 	Extensions
@@ -7528,8 +7145,7 @@ export enum UploadValidationErrorTypeEnum
 //#endregion
 
 //#region Colors
-export enum Color
-{
+export enum Color {
 	red = "#FF0000",
 	red50 = "#ffebee",
 	red100 = "#ffcdd2",
@@ -7798,12 +7414,9 @@ export enum Color
 //#endregion
 
 //#region General/Utility
-export function pageError(callback?: (e: PageErrorEvent) => void)
-{
-	window.onerror = (msg: string | Event, url?: string, lineNo?: number, columnNo?: number, error?: Error) =>
-	{
-		if (callback != null)
-		{
+export function pageError(callback?: (e: PageErrorEvent) => void) {
+	window.onerror = (msg: string | Event, url?: string, lineNo?: number, columnNo?: number, error?: Error) => {
+		if (callback != null) {
 			let event = new PageErrorEvent();
 			event.message = msg;
 			event.url = url;
@@ -7818,8 +7431,7 @@ export function pageError(callback?: (e: PageErrorEvent) => void)
 	}
 }
 
-class PageErrorEvent
-{
+class PageErrorEvent {
 	public message: string | Event;
 	public url?: string;
 	public lineNumber?: number;
@@ -7827,11 +7439,9 @@ class PageErrorEvent
 	public error?: Error;
 }
 
-export async function filesToBase64(files: File[])
-{
+export async function filesToBase64(files: File[]) {
 	const filePathsPromises: any[] = [];
-	files.forEach(file =>
-	{
+	files.forEach(file => {
 		filePathsPromises.push(fileToBase64(file));
 	});
 	const filePaths = await Promise.all(filePathsPromises);
@@ -7839,10 +7449,8 @@ export async function filesToBase64(files: File[])
 	return mappedFiles;
 }
 
-function fileToBase64(file: File)
-{
-	let promise = new Promise((resolve: (e: string) => void) =>
-	{
+function fileToBase64(file: File) {
+	let promise = new Promise((resolve: (e: string) => void) => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 		reader.onload = () => resolve(String(reader.result!));
@@ -7850,66 +7458,53 @@ function fileToBase64(file: File)
 	return promise;
 };
 
-export function isEquals(item1: any, item2: any)
-{
+export function isEquals(item1: any, item2: any) {
 	return UtilityManager.equals(item1, item2);
 }
 
-export function isLocalhost()
-{
+export function isLocalhost() {
 	return (location.hostname.includes("localhost"));
 }
 
-export function interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function)
-{
+export function interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function) {
 	UtilityManager.interval(callback, each, timeout, timeoutCallback);
 }
 
-export function addCssStyle(cssRules: string, id?: string)
-{
+export function addCssStyle(cssRules: string, id?: string) {
 	UtilityManager.addCssStyle(cssRules, id);
 }
 
-export function addCss(cssRules: string, id?: string)
-{
+export function addCss(cssRules: string, id?: string) {
 	addCssStyle(cssRules, id);
 }
 
-export function addJsScript(jsRules: string, id?: string)
-{
+export function addJsScript(jsRules: string, id?: string) {
 	UtilityManager.addJsScript(jsRules, id);
 }
 
-export function addCssFiles(...paths: string[])
-{
-	let promise = new Promise((callback: Function) =>
-	{
+export function addCssFiles(...paths: string[]) {
+	let promise = new Promise((callback: Function) => {
 		UtilityManager.addCssFiles(...paths).then(() => callback());
 	});
 	return promise;
 }
 
-export function addJsFiles(...paths: string[])
-{
-	let promise = new Promise((callback: Function) =>
-	{
+export function addJsFiles(...paths: string[]) {
+	let promise = new Promise((callback: Function) => {
 		UtilityManager.addJsFiles(...paths).then(() => callback());
 	});
 	return promise;
 }
 
-export function openUrl(url: string, name = "download", newTab = false)
-{
+export function openUrl(url: string, name = "download", newTab = false) {
 	UtilityManager.openUrl(url, name, newTab);
 }
 
-export function openBrowserWindow(url: string, newTab = false, size?: BrowserWindowSize, position?: BrowserWindowPosition)
-{
+export function openBrowserWindow(url: string, newTab = false, size?: BrowserWindowSize, position?: BrowserWindowPosition) {
 	//#region Size
 	let width = 1000;
 	let height = 700;
-	if (size != null)
-	{
+	if (size != null) {
 		if (size.width != null) width = size.width;
 		if (size.height != null) height = size.height;
 	}
@@ -7918,8 +7513,7 @@ export function openBrowserWindow(url: string, newTab = false, size?: BrowserWin
 	//#region Position
 	let top = window!.top!.outerHeight / 2 + window!.top!.screenY - (height / 2);
 	let left = window!.top!.outerWidth / 2 + window!.top!.screenX - (width / 2);
-	if (position != null)
-	{
+	if (position != null) {
 		if (position.top != null) top = position.top;
 		if (position.left != null) left = position.left;
 	}
@@ -7928,35 +7522,29 @@ export function openBrowserWindow(url: string, newTab = false, size?: BrowserWin
 	window.open(url, (newTab) ? "_blank" : "", (newTab) ? `width=${width}, height=${height}, top=${top}, left=${left}` : "");
 }
 
-export class BrowserWindowSize
-{
+export class BrowserWindowSize {
 	height?: number;
 	width?: number;
 }
 
-export class BrowserWindowPosition
-{
+export class BrowserWindowPosition {
 	left?: number;
 	top?: number;
 }
 
-export function isValidEmail(email: string)
-{
+export function isValidEmail(email: string) {
 	return UtilityManager.isValidEmail(email);
 }
 
-export function copyTextToClipboard(text: string)
-{
-	if (!navigator.clipboard)
-	{
+export function copyTextToClipboard(text: string) {
+	if (!navigator.clipboard) {
 		oldSupportCopyTextToClipboard(text);
 		return;
 	}
 	navigator.clipboard.writeText(text).then(() => notify("Copiato!"));
 }
 
-function oldSupportCopyTextToClipboard(text: string)
-{
+function oldSupportCopyTextToClipboard(text: string) {
 	let textAreaTemp = document.createElement("textarea");
 	textAreaTemp.value = text;
 
@@ -7976,50 +7564,42 @@ function oldSupportCopyTextToClipboard(text: string)
 	document.body.removeChild(textAreaTemp);
 }
 
-export function base64ToFile(base64: string, fileName: string, options?: FilePropertyBag)
-{
+export function base64ToFile(base64: string, fileName: string, options?: FilePropertyBag) {
 	return UtilityManager.base64ToFile(base64, fileName, options);
 }
 
-export function base64ToBytes(base64: string)
-{
+export function base64ToBytes(base64: string) {
 	return UtilityManager.base64ToBytes(base64);
 }
 
-export function bytesToBase64(bytes: Uint8Array)
-{
+export function bytesToBase64(bytes: Uint8Array) {
 	return UtilityManager.bytesToBase64(bytes);
 }
 
-export function base64ToBlob(base64: string, contentType = '', sliceSize = 512)
-{
+export function base64ToBlob(base64: string, contentType = '', sliceSize = 512) {
 	return UtilityManager.base64ToBlob(base64, contentType, sliceSize);
 }
 
-export function shadowRoot(shadowRoot?: ShadowRoot)
-{
+export function shadowRoot(shadowRoot?: ShadowRoot) {
 	if (shadowRoot != null)
 		_shadowRoot2 = shadowRoot;
 
 	return _shadowRoot2;
 }
 
-export function jqueryVariable(jqueryVariable?: any)
-{
+export function jqueryVariable(jqueryVariable?: any) {
 	if (jqueryVariable != null)
 		_jqueryVariable = jqueryVariable;
 
 	return _jqueryVariable;
 }
 
-export enum WebApiModeEnum
-{
+export enum WebApiModeEnum {
 	Async,
 	Sync
 }
 
-export enum DateModeEnum
-{
+export enum DateModeEnum {
 	Date = 0,
 	DateTime = 1,
 	Time = 2,
@@ -8029,15 +7609,13 @@ export enum DateModeEnum
 	ShortWeekDate = 6
 }
 
-export enum DateDepthEnum
-{
+export enum DateDepthEnum {
 	Day,
 	Month,
 	Year
 }
 
-export enum DateFormatEnum
-{
+export enum DateFormatEnum {
 	LongDate,
 	ShortDate,
 	WeekDay,
@@ -8051,8 +7629,7 @@ export enum DateFormatEnum
 	LongFourWeeksRange
 }
 
-export enum KeyEnum
-{
+export enum KeyEnum {
 	ArrowLeft = "ArrowLeft",
 	ArrowUp = "ArrowUp",
 	ArrowRight = "ArrowRight",
@@ -8064,20 +7641,16 @@ export enum KeyEnum
 	Shift = "Shift"
 }
 
-export class NumberFormatRoundingSettings
-{
+export class NumberFormatRoundingSettings {
 	roundingMode?: RoundingModeEnum;
 	minimumFractionDigits?: number;
 	maximumFractionDigits?: number;
 }
 
-export class NumberFormatSettings extends NumberFormatRoundingSettings
-{
-	constructor(roundingSettings?: NumberFormatRoundingSettings)
-	{
+export class NumberFormatSettings extends NumberFormatRoundingSettings {
+	constructor(roundingSettings?: NumberFormatRoundingSettings) {
 		super();
-		if (roundingSettings != null)
-		{
+		if (roundingSettings != null) {
 			this.roundingMode = roundingSettings.roundingMode;
 			this.minimumFractionDigits = roundingSettings.minimumFractionDigits;
 			this.maximumFractionDigits = roundingSettings.maximumFractionDigits;
@@ -8089,8 +7662,7 @@ export class NumberFormatSettings extends NumberFormatRoundingSettings
 	useGrouping?: GroupingModeEnum | boolean;
 }
 
-enum NumberStyleEnum
-{
+enum NumberStyleEnum {
 	Default = "decimal",
 	Decimal = "decimal",
 	Currency = "currency",
@@ -8098,15 +7670,13 @@ enum NumberStyleEnum
 	Unit = "unit"
 }
 
-export enum GroupingModeEnum
-{
+export enum GroupingModeEnum {
 	Always = "always",
 	Auto = "auto",
 	Min2 = "min2"
 }
 
-export enum RoundingModeEnum
-{
+export enum RoundingModeEnum {
 	Default = "halfExpand",
 	None = "none",
 	Ceil = "ceil",
@@ -8123,8 +7693,7 @@ export enum RoundingModeEnum
 	HalfEven = "halfEven"
 }
 
-export class DateTime
-{
+export class DateTime {
 	public year: number;
 	public month: number;
 	public day: number;
@@ -8135,18 +7704,14 @@ export class DateTime
 
 	private _createdByTypeEnum: DateTimeTypeEnum;
 
-	constructor(date?: Date | DateTime | string)
-	{
-		if (date != null)
-		{
-			if (typeof (date) == "string")
-			{
+	constructor(date?: Date | DateTime | string) {
+		if (date != null) {
+			if (typeof (date) == "string") {
 				date = Date.vrFixDateString(date);
 				this._createdByTypeEnum = DateTimeTypeEnum.String;
 			}
 
-			if (Date.vrIsValidDate(date))
-			{
+			if (Date.vrIsValidDate(date)) {
 				date = date as Date;
 				this.year = date.getFullYear();
 				this.month = date.getMonth() + 1;
@@ -8157,8 +7722,7 @@ export class DateTime
 				this.milliseconds = date.getMilliseconds();
 				this._createdByTypeEnum = DateTimeTypeEnum.Date;
 			}
-			else
-			{
+			else {
 
 				date = date as DateTime;
 				this.year = date.year;
@@ -8173,33 +7737,27 @@ export class DateTime
 		}
 	}
 
-	public createdByTypeEnum()
-	{
+	public createdByTypeEnum() {
 		return this._createdByTypeEnum;
 	}
 
-	public isCreatedByDateTime()
-	{
+	public isCreatedByDateTime() {
 		return this.createdByTypeEnum() == DateTimeTypeEnum.DateTime;
 	}
 
-	public isCreatedByDate()
-	{
+	public isCreatedByDate() {
 		return this.createdByTypeEnum() == DateTimeTypeEnum.Date;
 	}
 
-	public isCreatedByString()
-	{
+	public isCreatedByString() {
 		return this.createdByTypeEnum() == DateTimeTypeEnum.String;
 	}
 
-	public toDate()
-	{
+	public toDate() {
 		return DateTime.toDate(this);
 	}
 
-	public isEqualsTo(source: DateTime, ignoreHours = false)
-	{
+	public isEqualsTo(source: DateTime, ignoreHours = false) {
 		if (ignoreHours)
 			return this.year == source.year && this.month == source.month && this.day == source.day;
 		else
@@ -8207,8 +7765,7 @@ export class DateTime
 				&& this.minutes == source.minutes && this.seconds == source.seconds && this.milliseconds == source.milliseconds;
 	}
 
-	public static toDate(source?: DateTime | null): Date
-	{
+	public static toDate(source?: DateTime | null): Date {
 		if (source == null || Date.vrIsValidDate(source))
 			return source as any;
 
@@ -8218,16 +7775,14 @@ export class DateTime
 		return new Date(source.year, source.month - 1, source.day, source.hours, source.minutes, source.seconds, source.milliseconds);
 	}
 
-	public static fromDate(source?: Date | null): DateTime
-	{
+	public static fromDate(source?: Date | null): DateTime {
 		if (source == null)
 			return null as any;
 
 		return new DateTime(source);
 	}
 
-	public static equals(first: DateTime, second: DateTime, ignoreHours = false)
-	{
+	public static equals(first: DateTime, second: DateTime, ignoreHours = false) {
 		if (first == null || second == null)
 			return false;
 
@@ -8235,8 +7790,7 @@ export class DateTime
 	}
 }
 
-export enum DateTimeTypeEnum
-{
+export enum DateTimeTypeEnum {
 	Date,
 	DateTime,
 	String
@@ -8244,10 +7798,8 @@ export enum DateTimeTypeEnum
 //#endregion
 
 //#region Primitive type extensions
-declare global
-{
-	interface DateConstructor
-	{
+declare global {
+	interface DateConstructor {
 		vrFixDateString(dateString?: Date | string | null): Date;
 		vrEquals(firstDate: Date, secondDate: Date): boolean;
 		vrGetFirstDayOfMonthByDate(dateToCheck: Date): Date;
@@ -8265,8 +7817,7 @@ declare global
 		MAX_VALUE: Date;
 	}
 
-	interface Date
-	{
+	interface Date {
 		vrToItalyString(mode?: DateModeEnum, showSeconds?: boolean): string;
 		vrFormatString(options: Intl.DateTimeFormatOptions, language?: string[] | string): string;
 		vrToLongDateString(): string;
@@ -8282,8 +7833,7 @@ declare global
 		vrIsBetween(firstDate: Date, secondDate: Date): boolean;
 	}
 
-	interface Number
-	{
+	interface Number {
 		vrToNumberString(formatSettings?: NumberFormatSettings): string;
 		vrToCurrencyString(formatSettings?: NumberFormatSettings): string;
 		vrToPercentageString(formatSettings?: NumberFormatSettings): string;
@@ -8291,8 +7841,7 @@ declare global
 		vrFormatNumber(formatSettings: NumberFormatSettings): string;
 	}
 
-	interface String
-	{
+	interface String {
 		vrCapitalize(): string;
 		vrCamelCase(exceptFirst?: boolean): string;
 		vrKebabCase(): string;
@@ -8309,13 +7858,11 @@ declare global
 		vrReplaceAt(index: number, replacement: string): string;
 	}
 
-	interface ArrayConstructor
-	{
+	interface ArrayConstructor {
 		vrEquals(array1: any[], array2: any[]): boolean;
 	}
 
-	interface Array<T>
-	{
+	interface Array<T> {
 		vrFirst(): T;
 		vrLast(): T;
 		vrDelete(value: any): void;
@@ -8340,8 +7887,7 @@ declare global
 		vrGroupByProperty(property: string): any[];
 	}
 
-	interface JQuery
-	{
+	interface JQuery {
 		vrDrag(element?: HTMLElement | string | JQuery): void;
 		vrVisible(state?: boolean): boolean;
 		vrAppendToPuma(element: any): JQuery;
@@ -8359,10 +7905,8 @@ declare global
 Date.MIN_VALUE = new Date(-8640000000000000);
 Date.MAX_VALUE = new Date(8640000000000000);
 
-Date.vrFixDateString = function (dateString?: Date | null): Date
-{
-	if (dateString != null && !(Object.prototype.toString.call(dateString) === '[object Date]'))
-	{
+Date.vrFixDateString = function (dateString?: Date | null): Date {
+	if (dateString != null && !(Object.prototype.toString.call(dateString) === '[object Date]')) {
 		let tempDateString = dateString.toString();
 		let dateSplitted = tempDateString.split(/[^0-9]/).vrToNumberArrayList();
 		let date = new Date(dateSplitted[0], dateSplitted[1] - 1, dateSplitted[2], dateSplitted[3], dateSplitted[4], dateSplitted[5]);
@@ -8371,33 +7915,28 @@ Date.vrFixDateString = function (dateString?: Date | null): Date
 	return dateString!;
 }
 
-Date.vrEquals = function (firstDate: Date, secondDate: Date): boolean
-{
+Date.vrEquals = function (firstDate: Date, secondDate: Date): boolean {
 	return firstDate.getTime() === secondDate.getTime();
 }
 
-Date.vrGetFirstDayOfMonthByDate = function (dateToCheck: Date): Date
-{
+Date.vrGetFirstDayOfMonthByDate = function (dateToCheck: Date): Date {
 	let date = new Date(dateToCheck);
 	return new Date(date.getFullYear(), date.getMonth(), 1);
 }
 
-Date.vrGetLastDayOfMonthByDate = function (dateToCheck: Date): Date
-{
+Date.vrGetLastDayOfMonthByDate = function (dateToCheck: Date): Date {
 	let date = new Date(dateToCheck);
 	return new Date(date.getFullYear(), date.getMonth() + 1, 0);
 }
 
-Date.vrGetFirstDayOfWeekByDate = function (dateToCheck: Date): Date
-{
+Date.vrGetFirstDayOfWeekByDate = function (dateToCheck: Date): Date {
 	let date = new Date(dateToCheck);
 	let day = date.getDay(),
 		diff = date.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
 	return new Date(date.setDate(diff));
 }
 
-Date.vrDifferenceBetweenDatesInMinutes = function (firstDate: Date, secondDate: Date): number
-{
+Date.vrDifferenceBetweenDatesInMinutes = function (firstDate: Date, secondDate: Date): number {
 	firstDate = Date.vrFixDateString(firstDate);
 	secondDate = Date.vrFixDateString(secondDate);
 
@@ -8406,23 +7945,18 @@ Date.vrDifferenceBetweenDatesInMinutes = function (firstDate: Date, secondDate: 
 	return Math.abs(secondsDifference / 60);
 }
 
-Date.vrIsValidDate = function (date: Date)
-{
+Date.vrIsValidDate = function (date: Date) {
 	return date != null && date instanceof Date && !isNaN(date.getTime()) && date.getTime() != new Date(0, 0, 0).getTime();
 }
 
-Date.vrGetDaysInMonth = function (date: Date): number
-{
+Date.vrGetDaysInMonth = function (date: Date): number {
 	return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 }
 
-Date.vrToWebApiDateTime = function (date: Date)
-{
-	if (date != null)
-	{
+Date.vrToWebApiDateTime = function (date: Date) {
+	if (date != null) {
 		date = Date.vrFixDateString(date);
-		if (Date.vrIsValidDate(date))
-		{
+		if (Date.vrIsValidDate(date)) {
 			return {
 				day: date!.getDate(),
 				month: date!.getMonth() + 1,
@@ -8437,11 +7971,9 @@ Date.vrToWebApiDateTime = function (date: Date)
 	return null;
 }
 
-Date.prototype.vrToItalyString = function (mode?: DateModeEnum, showSeconds = false): string
-{
+Date.prototype.vrToItalyString = function (mode?: DateModeEnum, showSeconds = false): string {
 	let dateOptions: any = {};
-	switch (mode)
-	{
+	switch (mode) {
 		case DateModeEnum.Date:
 			{
 				dateOptions = {
@@ -8532,8 +8064,7 @@ Date.prototype.vrToItalyString = function (mode?: DateModeEnum, showSeconds = fa
 	return this.vrFormatString(dateOptions, "it");
 }
 
-Date.prototype.vrFormatString = function (options: Intl.DateTimeFormatOptions, language?: string[] | string): string
-{
+Date.prototype.vrFormatString = function (options: Intl.DateTimeFormatOptions, language?: string[] | string): string {
 	if (options != null && options.timeZone == null)
 		options.timeZone = "Europe/Rome";
 
@@ -8542,8 +8073,7 @@ Date.prototype.vrFormatString = function (options: Intl.DateTimeFormatOptions, l
 	return dateString;
 }
 
-Date.prototype.vrToLongDateString = function ()
-{
+Date.prototype.vrToLongDateString = function () {
 	let dateOptions: any = {
 		weekday: 'long',
 		year: 'numeric',
@@ -8555,20 +8085,17 @@ Date.prototype.vrToLongDateString = function ()
 	return dateFormatter.format(this).vrCapitalize();
 }
 
-Date.vrArePeriodsOverlapped = function (startA: Date, endA: Date, startB: Date, endB: Date, equal = false)
-{
+Date.vrArePeriodsOverlapped = function (startA: Date, endA: Date, startB: Date, endB: Date, equal = false) {
 	return (!equal) ? (startA.getTime() < endB.getTime() && endA.getTime() > startB.getTime()) : (startA.getTime() <= endB.getTime() && endA.getTime() >= startB.getTime());
 }
 
-Date.prototype.vrAddYears = function (years: number): Date
-{
+Date.prototype.vrAddYears = function (years: number): Date {
 	let date: Date = new Date(this.valueOf());
 	date.setFullYear(date.getFullYear() + years);
 	return date;
 }
 
-Date.prototype.vrAddMonths = function (months: number): Date
-{
+Date.prototype.vrAddMonths = function (months: number): Date {
 	let february = new Date(this.getFullYear(), 1, 1);
 	let februaryDays = Date.vrGetDaysInMonth(february);
 
@@ -8581,35 +8108,29 @@ Date.prototype.vrAddMonths = function (months: number): Date
 	return date;
 }
 
-Date.prototype.vrAddDays = function (days: number): Date
-{
+Date.prototype.vrAddDays = function (days: number): Date {
 	let date: Date = new Date(this.valueOf());
 	date.setDate(date.getDate() + days);
 	return date;
 }
 
-Date.prototype.vrAddHours = function (hours: number): Date
-{
+Date.prototype.vrAddHours = function (hours: number): Date {
 	this.setTime(this.getTime() + (hours * 60 * 60 * 1000));
 	return this;
 }
 
-Date.prototype.vrAddMinutes = function (minutes: number): Date
-{
+Date.prototype.vrAddMinutes = function (minutes: number): Date {
 	this.setTime(this.getTime() + (minutes * 60 * 1000));
 	return this;
 }
 
-Date.prototype.vrAddSeconds = function (seconds: number): Date
-{
+Date.prototype.vrAddSeconds = function (seconds: number): Date {
 	this.setTime(this.getTime() + (seconds * 1000));
 	return this;
 }
 
-Date.prototype.vrIsLessThan = function (date: Date, equals = false, checkTime = true): boolean
-{
-	if (!checkTime)
-	{
+Date.prototype.vrIsLessThan = function (date: Date, equals = false, checkTime = true): boolean {
+	if (!checkTime) {
 		this.setHours(0, 0, 0, 0);
 		date.setHours(0, 0, 0, 0);
 	}
@@ -8620,10 +8141,8 @@ Date.prototype.vrIsLessThan = function (date: Date, equals = false, checkTime = 
 		return (this.getTime() < date.getTime());
 }
 
-Date.prototype.vrIsGreaterThan = function (date: Date, equals = false, checkTime = true): boolean
-{
-	if (!checkTime)
-	{
+Date.prototype.vrIsGreaterThan = function (date: Date, equals = false, checkTime = true): boolean {
+	if (!checkTime) {
 		this.setHours(0, 0, 0, 0);
 		date.setHours(0, 0, 0, 0);
 	}
@@ -8634,10 +8153,8 @@ Date.prototype.vrIsGreaterThan = function (date: Date, equals = false, checkTime
 		return (this.getTime() > date.getTime());
 }
 
-Date.prototype.vrIsEqualsTo = function (date: Date, checkTime = true): boolean
-{
-	if (!checkTime)
-	{
+Date.prototype.vrIsEqualsTo = function (date: Date, checkTime = true): boolean {
+	if (!checkTime) {
 		this.setHours(0, 0, 0, 0);
 		date.setHours(0, 0, 0, 0);
 	}
@@ -8645,8 +8162,7 @@ Date.prototype.vrIsEqualsTo = function (date: Date, checkTime = true): boolean
 	return (this.getTime() == date.getTime());
 }
 
-Date.prototype.vrIsBetween = function (firstDate: Date, secondDate: Date): boolean
-{
+Date.prototype.vrIsBetween = function (firstDate: Date, secondDate: Date): boolean {
 	let millisecondsFirstDate = firstDate.getTime();
 	let millisecondsSecondDate = secondDate.getTime();
 	let millisecondsDateToCheck = this.getTime();
@@ -8657,8 +8173,7 @@ Date.prototype.vrIsBetween = function (firstDate: Date, secondDate: Date): boole
 	return false;
 }
 
-Date.vrDifferenceBetweenDatesInDays = function (firstDate: Date, secondDate: Date): number
-{
+Date.vrDifferenceBetweenDatesInDays = function (firstDate: Date, secondDate: Date): number {
 	let first = this.vrFixDateString(firstDate);
 	let second = this.vrFixDateString(secondDate);
 
@@ -8667,10 +8182,8 @@ Date.vrDifferenceBetweenDatesInDays = function (firstDate: Date, secondDate: Dat
 	return Math.abs(secondsDifference / 60 / 60 / 24);
 }
 
-Date.vrConvertDateFromClient = function (dateFromClient?: Date | null): Date
-{
-	if (dateFromClient != null)
-	{
+Date.vrConvertDateFromClient = function (dateFromClient?: Date | null): Date {
+	if (dateFromClient != null) {
 		dateFromClient = Date.vrFixDateString(dateFromClient);
 		let dateConverted = new Date(Date.UTC(dateFromClient.getFullYear(), dateFromClient.getMonth(), dateFromClient.getDate(), dateFromClient.getHours(), dateFromClient.getMinutes(), dateFromClient.getSeconds()));
 		return dateConverted;
@@ -8679,10 +8192,8 @@ Date.vrConvertDateFromClient = function (dateFromClient?: Date | null): Date
 		return dateFromClient!;
 }
 
-Date.vrConvertDateFromServer = function (dateFromServer: Date): Date
-{
-	if (dateFromServer != null)
-	{
+Date.vrConvertDateFromServer = function (dateFromServer: Date): Date {
+	if (dateFromServer != null) {
 		dateFromServer = Date.vrFixDateString(dateFromServer);
 		let dateConverted = new Date(dateFromServer.getUTCFullYear(), dateFromServer.getUTCMonth(), dateFromServer.getUTCDate(), dateFromServer.getUTCHours(), dateFromServer.getUTCMinutes(), dateFromServer.getUTCSeconds());
 		return dateConverted;
@@ -8691,15 +8202,13 @@ Date.vrConvertDateFromServer = function (dateFromServer: Date): Date
 		return dateFromServer;
 }
 
-Number.prototype.vrToNumberString = function (formatSettings?: NumberFormatSettings): string
-{
+Number.prototype.vrToNumberString = function (formatSettings?: NumberFormatSettings): string {
 	if (formatSettings == null) formatSettings = new NumberFormatSettings();
 	formatSettings.style = NumberStyleEnum.Default;
 	return this.vrFormatNumber(formatSettings);
 }
 
-Number.prototype.vrToCurrencyString = function (formatSettings?: NumberFormatSettings): string
-{
+Number.prototype.vrToCurrencyString = function (formatSettings?: NumberFormatSettings): string {
 	if (formatSettings == null) formatSettings = new NumberFormatSettings();
 	formatSettings.style = NumberStyleEnum.Currency;
 	if (formatSettings.minimumFractionDigits == null) formatSettings.minimumFractionDigits = 2;
@@ -8707,8 +8216,7 @@ Number.prototype.vrToCurrencyString = function (formatSettings?: NumberFormatSet
 	return this.vrFormatNumber(formatSettings);
 }
 
-Number.prototype.vrToPercentageString = function (formatSettings?: NumberFormatSettings): string
-{
+Number.prototype.vrToPercentageString = function (formatSettings?: NumberFormatSettings): string {
 	if (formatSettings == null) formatSettings = new NumberFormatSettings();
 	formatSettings.style = NumberStyleEnum.Percentage;
 	if (formatSettings.minimumFractionDigits == null) formatSettings.minimumFractionDigits = 2;
@@ -8716,16 +8224,14 @@ Number.prototype.vrToPercentageString = function (formatSettings?: NumberFormatS
 	return this.vrFormatNumber(formatSettings);
 }
 
-Number.prototype.vrFormatNumber = function (format?: NumberFormatSettings)
-{
+Number.prototype.vrFormatNumber = function (format?: NumberFormatSettings) {
 	if (format == null) format = new NumberFormatSettings();
 	if (format.style == null) format.style = NumberStyleEnum.Default;
 	if (format.currency == null) format.currency = "EUR";
 	if (format.useGrouping == null) format.useGrouping = GroupingModeEnum.Auto;
 
 	if (format.roundingMode == null) format.roundingMode = RoundingModeEnum.HalfAwayFromZero;
-	if (format.roundingMode == RoundingModeEnum.None)
-	{
+	if (format.roundingMode == RoundingModeEnum.None) {
 		format.roundingMode = RoundingModeEnum.Default;
 		if (format.maximumFractionDigits == null)
 			format.maximumFractionDigits = 8;
@@ -8735,19 +8241,16 @@ Number.prototype.vrFormatNumber = function (format?: NumberFormatSettings)
 	return formatter.format(Number(this));
 }
 
-Number.prototype.vrRound = function (decimals: number): number
-{
+Number.prototype.vrRound = function (decimals: number): number {
 	let pow = Math.pow(10, decimals);
 	return Math.round((this as number) * pow) / pow;
 }
 
-String.prototype.vrCapitalize = function ()
-{
+String.prototype.vrCapitalize = function () {
 	return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 }
 
-String.prototype.vrCamelCase = function (exceptFirst?: boolean)
-{
+String.prototype.vrCamelCase = function (exceptFirst?: boolean) {
 	if (exceptFirst == null) exceptFirst = false;
 
 	let words = this.split(" ");
@@ -8761,8 +8264,7 @@ String.prototype.vrCamelCase = function (exceptFirst?: boolean)
 	return stringToReturn;
 }
 
-String.prototype.vrKebabCase = function (this)
-{
+String.prototype.vrKebabCase = function (this) {
 	if (this.length == 0)
 		return "";
 
@@ -8772,8 +8274,7 @@ String.prototype.vrKebabCase = function (this)
 		.join('-');
 }
 
-String.prototype.vrSnakeCase = function (this)
-{
+String.prototype.vrSnakeCase = function (this) {
 	if (this.length == 0)
 		return "";
 
@@ -8783,13 +8284,10 @@ String.prototype.vrSnakeCase = function (this)
 		.join('_');
 }
 
-String.prototype.vrSwapCase = function (this)
-{
+String.prototype.vrSwapCase = function (this) {
 	var swapped = [];
-	for (let i = 0; i < this.length; i++)
-	{
-		if (this != " ")
-		{
+	for (let i = 0; i < this.length; i++) {
+		if (this != " ") {
 			if (this[i] == this[i].toUpperCase())
 				swapped.push(this[i].toLowerCase());
 			else
@@ -8799,13 +8297,11 @@ String.prototype.vrSwapCase = function (this)
 	return swapped.join("");
 }
 
-String.prototype.vrTitleCase = function (this)
-{
+String.prototype.vrTitleCase = function (this) {
 	return this.replace(/\w\S*/g, (txt) => { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase() });
 }
 
-String.prototype.vrTrunc = function (index: number, useWordBoundary?: boolean)
-{
+String.prototype.vrTrunc = function (index: number, useWordBoundary?: boolean) {
 	if (useWordBoundary == null) useWordBoundary = true;
 
 	if (this.length <= index) { return this.valueOf(); }
@@ -8815,8 +8311,7 @@ String.prototype.vrTrunc = function (index: number, useWordBoundary?: boolean)
 		: subString) + "&hellip;";
 };
 
-String.prototype.vrGetNumericPart = function (this)
-{
+String.prototype.vrGetNumericPart = function (this) {
 	let number = 0;
 	if (this.length > 0)
 		number = Number(this.match(/[\d\.\-]+/))
@@ -8824,28 +8319,23 @@ String.prototype.vrGetNumericPart = function (this)
 	return number;
 }
 
-String.prototype.vrToBoolean = function (this)
-{
+String.prototype.vrToBoolean = function (this) {
 	return (this.toLowerCase() === "true");
 }
 
-String.prototype.vrIsNotNullOrEmpty = function (this)
-{
+String.prototype.vrIsNotNullOrEmpty = function (this) {
 	return this != null && this != "";
 }
 
-String.prototype.vrIsNullOrEmpty = function (this)
-{
+String.prototype.vrIsNullOrEmpty = function (this) {
 	return this == null || this == "";
 }
 
-String.prototype.vrRemoveHtml = function (this)
-{
+String.prototype.vrRemoveHtml = function (this) {
 	return this.replace(/<\/?[^>]+(>|$)/g, "");
 }
 
-String.prototype.vrIndexOfAll = function (value: string)
-{
+String.prototype.vrIndexOfAll = function (value: string) {
 	let indices: number[] = [];
 	for (let i = 0; i < this.length; i++)
 		if (this[i] === value) indices.push(i);
@@ -8853,47 +8343,40 @@ String.prototype.vrIndexOfAll = function (value: string)
 	return indices;
 }
 
-String.prototype.vrReplaceAt = function (index: number, replacement: string)
-{
+String.prototype.vrReplaceAt = function (index: number, replacement: string) {
 	return this.substring(0, index) + replacement + this.substring(index + replacement.length);
 }
 
-Array.prototype.vrFirst = function ()
-{
+Array.prototype.vrFirst = function () {
 	if (Array.isArray(this))
 		return (this as any)[0];
 
 	return null;
 }
 
-Array.prototype.vrLast = function ()
-{
+Array.prototype.vrLast = function () {
 	if (Array.isArray(this))
 		return this[this.length - 1];
 
 	return null;
 }
 
-Array.prototype.vrToNumberArrayList = function ()
-{
+Array.prototype.vrToNumberArrayList = function () {
 	if (Array.isArray(this))
 		return this.map((value) => { return Number(value) });
 
 	return [];
 }
 
-Array.prototype.vrToStringArrayList = function ()
-{
+Array.prototype.vrToStringArrayList = function () {
 	if (Array.isArray(this))
 		return this.map((value) => { return String(value) });
 
 	return [];
 }
 
-Array.prototype.vrToCommaSeparatedList = function (addSpaceAfterComma: boolean = true)
-{
-	if (Array.isArray(this))
-	{
+Array.prototype.vrToCommaSeparatedList = function (addSpaceAfterComma: boolean = true) {
+	if (Array.isArray(this)) {
 		let result = "";
 		for (let item of this)
 			result += item.toString() + ((addSpaceAfterComma) ? ", " : ",");
@@ -8904,59 +8387,47 @@ Array.prototype.vrToCommaSeparatedList = function (addSpaceAfterComma: boolean =
 		return "";
 }
 
-Array.prototype.vrPushRange = function (arrayToAdd: any[])
-{
-	if (Array.isArray(this))
-	{
+Array.prototype.vrPushRange = function (arrayToAdd: any[]) {
+	if (Array.isArray(this)) {
 		for (let element of arrayToAdd)
 			this.push(element);
 	}
 }
 
-Array.prototype.vrDelete = function (value: any)
-{
-	if (Array.isArray(this))
-	{
+Array.prototype.vrDelete = function (value: any) {
+	if (Array.isArray(this)) {
 		let i = -1;
 		while ((i = this.indexOf(value)) != -1)
 			this.splice(i, 1);
 	}
 }
 
-Array.prototype.vrDeleteItem = function (item: any, key: string)
-{
-	if (Array.isArray(this))
-	{
+Array.prototype.vrDeleteItem = function (item: any, key: string) {
+	if (Array.isArray(this)) {
 		let index = this.map(k => k[key]).indexOf(item[key]);
 		if (index != -1)
 			this.splice(index, 1);
 	}
 }
 
-Array.prototype.vrDeleteAllBy = function (callbackfn: (value: any, index: number, array: any[]) => any)
-{
-	if (Array.isArray(this))
-	{
+Array.prototype.vrDeleteAllBy = function (callbackfn: (value: any, index: number, array: any[]) => any) {
+	if (Array.isArray(this)) {
 		let itemToDeleteList = this.filter(callbackfn);
-		for (let itemToDelete of itemToDeleteList)
-		{
+		for (let itemToDelete of itemToDeleteList) {
 			if (itemToDelete != null)
 				this.vrDelete(itemToDelete);
 		}
 	}
 }
 
-function dynamicSort(property: string)
-{
+function dynamicSort(property: string) {
 	var sortOrder = 1;
-	if (property[0] === "-")
-	{
+	if (property[0] === "-") {
 		sortOrder = -1;
 		property = property.substr(1);
 	}
 
-	return function (a: any, b: any)
-	{
+	return function (a: any, b: any) {
 		let aProperty = a[property];
 		let bProperty = b[property];
 
@@ -8980,14 +8451,11 @@ function dynamicSort(property: string)
 	}
 }
 
-function dynamicSortMultiple()
-{
+function dynamicSortMultiple() {
 	var props = arguments;
-	return function (obj1: any, obj2: any)
-	{
+	return function (obj1: any, obj2: any) {
 		var i = 0, result = 0, numberOfProperties = props.length;
-		while (result === 0 && i < numberOfProperties)
-		{
+		while (result === 0 && i < numberOfProperties) {
 			result = dynamicSort(props[i])(obj1, obj2);
 			i++;
 		}
@@ -8995,12 +8463,9 @@ function dynamicSortMultiple()
 	}
 }
 
-Array.prototype.vrSortBy = function (properties: string[], ascending?: boolean)
-{
-	if (Array.isArray(this))
-	{
-		if (properties != null && properties.length > 0)
-		{
+Array.prototype.vrSortBy = function (properties: string[], ascending?: boolean) {
+	if (Array.isArray(this)) {
+		if (properties != null && properties.length > 0) {
 			if (ascending != null && !ascending)
 				properties = properties.map(k => { return (!k.startsWith("-")) ? "-" + k : k });
 
@@ -9012,30 +8477,23 @@ Array.prototype.vrSortBy = function (properties: string[], ascending?: boolean)
 	return this;
 }
 
-Array.prototype.vrSortAsc = function (...properties: string[])
-{
+Array.prototype.vrSortAsc = function (...properties: string[]) {
 	return this.vrSortBy(properties, true);
 }
 
-Array.prototype.vrSortDesc = function (...properties: string[])
-{
+Array.prototype.vrSortDesc = function (...properties: string[]) {
 	return this.vrSortBy(properties, false);
 }
 
-function internalSortWithoutProperties(array: any[], ascending: boolean)
-{
-	array.sort((a: any, b: any) => 
-	{
-		if (ascending)
-		{
-			if (typeof (a) == "number")
-			{
+function internalSortWithoutProperties(array: any[], ascending: boolean) {
+	array.sort((a: any, b: any) => {
+		if (ascending) {
+			if (typeof (a) == "number") {
 				const diff = a - b;
 				if (diff)
 					return diff;
 			}
-			else if (typeof (a) == "string")
-			{
+			else if (typeof (a) == "string") {
 				// Try to catch date
 				let tryDate = new Date(a);
 				if (!isNaN(tryDate.getTime()))
@@ -9048,16 +8506,13 @@ function internalSortWithoutProperties(array: any[], ascending: boolean)
 
 			return 0;
 		}
-		else
-		{
-			if (typeof (b) == "number")
-			{
+		else {
+			if (typeof (b) == "number") {
 				const diff = b - a;
 				if (diff)
 					return diff;
 			}
-			else if (typeof (b) == "string")
-			{
+			else if (typeof (b) == "string") {
 				// Try to catch date
 				let tryDate = new Date(b);
 				if (!isNaN(tryDate.getTime()))
@@ -9073,28 +8528,23 @@ function internalSortWithoutProperties(array: any[], ascending: boolean)
 	});
 }
 
-Array.prototype.vrAll = function (callbackfn: (value: any, index: number, array: any[]) => any)
-{
+Array.prototype.vrAll = function (callbackfn: (value: any, index: number, array: any[]) => any) {
 	if (Array.isArray(this))
 		return this.every(callbackfn);
 
 	return false;
 }
 
-Array.prototype.vrAny = function (callbackfn: (value: any, index: number, array: any[]) => any)
-{
+Array.prototype.vrAny = function (callbackfn: (value: any, index: number, array: any[]) => any) {
 	if (Array.isArray(this))
 		return this.some(callbackfn);
 
 	return false;
 }
 
-Array.prototype.vrMax = function (callbackfn?: (value: any, index: number, array: any[]) => any)
-{
-	if (Array.isArray(this))
-	{
-		if (callbackfn != null)
-		{
+Array.prototype.vrMax = function (callbackfn?: (value: any, index: number, array: any[]) => any) {
+	if (Array.isArray(this)) {
+		if (callbackfn != null) {
 			let property = callbackfn.toString().split(".")[1];
 			return this.reduce((oa, u) => Math.max(oa, u[property]), 0);
 		}
@@ -9105,12 +8555,9 @@ Array.prototype.vrMax = function (callbackfn?: (value: any, index: number, array
 	return 0;
 };
 
-Array.prototype.vrMin = function (callbackfn?: (value: any, index: number, array: any[]) => any)
-{
-	if (Array.isArray(this))
-	{
-		if (callbackfn != null)
-		{
+Array.prototype.vrMin = function (callbackfn?: (value: any, index: number, array: any[]) => any) {
+	if (Array.isArray(this)) {
+		if (callbackfn != null) {
 			let property = callbackfn.toString().split(".")[1];
 			return this.reduce((oa, u) => Math.min(oa, u[property]), Number.MAX_VALUE);
 		}
@@ -9121,14 +8568,11 @@ Array.prototype.vrMin = function (callbackfn?: (value: any, index: number, array
 	return 0;
 };
 
-Array.prototype.vrSum = function (callbackfn?: (value: any, index: number, array: any[]) => any)
-{
-	if (Array.isArray(this))
-	{
+Array.prototype.vrSum = function (callbackfn?: (value: any, index: number, array: any[]) => any) {
+	if (Array.isArray(this)) {
 		if (callbackfn == null)
 			return this.reduce((ty, u) => ((ty == null) ? 0 : ty) + ((u == null) ? 0 : u), 0);
-		else
-		{
+		else {
 			let property = callbackfn.toString().split("=>")[1];
 			let sum: number = 0;
 			this.forEach(k => sum += eval(property));
@@ -9139,14 +8583,11 @@ Array.prototype.vrSum = function (callbackfn?: (value: any, index: number, array
 	return 0;
 }
 
-Array.prototype.vrAvg = function (callbackfn?: (value: any, index: number, array: any[]) => any)
-{
-	if (Array.isArray(this))
-	{
+Array.prototype.vrAvg = function (callbackfn?: (value: any, index: number, array: any[]) => any) {
+	if (Array.isArray(this)) {
 		if (callbackfn == null)
 			return this.vrSum() / this.length;
-		else
-		{
+		else {
 			let sum = this.vrSum(callbackfn);
 			return sum / this.length;
 		}
@@ -9155,33 +8596,27 @@ Array.prototype.vrAvg = function (callbackfn?: (value: any, index: number, array
 	return 0;
 }
 
-Array.prototype.vrDistinct = function (this)
-{
+Array.prototype.vrDistinct = function (this) {
 	if (Array.isArray(this))
 		return [...new Set(this)];
 
 	return [];
 }
 
-Array.prototype.vrDistinctBy = function (callbackfn: (value: any, index: number, array: any[]) => any)
-{
-	if (Array.isArray(this))
-	{
+Array.prototype.vrDistinctBy = function (callbackfn: (value: any, index: number, array: any[]) => any) {
+	if (Array.isArray(this)) {
 		let arrayResult: any[] = [];
 		let arrayMap = new Map();
 		let property = callbackfn.toString().split(".")[1];
 
-		for (let item of this)
-		{
+		for (let item of this) {
 			let value: any;
-			for (let key in item)
-			{
+			for (let key in item) {
 				if (key == property)
 					value = item[key];
 			}
 
-			if (!arrayMap.has(value))
-			{
+			if (!arrayMap.has(value)) {
 				arrayMap.set(value, true);
 				arrayResult.push(item);
 			}
@@ -9192,16 +8627,13 @@ Array.prototype.vrDistinctBy = function (callbackfn: (value: any, index: number,
 }
 
 /** Deprecated */
-Array.prototype.vrGroupBy = function (callbackfn: (value: any, index: number, array: any[]) => any)
-{
-	if (Array.isArray(this))
-	{
+Array.prototype.vrGroupBy = function (callbackfn: (value: any, index: number, array: any[]) => any) {
+	if (Array.isArray(this)) {
 		let property = callbackfn.toString().split(".")[1];
 		if (!callbackfn.toString().includes("."))
 			property = callbackfn.toString().split("[")[1].replace("]", "");
 
-		return this.reduce(function (groups, item)
-		{
+		return this.reduce(function (groups, item) {
 			const val = item[property];
 			groups[val] = groups[val] || [];
 			groups[val].push(item);
@@ -9211,12 +8643,9 @@ Array.prototype.vrGroupBy = function (callbackfn: (value: any, index: number, ar
 	return [];
 }
 
-Array.prototype.vrGroupByProperty = function (property: string)
-{
-	if (Array.isArray(this))
-	{
-		return this.reduce(function (groups, item)
-		{
+Array.prototype.vrGroupByProperty = function (property: string) {
+	if (Array.isArray(this)) {
+		return this.reduce(function (groups, item) {
 			const val = item[property];
 			groups[val] = groups[val] || [];
 			groups[val].push(item);
@@ -9226,10 +8655,8 @@ Array.prototype.vrGroupByProperty = function (property: string)
 	return [];
 }
 
-Array.vrEquals = function (array1: any[], array2: any[]): boolean
-{
-	if (Array.isArray(array1) && Array.isArray(array2))
-	{
+Array.vrEquals = function (array1: any[], array2: any[]): boolean {
+	if (Array.isArray(array1) && Array.isArray(array2)) {
 		let array1Length = array1.length;
 
 		if (array1 == null || array2 == null) return false;
@@ -9238,8 +8665,7 @@ Array.vrEquals = function (array1: any[], array2: any[]): boolean
 		let arr1 = array1.concat().sort();
 		let arr2 = array2.concat().sort();
 
-		for (let i = 0; i < arr1.length; ++i)
-		{
+		for (let i = 0; i < arr1.length; ++i) {
 			if (arr1[i] !== arr2[i])
 				return false;
 		}
@@ -9248,10 +8674,8 @@ Array.vrEquals = function (array1: any[], array2: any[]): boolean
 	return false;
 }
 
-jQuery.prototype.vrDrag = function (element?: HTMLElement | string | JQuery, onStart?: (e: { event: any, left: number, top: number }) => void, onEnd?: (e: { event: any, left: number, top: number }) => void)
-{
-	this.mousedown((emd: JQuery.MouseDownEvent) =>
-	{
+jQuery.prototype.vrDrag = function (element?: HTMLElement | string | JQuery, onStart?: (e: { event: any, left: number, top: number }) => void, onEnd?: (e: { event: any, left: number, top: number }) => void) {
+	this.mousedown((emd: JQuery.MouseDownEvent) => {
 		let startingXPosition = emd.clientX;
 		let startingYPosition = emd.clientY;
 		let diffX = emd.clientX - puma((this as any)[0]).offset().left;
@@ -9261,24 +8685,20 @@ jQuery.prototype.vrDrag = function (element?: HTMLElement | string | JQuery, onS
 			return;
 
 		// Moving
-		puma(document).mousemove((emm: JQuery.MouseMoveEvent) => 
-		{
-			if (!(emm.clientX == startingXPosition && emm.clientY == startingYPosition))
-			{
+		puma(document).mousemove((emm: JQuery.MouseMoveEvent) => {
+			if (!(emm.clientX == startingXPosition && emm.clientY == startingYPosition)) {
 				let elementToDrag: JQuery = this;
 				if (element != null)
 					elementToDrag = puma(element);
 
-				if (onStart != null)
-				{
+				if (onStart != null) {
 					let onStartEvent = new WindowEvent() as any;
 					onStartEvent.event = emm;
 					onStartEvent.left = emm.clientX - diffX;
 					onStartEvent.top = emm.clientY;
 					onStart(onStartEvent);
 
-					if (onStartEvent.isDefaultPrevented())
-					{
+					if (onStartEvent.isDefaultPrevented()) {
 						puma(document).unbind("mouseup");
 						puma(document).unbind("mousemove");
 						emm.preventDefault();
@@ -9290,13 +8710,11 @@ jQuery.prototype.vrDrag = function (element?: HTMLElement | string | JQuery, onS
 		});
 
 		// Stop moving
-		puma(document).mouseup((emm: JQuery.MouseUpEvent) =>
-		{
+		puma(document).mouseup((emm: JQuery.MouseUpEvent) => {
 			puma(document).unbind("mouseup");
 			puma(document).unbind("mousemove");
 
-			if (onEnd != null)
-			{
+			if (onEnd != null) {
 				let onEndEvent: any = {};
 				onEndEvent.event = emm;
 				onEndEvent.left = emm.clientX - (puma((this as any)[0]).width() / 2);
@@ -9307,10 +8725,8 @@ jQuery.prototype.vrDrag = function (element?: HTMLElement | string | JQuery, onS
 	});
 }
 
-jQuery.prototype.vrVisible = function (state?: boolean)
-{
-	if (state != null)
-	{
+jQuery.prototype.vrVisible = function (state?: boolean) {
+	if (state != null) {
 		if (state) this.show();
 		else this.hide();
 	}
@@ -9320,56 +8736,47 @@ jQuery.prototype.vrVisible = function (state?: boolean)
 var _shadowRoot2: ShadowRoot | null | undefined = null;
 var _jqueryVariable: any = jQuery;
 
-jQuery.prototype.vrAppendToPuma = function (element: any)
-{
+jQuery.prototype.vrAppendToPuma = function (element: any) {
 	let container = puma(element);
 	return this.appendTo(container);
 }
 
-jQuery.prototype.vrPrependToPuma = function (element: any)
-{
+jQuery.prototype.vrPrependToPuma = function (element: any) {
 	let container = puma(element);
 	return this.prependTo(container);
 }
 
-jQuery.prototype.vrAppendPuma = function (element: any)
-{
+jQuery.prototype.vrAppendPuma = function (element: any) {
 	let toCreate = puma(element);
 	return this.append(toCreate);
 }
 
-jQuery.prototype.vrPrependPuma = function (element: any)
-{
+jQuery.prototype.vrPrependPuma = function (element: any) {
 	let toCreate = puma(element);
 	return this.prepend(toCreate);
 }
 
-jQuery.prototype.vrBeforePuma = function (element: any)
-{
+jQuery.prototype.vrBeforePuma = function (element: any) {
 	let elementJq = puma(element);
 	return this.before(elementJq);
 }
 
-jQuery.prototype.vrAfterPuma = function (element: any)
-{
+jQuery.prototype.vrAfterPuma = function (element: any) {
 	let elementJq = puma(element);
 	return this.after(elementJq);
 }
 
-jQuery.prototype.vrInsertBeforePuma = function (element: any)
-{
+jQuery.prototype.vrInsertBeforePuma = function (element: any) {
 	let elementJq = puma(element);
 	return this.insertBefore(elementJq);
 }
 
-jQuery.prototype.vrInsertAfterPuma = function (element: any)
-{
+jQuery.prototype.vrInsertAfterPuma = function (element: any) {
 	let elementJq = puma(element);
 	return this.insertAfter(elementJq);
 }
 
-jQuery.prototype.vrHasScrollBar = function (horizontal: boolean = false): boolean
-{
+jQuery.prototype.vrHasScrollBar = function (horizontal: boolean = false): boolean {
 	if (this.get(0) == null)
 		return false;
 
@@ -9379,8 +8786,7 @@ jQuery.prototype.vrHasScrollBar = function (horizontal: boolean = false): boolea
 		return this.get(0).scrollWidth > this.get(0).clientWidth;
 }
 
-export function puma(element: any)
-{
+export function puma(element: any) {
 	return (shadowRoot() != null && jqueryVariable()(element).length == 0) ? jqueryVariable()(shadowRoot()).find(element) : jqueryVariable()(element);
 }
 //#endregion
