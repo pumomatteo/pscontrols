@@ -5067,7 +5067,12 @@ export class Grid extends VrControl
                 options.groupBy = null;
 
             if (updateDataSource)
-                this.update();
+            {
+                if (options.serverBinding !== false)
+                    this.rebind();
+                else
+                    this.update();
+            }
         }
     }
 
@@ -5080,7 +5085,12 @@ export class Grid extends VrControl
 
         options.groupBy = null;
         if (updateDataSource)
-            this.update();
+        {
+            if (options.serverBinding !== false)
+                this.rebind();
+            else
+                this.update();
+        }
     }
 
     addGroup(field: string | GridGroupByItem, updateDataSource = true, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings)
@@ -5175,7 +5185,12 @@ export class Grid extends VrControl
         this.sortingGroupFields(this.dataSource());
 
         if (updateDataSource)
-            this.update();
+        {
+            if (options.serverBinding !== false)
+                this.rebind();
+            else
+                this.update();
+        }
     }
 
     private getChildrenGroupRows(tr: HTMLElement, divBody: HTMLElement)
@@ -5331,7 +5346,10 @@ export class Grid extends VrControl
                             //#region Manage groups
                             this.removeGroups(groupFieldRemovedList, false);
                             this.addGroups(groupFieldAddedList, false);
-                            this.update();
+                            if (options.serverBinding !== false)
+                                this.rebind();
+                            else
+                                this.update();
                             //#endregion
                         }
                         else if (gridActionEnum == GridActionEnum.ShowHide && (columnFieldToShowList.length > 0 || columnFieldToHideList.length > 0))
@@ -8056,7 +8074,7 @@ export class Grid extends VrControl
             //#region Server binding
             if (options.serverBinding !== false)
             {
-                //#region Fix date for server
+                //#region Fix data for server
                 for (const [key, value] of this._dictionaryFilterConditions.entries())
                 {
                     if (value.dateFilterSettings != null)
@@ -8066,11 +8084,29 @@ export class Grid extends VrControl
                             value.dateFilterSettings.dateTo = Date.vrConvertDateFromClient(value.dateFilterSettings.dateTo);
                     }
                 }
+
+                for (const column of options.columns!)
+                {
+                    if (column.aggregate === true) 
+                    {
+                        switch (column.type) 
+                        {
+                            case GridColumnTypeEnum.Number: column.aggregate = GridAggregateMode.Sum; break;
+                            case GridColumnTypeEnum.Currency: column.aggregate = GridAggregateMode.Sum; break;
+                            case GridColumnTypeEnum.Duration: column.aggregate = GridAggregateMode.Sum; break;
+                            case GridColumnTypeEnum.Percentage: column.aggregate = GridAggregateMode.Average; break;
+                            default: column.aggregate = GridAggregateMode.Sum;
+                        }
+                    }
+                    column.aggregate = (column.aggregate == null || column.aggregate === false) ? GridAggregateMode.None : column.aggregate;
+                }
                 //#endregion
 
                 let gridServerBindingSettings = new VrGridServerBindingSettings();
                 gridServerBindingSettings.indexFrom = this._serverBindingPagination.indexFrom;
                 gridServerBindingSettings.indexTo = this._serverBindingPagination.indexTo;
+                gridServerBindingSettings.pageSize = this._actualPageSize;
+                gridServerBindingSettings.page = this._actualPageSelected;
                 gridServerBindingSettings.columns = options.columns;
                 gridServerBindingSettings.sortingInfo = this._actualSortingInfo;
                 gridServerBindingSettings.filters = Dictionary.fromMap(this._dictionaryFilterConditions);
@@ -11007,6 +11043,8 @@ class VrGridServerBindingSettings
     groupByFields?: string[] | null;
     excel?: boolean;
     excelFileName: string | undefined;
+    pageSize: number;
+    page: number;
 }
 
 class GridServerBindPagination
