@@ -1281,7 +1281,14 @@ export class Grid extends VrControl
                                                 filterSettings.stringFilterSettings.text = textToSearch.toLowerCase();
 
                                                 if (e.key == KeyEnum.Enter)
-                                                    this.updateFilter(column.field, filterSettings);
+                                                {
+                                                    if (textToSearch.length == 0) {
+                                                        this.removeFilter(e.sender.element().getAttribute("field")!, false);
+                                                        this.rebind(null, true);
+                                                    } else {
+                                                        this.updateFilter(column.field, filterSettings);
+                                                    }
+                                                }
 
                                                 return;
                                             }
