@@ -1280,14 +1280,17 @@ export class Grid extends VrControl
                                                 filterSettings.stringFilterSettings.filterTypeEnum = GridStringFilterTypeEnum.IncludesFromSimpleSearch;
                                                 filterSettings.stringFilterSettings.text = textToSearch.toLowerCase();
 
+                                                if (textToSearch.length == 0)
+                                                    this.removeFilter(e.sender.element().getAttribute("field")!, false);
+                                                else
+                                                    this.updateFilter(column.field, filterSettings, false);
+
                                                 if (e.key == KeyEnum.Enter)
                                                 {
-                                                    if (textToSearch.length == 0) {
-                                                        this.removeFilter(e.sender.element().getAttribute("field")!, false);
+                                                    if (textToSearch.length == 0)
                                                         this.rebind(null, true);
-                                                    } else {
+                                                    else
                                                         this.updateFilter(column.field, filterSettings);
-                                                    }
                                                 }
 
                                                 return;
