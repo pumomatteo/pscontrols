@@ -5687,6 +5687,8 @@ export class Grid extends VrControl
         if (this._wndFiltering != null)
             return;
 
+        let options = this.getOptions();
+
         this._wndFiltering = createWindow(
             {
                 addToControlList: false,
@@ -5716,6 +5718,7 @@ export class Grid extends VrControl
             labelOff: "Ricerca con parametri",
             labelOn: { text: "Ricerca puntuale", tooltip: "Max 100 valori" },
             cssContainer: "margin-bottom: 5px;",
+            visible: options.serverBinding == null || options.serverBinding === false,
             onChange: (e) =>
             {
                 puma(divSearchIntervals).vrVisible(!e.checked);
