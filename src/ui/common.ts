@@ -263,19 +263,52 @@ export class VrControl
         if (popupSettings != null && popupSettings.direction != PopupDirectionEnum.Auto)
         {
             if (popupSettings.direction == PopupDirectionEnum.Up)
-                popup.style.cssText += "left: " + positionLeft + "px; bottom: " + (window.innerHeight - elementTop) + "px;";
+            {
+                let bottomPosition = window.innerHeight - elementTop;
+                let minBottomPosition = popupHeight;
+                if (bottomPosition < minBottomPosition)
+                {
+                    // Popup too tall for upward positioning, force downward with max-height
+                    let maxHeight = window.innerHeight - elementTop - elementHeight - 10; // 10px margin
+                    popup.style.cssText += "left: " + positionLeft + "px; top: " + (elementTop + elementHeight) + "px; max-height: " + maxHeight + "px; overflow-y: auto;";
+                }
+                else
+                    popup.style.cssText += "left: " + positionLeft + "px; bottom: " + bottomPosition + "px;";
+            }
             else if (popupSettings.direction == PopupDirectionEnum.Down)
-                popup.style.cssText += "left: " + positionLeft + "px; top: " + (elementTop + elementHeight) + "px;";
+            {
+                let availableHeight = window.innerHeight - elementTop - elementHeight - 10; // 10px margin
+                if (popupHeight > availableHeight)
+                    popup.style.cssText += "left: " + positionLeft + "px; top: " + (elementTop + elementHeight) + "px; max-height: " + availableHeight + "px; overflow-y: auto;";
+                else
+                    popup.style.cssText += "left: " + positionLeft + "px; top: " + (elementTop + elementHeight) + "px;";
+            }
         }
         else
         {
             let documentBodyTop = puma(document.body).offset().top;
             let documentBodyHeight = puma(document.body).height();
-
             if ((documentBodyTop + documentBodyHeight) <= (elementTop + popupHeight + elementHeight)) // To up
-                popup.style.cssText += "left: " + positionLeft + "px; bottom: " + (window.innerHeight - elementTop) + "px;";
+            {
+                let bottomPosition = window.innerHeight - elementTop;
+                let availableHeightUp = elementTop - 10; // Space available above element minus margin
+                
+                if (popupHeight > availableHeightUp)
+                {
+                    // Popup too tall for upward positioning, limit height and add scroll
+                    popup.style.cssText += "left: " + positionLeft + "px; bottom: " + bottomPosition + "px; max-height: " + availableHeightUp + "px; overflow-y: auto;";
+                }
+                else
+                    popup.style.cssText += "left: " + positionLeft + "px; bottom: " + bottomPosition + "px;";
+            }
             else // To down
-                popup.style.cssText += "left: " + positionLeft + "px; top: " + (elementTop + elementHeight) + "px;";
+            {
+                let availableHeight = window.innerHeight - elementTop - elementHeight - 10; // 10px margin
+                if (popupHeight > availableHeight)
+                    popup.style.cssText += "left: " + positionLeft + "px; top: " + (elementTop + elementHeight) + "px; max-height: " + availableHeight + "px; overflow-y: auto;";
+                else
+                    popup.style.cssText += "left: " + positionLeft + "px; top: " + (elementTop + elementHeight) + "px;";
+            }
         }
         //#endregion
 

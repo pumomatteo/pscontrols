@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(c:\\vrsrc\\pscontrols\\src\\ui/**)",
+      "Read(/c:\\vrsrc\\pscontrols\\src\\ui/**)",
+      "Read(/c:\\vrsrc\\pscontrols\\src\\ui/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
