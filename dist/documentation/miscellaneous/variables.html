@@ -1,0 +1,1502 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>pscontrols documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">pscontrols documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#_jqueryVariable" title="src/ui/vr.ts" ><b>_jqueryVariable</b>&nbsp;&nbsp;&nbsp;(src/.../vr.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#_shadowRoot2" title="src/ui/vr.ts" ><b>_shadowRoot2</b>&nbsp;&nbsp;&nbsp;(src/.../vr.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Chart" title="src/ui/controls/chart.ts" ><b>Chart</b>&nbsp;&nbsp;&nbsp;(src/.../chart.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ChartDataLabels" title="src/ui/controls/chart.ts" ><b>ChartDataLabels</b>&nbsp;&nbsp;&nbsp;(src/.../chart.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#html2canvas" title="src/ui/controls/scheduler.ts" ><b>html2canvas</b>&nbsp;&nbsp;&nbsp;(src/.../scheduler.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#jQuery" title="src/ui/vr.ts" ><b>jQuery</b>&nbsp;&nbsp;&nbsp;(src/.../vr.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#JSColor" title="src/ui/controls/colorPicker.ts" ><b>JSColor</b>&nbsp;&nbsp;&nbsp;(src/.../colorPicker.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#jsPDF" title="src/ui/controls/scheduler.ts" ><b>jsPDF</b>&nbsp;&nbsp;&nbsp;(src/.../scheduler.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#L" title="src/ui/controls/maps.ts" ><b>L</b>&nbsp;&nbsp;&nbsp;(src/.../maps.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#paypal" title="src/ui/controls/paypalButton.ts" ><b>paypal</b>&nbsp;&nbsp;&nbsp;(src/.../paypalButton.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#pdfjsLib" title="src/ui/controls/pdfViewer.ts" ><b>pdfjsLib</b>&nbsp;&nbsp;&nbsp;(src/.../pdfViewer.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PSButton" title="src/react/components/Button.tsx" ><b>PSButton</b>&nbsp;&nbsp;&nbsp;(src/.../Button.tsx)</a>
+                        </li>
+                        <li>
+                            <a href="#PSControlsProvider" title="src/react/index.tsx" ><b>PSControlsProvider</b>&nbsp;&nbsp;&nbsp;(src/.../index.tsx)</a>
+                        </li>
+                        <li>
+                            <a href="#PSReact" title="src/combined/index.ts" ><b>PSReact</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#resources" title="src/react/i18n/index.ts" ><b>resources</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SpeechGrammarList" title="src/ui/controls/speechRecognizer.ts" ><b>SpeechGrammarList</b>&nbsp;&nbsp;&nbsp;(src/.../speechRecognizer.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SpeechRecognition" title="src/ui/controls/speechRecognizer.ts" ><b>SpeechRecognition</b>&nbsp;&nbsp;&nbsp;(src/.../speechRecognizer.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#tinyMCE" title="src/ui/controls/editor.ts" ><b>tinyMCE</b>&nbsp;&nbsp;&nbsp;(src/.../editor.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#usePSButton" title="src/react/hooks/usePSButton.ts" ><b>usePSButton</b>&nbsp;&nbsp;&nbsp;(src/.../usePSButton.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#usePSTranslation" title="src/react/i18n/index.ts" ><b>usePSTranslation</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#vr" title="src/combined/index.ts" ><b>vr</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#vrSplitterResizable" title="src/ui/controls/splitter.ts" ><b>vrSplitterResizable</b>&nbsp;&nbsp;&nbsp;(src/.../splitter.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#webkitSpeechGrammarList" title="src/ui/controls/speechRecognizer.ts" ><b>webkitSpeechGrammarList</b>&nbsp;&nbsp;&nbsp;(src/.../speechRecognizer.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#webkitSpeechRecognition" title="src/ui/controls/speechRecognizer.ts" ><b>webkitSpeechRecognition</b>&nbsp;&nbsp;&nbsp;(src/.../speechRecognizer.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/ui/vr.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_jqueryVariable"></a>
+                    <span class="name">
+                        <span ><b>_jqueryVariable</b></span>
+                        <a href="#_jqueryVariable"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jQuery</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_shadowRoot2"></a>
+                    <span class="name">
+                        <span ><b>_shadowRoot2</b></span>
+                        <a href="#_shadowRoot2"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ShadowRoot | null | undefined</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="jQuery"></a>
+                    <span class="name">
+                        <span ><b>jQuery</b></span>
+                        <a href="#jQuery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>$</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/ui/controls/chart.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Chart"></a>
+                    <span class="name">
+                        <span ><b>Chart</b></span>
+                        <a href="#Chart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ChartDataLabels"></a>
+                    <span class="name">
+                        <span ><b>ChartDataLabels</b></span>
+                        <a href="#ChartDataLabels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/ui/controls/scheduler.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="html2canvas"></a>
+                    <span class="name">
+                        <span ><b>html2canvas</b></span>
+                        <a href="#html2canvas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="jsPDF"></a>
+                    <span class="name">
+                        <span ><b>jsPDF</b></span>
+                        <a href="#jsPDF"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/ui/controls/colorPicker.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="JSColor"></a>
+                    <span class="name">
+                        <span ><b>JSColor</b></span>
+                        <a href="#JSColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/ui/controls/maps.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="L"></a>
+                    <span class="name">
+                        <span ><b>L</b></span>
+                        <a href="#L"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/ui/controls/paypalButton.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="paypal"></a>
+                    <span class="name">
+                        <span ><b>paypal</b></span>
+                        <a href="#paypal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/ui/controls/pdfViewer.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pdfjsLib"></a>
+                    <span class="name">
+                        <span ><b>pdfjsLib</b></span>
+                        <a href="#pdfjsLib"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/react/components/Button.tsx</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PSButton"></a>
+                    <span class="name">
+                        <span ><b>PSButton</b></span>
+                        <a href="#PSButton"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>forwardRef&lt;HTMLButtonElement, PSButtonProps&gt;(({
+  // Text &amp; i18n
+  text,
+  textKey,
+  textParams,
+  
+  // PSControls original props
+  mode &#x3D; ButtonModeEnum.Default,
+  value,
+  tooltip,
+  tooltipKey,
+  colorSettings,
+  icon,
+  onlyIcon &#x3D; false,
+  imageUrl,
+  confirmationMessage,
+  confirmationMessageKey,
+  badgeSettings,
+  loading &#x3D; false,
+  
+  // Base props
+  enabled &#x3D; true,
+  visible &#x3D; true,
+  className,
+  style,
+  width,
+  height,
+  testId,
+  
+  // Accessibility
+  &#x27;aria-label&#x27;: ariaLabel,
+  &#x27;aria-describedby&#x27;: ariaDescribedby,
+  &#x27;aria-expanded&#x27;: ariaExpanded,
+  &#x27;aria-pressed&#x27;: ariaPressed,
+  role &#x3D; &#x27;button&#x27;,
+  tabIndex &#x3D; 0,
+  
+  // Events
+  onClick,
+  onRightClick,
+  onMiddleClick,
+  onHover,
+  onBlur,
+  onMouseDown,
+  onMouseUp,
+  
+  ...htmlProps
+}, ref) &#x3D;&gt; {
+  const { t } &#x3D; useTranslation();
+  
+  // Use PSControls business logic through custom hook
+  const {
+    buttonRef,
+    isLoading,
+    className: psClassName,
+    style: psStyle,
+    handleConfirmation,
+    handleMouseDown: psMouseDown,
+    handleMouseUp: psMouseUp,
+    handleMouseLeave
+  } &#x3D; usePSButton({
+    mode,
+    colorSettings,
+    icon,
+    imageUrl,
+    onlyIcon,
+    confirmationMessage: confirmationMessage || (confirmationMessageKey ? t(confirmationMessageKey) : undefined),
+    disabled: !enabled,
+    loading
+  });
+
+  // i18n text resolution
+  const resolvedText &#x3D; textKey ? t(textKey, textParams) : text;
+  const resolvedTooltip &#x3D; tooltipKey ? t(tooltipKey) : tooltip;
+  
+  // Accessibility: Enhanced ARIA support
+  const ariaProps &#x3D; {
+    &#x27;aria-label&#x27;: ariaLabel || (onlyIcon ? resolvedText : undefined),
+    &#x27;aria-describedby&#x27;: ariaDescribedby,
+    &#x27;aria-expanded&#x27;: ariaExpanded,
+    &#x27;aria-pressed&#x27;: ariaPressed,
+    &#x27;aria-disabled&#x27;: !enabled,
+    &#x27;aria-busy&#x27;: isLoading || loading,
+    role,
+    tabIndex: enabled ? tabIndex : -1
+  };
+
+  // Enhanced click handler with confirmation and accessibility
+  const handleClick &#x3D; useCallback((event: React.MouseEvent&lt;HTMLButtonElement&gt;) &#x3D;&gt; {
+    event.preventDefault();
+    
+    if (!enabled || isLoading) {
+      return;
+    }
+
+    // Preserve PSControls confirmation behavior
+    handleConfirmation(() &#x3D;&gt; {
+      onClick?.(event);
+    });
+  }, [enabled, isLoading, handleConfirmation, onClick]);
+
+  // Mouse event handlers
+  const handleMouseDownEvent &#x3D; useCallback((event: React.MouseEvent&lt;HTMLButtonElement&gt;) &#x3D;&gt; {
+    psMouseDown();
+    onMouseDown?.(event);
+  }, [psMouseDown, onMouseDown]);
+
+  const handleMouseUpEvent &#x3D; useCallback((event: React.MouseEvent&lt;HTMLButtonElement&gt;) &#x3D;&gt; {
+    psMouseUp();
+    onMouseUp?.(event);
+  }, [psMouseUp, onMouseUp]);
+
+  // Keyboard accessibility (Enter and Space)
+  const handleKeyDown &#x3D; useCallback((event: React.KeyboardEvent&lt;HTMLButtonElement&gt;) &#x3D;&gt; {
+    if ((event.key &#x3D;&#x3D;&#x3D; &#x27;Enter&#x27; || event.key &#x3D;&#x3D;&#x3D; &#x27; &#x27;) &amp;&amp; enabled &amp;&amp; !isLoading) {
+      event.preventDefault();
+      handleClick(event as any);
+    }
+  }, [enabled, isLoading, handleClick]);
+
+  // Right/Middle click handling
+  const handleMouseDownCapture &#x3D; useCallback((event: React.MouseEvent&lt;HTMLButtonElement&gt;) &#x3D;&gt; {
+    switch (event.button) {
+      case 1: // Middle click
+        event.preventDefault();
+        onMiddleClick?.(event);
+        break;
+      case 2: // Right click
+        event.preventDefault();
+        onRightClick?.(event);
+        break;
+    }
+  }, [onMiddleClick, onRightClick]);
+
+  // Combined styling
+  const combinedStyle: React.CSSProperties &#x3D; {
+    ...psStyle,
+    ...style,
+    width: width ? (typeof width &#x3D;&#x3D;&#x3D; &#x27;number&#x27; ? &#x60;${width}px&#x60; : width) : undefined,
+    height: height ? (typeof height &#x3D;&#x3D;&#x3D; &#x27;number&#x27; ? &#x60;${height}px&#x60; : height) : undefined,
+    display: visible ? undefined : &#x27;none&#x27;
+  };
+
+  const combinedClassName &#x3D; [psClassName, className].filter(Boolean).join(&#x27; &#x27;);
+
+  // Render icon (preserve PSControls icon system)
+  const renderIcon &#x3D; () &#x3D;&gt; {
+    if (icon) {
+      return &lt;i className&#x3D;{&#x60;${icon} ps-button-icon&#x60;} aria-hidden&#x3D;&quot;true&quot; /&gt;;
+    }
+    if (imageUrl) {
+      return &lt;img src&#x3D;{imageUrl} className&#x3D;&quot;ps-button-image&quot; alt&#x3D;&quot;&quot; aria-hidden&#x3D;&quot;true&quot; /&gt;;
+    }
+    return null;
+  };
+
+  // Render badge (preserve PSControls badge system)
+  const renderBadge &#x3D; () &#x3D;&gt; {
+    if (!badgeSettings || (!badgeSettings.text &amp;&amp; !badgeSettings.visible)) {
+      return null;
+    }
+
+    const badgeStyle: React.CSSProperties &#x3D; {
+      color: badgeSettings.color || &#x27;#FFF&#x27;,
+      backgroundColor: badgeSettings.backgroundColor || &#x27;red&#x27;,
+      ...(badgeSettings.css ? {} : {}) // Parse CSS string if needed
+    };
+
+    return (
+      &lt;span 
+        className&#x3D;&quot;ps-badge ps-button-badge&quot;
+        style&#x3D;{badgeStyle}
+        aria-label&#x3D;{&#x60;Badge: ${badgeSettings.text}&#x60;}
+      &gt;
+        {badgeSettings.text}
+      &lt;/span&gt;
+    );
+  };
+
+  return (
+    &lt;div className&#x3D;&quot;ps-button-container&quot;&gt;
+      &lt;button
+        ref&#x3D;{ref || buttonRef}
+        type&#x3D;&quot;button&quot;
+        className&#x3D;{combinedClassName}
+        style&#x3D;{combinedStyle}
+        title&#x3D;{resolvedTooltip}
+        value&#x3D;{value}
+        disabled&#x3D;{!enabled || isLoading}
+        data-testid&#x3D;{testId}
+        onClick&#x3D;{handleClick}
+        onMouseDown&#x3D;{handleMouseDownEvent}
+        onMouseUp&#x3D;{handleMouseUpEvent}
+        onMouseLeave&#x3D;{handleMouseLeave}
+        onMouseEnter&#x3D;{onHover}
+        onBlur&#x3D;{onBlur}
+        onKeyDown&#x3D;{handleKeyDown}
+        onMouseDownCapture&#x3D;{handleMouseDownCapture}
+        onContextMenu&#x3D;{(e) &#x3D;&gt; e.preventDefault()} // Disable context menu
+        {...ariaProps}
+        {...htmlProps}
+      &gt;
+        {/* Icon before text */}
+        {icon &amp;&amp; renderIcon()}
+        
+        {/* Button text (with loading indicator) */}
+        {isLoading || loading ? (
+          &lt;span className&#x3D;&quot;ps-button-loading&quot;&gt;
+            &lt;i className&#x3D;&quot;ps-icon-loading&quot; aria-hidden&#x3D;&quot;true&quot; /&gt;
+            {t(&#x27;common.loading&#x27;, &#x27;Loading...&#x27;)}
+          &lt;/span&gt;
+        ) : (
+          !onlyIcon &amp;&amp; &lt;span className&#x3D;&quot;ps-button-text&quot;&gt;{resolvedText}&lt;/span&gt;
+        )}
+        
+        {/* Image after text */}
+        {imageUrl &amp;&amp; renderIcon()}
+      &lt;/button&gt;
+      
+      {/* Badge outside button (preserve PSControls behavior) */}
+      {renderBadge()}
+    &lt;/div&gt;
+  );
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/react/index.tsx</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PSControlsProvider"></a>
+                    <span class="name">
+                        <span ><b>PSControlsProvider</b></span>
+                        <a href="#PSControlsProvider"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/PSControlsProviderProps.html" target="_self" >React.FC&lt;PSControlsProviderProps&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>({
+  children,
+  language &#x3D; &#x27;it&#x27;,
+  theme &#x3D; &#x27;light&#x27;
+}) &#x3D;&gt; {
+  React.useEffect(() &#x3D;&gt; {
+    i18n.changeLanguage(language);
+  }, [language]);
+
+  React.useEffect(() &#x3D;&gt; {
+    document.documentElement.setAttribute(&#x27;data-ps-theme&#x27;, theme);
+  }, [theme]);
+
+  return (
+    &lt;I18nextProvider i18n&#x3D;{i18n}&gt;
+      &lt;div className&#x3D;{&#x60;ps-controls-root ps-theme-${theme}&#x60;}&gt;
+        {children}
+      &lt;/div&gt;
+    &lt;/I18nextProvider&gt;
+  );
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/combined/index.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PSReact"></a>
+                    <span class="name">
+                        <span ><b>PSReact</b></span>
+                        <a href="#PSReact"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  // Provider component
+  Provider: PSControlsProvider,
+  
+  // Enhanced components
+  Button: PSButton,
+  
+  // Hooks
+  useTranslation: usePSTranslation,
+  
+  // Types
+  Props: {
+    Base: {} as PSBaseProps,
+    Accessible: {} as PSAccessibleProps,
+    Text: {} as PSTextProps
+  }
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="vr"></a>
+                    <span class="name">
+                        <span ><b>vr</b></span>
+                        <a href="#vr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  ...PSControlsLegacy,
+  
+  // Enhanced create functions that return React-compatible components
+  createButtonEnhanced: (options: any, container?: any) &#x3D;&gt; {
+    // If container is a React component/element, use React
+    if (container &amp;&amp; typeof container &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; &#x27;setState&#x27; in container) {
+      // Return React component
+      return PSButton;
+    }
+    
+    // Otherwise use legacy PSControls
+    return PSControlsLegacy.createButton(options, container);
+  }
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/react/i18n/index.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resources"></a>
+                    <span class="name">
+                        <span ><b>resources</b></span>
+                        <a href="#resources"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  en: {
+    translation: {
+      // Common UI elements
+      common: {
+        save: &#x27;Save&#x27;,
+        cancel: &#x27;Cancel&#x27;,
+        delete: &#x27;Delete&#x27;,
+        edit: &#x27;Edit&#x27;,
+        add: &#x27;Add&#x27;,
+        remove: &#x27;Remove&#x27;,
+        search: &#x27;Search&#x27;,
+        filter: &#x27;Filter&#x27;,
+        loading: &#x27;Loading...&#x27;,
+        error: &#x27;Error&#x27;,
+        success: &#x27;Success&#x27;,
+        warning: &#x27;Warning&#x27;,
+        confirm: &#x27;Confirm&#x27;,
+        close: &#x27;Close&#x27;
+      },
+      
+      // Button specific
+      button: {
+        click: &#x27;Click&#x27;,
+        submit: &#x27;Submit&#x27;,
+        reset: &#x27;Reset&#x27;
+      },
+      
+      // Grid specific (for future migration)
+      grid: {
+        noData: &#x27;No data available&#x27;,
+        rowsPerPage: &#x27;Rows per page&#x27;,
+        of: &#x27;of&#x27;,
+        page: &#x27;Page&#x27;,
+        firstPage: &#x27;First page&#x27;,
+        lastPage: &#x27;Last page&#x27;,
+        nextPage: &#x27;Next page&#x27;,
+        previousPage: &#x27;Previous page&#x27;,
+        sortAscending: &#x27;Sort ascending&#x27;,
+        sortDescending: &#x27;Sort descending&#x27;,
+        selectAll: &#x27;Select all&#x27;,
+        selectRow: &#x27;Select row&#x27;
+      },
+      
+      // Form validation
+      validation: {
+        required: &#x27;This field is required&#x27;,
+        minLength: &#x27;Minimum length is {{min}} characters&#x27;,
+        maxLength: &#x27;Maximum length is {{max}} characters&#x27;,
+        invalidFormat: &#x27;Invalid format&#x27;,
+        invalidEmail: &#x27;Invalid email address&#x27;,
+        invalidNumber: &#x27;Please enter a valid number&#x27;
+      },
+      
+      // Accessibility announcements
+      a11y: {
+        buttonPressed: &#x27;Button pressed&#x27;,
+        menuExpanded: &#x27;Menu expanded&#x27;,
+        menuCollapsed: &#x27;Menu collapsed&#x27;,
+        itemSelected: &#x27;Item selected&#x27;,
+        pageChanged: &#x27;Page changed to {{page}}&#x27;,
+        sortChanged: &#x27;Sorted by {{column}} {{direction}}&#x27;
+      }
+    }
+  },
+  
+  it: {
+    translation: {
+      common: {
+        save: &#x27;Salva&#x27;,
+        cancel: &#x27;Annulla&#x27;,
+        delete: &#x27;Elimina&#x27;,
+        edit: &#x27;Modifica&#x27;,
+        add: &#x27;Aggiungi&#x27;,
+        remove: &#x27;Rimuovi&#x27;,
+        search: &#x27;Cerca&#x27;,
+        filter: &#x27;Filtra&#x27;,
+        loading: &#x27;Caricamento...&#x27;,
+        error: &#x27;Errore&#x27;,
+        success: &#x27;Successo&#x27;,
+        warning: &#x27;Attenzione&#x27;,
+        confirm: &#x27;Conferma&#x27;,
+        close: &#x27;Chiudi&#x27;
+      },
+      
+      button: {
+        click: &#x27;Clicca&#x27;,
+        submit: &#x27;Invia&#x27;,
+        reset: &#x27;Reimposta&#x27;
+      },
+      
+      grid: {
+        noData: &#x27;Nessun dato disponibile&#x27;,
+        rowsPerPage: &#x27;Righe per pagina&#x27;,
+        of: &#x27;di&#x27;,
+        page: &#x27;Pagina&#x27;,
+        firstPage: &#x27;Prima pagina&#x27;,
+        lastPage: &#x27;Ultima pagina&#x27;,
+        nextPage: &#x27;Pagina successiva&#x27;,
+        previousPage: &#x27;Pagina precedente&#x27;,
+        sortAscending: &#x27;Ordina crescente&#x27;,
+        sortDescending: &#x27;Ordina decrescente&#x27;,
+        selectAll: &#x27;Seleziona tutto&#x27;,
+        selectRow: &#x27;Seleziona riga&#x27;
+      },
+      
+      validation: {
+        required: &#x27;Questo campo è obbligatorio&#x27;,
+        minLength: &#x27;Lunghezza minima {{min}} caratteri&#x27;,
+        maxLength: &#x27;Lunghezza massima {{max}} caratteri&#x27;,
+        invalidFormat: &#x27;Formato non valido&#x27;,
+        invalidEmail: &#x27;Email non valida&#x27;,
+        invalidNumber: &#x27;Inserire un numero valido&#x27;
+      },
+      
+      a11y: {
+        buttonPressed: &#x27;Pulsante premuto&#x27;,
+        menuExpanded: &#x27;Menu espanso&#x27;,
+        menuCollapsed: &#x27;Menu contratto&#x27;,
+        itemSelected: &#x27;Elemento selezionato&#x27;,
+        pageChanged: &#x27;Pagina cambiata a {{page}}&#x27;,
+        sortChanged: &#x27;Ordinato per {{column}} {{direction}}&#x27;
+      }
+    }
+  },
+  
+  es: {
+    translation: {
+      common: {
+        save: &#x27;Guardar&#x27;,
+        cancel: &#x27;Cancelar&#x27;,
+        delete: &#x27;Eliminar&#x27;,
+        edit: &#x27;Editar&#x27;,
+        add: &#x27;Añadir&#x27;,
+        remove: &#x27;Quitar&#x27;,
+        search: &#x27;Buscar&#x27;,
+        filter: &#x27;Filtrar&#x27;,
+        loading: &#x27;Cargando...&#x27;,
+        error: &#x27;Error&#x27;,
+        success: &#x27;Éxito&#x27;,
+        warning: &#x27;Advertencia&#x27;,
+        confirm: &#x27;Confirmar&#x27;,
+        close: &#x27;Cerrar&#x27;
+      },
+      
+      button: {
+        click: &#x27;Hacer clic&#x27;,
+        submit: &#x27;Enviar&#x27;,
+        reset: &#x27;Restablecer&#x27;
+      },
+      
+      // ... Spanish translations
+    }
+  }
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usePSTranslation"></a>
+                    <span class="name">
+                        <span ><b>usePSTranslation</b></span>
+                        <a href="#usePSTranslation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {
+  const { t, i18n } &#x3D; useTranslation();
+  
+  // Helper that mimics PSControls text resolution pattern
+  const resolveText &#x3D; (text?: string, textKey?: string, params?: Record&lt;string, any&gt;) &#x3D;&gt; {
+    if (textKey) {
+      return t(textKey, params);
+    }
+    return text || &#x27;&#x27;;
+  };
+  
+  return {
+    t,
+    resolveText,
+    currentLanguage: i18n.language,
+    changeLanguage: i18n.changeLanguage
+  };
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/ui/controls/speechRecognizer.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SpeechGrammarList"></a>
+                    <span class="name">
+                        <span ><b>SpeechGrammarList</b></span>
+                        <a href="#SpeechGrammarList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SpeechRecognition"></a>
+                    <span class="name">
+                        <span ><b>SpeechRecognition</b></span>
+                        <a href="#SpeechRecognition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="webkitSpeechGrammarList"></a>
+                    <span class="name">
+                        <span ><b>webkitSpeechGrammarList</b></span>
+                        <a href="#webkitSpeechGrammarList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="webkitSpeechRecognition"></a>
+                    <span class="name">
+                        <span ><b>webkitSpeechRecognition</b></span>
+                        <a href="#webkitSpeechRecognition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/ui/controls/editor.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tinyMCE"></a>
+                    <span class="name">
+                        <span ><b>tinyMCE</b></span>
+                        <a href="#tinyMCE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/react/hooks/usePSButton.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usePSButton"></a>
+                    <span class="name">
+                        <span ><b>usePSButton</b></span>
+                        <a href="#usePSButton"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(options: PSButtonLogic) &#x3D;&gt; {
+  const [isPressed, setIsPressed] &#x3D; useState(false);
+  const [isLoading, setIsLoading] &#x3D; useState(options.loading || false);
+  const buttonRef &#x3D; useRef&lt;HTMLButtonElement&gt;(null);
+
+  // Preserve PSControls button modes
+  const getButtonClasses &#x3D; useCallback(() &#x3D;&gt; {
+    const baseClass &#x3D; &#x27;ps-button&#x27;;
+    const classes &#x3D; [baseClass];
+
+    switch (options.mode) {
+      case ButtonModeEnum.Default:
+        classes.push(&#x27;ps-button-default&#x27;);
+        break;
+      case ButtonModeEnum.Primary:
+        classes.push(&#x27;ps-button-primary&#x27;);
+        break;
+      case ButtonModeEnum.Danger:
+        classes.push(&#x27;ps-button-danger&#x27;);
+        break;
+      case ButtonModeEnum.Success:
+        classes.push(&#x27;ps-button-success&#x27;);
+        break;
+      case ButtonModeEnum.Warning:
+        classes.push(&#x27;ps-button-warning&#x27;);
+        break;
+    }
+
+    if (options.onlyIcon) {
+      classes.push(&#x27;ps-button-icon-only&#x27;);
+    }
+
+    if (isPressed) {
+      classes.push(&#x27;ps-button-pressed&#x27;);
+    }
+
+    if (options.disabled) {
+      classes.push(&#x27;ps-button-disabled&#x27;);
+    }
+
+    return classes.join(&#x27; &#x27;);
+  }, [options.mode, options.onlyIcon, options.disabled, isPressed]);
+
+  // Extract PSControls color logic
+  const getButtonStyles &#x3D; useCallback((): React.CSSProperties &#x3D;&gt; {
+    const styles: React.CSSProperties &#x3D; {};
+
+    if (options.colorSettings) {
+      if (options.colorSettings.textColor) {
+        styles.color &#x3D; options.colorSettings.textColor;
+      }
+      if (options.colorSettings.background) {
+        styles.backgroundColor &#x3D; options.colorSettings.background;
+      }
+      if (options.colorSettings.border) {
+        styles.borderColor &#x3D; options.colorSettings.border;
+      }
+    }
+
+    // PSControls default styling
+    styles.minWidth &#x3D; &#x27;27px&#x27;;
+    
+    return styles;
+  }, [options.colorSettings]);
+
+  // Handle confirmation dialog (preserve PSControls behavior)
+  const handleConfirmation &#x3D; useCallback(async (onClick?: () &#x3D;&gt; void) &#x3D;&gt; {
+    if (!options.confirmationMessage) {
+      onClick?.();
+      return;
+    }
+
+    // In real implementation, use your preferred modal/confirmation library
+    const confirmed &#x3D; window.confirm(options.confirmationMessage);
+    if (confirmed) {
+      onClick?.();
+    }
+  }, [options.confirmationMessage]);
+
+  const handleMouseDown &#x3D; useCallback(() &#x3D;&gt; {
+    setIsPressed(true);
+  }, []);
+
+  const handleMouseUp &#x3D; useCallback(() &#x3D;&gt; {
+    setIsPressed(false);
+  }, []);
+
+  const handleMouseLeave &#x3D; useCallback(() &#x3D;&gt; {
+    setIsPressed(false);
+  }, []);
+
+  return {
+    buttonRef,
+    isLoading,
+    setIsLoading,
+    className: getButtonClasses(),
+    style: getButtonStyles(),
+    handleConfirmation,
+    handleMouseDown,
+    handleMouseUp,
+    handleMouseLeave
+  };
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/ui/controls/splitter.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="vrSplitterResizable"></a>
+                    <span class="name">
+                        <span ><b>vrSplitterResizable</b></span>
+                        <a href="#vrSplitterResizable"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(sender: Splitter, options: SplitterOptions) &#x3D;&gt;
+{
+	let resizer &#x3D; sender.element() as any;
+	let direction: any &#x3D; null;
+	let prevSibling: any &#x3D; null;
+	let nextSibling: any &#x3D; null;
+
+	let x &#x3D; 0;
+	let y &#x3D; 0;
+	let prevSiblingHeight &#x3D; 0;
+	let prevSiblingWidth &#x3D; 0;
+
+	const mouseDownHandler &#x3D; (e: any) &#x3D;&gt;
+	{
+		direction &#x3D; resizer.getAttribute(&quot;data-direction&quot;) || &quot;horizontal&quot;;
+		prevSibling &#x3D; resizer.parentElement.previousElementSibling;
+		nextSibling &#x3D; resizer.parentElement.nextElementSibling;
+
+		//#region Before resize event
+		if (options.onBeforeResize !&#x3D; null)
+		{
+			let beforeResizeEvent &#x3D; new SplitterBeforeResizeEvent();
+			beforeResizeEvent.sender &#x3D; sender;
+			beforeResizeEvent.previousDiv &#x3D; prevSibling;
+			beforeResizeEvent.nextDiv &#x3D; nextSibling;
+			beforeResizeEvent.direction &#x3D; direction;
+			options!.onBeforeResize(beforeResizeEvent);
+
+			if (beforeResizeEvent.isDefaultPrevented())
+			{
+				e.preventDefault();
+				return;
+			}
+		}
+		//#endregion
+
+		// Current mouse position
+		x &#x3D; e.clientX;
+		y &#x3D; e.clientY;
+
+		// Previous sibling size
+		const rect &#x3D; prevSibling.getBoundingClientRect();
+		prevSiblingHeight &#x3D; rect.height;
+		prevSiblingWidth &#x3D; rect.width;
+
+		document.addEventListener(&quot;mousemove&quot;, mouseMoveHandler);
+		document.addEventListener(&quot;mouseup&quot;, mouseUpHandler);
+	};
+
+	const mouseMoveHandler &#x3D; (e: any) &#x3D;&gt;
+	{
+		const dx &#x3D; e.clientX - x;
+		const dy &#x3D; e.clientY - y;
+
+		switch (direction)
+		{
+			case &quot;vertical&quot;:
+				{
+					const h &#x3D; (prevSiblingHeight + dy) * 100 / resizer.parentElement.parentNode.getBoundingClientRect().height;
+					prevSibling.style.height &#x3D; &#x60;${h}%&#x60;;
+					nextSibling.style.height &#x3D; &#x60;${100 - h}%&#x60;;
+				}
+				break;
+			case &quot;horizontal&quot;:
+			default:
+				{
+					const w &#x3D; (prevSiblingWidth + dx) * 100 / resizer.parentElement.parentNode.getBoundingClientRect().width;
+					prevSibling.style.width &#x3D; &#x60;${w}%&#x60;;
+					nextSibling.style.width &#x3D; &#x60;${100 - w}%&#x60;;
+				}
+				break;
+		}
+
+		//#region Cursor &amp; PointerEvents
+		const cursor &#x3D; direction &#x3D;&#x3D;&#x3D; &quot;horizontal&quot; ? &quot;col-resize&quot; : &quot;row-resize&quot;;
+		resizer.style.cursor &#x3D; cursor;
+		document.body.style.cursor &#x3D; cursor;
+
+		prevSibling.style.userSelect &#x3D; &quot;none&quot;;
+		prevSibling.style.pointerEvents &#x3D; &quot;none&quot;;
+
+		nextSibling.style.userSelect &#x3D; &quot;none&quot;;
+		nextSibling.style.pointerEvents &#x3D; &quot;none&quot;;
+		//#endregion
+	};
+
+	const mouseUpHandler &#x3D; () &#x3D;&gt;
+	{
+		resizer.style.removeProperty(&quot;cursor&quot;);
+		document.body.style.removeProperty(&quot;cursor&quot;);
+
+		prevSibling.style.removeProperty(&quot;user-select&quot;);
+		prevSibling.style.removeProperty(&quot;pointer-events&quot;);
+
+		nextSibling.style.removeProperty(&quot;user-select&quot;);
+		nextSibling.style.removeProperty(&quot;pointer-events&quot;);
+
+		document.removeEventListener(&quot;mousemove&quot;, mouseMoveHandler);
+		document.removeEventListener(&quot;mouseup&quot;, mouseUpHandler);
+
+		//#region After resize event
+		if (options.onAfterResize !&#x3D; null)
+		{
+			let beforeResizeEvent &#x3D; new SplitterAfterResizeEvent();
+			beforeResizeEvent.sender &#x3D; sender;
+			beforeResizeEvent.previousDiv &#x3D; prevSibling;
+			beforeResizeEvent.nextDiv &#x3D; nextSibling;
+			beforeResizeEvent.direction &#x3D; direction;
+			options!.onAfterResize(beforeResizeEvent);
+		}
+		//#endregion
+	};
+
+	// Attach the handler
+	resizer.addEventListener(&quot;mousedown&quot;, mouseDownHandler);
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

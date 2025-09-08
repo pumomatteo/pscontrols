@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["ES2017", "DOM", "DOM.Iterable"],
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "jsx": "preserve",
+    "allowJs": true,
+    "checkJs": false,
+    "outDir": "./dist/legacy",
+    "rootDir": "./src",
+    "noEmitOnError": false,
+    "preserveValueImports": false,
+    "importsNotUsedAsValues": "remove"
+  },
+  "include": [
+    "src/ui/**/*",
+    "src/managers/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/react/**/*",
+    "examples/**/*",
+    "**/*.tsx",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
+}

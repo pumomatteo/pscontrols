@@ -375,9 +375,9 @@ export class DatePicker extends VrControl
         let options = this.getOptions();
         switch (options.mode)
         {
-            case DateModeEnum.Date: return this.formatInputDatePicker(inputText, onlyFormat); break;
-            case DateModeEnum.DateTime: return this.formatInputDateTimePicker(inputText); break;
-            case DateModeEnum.Time: return this.formatInputTimePicker(inputText, onlyFormat); break;
+            case DateModeEnum.Date: return this.formatInputDatePicker(inputText, onlyFormat);
+            case DateModeEnum.DateTime: return this.formatInputDateTimePicker(inputText);
+            case DateModeEnum.Time: return this.formatInputTimePicker(inputText, onlyFormat);
         }
         return null;
     }

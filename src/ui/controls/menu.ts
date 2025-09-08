@@ -177,7 +177,7 @@ export class Menu extends VrControl
 				else
 				{
 					// No children
-					this.itemsMap().values().forEach(k => k.classList.remove("selected"));
+					Array.from(this.itemsMap().values()).forEach((k: HTMLElement) => k.classList.remove("selected"));
 					menuBlock.classList.add("selected");
 				}
 

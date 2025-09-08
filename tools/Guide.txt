@@ -1,1 +1,0 @@
-https://code.visualstudio.com/api/working-with-extensions/bundling-extension

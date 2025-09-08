@@ -1,0 +1,207 @@
+/* PSControls React Button Styles - Enhanced with a11y and modern patterns */
+
+.ps-button-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Base button styles (preserve PSControls look) */
+.ps-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: normal;
+  line-height: 1.4;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 27px;
+  
+  /* Enhanced focus for accessibility */
+  outline: none;
+  position: relative;
+}
+
+/* Focus ring for keyboard navigation (WCAG 2.1 AA) */
+.ps-button:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+
+/* PSControls Button Modes */
+.ps-button-default {
+  background: #fff;
+  border-color: #ccc;
+  color: #333;
+}
+
+.ps-button-default:hover:not(:disabled) {
+  background: #f5f5f5;
+  border-color: #999;
+}
+
+.ps-button-primary {
+  background: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
+.ps-button-primary:hover:not(:disabled) {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+.ps-button-success {
+  background: #28a745;
+  border-color: #28a745;
+  color: #fff;
+}
+
+.ps-button-success:hover:not(:disabled) {
+  background: #1e7e34;
+  border-color: #1e7e34;
+}
+
+.ps-button-warning {
+  background: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
+}
+
+.ps-button-warning:hover:not(:disabled) {
+  background: #e0a800;
+  border-color: #e0a800;
+}
+
+.ps-button-danger {
+  background: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.ps-button-danger:hover:not(:disabled) {
+  background: #bd2130;
+  border-color: #bd2130;
+}
+
+/* Icon-only buttons */
+.ps-button-icon-only {
+  padding: 0.5rem;
+  min-width: 2.5rem;
+  border: none;
+  background: none;
+}
+
+.ps-button-icon-only:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Button states */
+.ps-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #e9ecef !important;
+  color: #6c757d !important;
+  border-color: #dee2e6 !important;
+}
+
+.ps-button-pressed {
+  transform: translateY(1px);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading state */
+.ps-button-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ps-icon-loading {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: ps-spin 1s linear infinite;
+}
+
+@keyframes ps-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Icon styling */
+.ps-button-icon {
+  flex-shrink: 0;
+}
+
+.ps-button-image {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* Badge styling (preserve PSControls behavior) */
+.ps-badge {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.625rem;
+  background: red;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .ps-button {
+    border-width: 2px;
+  }
+  
+  .ps-button:focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .ps-button {
+    transition: none;
+  }
+  
+  .ps-icon-loading {
+    animation: none;
+  }
+  
+  .ps-button-pressed {
+    transform: none;
+  }
+}
+
+/* Mobile touch targets (WCAG 2.1 AA) */
+@media (pointer: coarse) {
+  .ps-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

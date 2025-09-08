@@ -1,0 +1,39 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "checkJs": false,
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "outDir": "./dist/react",
+    "rootDir": "./src",
+    "isolatedModules": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": false,
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": false,
+    "paths": {
+      "@pscontrols/*": ["src/ui/*"],
+      "@managers/*": ["src/managers/*"],
+      "@react/*": ["src/react/*"]
+    },
+    "types": ["node", "react", "react-dom"]
+  },
+  "include": [
+    "src/react/**/*",
+    "src/ui/**/*",
+    "src/managers/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx"
+  ]
+}

@@ -1,4 +1,14 @@
 //#region Import
+import $ from "jquery";
+
+// Import all CSS styles for Vite build
+import "../styles/index.css";
+
+// Make jQuery available globally
+const jQuery = $;
+(window as any).jQuery = $;
+(window as any).$ = $;
+
 import { LabelOptions, Label } from "./controls/label";
 import { UtilityManager } from "../managers/utilityManager";
 import { DeviceManager } from "../managers/deviceManager";
@@ -63,6 +73,64 @@ export function createLabel(options?: LabelOptions | null, container?: HTMLEleme
 export function createButton(options?: ButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Button {
 	let control = createControls<Button>(ControlTypeEnum.Button, container, position, existingElement, options);
 	return control;
+}
+
+// React compatibility: createReactButton helper for migrating from vr.createButton()
+export function createReactButton(options: any = {}, container?: HTMLElement | string | null): { element: HTMLElement, root: any } | null {
+	// Check if React and PSReact are available
+	if (typeof window === 'undefined' || !(window as any).React || !(window as any).ReactDOM || !(window as any).PSReact) {
+		console.warn('createReactButton requires React, ReactDOM, and PSReact to be loaded');
+		return null;
+	}
+
+	const { React, ReactDOM, PSReact } = (window as any);
+	const { PSButton, PSControlsProvider, ButtonModeEnum } = PSReact;
+
+	// Convert legacy options to React props
+	const reactProps: any = {
+		text: options.text || options.value || 'Button',
+		mode: options.mode || ButtonModeEnum?.Default,
+		onClick: options.onClick || (() => {}),
+		tooltip: options.tooltip,
+		enabled: options.enabled !== false,
+		visible: options.visible !== false,
+		width: options.width,
+		height: options.height,
+		confirmationMessage: options.confirmationMessage,
+		loading: options.loading || false,
+		...options // Allow any additional React props
+	};
+
+	// Create React element
+	const button = React.createElement(PSButton, reactProps);
+	const wrapped = React.createElement(PSControlsProvider, 
+		{ theme: 'light', language: 'it' }, 
+		button
+	);
+
+	// Create container if not provided
+	let targetContainer: HTMLElement;
+	if (typeof container === 'string') {
+		targetContainer = document.getElementById(container) || document.body;
+	} else {
+		targetContainer = container || document.body;
+	}
+
+	// Create wrapper div
+	const wrapperDiv = document.createElement('div');
+	wrapperDiv.style.display = 'inline-block';
+	
+	// Create React root and render
+	const root = ReactDOM.createRoot(wrapperDiv);
+	root.render(wrapped);
+	
+	// Append to container
+	targetContainer.appendChild(wrapperDiv);
+
+	return {
+		element: wrapperDiv,
+		root: root
+	};
 }
 
 export function createButtonGroup(options?: ButtonGroupOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ButtonGroup {
@@ -5395,7 +5463,9 @@ export enum ButtonModeEnum {
 	Delete = "vrButtonDeleteMode",
 	Excel = "vrButtonExcelMode",
 	Print = "vrButtonPrintMode",
-	Warning = "vrButtonWarningMode"
+	Warning = "vrButtonWarningMode",
+	Danger = "vrButtonDangerMode",
+	Success = "vrButtonSuccessMode"
 }
 
 export class ColorSettings {
@@ -7850,6 +7920,7 @@ declare global {
 		vrTitleCase(): string;
 		vrTrunc(index: number, useWordBoundary?: boolean): string;
 		vrGetNumericPart(): number;
+		getNumericPart(): number; // Alias for backward compatibility
 		vrToBoolean(): boolean;
 		vrIsNotNullOrEmpty(): boolean;
 		vrIsNullOrEmpty(): boolean;
@@ -8318,6 +8389,9 @@ String.prototype.vrGetNumericPart = function (this) {
 
 	return number;
 }
+
+// Alias for backward compatibility
+String.prototype.getNumericPart = String.prototype.vrGetNumericPart;
 
 String.prototype.vrToBoolean = function (this) {
 	return (this.toLowerCase() === "true");
@@ -8789,4 +8863,10 @@ jQuery.prototype.vrHasScrollBar = function (horizontal: boolean = false): boolea
 export function puma(element: any) {
 	return (shadowRoot() != null && jqueryVariable()(element).length == 0) ? jqueryVariable()(shadowRoot()).find(element) : jqueryVariable()(element);
 }
+
+// Make createReactButton available globally for easy migration
+if (typeof window !== 'undefined') {
+	(window as any).createReactButton = createReactButton;
+}
+
 //#endregion

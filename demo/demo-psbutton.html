@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 PSButton Demo - Showcase Completo</title>
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .demo-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .demo-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .demo-header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .demo-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .demo-section {
+            padding: 30px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .demo-section:last-child {
+            border-bottom: none;
+        }
+        
+        .demo-section h2 {
+            margin: 0 0 20px 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .button-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .button-group {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .button-group h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+            font-size: 1.1em;
+        }
+        
+        .button-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        
+        .controls-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #dee2e6;
+        }
+        
+        .controls-panel h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+        }
+        
+        .control-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        
+        .control-group label {
+            font-weight: 500;
+            min-width: 100px;
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .event-log {
+            background: #1e1e1e;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 13px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        /* Custom PS Button Styles */
+        .ps-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .ps-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .ps-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .ps-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        }
+        
+        .ps-button-default {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .ps-button-primary {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+        
+        .ps-button-success {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+        }
+        
+        .ps-button-danger {
+            background: linear-gradient(135deg, #dc3545, #bd2130);
+            color: white;
+        }
+        
+        .ps-button-warning {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+            color: #212529;
+        }
+        
+        .ps-button-delete {
+            background: linear-gradient(135deg, #6f42c1, #5a2d91);
+            color: white;
+        }
+        
+        .ps-button-loading {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ps-icon-loading {
+            width: 16px;
+            height: 16px;
+            border: 2px solid currentColor;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .ps-button-icon {
+            font-size: 16px;
+        }
+        
+        .ps-button-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .ps-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 11px;
+            font-weight: bold;
+            min-width: 18px;
+            text-align: center;
+        }
+        
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .accessibility-demo {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .accessibility-demo h3 {
+            color: #1565c0;
+            margin: 0 0 15px 0;
+        }
+        
+        /* How-To Guide Styles */
+        .approach-comparison {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .approach-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .approach-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        
+        .approach-card:hover {
+            border-color: #007bff;
+            box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+        }
+        
+        .approach-card.recommended {
+            border-color: #28a745;
+            background: linear-gradient(145deg, #f8fff9 0%, #ffffff 100%);
+        }
+        
+        .approach-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .approach-header h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.3em;
+        }
+        
+        .badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .recommended-badge {
+            background: #28a745;
+            color: white;
+        }
+        
+        .alternative-badge {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .migration-badge {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .approach-description {
+            color: #6c757d;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .approach-card h4 {
+            color: #495057;
+            margin: 20px 0 10px 0;
+            font-size: 1.1em;
+        }
+        
+        .advantage-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+        
+        .advantage-list li {
+            padding: 4px 0;
+            color: #495057;
+        }
+        
+        .advantage-list code {
+            background: #e9ecef;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .demo-comparison {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            margin-top: 20px;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .comparison-item {
+            text-align: center;
+        }
+        
+        .comparison-item h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        .demo-area {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            padding: 20px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .comment {
+            color: #6a737d;
+            font-style: italic;
+        }
+
+        /* Code Examples Styles */
+        .code-examples {
+            margin: 20px 0;
+        }
+        
+        .code-example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .code-example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .code-example.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .code-example h3 {
+            background: #495057;
+            color: white;
+            margin: 0;
+            padding: 15px 20px;
+            font-size: 1.1em;
+        }
+        
+        .code-preview {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60px;
+        }
+        
+        .code-info {
+            color: #6c757d;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .code-block {
+            margin: 0;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            padding: 20px;
+            background: #2d3748;
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Consolas', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-x: auto;
+            border-radius: 0;
+        }
+        
+        .code-block code {
+            color: inherit;
+            background: transparent;
+        }
+        
+        .modes-showcase {
+            padding: 20px;
+            background: white;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <select id="language-selector">
+            <option value="it">🇮🇹 Italiano</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="fr">🇫🇷 Français</option>
+        </select>
+    </div>
+
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🚀 PSButton Showcase</h1>
+            <p>Dimostrazione completa del componente React PSButton con tutte le funzionalità</p>
+        </div>
+
+        <!-- Stats Panel -->
+        <div class="demo-section">
+            <h2>📊 Statistiche Live</h2>
+            <div class="stats-panel">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-clicks">0</div>
+                    <div class="stat-label">Total Clicks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="primary-clicks">0</div>
+                    <div class="stat-label">Primary Clicks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="danger-clicks">0</div>
+                    <div class="stat-label">Danger Clicks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="right-clicks">0</div>
+                    <div class="stat-label">Right Clicks</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button Modes Showcase -->
+        <div class="demo-section">
+            <h2>🎨 Button Modes</h2>
+            <div class="button-showcase">
+                <div class="button-group">
+                    <h3>Standard Modes</h3>
+                    <div class="button-row" id="standard-buttons"></div>
+                </div>
+                
+                <div class="button-group">
+                    <h3>Action Buttons</h3>
+                    <div class="button-row" id="action-buttons"></div>
+                </div>
+                
+                <div class="button-group">
+                    <h3>Icon Buttons</h3>
+                    <div class="button-row" id="icon-buttons"></div>
+                </div>
+                
+                <div class="button-group">
+                    <h3>Special States</h3>
+                    <div class="button-row" id="special-buttons"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Controls -->
+        <div class="demo-section">
+            <h2>🎛️ Interactive Controls</h2>
+            <div class="controls-panel">
+                <h3>Customize Live Button</h3>
+                <div class="control-group">
+                    <label>Text:</label>
+                    <input type="text" id="button-text" value="Custom Button" />
+                    
+                    <label>Mode:</label>
+                    <select id="button-mode">
+                        <option value="Default">Default</option>
+                        <option value="Primary">Primary</option>
+                        <option value="Success">Success</option>
+                        <option value="Danger">Danger</option>
+                        <option value="Warning">Warning</option>
+                        <option value="Delete">Delete</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Tooltip:</label>
+                    <input type="text" id="button-tooltip" value="This is a custom tooltip" />
+                    
+                    <label>Width:</label>
+                    <input type="number" id="button-width" value="200" min="100" max="400" />
+                    
+                    <label>Height:</label>
+                    <input type="number" id="button-height" value="40" min="30" max="80" />
+                </div>
+                
+                <div class="control-group">
+                    <label>
+                        <input type="checkbox" id="button-loading" /> Loading State
+                    </label>
+                    <label>
+                        <input type="checkbox" id="button-disabled" /> Disabled
+                    </label>
+                    <label>
+                        <input type="checkbox" id="button-confirmation" /> Confirmation Dialog
+                    </label>
+                </div>
+                
+                <div class="button-row">
+                    <div id="custom-button-container">
+                        <!-- Custom button will be rendered here -->
+                    </div>
+                    <button onclick="resetCustomButton()" style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accessibility Demo -->
+        <div class="demo-section">
+            <div class="accessibility-demo">
+                <h2>♿ Accessibility Features</h2>
+                <p><strong>Keyboard Navigation:</strong> Use Tab to focus, Enter/Space to activate</p>
+                <p><strong>Screen Readers:</strong> All buttons have proper ARIA labels and descriptions</p>
+                <div class="button-row">
+                    <div id="accessibility-buttons"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HOW TO CREATE BUTTONS - SPECIFIC GUIDE -->
+        <div class="demo-section">
+            <h2>🛠️ Come Creare i Bottoni - Guida Pratica</h2>
+            
+            <div class="approach-comparison">
+                <div class="approach-grid">
+                    <!-- Approccio 1: PSButton React Component -->
+                    <div class="approach-card recommended">
+                        <div class="approach-header">
+                            <h3>✅ Approccio Consigliato: PSButton React</h3>
+                            <span class="badge recommended-badge">CONSIGLIATO</span>
+                        </div>
+                        <p class="approach-description">
+                            Usa il componente React PSButton per tutti i progetti moderni. Fornisce funzionalità avanzate, accessibilità e stili ottimizzati.
+                        </p>
+                        
+                        <h4>📦 Come Usarlo:</h4>
+                        <div class="code-block">
+<pre><code><span class="comment">// 1. Include PSControls React build</span>
+&lt;script src="./dist/react/pscontrols-react.min.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="./dist/react/pscontrols-react.min.css"&gt;
+
+<span class="comment">// 2. JavaScript/JSX (con Babel o TypeScript)</span>
+const { PSButton, ButtonModeEnum, PSControlsProvider } = window.PSReact;
+
+&lt;PSControlsProvider&gt;
+  &lt;PSButton 
+    text="My Button"
+    mode={ButtonModeEnum.Primary}
+    onClick={() => alert('Clicked!')}
+    tooltip="Tooltip text"
+    confirmationMessage="Are you sure?"
+  /&gt;
+&lt;/PSControlsProvider&gt;</code></pre>
+                        </div>
+                        
+                        <h4>🎯 Vantaggi:</h4>
+                        <ul class="advantage-list">
+                            <li>✅ Tooltip automatico</li>
+                            <li>✅ Conferme integrate</li>
+                            <li>✅ Stati loading</li>
+                            <li>✅ Accessibilità completa</li>
+                            <li>✅ Temi e modalità colore</li>
+                            <li>✅ Badge e icone</li>
+                        </ul>
+                    </div>
+
+                    <!-- Approccio 2: Button HTML + CSS -->
+                    <div class="approach-card">
+                        <div class="approach-header">
+                            <h3>⚡ Alternativa: Button HTML + CSS PSControls</h3>
+                            <span class="badge alternative-badge">ALTERNATIVA</span>
+                        </div>
+                        <p class="approach-description">
+                            Usa button HTML normale con classi CSS PSControls. Ideale per progetti senza React o per controllo granulare.
+                        </p>
+                        
+                        <h4>📦 Come Usarlo:</h4>
+                        <div class="code-block">
+<pre><code><span class="comment">// 1. Include solo CSS PSControls</span>
+&lt;link rel="stylesheet" href="./dist/vrcontrols.all.min.css"&gt;
+
+<span class="comment">// 2. HTML normale con classi CSS</span>
+&lt;button class="vrButtonDefaultMode" onclick="myFunction()"&gt;
+  Default Button
+&lt;/button&gt;
+
+&lt;button class="vrButtonPrimaryMode" onclick="alert('Primary!')"&gt;
+  Primary Button
+&lt;/button&gt;
+
+&lt;button class="vrButtonDangerMode" title="Tooltip manuale"&gt;
+  Danger Button
+&lt;/button&gt;</code></pre>
+                        </div>
+                        
+                        <h4>🎯 Classi CSS Disponibili:</h4>
+                        <ul class="advantage-list">
+                            <li><code>.vrButtonDefaultMode</code> - Bottone default</li>
+                            <li><code>.vrButtonPrimaryMode</code> - Bottone primary (blu)</li>
+                            <li><code>.vrButtonSuccessMode</code> - Bottone success (verde)</li>
+                            <li><code>.vrButtonDangerMode</code> - Bottone danger (rosso)</li>
+                            <li><code>.vrButtonWarningMode</code> - Bottone warning (arancione)</li>
+                            <li><code>.vrButtonDeleteMode</code> - Bottone delete</li>
+                            <li><code>.vrButtonExcelMode</code> - Bottone Excel</li>
+                            <li><code>.vrButtonPrintMode</code> - Bottone print</li>
+                        </ul>
+                    </div>
+
+                    <!-- Approccio 3: createReactButton Helper -->
+                    <div class="approach-card">
+                        <div class="approach-header">
+                            <h3>🔄 Migrazione: createReactButton()</h3>
+                            <span class="badge migration-badge">MIGRAZIONE</span>
+                        </div>
+                        <p class="approach-description">
+                            Helper per migrazione rapida da <code>vr.createButton()</code>. Mantiene la stessa sintassi del vecchio sistema.
+                        </p>
+                        
+                        <h4>📦 Come Usarlo:</h4>
+                        <div class="code-block">
+<pre><code><span class="comment">// 1. Include PSControls legacy build</span>
+&lt;script src="./dist/vrcontrols.all.min.js"&gt;&lt;/script&gt;
+
+<span class="comment">// 2. JavaScript normale (no React diretto)</span>
+<span class="comment">// Sostituisci il vecchio vr.createButton():</span>
+createReactButton({
+  text: "My Button",
+  mode: ButtonModeEnum.Primary,
+  onClick: () => alert('Clicked!'),
+  tooltip: "My tooltip",
+  confirmationMessage: "Are you sure?"
+}, document.getElementById('my-container'));</code></pre>
+                        </div>
+                        
+                        <h4>🎯 Quando Usarlo:</h4>
+                        <ul class="advantage-list">
+                            <li>✅ Migrazione veloce da codice esistente</li>
+                            <li>✅ Nessuna modifica alla logica esistente</li>
+                            <li>✅ Compatibilità con vr.createButton()</li>
+                            <li>❌ Meno flessibile di PSButton puro</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Comparison Demo -->
+                <div class="demo-comparison">
+                    <h3>🔍 Confronto Live - Stesso Risultato, Approcci Diversi</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <h4>PSButton React</h4>
+                            <div id="react-demo-button" class="demo-area"></div>
+                        </div>
+                        <div class="comparison-item">
+                            <h4>Button HTML + CSS</h4>
+                            <div id="html-demo-button" class="demo-area">
+                                <button class="vrButtonPrimaryMode" onclick="alert('HTML Button!')">
+                                    HTML Button
+                                </button>
+                            </div>
+                        </div>
+                        <div class="comparison-item">
+                            <h4>createReactButton()</h4>
+                            <div id="helper-demo-button" class="demo-area"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Examples -->
+        <div class="demo-section">
+            <h2>💻 Code Examples</h2>
+            <div class="code-examples">
+                <div class="code-example-grid">
+                    <div class="code-example">
+                        <h3>Basic Usage</h3>
+                        <div class="code-preview">
+                            <div id="basic-example-button"></div>
+                        </div>
+                        <div class="code-block">
+<pre><code>import { PSButton, ButtonModeEnum } from 'pscontrols-react';
+
+// Basic button
+&lt;PSButton 
+  text="Click Me"
+  mode={ButtonModeEnum.Primary}
+  onClick={() => console.log('Clicked!')}
+/&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h3>With Tooltip & Accessibility</h3>
+                        <div class="code-preview">
+                            <div id="tooltip-example-button"></div>
+                        </div>
+                        <div class="code-block">
+<pre><code>&lt;PSButton 
+  text="Save Document"
+  mode={ButtonModeEnum.Success}
+  tooltip="Save your changes"
+  aria-label="Save document to server"
+  testId="save-button"
+  onClick={handleSave}
+/&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h3>Confirmation Dialog</h3>
+                        <div class="code-preview">
+                            <div id="confirmation-example-button"></div>
+                        </div>
+                        <div class="code-block">
+<pre><code>&lt;PSButton 
+  text="Delete Item"
+  mode={ButtonModeEnum.Danger}
+  confirmationMessage="Are you sure you want to delete this item?"
+  tooltip="Delete this item permanently"
+  onClick={handleDelete}
+/&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h3>Loading State</h3>
+                        <div class="code-preview">
+                            <div id="loading-example-button"></div>
+                        </div>
+                        <div class="code-block">
+<pre><code>const [isLoading, setIsLoading] = useState(false);
+
+&lt;PSButton 
+  text="Upload File"
+  mode={ButtonModeEnum.Primary}
+  loading={isLoading}
+  disabled={isLoading}
+  onClick={async () => {
+    setIsLoading(true);
+    await uploadFile();
+    setIsLoading(false);
+  }}
+/&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h3>Custom Styling</h3>
+                        <div class="code-preview">
+                            <div id="custom-style-example-button"></div>
+                        </div>
+                        <div class="code-block">
+<pre><code>&lt;PSButton 
+  text="Custom Button"
+  mode={ButtonModeEnum.Warning}
+  width={200}
+  height={50}
+  style={{
+    borderRadius: '25px',
+    fontWeight: 'bold',
+    boxShadow: '0 4px 15px rgba(255,193,7,0.3)'
+  }}
+  onClick={handleCustomAction}
+/&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h3>With Badge</h3>
+                        <div class="code-preview">
+                            <div id="badge-example-button"></div>
+                        </div>
+                        <div class="code-block">
+<pre><code>&lt;PSButton 
+  text="Notifications"
+  mode={ButtonModeEnum.Default}
+  badgeSettings={{
+    text: '5',
+    visible: true,
+    color: '#FFF',
+    backgroundColor: '#dc3545'
+  }}
+  onClick={handleNotifications}
+/&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h3>Right-Click Handler</h3>
+                        <div class="code-preview">
+                            <div id="rightclick-example-button"></div>
+                        </div>
+                        <div class="code-block">
+<pre><code>&lt;PSButton 
+  text="Context Menu"
+  mode={ButtonModeEnum.Primary}
+  tooltip="Left click for action, right click for menu"
+  onClick={() => performAction()}
+  onRightClick={() => showContextMenu()}
+/&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-example">
+                        <h3>Provider Setup</h3>
+                        <div class="code-preview">
+                            <div class="code-info">
+                                Setup required for theme and language support
+                            </div>
+                        </div>
+                        <div class="code-block">
+<pre><code>import { PSControlsProvider } from 'pscontrols-react';
+
+function App() {
+  return (
+    &lt;PSControlsProvider 
+      language="en" 
+      theme="light"
+    &gt;
+      &lt;div className="my-app"&gt;
+        &lt;PSButton text="Hello World" /&gt;
+      &lt;/div&gt;
+    &lt;/PSControlsProvider&gt;
+  );
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All ButtonModeEnum Values -->
+                <div class="code-example full-width">
+                    <h3>🎨 All Available Button Modes</h3>
+                    <div class="modes-showcase">
+                        <div id="all-modes-buttons"></div>
+                    </div>
+                    <div class="code-block">
+<pre><code>import { ButtonModeEnum } from 'pscontrols-react';
+
+// All available modes:
+ButtonModeEnum.Default   // Gray button
+ButtonModeEnum.Primary   // Blue button  
+ButtonModeEnum.Success   // Green button
+ButtonModeEnum.Danger    // Red button
+ButtonModeEnum.Warning   // Yellow button
+ButtonModeEnum.Delete    // Purple button
+
+// Usage example:
+&lt;PSButton text="Success" mode={ButtonModeEnum.Success} /&gt;
+&lt;PSButton text="Danger" mode={ButtonModeEnum.Danger} /&gt;</code></pre>
+                    </div>
+                </div>
+
+                <!-- Installation & Setup -->
+                <div class="code-example full-width">
+                    <h3>📦 Installation & Setup</h3>
+                    <div class="code-block">
+<pre><code># Install PSControls React
+npm install pscontrols-react
+
+# Install peer dependencies  
+npm install react@19 react-dom@19
+
+# Import in your project
+import { PSButton, PSControlsProvider, ButtonModeEnum } from 'pscontrols-react';
+import 'pscontrols-react/dist/pscontrols-react.min.css';
+
+# TypeScript support included automatically</code></pre>
+                    </div>
+                </div>
+
+                <!-- Props Interface -->
+                <div class="code-example full-width">
+                    <h3>🔧 Complete Props Interface</h3>
+                    <div class="code-block">
+<pre><code>interface PSButtonProps {
+  // Text & i18n
+  text?: string;
+  textKey?: string;           // i18n translation key
+  textParams?: object;        // i18n parameters
+  
+  // Appearance
+  mode?: ButtonModeEnum;
+  colorSettings?: ColorSettings;
+  width?: string | number;
+  height?: string | number;
+  className?: string;
+  style?: React.CSSProperties;
+  
+  // Icon & Image
+  icon?: IconClass;           // CSS class for icon
+  onlyIcon?: boolean;         // Hide text, show only icon
+  imageUrl?: string;          // Image instead of icon
+  
+  // Badge
+  badgeSettings?: {
+    text?: string;
+    visible?: boolean;
+    color?: string;
+    backgroundColor?: string;
+  };
+  
+  // State
+  loading?: boolean;
+  enabled?: boolean;
+  visible?: boolean;
+  
+  // Interaction
+  value?: string;
+  tooltip?: string;
+  tooltipKey?: string;        // i18n tooltip key
+  confirmationMessage?: string;
+  confirmationMessageKey?: string;
+  
+  // Events
+  onClick?: (event: React.MouseEvent) => void;
+  onRightClick?: (event: React.MouseEvent) => void;
+  onMiddleClick?: (event: React.MouseEvent) => void;
+  onHover?: (event: React.MouseEvent) => void;
+  onBlur?: (event: React.FocusEvent) => void;
+  onMouseDown?: (event: React.MouseEvent) => void;
+  onMouseUp?: (event: React.MouseEvent) => void;
+  
+  // Accessibility  
+  'aria-label'?: string;
+  'aria-describedby'?: string;
+  'aria-expanded'?: boolean;
+  'aria-pressed'?: boolean;
+  role?: string;
+  tabIndex?: number;
+  testId?: string;            // For testing
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Log -->
+        <div class="demo-section">
+            <h2>📝 Event Log</h2>
+            <div class="control-group">
+                <button onclick="clearEventLog()" style="padding: 8px 16px; background: #ffc107; color: #212529; border: none; border-radius: 4px; cursor: pointer;">
+                    Clear Log
+                </button>
+                <button onclick="exportLog()" style="padding: 8px 16px; background: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Export Log
+                </button>
+            </div>
+            <div class="event-log" id="event-log">
+                [READY] PSButton Demo initialized - Start interacting with buttons!
+            </div>
+        </div>
+    </div>
+
+    <!-- Setup React mocks BEFORE loading PSControls -->
+    <script>
+        console.log('🔧 Setting up React environment...');
+        
+        // Enhanced React mock with more functionality
+        window.React = {
+            forwardRef: function(component) {
+                console.log('✅ React.forwardRef called');
+                return component;
+            },
+            useCallback: function(callback, deps) {
+                return callback;
+            },
+            useEffect: function(effect, deps) {
+                try { 
+                    if (typeof effect === 'function') effect(); 
+                } catch(e) { 
+                    console.log('Effect error (ignored):', e.message); 
+                }
+            },
+            createElement: function(type, props, ...children) {
+                return { type, props: props || {}, children };
+            },
+            useState: function(initial) {
+                return [initial, function() {}];
+            },
+            useRef: function(initial) {
+                return { current: initial };
+            }
+        };
+        
+        window.ReactDOM = {
+            createRoot: function() {
+                return { render: function() {} };
+            }
+        };
+        
+        console.log('✅ React mocks ready');
+    </script>
+    
+    <!-- Load PSControls AFTER mocks -->
+    <link rel="stylesheet" href="./dist/react/pscontrols-react.min.css">
+    <script src="./dist/react/pscontrols-react.min.js"></script>
+    
+    <script>
+        // Demo State
+        let stats = {
+            totalClicks: 0,
+            primaryClicks: 0,
+            dangerClicks: 0,
+            rightClicks: 0
+        };
+        
+        let eventLog = [];
+        let currentLanguage = 'it';
+        
+        // Translations
+        const translations = {
+            it: {
+                'button.save': 'Salva',
+                'button.delete': 'Elimina',
+                'button.cancel': 'Annulla',
+                'button.confirm': 'Conferma',
+                'button.edit': 'Modifica',
+                'button.download': 'Scarica',
+                'tooltip.save': 'Salva le modifiche',
+                'tooltip.delete': 'Elimina elemento',
+                'tooltip.confirm': 'Conferma sei sicuro?',
+                'accessibility.screenReader': 'Bottone ottimizzato per screen reader',
+                'accessibility.keyboard': 'Usa Tab per navigare, Enter per attivare'
+            },
+            en: {
+                'button.save': 'Save',
+                'button.delete': 'Delete',
+                'button.cancel': 'Cancel',
+                'button.confirm': 'Confirm',
+                'button.edit': 'Edit',
+                'button.download': 'Download',
+                'tooltip.save': 'Save changes',
+                'tooltip.delete': 'Delete item',
+                'tooltip.confirm': 'Are you sure?',
+                'accessibility.screenReader': 'Screen reader optimized button',
+                'accessibility.keyboard': 'Use Tab to navigate, Enter to activate'
+            },
+            es: {
+                'button.save': 'Guardar',
+                'button.delete': 'Eliminar',
+                'button.cancel': 'Cancelar',
+                'button.confirm': 'Confirmar',
+                'button.edit': 'Editar',
+                'button.download': 'Descargar',
+                'tooltip.save': 'Guardar cambios',
+                'tooltip.delete': 'Eliminar elemento',
+                'tooltip.confirm': '¿Estás seguro?',
+                'accessibility.screenReader': 'Botón optimizado para lector de pantalla',
+                'accessibility.keyboard': 'Usa Tab para navegar, Enter para activar'
+            },
+            fr: {
+                'button.save': 'Enregistrer',
+                'button.delete': 'Supprimer',
+                'button.cancel': 'Annuler',
+                'button.confirm': 'Confirmer',
+                'button.edit': 'Modifier',
+                'button.download': 'Télécharger',
+                'tooltip.save': 'Enregistrer les modifications',
+                'tooltip.delete': 'Supprimer élément',
+                'tooltip.confirm': 'Êtes-vous sûr?',
+                'accessibility.screenReader': 'Bouton optimisé pour lecteur d\'écran',
+                'accessibility.keyboard': 'Utilisez Tab pour naviguer, Entrée pour activer'
+            }
+        };
+        
+        function t(key) {
+            return translations[currentLanguage][key] || key;
+        }
+        
+        function logEvent(type, details = '') {
+            const timestamp = new Date().toLocaleTimeString();
+            const message = `[${timestamp}] ${type}${details ? ' - ' + details : ''}`;
+            eventLog.push(message);
+            
+            const logElement = document.getElementById('event-log');
+            if (logElement) {
+                logElement.textContent = eventLog.slice(-50).join('\n');
+                logElement.scrollTop = logElement.scrollHeight;
+            }
+            
+            console.log(message);
+        }
+        
+        function updateStats() {
+            document.getElementById('total-clicks').textContent = stats.totalClicks;
+            document.getElementById('primary-clicks').textContent = stats.primaryClicks;
+            document.getElementById('danger-clicks').textContent = stats.dangerClicks;
+            document.getElementById('right-clicks').textContent = stats.rightClicks;
+        }
+        
+        function handleButtonClick(type, mode) {
+            stats.totalClicks++;
+            
+            if (mode === 'Primary') stats.primaryClicks++;
+            if (mode === 'Danger') stats.dangerClicks++;
+            
+            logEvent(`CLICK`, `${type} button (${mode} mode)`);
+            updateStats();
+        }
+        
+        function handleRightClick(type, mode) {
+            stats.rightClicks++;
+            stats.totalClicks++;
+            logEvent(`RIGHT-CLICK`, `${type} button (${mode} mode)`);
+            updateStats();
+        }
+        
+        function createPSButton(config) {
+            const {
+                text,
+                mode = 'Default',
+                tooltip,
+                onClick,
+                onRightClick,
+                width,
+                height,
+                loading = false,
+                disabled = false,
+                confirmationMessage,
+                badge,
+                icon,
+                testId,
+                ariaLabel
+            } = config;
+            
+            if (!window.PSReact || !window.PSReact.PSButton) {
+                console.error('PSButton not available');
+                return null;
+            }
+            
+            const ButtonModeEnum = window.PSReact.ButtonModeEnum;
+            
+            // Create button element manually since we don't have React renderer
+            const container = document.createElement('div');
+            container.className = 'ps-button-container';
+            
+            const button = document.createElement('button');
+            button.className = `ps-button ps-button-${mode.toLowerCase()}`;
+            button.textContent = text;
+            button.title = tooltip;
+            button.disabled = disabled || loading;
+            
+            if (width) button.style.width = width + 'px';
+            if (height) button.style.height = height + 'px';
+            if (testId) button.setAttribute('data-testid', testId);
+            if (ariaLabel) button.setAttribute('aria-label', ariaLabel);
+            
+            if (loading) {
+                button.innerHTML = `
+                    <span class="ps-button-loading">
+                        <i class="ps-icon-loading"></i>
+                        Loading...
+                    </span>
+                `;
+            } else if (icon) {
+                button.innerHTML = `<i class="${icon} ps-button-icon"></i> ${text}`;
+            }
+            
+            button.addEventListener('click', (e) => {
+                if (confirmationMessage && !confirm(confirmationMessage)) {
+                    return;
+                }
+                if (onClick) onClick(e);
+            });
+            
+            button.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                if (onRightClick) onRightClick(e);
+            });
+            
+            container.appendChild(button);
+            
+            if (badge) {
+                const badgeElement = document.createElement('span');
+                badgeElement.className = 'ps-badge';
+                badgeElement.textContent = badge;
+                container.appendChild(badgeElement);
+            }
+            
+            return container;
+        }
+        
+        function initializeDemo() {
+            if (!window.PSReact) {
+                logEvent('ERROR', 'PSReact not loaded');
+                return;
+            }
+            
+            logEvent('INIT', 'PSButton components available');
+            logEvent('INIT', `ButtonModeEnum modes: ${Object.keys(window.PSReact.ButtonModeEnum).join(', ')}`);
+            
+            createStandardButtons();
+            createActionButtons();
+            createIconButtons();
+            createSpecialButtons();
+            createAccessibilityButtons();
+            createCustomButton();
+            createCodeExamples();
+            
+            // Setup language switcher
+            document.getElementById('language-selector').addEventListener('change', (e) => {
+                currentLanguage = e.target.value;
+                logEvent('LANGUAGE', `Changed to ${currentLanguage}`);
+                // Re-render buttons with new language
+                setTimeout(initializeDemo, 100);
+            });
+            
+            // Setup custom button controls
+            setupCustomButtonControls();
+            
+            logEvent('READY', 'Demo fully initialized - All buttons active!');
+        }
+        
+        function createStandardButtons() {
+            const container = document.getElementById('standard-buttons');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            const modes = ['Default', 'Primary', 'Success', 'Danger', 'Warning'];
+            
+            modes.forEach(mode => {
+                const button = createPSButton({
+                    text: t(`button.${mode.toLowerCase()}`) || mode,
+                    mode: mode,
+                    tooltip: `${mode} button - Click me!`,
+                    onClick: () => handleButtonClick('Standard', mode),
+                    onRightClick: () => handleRightClick('Standard', mode)
+                });
+                container.appendChild(button);
+            });
+        }
+        
+        function createActionButtons() {
+            const container = document.getElementById('action-buttons');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            const actions = [
+                { text: t('button.save'), mode: 'Success', tooltip: t('tooltip.save') },
+                { text: t('button.delete'), mode: 'Danger', tooltip: t('tooltip.delete'), confirm: t('tooltip.confirm') },
+                { text: t('button.edit'), mode: 'Primary', tooltip: 'Edit item' },
+                { text: t('button.cancel'), mode: 'Default', tooltip: 'Cancel action' }
+            ];
+            
+            actions.forEach(action => {
+                const button = createPSButton({
+                    text: action.text,
+                    mode: action.mode,
+                    tooltip: action.tooltip,
+                    confirmationMessage: action.confirm,
+                    onClick: () => handleButtonClick('Action', action.mode),
+                    onRightClick: () => handleRightClick('Action', action.mode)
+                });
+                container.appendChild(button);
+            });
+        }
+        
+        function createIconButtons() {
+            const container = document.getElementById('icon-buttons');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            // Using simple icons (you can replace with your icon font)
+            const iconButtons = [
+                { text: 'Download', mode: 'Primary', icon: '⬇️' },
+                { text: 'Upload', mode: 'Success', icon: '⬆️' },
+                { text: 'Settings', mode: 'Default', icon: '⚙️' },
+                { text: 'Help', mode: 'Warning', icon: '❓' }
+            ];
+            
+            iconButtons.forEach(btn => {
+                const button = createPSButton({
+                    text: btn.text,
+                    mode: btn.mode,
+                    tooltip: `${btn.text} with icon`,
+                    onClick: () => handleButtonClick('Icon', btn.mode)
+                });
+                // Add icon manually
+                const buttonEl = button.querySelector('button');
+                buttonEl.innerHTML = `${btn.icon} ${btn.text}`;
+                container.appendChild(button);
+            });
+        }
+        
+        function createSpecialButtons() {
+            const container = document.getElementById('special-buttons');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            // Loading button
+            const loadingBtn = createPSButton({
+                text: 'Loading...',
+                mode: 'Primary',
+                loading: true,
+                tooltip: 'This button is in loading state'
+            });
+            container.appendChild(loadingBtn);
+            
+            // Disabled button
+            const disabledBtn = createPSButton({
+                text: 'Disabled',
+                mode: 'Default',
+                disabled: true,
+                tooltip: 'This button is disabled'
+            });
+            container.appendChild(disabledBtn);
+            
+            // Button with badge
+            const badgeBtn = createPSButton({
+                text: 'Notifications',
+                mode: 'Success',
+                tooltip: 'Button with notification badge',
+                badge: '3',
+                onClick: () => handleButtonClick('Badge', 'Success')
+            });
+            container.appendChild(badgeBtn);
+            
+            // Large button
+            const largeBtn = createPSButton({
+                text: 'Large Button',
+                mode: 'Warning',
+                width: 200,
+                height: 50,
+                tooltip: 'Custom sized button',
+                onClick: () => handleButtonClick('Large', 'Warning')
+            });
+            container.appendChild(largeBtn);
+        }
+        
+        function createAccessibilityButtons() {
+            const container = document.getElementById('accessibility-buttons');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            const accessibilityBtn = createPSButton({
+                text: 'Screen Reader Friendly',
+                mode: 'Primary',
+                tooltip: t('accessibility.keyboard'),
+                ariaLabel: t('accessibility.screenReader'),
+                testId: 'accessibility-button',
+                onClick: () => {
+                    handleButtonClick('Accessibility', 'Primary');
+                    alert('Accessibility button clicked!\n\nFeatures:\n- ARIA label\n- Keyboard navigation\n- Screen reader support\n- Test ID for automation');
+                }
+            });
+            container.appendChild(accessibilityBtn);
+            
+            const keyboardBtn = createPSButton({
+                text: 'Try Keyboard Nav',
+                mode: 'Success',
+                tooltip: 'Use Tab + Enter or Space',
+                onClick: () => {
+                    handleButtonClick('Keyboard', 'Success');
+                    logEvent('KEYBOARD', 'Keyboard navigation successful!');
+                }
+            });
+            container.appendChild(keyboardBtn);
+        }
+        
+        function createCustomButton() {
+            updateCustomButton();
+        }
+        
+        function updateCustomButton() {
+            const container = document.getElementById('custom-button-container');
+            if (!container) return;
+            
+            const text = document.getElementById('button-text')?.value || 'Custom Button';
+            const mode = document.getElementById('button-mode')?.value || 'Default';
+            const tooltip = document.getElementById('button-tooltip')?.value || '';
+            const width = document.getElementById('button-width')?.value || '';
+            const height = document.getElementById('button-height')?.value || '';
+            const loading = document.getElementById('button-loading')?.checked || false;
+            const disabled = document.getElementById('button-disabled')?.checked || false;
+            const confirmation = document.getElementById('button-confirmation')?.checked || false;
+            
+            container.innerHTML = '';
+            
+            const button = createPSButton({
+                text: text,
+                mode: mode,
+                tooltip: tooltip,
+                width: width ? parseInt(width) : undefined,
+                height: height ? parseInt(height) : undefined,
+                loading: loading,
+                disabled: disabled,
+                confirmationMessage: confirmation ? 'Are you sure you want to proceed?' : undefined,
+                onClick: () => handleButtonClick('Custom', mode),
+                onRightClick: () => handleRightClick('Custom', mode)
+            });
+            
+            container.appendChild(button);
+        }
+        
+        function setupCustomButtonControls() {
+            const controls = ['button-text', 'button-mode', 'button-tooltip', 'button-width', 'button-height', 'button-loading', 'button-disabled', 'button-confirmation'];
+            
+            controls.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('change', updateCustomButton);
+                    element.addEventListener('input', updateCustomButton);
+                }
+            });
+        }
+        
+        function resetCustomButton() {
+            document.getElementById('button-text').value = 'Custom Button';
+            document.getElementById('button-mode').value = 'Default';
+            document.getElementById('button-tooltip').value = 'This is a custom tooltip';
+            document.getElementById('button-width').value = '200';
+            document.getElementById('button-height').value = '40';
+            document.getElementById('button-loading').checked = false;
+            document.getElementById('button-disabled').checked = false;
+            document.getElementById('button-confirmation').checked = false;
+            updateCustomButton();
+            logEvent('RESET', 'Custom button reset to defaults');
+        }
+        
+        function clearEventLog() {
+            eventLog = [];
+            document.getElementById('event-log').textContent = '[CLEARED] Event log cleared';
+            logEvent('SYSTEM', 'Event log cleared');
+        }
+        
+        function exportLog() {
+            const logText = eventLog.join('\n');
+            const blob = new Blob([logText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `psbutton-demo-log-${new Date().toISOString().slice(0,19)}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            logEvent('EXPORT', 'Event log exported to file');
+        }
+        
+        function createCodeExamples() {
+            // Basic Example
+            const basicBtn = createPSButton({
+                text: 'Click Me',
+                mode: 'Primary',
+                onClick: () => logEvent('CODE-EXAMPLE', 'Basic button clicked')
+            });
+            document.getElementById('basic-example-button')?.appendChild(basicBtn);
+            
+            // Tooltip Example
+            const tooltipBtn = createPSButton({
+                text: 'Save Document',
+                mode: 'Success',
+                tooltip: 'Save your changes',
+                ariaLabel: 'Save document to server',
+                testId: 'save-button',
+                onClick: () => logEvent('CODE-EXAMPLE', 'Save button with tooltip clicked')
+            });
+            document.getElementById('tooltip-example-button')?.appendChild(tooltipBtn);
+            
+            // Confirmation Example
+            const confirmBtn = createPSButton({
+                text: 'Delete Item',
+                mode: 'Danger',
+                tooltip: 'Delete this item permanently',
+                confirmationMessage: 'Are you sure you want to delete this item?',
+                onClick: () => logEvent('CODE-EXAMPLE', 'Delete button with confirmation clicked')
+            });
+            document.getElementById('confirmation-example-button')?.appendChild(confirmBtn);
+            
+            // Loading Example
+            const loadingBtn = createPSButton({
+                text: 'Upload File',
+                mode: 'Primary',
+                loading: true,
+                tooltip: 'Upload in progress...'
+            });
+            document.getElementById('loading-example-button')?.appendChild(loadingBtn);
+            
+            // Custom Style Example
+            const customStyleBtn = createPSButton({
+                text: 'Custom Button',
+                mode: 'Warning',
+                width: 200,
+                height: 50,
+                tooltip: 'Custom styled button',
+                onClick: () => logEvent('CODE-EXAMPLE', 'Custom styled button clicked')
+            });
+            // Apply custom styles
+            const customBtn = customStyleBtn.querySelector('button');
+            customBtn.style.borderRadius = '25px';
+            customBtn.style.fontWeight = 'bold';
+            customBtn.style.boxShadow = '0 4px 15px rgba(255,193,7,0.3)';
+            document.getElementById('custom-style-example-button')?.appendChild(customStyleBtn);
+            
+            // Badge Example
+            const badgeBtn = createPSButton({
+                text: 'Notifications',
+                mode: 'Default',
+                badge: '5',
+                tooltip: 'View notifications',
+                onClick: () => logEvent('CODE-EXAMPLE', 'Badge button clicked')
+            });
+            document.getElementById('badge-example-button')?.appendChild(badgeBtn);
+            
+            // Right-Click Example
+            const rightClickBtn = createPSButton({
+                text: 'Context Menu',
+                mode: 'Primary',
+                tooltip: 'Left click for action, right click for menu',
+                onClick: () => logEvent('CODE-EXAMPLE', 'Left click on context button'),
+                onRightClick: () => {
+                    logEvent('CODE-EXAMPLE', 'Right click on context button');
+                    alert('Context menu would appear here!');
+                }
+            });
+            document.getElementById('rightclick-example-button')?.appendChild(rightClickBtn);
+            
+            // All Modes Showcase
+            const allModesContainer = document.getElementById('all-modes-buttons');
+            if (allModesContainer) {
+                allModesContainer.innerHTML = '';
+                const modes = ['Default', 'Primary', 'Success', 'Danger', 'Warning', 'Delete'];
+                
+                modes.forEach(mode => {
+                    const btn = createPSButton({
+                        text: mode,
+                        mode: mode,
+                        tooltip: `${mode} mode example`,
+                        onClick: () => logEvent('CODE-EXAMPLE', `${mode} mode clicked`)
+                    });
+                    allModesContainer.appendChild(btn);
+                });
+            }
+        }
+        
+        // Initialize comparison demos
+        function initializeComparisonDemos() {
+            // PSButton React demo
+            const reactDemoContainer = document.getElementById('react-demo-button');
+            if (reactDemoContainer && window.PSReact) {
+                try {
+                    const btn = createPSButton({
+                        text: 'React Button',
+                        mode: 'Primary',
+                        onClick: () => alert('PSButton React clicked!'),
+                        tooltip: 'PSButton React component'
+                    });
+                    reactDemoContainer.appendChild(btn);
+                } catch (error) {
+                    reactDemoContainer.innerHTML = '<span style="color: red;">Error loading React demo</span>';
+                    console.error('React demo error:', error);
+                }
+            }
+            
+            // createReactButton helper demo
+            const helperDemoContainer = document.getElementById('helper-demo-button');
+            if (helperDemoContainer && typeof createReactButton === 'function') {
+                try {
+                    createReactButton({
+                        text: 'Helper Button',
+                        mode: ButtonModeEnum?.Primary,
+                        onClick: () => alert('createReactButton helper clicked!'),
+                        tooltip: 'Created with helper function'
+                    }, helperDemoContainer);
+                } catch (error) {
+                    helperDemoContainer.innerHTML = '<span style="color: red;">Helper not available</span>';
+                    console.error('Helper demo error:', error);
+                }
+            } else {
+                if (helperDemoContainer) {
+                    helperDemoContainer.innerHTML = '<span style="color: orange;">Helper requires legacy build</span>';
+                }
+            }
+        }
+        
+        // Initialize demo when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            logEvent('DOM', 'DOM Content Loaded');
+            setTimeout(() => {
+                initializeDemo();
+                initializeComparisonDemos();
+            }, 500); // Wait for PSReact to be available
+        });
+        
+        // Also try to initialize immediately if DOM is already loaded
+        if (document.readyState !== 'loading') {
+            setTimeout(() => {
+                initializeDemo();
+                initializeComparisonDemos();
+            }, 500);
+        }
+    </script>
+</body>
+</html>

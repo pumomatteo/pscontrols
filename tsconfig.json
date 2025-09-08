@@ -1,33 +1,68 @@
 {
-  "compileOnSave": true,
-  "watch": true,
   "compilerOptions": {
-    "pretty": false,
+    "target": "ES2022",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": false,
+    "isolatedModules": true,
+    "moduleDetection": "force",
     "noEmit": false,
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
     "declaration": true,
     "declarationDir": "./dist/definitions",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "removeComments": true,
+    "importHelpers": true,
     "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
     "strictPropertyInitialization": false,
+    "noImplicitThis": true,
     "noImplicitReturns": true,
-    "allowSyntheticDefaultImports": false,
-    "target": "ESNext",
-    "lib": [
-      "es6",
-      "dom",
-      "ESNext"
-    ],
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": false,
+    "noImplicitOverride": false,
+    "exactOptionalPropertyTypes": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
+    "preserveConstEnums": true,
+    "verbatimModuleSyntax": false,
     "baseUrl": "./",
-    "strictFunctionTypes": false
+    "paths": {
+      "@pscontrols/*": [
+        "src/ui/*"
+      ],
+      "@managers/*": [
+        "src/managers/*"
+      ]
+    }
   },
+  "include": [
+    "src/ui/**/*",
+    "src/managers/**/*"
+  ],
   "exclude": [
-    "./dist",
-    "./node_modules"
+    "node_modules",
+    "dist",
+    "src/react/**/*",
+    "examples/**/*",
+    "**/*.test.ts",
+    "**/*.spec.ts"
   ]
 }

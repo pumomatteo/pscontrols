@@ -1368,7 +1368,7 @@ export class ColorPickerManager
 			{
 				switch (thisObj.mode.charAt(1).toLowerCase())
 				{
-					case 'v': return 'v'; break;
+					case 'v': return 'v';
 				}
 				return 's';
 			},
@@ -1380,8 +1380,8 @@ export class ColorPickerManager
 				{
 					switch (thisObj.mode.charAt(2).toLowerCase())
 					{
-						case 's': return 's'; break;
-						case 'v': return 'v'; break;
+						case 's': return 's';
+						case 'v': return 'v';
 					}
 				}
 				return null;
@@ -2341,10 +2341,10 @@ export class ColorPickerManager
 					}
 					switch (format.toLowerCase())
 					{
-						case 'hex': return this.toHEXString(); break;
-						case 'hexa': return this.toHEXAString(); break;
-						case 'rgb': return this.toRGBString(); break;
-						case 'rgba': return this.toRGBAString(); break;
+						case 'hex': return this.toHEXString();
+						case 'hexa': return this.toHEXAString();
+						case 'rgb': return this.toRGBString();
+						case 'rgba': return this.toRGBAString();
 					}
 					return false;
 				};
