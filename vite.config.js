@@ -132,7 +132,20 @@ export default defineConfig(({ mode }) => {
         exclude: config.dtsExclude,
         outDir: config.outDir,
         tsconfigPath: config.tsconfigPath,
-        rollupTypes: true
+        rollupTypes: true,
+        // Fix output filename to match expected vrcontrols.d.ts
+        entryRoot: 'src',
+        outputDir: config.outDir,
+        insertTypesEntry: false,
+        copyDtsFiles: true,
+        // Override output filename for legacy build
+        ...(mode === 'legacy' ? {
+          rollupOptions: {
+            output: {
+              entryFileNames: 'vrcontrols.d.ts'
+            }
+          }
+        } : {})
       })] : [])
     ],
     

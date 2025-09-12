@@ -273,6 +273,19 @@ export class Label extends VrControl
     }
     //#endregion
 
+    icon(iconClass?: IconClass): IconClass
+    {
+        if (iconClass != null)
+        {
+            let existingIcon = this.element().querySelector("i");
+            if (existingIcon != null)
+                existingIcon.remove();
+
+            this.element().innerHTML = "<i class='" + iconClass + "'></i> " + this.element().innerHTML;
+        }
+        return this.element().querySelector("i")?.className ?? "";
+    }
+
     isEmpty(): boolean
     {
         return this.element().innerHTML === "";

@@ -3,7 +3,7 @@
   "name": "pscontrols",
   "scripts": {
     "compodoc": "npx compodoc src -p tsconfig.json --output ./dist/documentation --disableSourceCode --disablePrivate --disableProtected --disableInternal --disableLifeCycleHooks --disableRoutesGraph --disableDependencies",
-    "build:legacy": "vite build",
+    "build:legacy": "vite build && cp dist/vrcontrols.all.min.d.ts dist/vrcontrols.d.ts",
     "build:react": "vite build --mode react",
     "build:esm": "vite build --mode esm",
     "build:combined": "vite build --mode combined",

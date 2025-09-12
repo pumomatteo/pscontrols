@@ -396,7 +396,9 @@ export declare enum ButtonModeEnum {
     Delete = "vrButtonDeleteMode",
     Excel = "vrButtonExcelMode",
     Print = "vrButtonPrintMode",
-    Warning = "vrButtonWarningMode"
+    Warning = "vrButtonWarningMode",
+    Danger = "vrButtonDangerMode",
+    Success = "vrButtonSuccessMode"
 }
 
 declare class ButtonMouseDownEvent extends ButtonEvent {
@@ -1638,6 +1640,11 @@ export declare function createRadioButton(options?: RadioButtonOptions | null, c
 export declare function createRadioButtonList(options?: RadioButtonListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButtonList;
 
 export declare function createRating(options?: RatingOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Rating;
+
+export declare function createReactButton(options?: any, container?: HTMLElement | string | null): {
+    element: HTMLElement;
+    root: any;
+} | null;
 
 export declare function createRepeater(options?: RepeaterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Repeater;
 
@@ -6684,6 +6691,7 @@ declare class Label extends VrControl {
     color(value?: string): string;
     backgroundColor(value?: string): string;
     borderColor(value?: string): string;
+    icon(iconClass?: IconClass): IconClass;
     isEmpty(): boolean;
     clear(): void;
     getOptions(): LabelOptions;
