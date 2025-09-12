@@ -132,7 +132,7 @@ export default defineConfig(({ mode }) => {
         exclude: config.dtsExclude,
         outDir: config.outDir,
         tsconfigPath: config.tsconfigPath,
-        rollupTypes: true,
+        rollupTypes: false,
         // Fix output filename to match expected vrcontrols.d.ts
         entryRoot: 'src',
         outputDir: config.outDir,

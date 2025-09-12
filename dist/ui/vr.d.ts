@@ -1,68 +1,117 @@
-declare module vr {export function createLabel(options?: LabelOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Label;
-export function createButton(options?: ButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Button;
-export function createReactButton(options?: any, container?: HTMLElement | string | null): {
+import { LabelOptions, Label } from './controls/label';
+import { TextBoxOptions, TextBox, TextBoxNumeric, TextBoxPercentage, TextBoxCurrency, TextBoxPassword, TextBoxMultiline } from './controls/textbox';
+import { CheckBoxOptions, CheckBox, CheckBoxCheckEvent } from './controls/checkbox';
+import { SeparatorOptions, Separator } from './controls/separator';
+import { ButtonGroup, ButtonGroupClickEvent, ButtonGroupIconClickEvent, ButtonGroupOptions } from './controls/buttonGroup';
+import { ImageOptions, Image } from './controls/image';
+import { DatePickerOptions, DatePicker, TimePicker, DateTimePicker, MonthPicker, YearPicker } from './controls/datePicker';
+import { ComboBoxOptions, ComboBox, DropDown } from './controls/comboBox';
+import { SplitButtonOptions, SplitButton, SplitButtonItem } from './controls/splitButton';
+import { Editor, EditorItemClickEvent, EditorOptions } from './controls/editor';
+import { WindowOptions, Window } from './controls/window';
+import { ConfirmOptions } from './controls/confirm';
+import { AlertOptions } from './controls/alert';
+import { Dialog, DialogOptions } from './controls/dialog';
+import { Grid, GridOptions, GridHeaderSettings, GridCellSettings, GridCustomSettings, GridIconSettings, GridImageSettings, GridLabelSettings, GridTemplateEvent, GridToolbarDeleteRequest, GridToolbarSwitchSettings, GridToolbarClickEvent, GridControlsSettings, GridExcelRow } from './controls/grid';
+import { PromptOptions } from './controls/prompt';
+import { SwitchOptions, Switch } from './controls/switch';
+import { CheckBoxListOptions, CheckBoxList } from './controls/checkboxList';
+import { RadioButton, RadioButtonOptions } from './controls/radioButton';
+import { RadioButtonList, RadioButtonListOptions } from './controls/radioButtonList';
+import { RepeaterOptions, Repeater } from './controls/repeater';
+import { MapsOptions, Maps } from './controls/maps';
+import { AttributeSettings, VrControl, VrControlOptions, VrControlsEvent } from './common';
+import { PainterOptions, Painter } from './controls/painter';
+import { Calendar, CalendarOptions } from './controls/calendar';
+import { RatingOptions, Rating } from './controls/rating';
+import { GroupBox, GroupBoxOptions } from './controls/groupBox';
+import { PdfViewer, PdfViewerOptions } from './controls/pdfViewer';
+import { Notifier, NotifierCustomHtmlEvent, NotifierHideSettings, NotifierOnClickEvent, NotifierShowSettings } from './controls/notifier';
+import { Upload, UploadOptions } from './controls/upload';
+import { PaypalButton, PaypalButtonOptions } from './controls/paypalButton';
+import { TreeView, TreeViewCellSettings, TreeViewContextMenuClickEvent, TreeViewHeaderSettings, TreeViewOptions } from './controls/treeView';
+import { Scheduler, SchedulerOptions } from './controls/scheduler';
+import { QrCode, QrCodeOptions } from './controls/qrCode';
+import { MultiScheduler, MultiSchedulerOptions } from './controls/multiScheduler';
+import { Icon, IconOptions } from './controls/icon';
+import { ColorPicker, ColorPickerOptions } from './controls/colorPicker';
+import { SearchBar, SearchBarOptions } from './controls/searchBar';
+import { Splitter, SplitterOptions } from './controls/splitter';
+import { AutoCompleteBox, AutoCompleteBoxOptions } from './controls/autoCompleteBox';
+import { AreaChart, BarChart, ChartVr, DonutChart, HorizontalBarChart, LineChart, PieChart, StackedBarChart } from './controls/chart';
+import { PrintFileOptions, PrintHtmlOptions } from '../../src/managers/printManager';
+import { TabStrip, TabStripOptions } from './controls/tabStrip';
+import { Tooltip, TooltipOptions } from './controls/tooltip';
+import { SpeechRecognizer, SpeechRecognizerAudioEndEvent, SpeechRecognizerAudioStartEvent, SpeechRecognizerClickEvent, SpeechRecognizerEndEvent, SpeechRecognizerErrorEvent, SpeechRecognizerNoMatchEvent, SpeechRecognizerResultEvent, SpeechRecognizerSoundEndEvent, SpeechRecognizerSoundStartEvent, SpeechRecognizerSpeechEndEvent, SpeechRecognizerSpeechStartEvent, SpeechRecognizerStartEvent } from './controls/speechRecognizer';
+import { Div, DivOptions } from './controls/div';
+import { Button, ButtonOptions } from './controls/button';
+import { Legend, LegendOptions } from './controls/legend';
+import { Menu, MenuOnClickEvent, MenuOptions } from './controls/menu';
+export declare function createLabel(options?: LabelOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Label;
+export declare function createButton(options?: ButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Button;
+export declare function createReactButton(options?: any, container?: HTMLElement | string | null): {
     element: HTMLElement;
     root: any;
 } | null;
-export function createButtonGroup(options?: ButtonGroupOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ButtonGroup;
-export function createTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBox;
-export function createNumericTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxNumeric;
-export function createPercentageTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxPercentage;
-export function createCurrencyTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxCurrency;
-export function createPasswordTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxPassword;
-export function createMultilineTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxMultiline;
-export function createCheckBox(options?: CheckBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): CheckBox;
-export function createSeparator(options?: SeparatorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Separator;
-export function createImage(options?: ImageOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Image;
-export function createDatePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DatePicker;
-export function createTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TimePicker;
-export function createDateTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DateTimePicker;
-export function createMonthPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): MonthPicker;
-export function createYearPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): YearPicker;
-export function createComboBox(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ComboBox;
-export function createDropDown(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DropDown;
-export function createSplitButton(options?: SplitButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SplitButton;
-export function createMenu(options?: MenuOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Menu;
-export function createEditor(options?: EditorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Editor;
-export function createWindow(options?: WindowOptions | null, container?: HTMLElement | JQuery | string | null): Window;
-export function createGrid(options?: GridOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Grid;
-export function createSwitch(options?: SwitchOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Switch;
-export function createCheckBoxList(options?: CheckBoxListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): CheckBoxList;
-export function createRadioButton(options?: RadioButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButton;
-export function createRadioButtonList(options?: RadioButtonListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButtonList;
-export function createRepeater(options?: RepeaterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Repeater;
-export function createMap(options?: MapsOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Maps;
-export function createPainter(options?: PainterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Painter;
-export function createCalendar(options?: CalendarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Calendar;
-export function createRating(options?: RatingOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Rating;
-export function createGroupBox(options?: GroupBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): GroupBox;
-export function createPdfViewer(options?: PdfViewerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PdfViewer;
-export function createPaypalButton(options?: PaypalButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PaypalButton;
-export function createUpload(options?: UploadOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Upload;
-export function createTreeView(options?: TreeViewOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TreeView;
-export function createScheduler(options?: SchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Scheduler;
-export function createMultiScheduler(options?: MultiSchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): MultiScheduler;
-export function createQrCode(options?: QrCodeOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): QrCode;
-export function createIcon(options?: IconOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Icon;
-export function createColorPicker(options?: ColorPickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ColorPicker;
-export function createSearchBar(options?: SearchBarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SearchBar;
-export function createSplitter(options?: SplitterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Splitter;
-export function createAutoCompleteBox(options?: AutoCompleteBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): AutoCompleteBox;
-export function createChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ChartVr;
-export function createBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): BarChart;
-export function createHorizontalBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): HorizontalBarChart;
-export function createLineChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): LineChart;
-export function createDonutChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DonutChart;
-export function createPieChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PieChart;
-export function createAreaChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): AreaChart;
-export function createStackedBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): StackedBarChart;
-export function createTabStrip(options?: TabStripOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TabStrip;
-export function createTooltip(options?: TooltipOptions | null): Tooltip;
-export function createSpeechRecognizer(options?: SpeechRecognizerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SpeechRecognizer;
-export function createLegend(options?: LegendOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Legend;
-export function getControl<T extends VrControl>(controlId: string): T;
-export function addControl(control: VrControl): void;
-export enum ControlTypeEnum {
+export declare function createButtonGroup(options?: ButtonGroupOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ButtonGroup;
+export declare function createTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBox;
+export declare function createNumericTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxNumeric;
+export declare function createPercentageTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxPercentage;
+export declare function createCurrencyTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxCurrency;
+export declare function createPasswordTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxPassword;
+export declare function createMultilineTextBox(options?: TextBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TextBoxMultiline;
+export declare function createCheckBox(options?: CheckBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): CheckBox;
+export declare function createSeparator(options?: SeparatorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Separator;
+export declare function createImage(options?: ImageOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Image;
+export declare function createDatePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DatePicker;
+export declare function createTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TimePicker;
+export declare function createDateTimePicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DateTimePicker;
+export declare function createMonthPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): MonthPicker;
+export declare function createYearPicker(options?: DatePickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): YearPicker;
+export declare function createComboBox(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ComboBox;
+export declare function createDropDown(options?: ComboBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DropDown;
+export declare function createSplitButton(options?: SplitButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SplitButton;
+export declare function createMenu(options?: MenuOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Menu;
+export declare function createEditor(options?: EditorOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Editor;
+export declare function createWindow(options?: WindowOptions | null, container?: HTMLElement | JQuery | string | null): Window;
+export declare function createGrid(options?: GridOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Grid;
+export declare function createSwitch(options?: SwitchOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Switch;
+export declare function createCheckBoxList(options?: CheckBoxListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): CheckBoxList;
+export declare function createRadioButton(options?: RadioButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButton;
+export declare function createRadioButtonList(options?: RadioButtonListOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): RadioButtonList;
+export declare function createRepeater(options?: RepeaterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Repeater;
+export declare function createMap(options?: MapsOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Maps;
+export declare function createPainter(options?: PainterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Painter;
+export declare function createCalendar(options?: CalendarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Calendar;
+export declare function createRating(options?: RatingOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Rating;
+export declare function createGroupBox(options?: GroupBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): GroupBox;
+export declare function createPdfViewer(options?: PdfViewerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PdfViewer;
+export declare function createPaypalButton(options?: PaypalButtonOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PaypalButton;
+export declare function createUpload(options?: UploadOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Upload;
+export declare function createTreeView(options?: TreeViewOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TreeView;
+export declare function createScheduler(options?: SchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Scheduler;
+export declare function createMultiScheduler(options?: MultiSchedulerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): MultiScheduler;
+export declare function createQrCode(options?: QrCodeOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): QrCode;
+export declare function createIcon(options?: IconOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Icon;
+export declare function createColorPicker(options?: ColorPickerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ColorPicker;
+export declare function createSearchBar(options?: SearchBarOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SearchBar;
+export declare function createSplitter(options?: SplitterOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Splitter;
+export declare function createAutoCompleteBox(options?: AutoCompleteBoxOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): AutoCompleteBox;
+export declare function createChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): ChartVr;
+export declare function createBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): BarChart;
+export declare function createHorizontalBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): HorizontalBarChart;
+export declare function createLineChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): LineChart;
+export declare function createDonutChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): DonutChart;
+export declare function createPieChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): PieChart;
+export declare function createAreaChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): AreaChart;
+export declare function createStackedBarChart(options?: ChartOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): StackedBarChart;
+export declare function createTabStrip(options?: TabStripOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): TabStrip;
+export declare function createTooltip(options?: TooltipOptions | null): Tooltip;
+export declare function createSpeechRecognizer(options?: SpeechRecognizerOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): SpeechRecognizer;
+export declare function createLegend(options?: LegendOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null, existingElement?: HTMLElement | JQuery | string | null): Legend;
+export declare function getControl<T extends VrControl>(controlId: string): T;
+export declare function addControl(control: VrControl): void;
+export declare enum ControlTypeEnum {
     Label = "Label",
     Button = "Button",
     Window = "Window",
@@ -106,42 +155,42 @@ export enum ControlTypeEnum {
     Div = "Div",
     Legend = "Legend"
 }
-export enum ControlPositionEnum {
+export declare enum ControlPositionEnum {
     Before = 0,
     After = 1,
     None = 2
 }
-export function hideNotify(): void;
-export function notify(text: string, options?: NotifierOptions): Notifier;
-export function notifyError(text: string, options?: NotifierOptions | null): Notifier;
-export function notifyWarning(text: string, options?: NotifierOptions | null): Notifier;
-export function notifySuccess(text: string, options?: NotifierOptions | null): Notifier;
-export function notifyInfo(text: string, options?: NotifierOptions | null): Notifier;
-export function confirm(text?: string | null, options?: ConfirmOptions | null): Promise<any>;
-export function alert(text?: string | null, options?: AlertOptions | null): Promise<any>;
-export function dialog(text?: string | null, options?: DialogOptions | null): Dialog;
-export function prompt(text?: string | null, options?: PromptOptions | null): Promise<any>;
-export function printElement(element: string | HTMLElement | JQuery, options?: PrintHtmlOptions): void;
-export function printHtml(elementId: string, options?: PrintFileOptions): void;
-export function printBytes(base64Bytes: string, options?: PrintFileOptions): void;
-export function printPdf(path: string, options?: PrintFileOptions): void;
-export function printImage(path: string, options?: PrintFileOptions): void;
-export function isSmartphone(): boolean;
-export function isTablet(): boolean;
-export function isDesktop(): boolean;
-export function isMobile(): any;
-export function isIphoneX(): boolean;
-export function isIphone(): RegExpMatchArray | null;
-export function browser(): BrowserTypeEnum | "Unknown";
-export function isInternetExplorer(): boolean;
-export function isSafari(): boolean;
-export function isChrome(): boolean;
-export function isFirefox(): boolean;
-export function isEdge(): boolean;
-export function isOpera(): boolean;
-export function isVivaldi(): boolean;
-export function isSeamonkey(): boolean;
-export enum BrowserTypeEnum {
+export declare function hideNotify(): void;
+export declare function notify(text: string, options?: NotifierOptions): Notifier;
+export declare function notifyError(text: string, options?: NotifierOptions | null): Notifier;
+export declare function notifyWarning(text: string, options?: NotifierOptions | null): Notifier;
+export declare function notifySuccess(text: string, options?: NotifierOptions | null): Notifier;
+export declare function notifyInfo(text: string, options?: NotifierOptions | null): Notifier;
+export declare function confirm(text?: string | null, options?: ConfirmOptions | null): Promise<any>;
+export declare function alert(text?: string | null, options?: AlertOptions | null): Promise<any>;
+export declare function dialog(text?: string | null, options?: DialogOptions | null): Dialog;
+export declare function prompt(text?: string | null, options?: PromptOptions | null): Promise<any>;
+export declare function printElement(element: string | HTMLElement | JQuery, options?: PrintHtmlOptions): void;
+export declare function printHtml(elementId: string, options?: PrintFileOptions): void;
+export declare function printBytes(base64Bytes: string, options?: PrintFileOptions): void;
+export declare function printPdf(path: string, options?: PrintFileOptions): void;
+export declare function printImage(path: string, options?: PrintFileOptions): void;
+export declare function isSmartphone(): boolean;
+export declare function isTablet(): boolean;
+export declare function isDesktop(): boolean;
+export declare function isMobile(): any;
+export declare function isIphoneX(): boolean;
+export declare function isIphone(): RegExpMatchArray | null;
+export declare function browser(): BrowserTypeEnum | "Unknown";
+export declare function isInternetExplorer(): boolean;
+export declare function isSafari(): boolean;
+export declare function isChrome(): boolean;
+export declare function isFirefox(): boolean;
+export declare function isEdge(): boolean;
+export declare function isOpera(): boolean;
+export declare function isVivaldi(): boolean;
+export declare function isSeamonkey(): boolean;
+export declare enum BrowserTypeEnum {
     InternetExplorer = "InternetExplorer",
     Safari = "Safari",
     Chrome = "Chrome",
@@ -151,9 +200,9 @@ export enum BrowserTypeEnum {
     Vivaldi = "Vivaldi",
     Seamonkey = "Seamonkey"
 }
-export function createDiv(options?: DivOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null): Div;
-export function div(container?: string | HTMLElement | JQuery, settings?: DivSettings, prepend?: boolean): HTMLElement;
-export class DivSettings {
+export declare function createDiv(options?: DivOptions | null, container?: HTMLElement | JQuery | string | null, position?: ControlPositionEnum | null): Div;
+export declare function div(container?: string | HTMLElement | JQuery, settings?: DivSettings, prepend?: boolean): HTMLElement;
+declare class DivSettings {
     class?: string;
     id?: string;
     content?: string;
@@ -161,8 +210,8 @@ export class DivSettings {
     tooltip?: string;
     attributes?: AttributeSettings[];
 }
-export function span(container?: string | HTMLElement | JQuery, settings?: SpanSettings, prepend?: boolean): HTMLElement;
-export class SpanSettings {
+export declare function span(container?: string | HTMLElement | JQuery, settings?: SpanSettings, prepend?: boolean): HTMLElement;
+declare class SpanSettings {
     class?: string;
     id?: string;
     content?: string;
@@ -170,8 +219,8 @@ export class SpanSettings {
     tooltip?: string;
     attributes?: AttributeSettings[];
 }
-export function icon(iconClass: IconClass, container?: string | HTMLElement | JQuery | null, settings?: IconSettings | null, prepend?: boolean): HTMLElement;
-export class IconSettings {
+export declare function icon(iconClass: IconClass, container?: string | HTMLElement | JQuery | null, settings?: IconSettings | null, prepend?: boolean): HTMLElement;
+export declare class IconSettings {
     fontSize?: string | number;
     css?: string;
     id?: string;
@@ -180,8 +229,8 @@ export class IconSettings {
     cursor?: string;
     position?: PositionEnum;
 }
-export function iframe(container: string | HTMLElement | JQuery, settings?: VrIframeSettings): HTMLIFrameElement;
-export class VrIframeSettings {
+export declare function iframe(container: string | HTMLElement | JQuery, settings?: VrIframeSettings): HTMLIFrameElement;
+declare class VrIframeSettings {
     content?: string;
     loader?: boolean | HTMLElement | JQuery | string;
     callback?: Function;
@@ -190,19 +239,19 @@ export class VrIframeSettings {
     css?: string;
     attributes?: AttributeSettings[];
 }
-export function br(container: string | HTMLElement | JQuery, count?: number): void;
-export function hr(container: string | HTMLElement | JQuery, css?: string, id?: string): HTMLElement;
-export function guid(): string;
-export class VrMarginSettings {
+export declare function br(container: string | HTMLElement | JQuery, count?: number): void;
+export declare function hr(container: string | HTMLElement | JQuery, css?: string, id?: string): HTMLElement;
+export declare function guid(): string;
+export declare class VrMarginSettings {
     top?: number;
     right?: number;
     bottom?: number;
     left?: number;
 }
-export function showLoader(element?: string | HTMLElement | JQuery | boolean, transparency?: boolean, tag?: any | null, text?: string | null): void;
-export function hideLoader(tag?: any): void;
-export function pumo(): void;
-export enum CreatorEnum {
+export declare function showLoader(element?: string | HTMLElement | JQuery | boolean, transparency?: boolean, tag?: any | null, text?: string | null): void;
+export declare function hideLoader(tag?: any): void;
+export declare function pumo(): void;
+export declare enum CreatorEnum {
     MatteoPumo = "MatteoPumo",
     MatteoPumoSite = "https://www.matteopumo.com",
     MatteoPumoMail = "info@matteopumo.com",
@@ -213,7 +262,7 @@ export enum CreatorEnum {
     FastestControlsEver = "FastestControlsEver"
 }
 export type IconClass = IconClassicSolid | IconClassicLight | IconClassicRegular | IconClassicDuotone | IconClassicThin | IconClassicBrands | IconSharpSolid | IconSharpLight | IconSharpRegular | IconSharpDuotone | IconSharpThin | string;
-export enum IconClassicBrands {
+export declare enum IconClassicBrands {
     Amazon = "fa-brands fa-amazon",
     Android = "fa-brands fa-android",
     Apple = "fa-brands fa-apple",
@@ -228,7 +277,7 @@ export enum IconClassicBrands {
     Windows = "fa-brands fa-windows",
     Youtube = "fa-brands fa-youtube"
 }
-export enum IconClassicSolid {
+export declare enum IconClassicSolid {
     Add = "fa-solid fa-plus",
     AddressCard = "fa-solid fa-address-card",
     Alert = "fa-solid fa-triangle-exclamation",
@@ -569,7 +618,7 @@ export enum IconClassicSolid {
     Window = "fa-solid fa-window",
     Xmark = "fa-solid fa-xmark"
 }
-export enum IconClassicLight {
+export declare enum IconClassicLight {
     Add = "fa-light fa-plus",
     AddressCard = "fa-light fa-address-card",
     Alert = "fa-light fa-triangle-exclamation",
@@ -921,7 +970,7 @@ export enum IconClassicLight {
     Window = "fa-light fa-window",
     Xmark = "fa-light fa-xmark"
 }
-export enum IconClassicRegular {
+export declare enum IconClassicRegular {
     Add = "fa-regular fa-plus",
     AddressCard = "fa-regular fa-address-card",
     Alert = "fa-regular fa-triangle-exclamation",
@@ -1264,7 +1313,7 @@ export enum IconClassicRegular {
     Window = "fa-regular fa-window",
     Xmark = "fa-regular fa-xmark"
 }
-export enum IconClassicDuotone {
+export declare enum IconClassicDuotone {
     Add = "fa-duotone fa-plus",
     AddressCard = "fa-duotone fa-address-card",
     Alert = "fa-duotone fa-triangle-exclamation",
@@ -1607,7 +1656,7 @@ export enum IconClassicDuotone {
     Window = "fa-duotone fa-window",
     Xmark = "fa-duotone fa-xmark"
 }
-export enum IconClassicThin {
+export declare enum IconClassicThin {
     Add = "fa-thin fa-plus",
     AddressCard = "fa-thin fa-address-card",
     Alert = "fa-thin fa-triangle-exclamation",
@@ -1950,7 +1999,7 @@ export enum IconClassicThin {
     Window = "fa-thin fa-window",
     Xmark = "fa-thin fa-xmark"
 }
-export enum IconSharpSolid {
+export declare enum IconSharpSolid {
     Add = "fa-sharp fa-solid fa-plus",
     AddressCard = "fa-sharp fa-solid fa-address-card",
     Alert = "fa-sharp fa-solid fa-triangle-exclamation",
@@ -2291,7 +2340,7 @@ export enum IconSharpSolid {
     Window = "fa-sharp fa-solid fa-window",
     Xmark = "fa-sharp fa-solid fa-xmark"
 }
-export enum IconSharpLight {
+export declare enum IconSharpLight {
     Add = "fa-sharp fa-light fa-plus",
     AddressCard = "fa-sharp fa-light fa-address-card",
     Alert = "fa-sharp fa-light fa-triangle-exclamation",
@@ -2634,7 +2683,7 @@ export enum IconSharpLight {
     Window = "fa-sharp fa-light fa-window",
     Xmark = "fa-sharp fa-light fa-xmark"
 }
-export enum IconSharpRegular {
+export declare enum IconSharpRegular {
     Add = "fa-sharp fa-regular fa-plus",
     AddressCard = "fa-sharp fa-regular fa-address-card",
     Alert = "fa-sharp fa-regular fa-triangle-exclamation",
@@ -2977,7 +3026,7 @@ export enum IconSharpRegular {
     Window = "fa-sharp fa-regular fa-window",
     Xmark = "fa-sharp fa-regular fa-xmark"
 }
-export enum IconSharpDuotone {
+export declare enum IconSharpDuotone {
     Add = "fa-sharp fa-duotone fa-plus",
     AddressCard = "fa-sharp fa-duotone fa-address-card",
     Alert = "fa-sharp fa-duotone fa-triangle-exclamation",
@@ -3320,7 +3369,7 @@ export enum IconSharpDuotone {
     Window = "fa-sharp fa-duotone fa-window",
     Xmark = "fa-sharp fa-duotone fa-xmark"
 }
-export enum IconSharpThin {
+export declare enum IconSharpThin {
     Add = "fa-sharp fa-thin fa-plus",
     AddressCard = "fa-sharp fa-thin fa-address-card",
     Alert = "fa-sharp fa-thin fa-triangle-exclamation",
@@ -3663,17 +3712,17 @@ export enum IconSharpThin {
     Window = "fa-sharp fa-thin fa-window",
     Xmark = "fa-sharp fa-thin fa-xmark"
 }
-export enum PositionEnum {
+export declare enum PositionEnum {
     Left = 0,
     Top = 1,
     Right = 2,
     Bottom = 3
 }
-export enum OrientationEnum {
+export declare enum OrientationEnum {
     Horizontal = 0,
     Vertical = 1
 }
-export class PopupSettings {
+export declare class PopupSettings {
     width?: number | string;
     minWidth?: number | string;
     maxWidth?: number | string;
@@ -3683,12 +3732,12 @@ export class PopupSettings {
     right?: boolean;
     direction?: PopupDirectionEnum;
 }
-export enum PopupDirectionEnum {
+export declare enum PopupDirectionEnum {
     Auto = 0,
     Up = 1,
     Down = 2
 }
-export enum BorderStyleEnum {
+export declare enum BorderStyleEnum {
     Dashed = "dashed",
     Dotted = "dotted",
     Double = "double",
@@ -3697,7 +3746,7 @@ export enum BorderStyleEnum {
     Groove = "groove",
     Ridge = "ridge"
 }
-export enum ButtonModeEnum {
+export declare enum ButtonModeEnum {
     Default = "vrButtonDefaultMode",
     Primary = "vrButtonPrimaryMode",
     Delete = "vrButtonDeleteMode",
@@ -3707,31 +3756,31 @@ export enum ButtonModeEnum {
     Danger = "vrButtonDangerMode",
     Success = "vrButtonSuccessMode"
 }
-export class ColorSettings {
+export declare class ColorSettings {
     textColor?: string;
     background?: string;
     border?: string;
 }
-export class DivColorSettings {
+export declare class DivColorSettings {
     textColor?: string;
     background?: string;
 }
-export class DivBorderSpecificSettings {
+export declare class DivBorderSpecificSettings {
     type?: string;
     size?: number;
     color?: string;
 }
-export class DivBorderSettings extends DivBorderSpecificSettings {
+export declare class DivBorderSettings extends DivBorderSpecificSettings {
     top?: boolean | DivBorderSpecificSettings;
     right?: boolean | DivBorderSpecificSettings;
     bottom?: boolean | DivBorderSpecificSettings;
     left?: boolean | DivBorderSpecificSettings;
 }
-export enum SelectionModeEnum {
+export declare enum SelectionModeEnum {
     Single = 0,
     Multiple = 1
 }
-export class ButtonGroupItem {
+export declare class ButtonGroupItem {
     value?: string | number;
     text?: string;
     icon?: IconClass;
@@ -3745,14 +3794,14 @@ export class ButtonGroupItem {
     onClick?: (e: ButtonGroupClickEvent) => void;
     onIconClick?: (e: ButtonGroupIconClickEvent) => void;
 }
-export class TabStripItem extends ButtonGroupItem {
+export declare class TabStripItem extends ButtonGroupItem {
     elementId?: string;
 }
-export enum RatingPrecisionEnum {
+export declare enum RatingPrecisionEnum {
     Half = 0,
     Full = 1
 }
-export enum LabelModeEnum {
+export declare enum LabelModeEnum {
     Default = 0,
     Primary = 1,
     Error = 2,
@@ -3764,22 +3813,22 @@ export enum LabelModeEnum {
     Time = 8,
     DateTime = 9
 }
-export enum LabelUnderlineMode {
+export declare enum LabelUnderlineMode {
     Always = 0,
     None = 1,
     OnHover = 2
 }
-export enum TextAlignEnum {
+export declare enum TextAlignEnum {
     Left = "left",
     Center = "center",
     Right = "right",
     Justify = "justify"
 }
-export class TextBoxLengthSettings {
+export declare class TextBoxLengthSettings {
     substituteChar?: string;
     value: number;
 }
-export enum TextModeEnum {
+export declare enum TextModeEnum {
     Text = 0,
     Link = 1,
     Phone = 2,
@@ -3792,13 +3841,13 @@ export enum TextModeEnum {
     Percentage = 9,
     Currency = 10
 }
-export enum TextTransformModeEnum {
+export declare enum TextTransformModeEnum {
     Capitalize = "capitalize",
     Uppercase = "uppercase",
     Lowercase = "lowercase",
     Default = "none"
 }
-export enum TextBoxAutoCompleteEnum {
+export declare enum TextBoxAutoCompleteEnum {
     On = "on",
     Off = "off",
     AddressLine1 = "address-line1",
@@ -3856,7 +3905,7 @@ export enum TextBoxAutoCompleteEnum {
     TelExtension = "tel-extension",
     Impp = "impp"
 }
-export class TextBoxValidationSettings {
+export declare class TextBoxValidationSettings {
     minValue?: number;
     maxValue?: number;
     minLength?: number | TextBoxLengthSettings;
@@ -3864,7 +3913,7 @@ export class TextBoxValidationSettings {
     regex?: string | TextBoxRegexSettings;
     error?: TextBoxValidationErrorEnum;
 }
-export class TextBoxRegexSettings {
+export declare class TextBoxRegexSettings {
     value?: string;
     flags?: string;
     checkOnValue?: boolean;
@@ -3876,46 +3925,46 @@ export class TextBoxRegexSettings {
     onlyUpperCase?: boolean;
     onlyLowerCase?: boolean;
 }
-export enum TextBoxValidationErrorEnum {
+export declare enum TextBoxValidationErrorEnum {
     Flashing = 0,
     Stable = 1,
     None = 2
 }
-export enum ErrorModeEnum {
+export declare enum ErrorModeEnum {
     Tooltip = 0,
     Overlay = 1,
     Solid = 2
 }
-export enum ErrorPositionEnum {
+export declare enum ErrorPositionEnum {
     Right = 0,
     Bottom = 1
 }
-export enum ErrorHideModeEnum {
+export declare enum ErrorHideModeEnum {
     OnFocus = 0,
     OnAction = 1,
     Never = 2
 }
-export enum PaypalEnvironmentEnum {
+export declare enum PaypalEnvironmentEnum {
     Sandbox = "sandbox",
     Production = "production"
 }
-export enum PaypalStyleSizeEnum {
+export declare enum PaypalStyleSizeEnum {
     Medium = "medium",
     Large = "large",
     Small = "small",
     Responsive = "responsive"
 }
-export enum PaypalStyleColorEnum {
+export declare enum PaypalStyleColorEnum {
     Gold = "gold",
     Blue = "blue",
     Silver = "silver",
     Black = "black"
 }
-export enum PaypalStyleShapeEnum {
+export declare enum PaypalStyleShapeEnum {
     Rect = "rect",
     Pill = "pill"
 }
-export enum PaypalStyleLabelEnum {
+export declare enum PaypalStyleLabelEnum {
     Checkout = "checkout",
     Credit = "credit",
     Pay = "pay",
@@ -3923,16 +3972,16 @@ export enum PaypalStyleLabelEnum {
     Paypal = "paypal",
     Installment = "installment"
 }
-export enum PaypalStyleLayoutEnum {
+export declare enum PaypalStyleLayoutEnum {
     Vertical = "vertical",
     Horizontal = "horizontal"
 }
-export enum CheckboxStateEnum {
+export declare enum CheckboxStateEnum {
     Checked = 0,
     Unchecked = 1,
     Undefined = 2
 }
-export class CheckBoxItem {
+export declare class CheckBoxItem {
     text?: string;
     value?: string | number;
     checked?: boolean;
@@ -3940,32 +3989,32 @@ export class CheckBoxItem {
     tag?: any;
     onCheck?: (e: CheckBoxCheckEvent) => void;
 }
-export enum ImagePositionTypeEnum {
+export declare enum ImagePositionTypeEnum {
     Center = 0,
     Fit = 1,
     Fill = 2,
     Stretch = 3,
     Original = 4
 }
-export enum ImageToolbarTypeEnum {
+export declare enum ImageToolbarTypeEnum {
     Download = 0,
     Delete = 1,
     Custom = 2
 }
-export enum DefaultDayEnum {
+export declare enum DefaultDayEnum {
     First = 0,
     Last = 1
 }
-export enum ComboBoxTypeEnum {
+export declare enum ComboBoxTypeEnum {
     Combo = 0,
     DropDown = 1
 }
-export enum ComboBoxTreeModeEnum {
+export declare enum ComboBoxTreeModeEnum {
     AllExpanded = 0,
     OnlyFirstLevelExpanded = 1,
     AllCollapsed = 2
 }
-export class ComboBoxItem {
+export declare class ComboBoxItem {
     text: string;
     value: any;
     icon?: IconClass;
@@ -3975,7 +4024,7 @@ export class ComboBoxItem {
     parentValue?: any;
     checked?: boolean;
 }
-export class ComboBoxWebServiceSettings {
+export declare class ComboBoxWebServiceSettings {
     method: string;
     authKey?: string;
     itemsPropertyName?: string;
@@ -3984,12 +4033,12 @@ export class ComboBoxWebServiceSettings {
     searchAfterCharsNumber?: number;
     parameters?: () => any;
 }
-export class ComboBoxTemplateEvent {
+export declare class ComboBoxTemplateEvent {
     sender: ComboBox;
     dataItem: any;
     element: HTMLElement;
 }
-export class ComboBoxEvent extends VrControlsEvent {
+export declare class ComboBoxEvent extends VrControlsEvent {
     sender: ComboBox;
     value: any;
     text: string;
@@ -3998,20 +4047,20 @@ export class ComboBoxEvent extends VrControlsEvent {
     checked: boolean;
     isParent?: boolean;
 }
-export class ComboBoxChangeEvent extends ComboBoxEvent {
+export declare class ComboBoxChangeEvent extends ComboBoxEvent {
 }
-export class ComboBoxChangingEvent extends ComboBoxEvent {
+export declare class ComboBoxChangingEvent extends ComboBoxEvent {
     previousValue?: string | null;
     previousCheckedValues?: string[] | null;
 }
-export class ComboBoxClearEvent extends VrControlsEvent {
+export declare class ComboBoxClearEvent extends VrControlsEvent {
     sender: ComboBox;
 }
-export class SortByComboSettings {
+export declare class SortByComboSettings {
     field: string;
     direction?: SortDirectionEnum;
 }
-export class MenuItem {
+export declare class MenuItem {
     text: string;
     value?: string | number;
     icon?: IconClass;
@@ -4021,16 +4070,16 @@ export class MenuItem {
     hidden?: boolean;
     onClick?: (e: MenuOnClickEvent) => void;
 }
-export class MenuItemUrlSettings {
+export declare class MenuItemUrlSettings {
     url: string;
     newTab?: boolean;
 }
-export class AutoCompleteBoxItem {
+export declare class AutoCompleteBoxItem {
     text: string;
     value?: string;
     settings?: AutoCompleteBoxItemSettings;
 }
-export class AutoCompleteBoxItemSettings {
+export declare class AutoCompleteBoxItemSettings {
     backgroundColor?: string;
     textColor?: string;
     deleteIconColor?: string;
@@ -4038,14 +4087,14 @@ export class AutoCompleteBoxItemSettings {
     bold?: boolean;
     maxWidth?: number;
 }
-export class AutoCompleteBoxComboSettings {
+export declare class AutoCompleteBoxComboSettings {
     items?: ComboBoxItem[];
     freeText?: boolean;
     webService?: ComboBoxWebServiceSettings;
     template?: (e: any) => string;
     treeMode?: ComboBoxTreeModeEnum;
 }
-export enum ChartTypeEnum {
+export declare enum ChartTypeEnum {
     Bar = "bar",
     HorizontalBar = "horizontalBar",
     Line = "line",
@@ -4054,12 +4103,12 @@ export enum ChartTypeEnum {
     Area = "area",
     StackedBar = "stackedBar"
 }
-export class ChartAreaSettings {
+export declare class ChartAreaSettings {
     target?: number | string | boolean | object;
     above?: string;
     below?: string;
 }
-export class ChartTitleSettings {
+export declare class ChartTitleSettings {
     align?: ChartTitleAlignEnum;
     color?: string;
     fullSize?: boolean;
@@ -4068,25 +4117,25 @@ export class ChartTitleSettings {
     padding?: number;
     text?: string;
 }
-export enum ChartTitleAlignEnum {
+export declare enum ChartTitleAlignEnum {
     Start = "start",
     Center = "center",
     End = "end"
 }
-export enum ChartTitlePositionEnum {
+export declare enum ChartTitlePositionEnum {
     Top = "top",
     Left = "left",
     Bottom = "bottom",
     Right = "right"
 }
-export class ChartFont {
+export declare class ChartFont {
     family?: string;
     size?: number;
     style?: string;
     weight?: string;
     lineHeight?: number | string;
 }
-export class ChartDataLabelsSettings {
+export declare class ChartDataLabelsSettings {
     color?: string;
     backgroundColor?: string;
     borderColor?: string;
@@ -4104,19 +4153,19 @@ export class ChartDataLabelsSettings {
     textAlign?: ChartDataLabelsTextAlignEnum;
     rotation?: number;
 }
-export enum ChartDataLabelsAnchorEnum {
+export declare enum ChartDataLabelsAnchorEnum {
     Center = "center",
     Start = "start",
     End = "end"
 }
-export enum ChartDataLabelsTextAlignEnum {
+export declare enum ChartDataLabelsTextAlignEnum {
     Center = "center",
     Start = "start",
     End = "end",
     Right = "right",
     Left = "left"
 }
-export enum ChartDataLabelAlignEnum {
+export declare enum ChartDataLabelAlignEnum {
     Center = "center",
     Start = "start",
     End = "end",
@@ -4125,42 +4174,42 @@ export enum ChartDataLabelAlignEnum {
     Left = "left",
     Top = "top"
 }
-export class ChartLegendSettings {
+export declare class ChartLegendSettings {
     position?: ChartLegendPositionEnum;
     align?: ChartLegendAlignEnum;
     labels?: ChartLegendLabelsSettings;
     title?: ChartLegendTitleSettings;
 }
-export enum ChartLegendPositionEnum {
+export declare enum ChartLegendPositionEnum {
     Top = "top",
     Left = "left",
     Bottom = "bottom",
     Right = "right",
     ChartArea = "chartArea"
 }
-export enum ChartLegendAlignEnum {
+export declare enum ChartLegendAlignEnum {
     Center = "center",
     Start = "start",
     End = "end"
 }
-export class ChartLegendLabelsSettings {
+export declare class ChartLegendLabelsSettings {
     color?: string;
     boxHeight?: number;
     padding?: number;
     textAlign?: ChartLegendLabelsAlignEnum;
 }
-export enum ChartLegendLabelsAlignEnum {
+export declare enum ChartLegendLabelsAlignEnum {
     Left = "left",
     Right = "right",
     Center = "center"
 }
-export class ChartLegendTitleSettings {
+export declare class ChartLegendTitleSettings {
     color?: string;
     display?: boolean;
     padding?: number;
     text?: string;
 }
-export class ChartTooltipSettings {
+export declare class ChartTooltipSettings {
     position?: ChartTooltipPositionEnum;
     backgroundColor?: string;
     titleColor?: string;
@@ -4177,35 +4226,35 @@ export class ChartTooltipSettings {
     xAlign?: ChartTooltipAlignEnum;
     yAlign?: ChartTooltipYAlignEnum;
 }
-export enum ChartTooltipPositionEnum {
+export declare enum ChartTooltipPositionEnum {
     Average = "average",
     Nearest = "nearest"
 }
-export enum ChartTooltipAlignEnum {
+export declare enum ChartTooltipAlignEnum {
     Left = "left",
     Right = "right",
     Center = "center"
 }
-export enum ChartTooltipYAlignEnum {
+export declare enum ChartTooltipYAlignEnum {
     Top = "top",
     Center = "center",
     Bottom = "bottom"
 }
-export class ChartStackedSettings {
+export declare class ChartStackedSettings {
     x?: boolean;
     y?: boolean;
 }
-export class ChartAspectRatioSettings {
+export declare class ChartAspectRatioSettings {
     maintain?: boolean;
     value?: number;
 }
-export class ChartLimitSettings {
+export declare class ChartLimitSettings {
     minX?: number;
     maxX?: number;
     minY?: number;
     maxY?: number;
 }
-export class ChartDataSource {
+export declare class ChartDataSource {
     areaSettings?: ChartAreaSettings;
     type?: ChartTypeEnum;
     title?: string;
@@ -4220,38 +4269,38 @@ export class ChartDataSource {
     parsing?: ChartParsingSettings;
     smoothLine?: boolean;
 }
-export class ChartParsingSettings {
+export declare class ChartParsingSettings {
     xAxisKey?: string;
     yAxisKey?: string;
 }
-export class ChartLegendEvent extends VrControlsEvent {
+export declare class ChartLegendEvent extends VrControlsEvent {
     sender: ChartVr;
     event: any;
     legendItem: any;
     legend: any;
 }
-export class ChartLegendHoverEvent extends ChartLegendEvent {
+export declare class ChartLegendHoverEvent extends ChartLegendEvent {
 }
-export class ChartLegendLeaveEvent extends ChartLegendEvent {
+export declare class ChartLegendLeaveEvent extends ChartLegendEvent {
 }
-export class ChartLegendClickEvent extends ChartLegendEvent {
+export declare class ChartLegendClickEvent extends ChartLegendEvent {
 }
-export class ChartLabelEvent extends VrControlsEvent {
+export declare class ChartLabelEvent extends VrControlsEvent {
     sender: ChartVr;
     context: any;
 }
-export class ChartLabelHoverEvent extends ChartLabelEvent {
+export declare class ChartLabelHoverEvent extends ChartLabelEvent {
 }
-export class ChartLabelLeaveEvent extends ChartLabelEvent {
+export declare class ChartLabelLeaveEvent extends ChartLabelEvent {
 }
-export class ChartLabelClickEvent extends ChartLabelEvent {
+export declare class ChartLabelClickEvent extends ChartLabelEvent {
 }
-export class ChartAxisFormatterEvent extends VrControlsEvent {
+export declare class ChartAxisFormatterEvent extends VrControlsEvent {
     value: any;
     context: any;
     sender: ChartVr;
 }
-export class ChartOptions extends VrControlOptions {
+export declare class ChartOptions extends VrControlOptions {
     type?: ChartTypeEnum;
     padding?: number;
     parsing?: ChartParsingSettings;
@@ -4279,7 +4328,7 @@ export class ChartOptions extends VrControlOptions {
     onAxisLabelFormatter?: (e: ChartAxisFormatterEvent) => void;
     onDataFormatter?: (e: ChartAxisFormatterEvent) => void;
 }
-export enum WindowFooterItemTypeEnum {
+export declare enum WindowFooterItemTypeEnum {
     Close = 0,
     Ok = 1,
     Custom = 2,
@@ -4293,15 +4342,15 @@ export enum WindowFooterItemTypeEnum {
     TextBox = 10,
     Separator = 11
 }
-export enum WindowFooterItemAlignEnum {
+export declare enum WindowFooterItemAlignEnum {
     Left = 0,
     Right = 1
 }
-export enum WindowAutoSizeDirectionEnum {
+export declare enum WindowAutoSizeDirectionEnum {
     Width = 0,
     Height = 1
 }
-export enum vrEditorItemEnum {
+export declare enum vrEditorItemEnum {
     Separator = "|",
     Undo = "undo",
     Redo = "redo",
@@ -4354,13 +4403,13 @@ export enum vrEditorItemEnum {
     ClearFormatting = "removeformat",
     RemoveFormat = "removeformat"
 }
-export enum vrEditorToolbarModeEnum {
+export declare enum vrEditorToolbarModeEnum {
     Floating = "floating",
     Sliding = "sliding",
     Scrolling = "scrolling",
     Wrap = "wrap"
 }
-export enum TinyMceIconEnum {
+export declare enum TinyMceIconEnum {
     CaretDown = "action-next",
     CaretUp = "action-prev",
     AlignCenter = "align-center",
@@ -4420,14 +4469,14 @@ export enum TinyMceIconEnum {
     ZoomIn = "zoom-in",
     ZoomOut = "zoom-out"
 }
-export class vrEditorCustomItem {
+export declare class vrEditorCustomItem {
     icon?: TinyMceIconEnum;
     imageUrl?: string;
     text?: string;
     tooltip?: string;
     onClick?(e: EditorItemClickEvent): void;
 }
-export class vrEditorCustomMenuItem {
+export declare class vrEditorCustomMenuItem {
     type: EditorCustomMenuItemType;
     buttonOptions?: ButtonOptions;
     separatorOptions?: SeparatorOptions;
@@ -4439,7 +4488,7 @@ export class vrEditorCustomMenuItem {
     textBoxOptions?: TextBoxOptions;
     labelOptions?: LabelOptions;
 }
-export enum EditorCustomMenuItemType {
+export declare enum EditorCustomMenuItemType {
     Button = 0,
     Separator = 1,
     SplitButton = 2,
@@ -4451,25 +4500,25 @@ export enum EditorCustomMenuItemType {
     Label = 8,
     TextBox = 9
 }
-export class vrEditorSpeechRecognizerSettings {
+export declare class vrEditorSpeechRecognizerSettings {
     stopAtClick: boolean;
     position?: EditorSpeechRecognizerPositionEnum;
     mode?: EditorSpeechRecognizerModeEnum;
     showInfoCommands?: boolean;
 }
-export enum EditorSpeechRecognizerModeEnum {
+export declare enum EditorSpeechRecognizerModeEnum {
     Popup = 0,
     Direct = 1
 }
-export enum EditorSpeechRecognizerPositionEnum {
+export declare enum EditorSpeechRecognizerPositionEnum {
     MenuBar = 0,
     MenuItems = 1
 }
-export class vrEditorFontSizeSettings {
+export declare class vrEditorFontSizeSettings {
     defaultSize?: number;
     formatSizeList?: number[];
 }
-export class SpeechRecognizerOptions extends VrControlOptions {
+export declare class SpeechRecognizerOptions extends VrControlOptions {
     grammars?: string[];
     continuous?: boolean;
     stopAtClick?: boolean;
@@ -4490,28 +4539,28 @@ export class SpeechRecognizerOptions extends VrControlOptions {
     onSoundStart?: (e: SpeechRecognizerSoundStartEvent) => void;
     onSoundEnd?: (e: SpeechRecognizerSoundEndEvent) => void;
 }
-export enum GridCheckboxModeEnum {
+export declare enum GridCheckboxModeEnum {
     None = 0,
     SingleCheck = 1,
     MultiCheck = 2
 }
-export enum GridSortDirectionEnum {
+export declare enum GridSortDirectionEnum {
     Asc = 0,
     Desc = 1
 }
-export enum SortDirectionEnum {
+export declare enum SortDirectionEnum {
     Asc = 0,
     Desc = 1
 }
-export enum GridHeightModeEnum {
+export declare enum GridHeightModeEnum {
     FitScreen = 0,
     FitContent = 1
 }
-export enum GridModeEnum {
+export declare enum GridModeEnum {
     Sync = 0,
     NotSync = 1
 }
-export enum GridAggregateMode {
+export declare enum GridAggregateMode {
     Average = 0,
     Count = 1,
     Max = 2,
@@ -4519,12 +4568,12 @@ export enum GridAggregateMode {
     Sum = 4,
     None = 5
 }
-export enum GridAlignEnum {
+export declare enum GridAlignEnum {
     Left = "left",
     Center = "center",
     Right = "right"
 }
-export enum GridColumnTypeEnum {
+export declare enum GridColumnTypeEnum {
     String = 0,
     Number = 1,
     Currency = 2,
@@ -4552,12 +4601,12 @@ export enum GridColumnTypeEnum {
     LongWeekDate = 24,
     ShortWeekDate = 25
 }
-export enum GridLabelUnderlineMode {
+export declare enum GridLabelUnderlineMode {
     Always = 0,
     None = 1,
     OnFocus = 2
 }
-export enum GridToolbarItemType {
+export declare enum GridToolbarItemType {
     Add = 0,
     Delete = 1,
     Separator = 2,
@@ -4574,34 +4623,34 @@ export enum GridToolbarItemType {
     Label = 13,
     TextBox = 14
 }
-export enum GridDateFilterTypeEnum {
+export declare enum GridDateFilterTypeEnum {
     GreaterThan = 0,
     LessThan = 1,
     EqualsTo = 2,
     Between = 3
 }
-export enum GridNumberFilterTypeEnum {
+export declare enum GridNumberFilterTypeEnum {
     GreaterThan = 0,
     LessThan = 1,
     EqualsTo = 2,
     Between = 3
 }
-export enum GridStringFilterTypeEnum {
+export declare enum GridStringFilterTypeEnum {
     StartsWith = 0,
     EndsWith = 1,
     EqualsTo = 2,
     Includes = 3,
     IncludesFromSimpleSearch = 4
 }
-export class GridCartSettings {
+export declare class GridCartSettings {
     fields: string[];
     onClick?: (e: GridCartSettingsClickEvent) => void;
 }
-export class GridCartSettingsClickEvent {
+export declare class GridCartSettingsClickEvent {
     sender: Grid;
     selectedValues: any[];
 }
-export class GridStickerSettings {
+export declare class GridStickerSettings {
     textColor?: string;
     backgroundColor?: string;
     text?: string;
@@ -4610,27 +4659,27 @@ export class GridStickerSettings {
     bold?: boolean;
     onClick?: (e: GridStickerClickEvent) => void;
 }
-export class GridStickerClickEvent {
+export declare class GridStickerClickEvent {
     sender: Grid;
     control: Label;
     value?: string | null;
 }
-export class GridServerBindSettings {
+export declare class GridServerBindSettings {
     itemCountPropertyName?: string;
     totalsPropertyName?: string;
     excelDownloadUrlPropertyName?: string;
 }
-export class GridGroupBySettings {
+export declare class GridGroupBySettings {
     sortBy?: GridSortSettings;
     internalSortBy?: GridSortSettings;
     fields: string[] | GridGroupByItem[];
     automaticSort?: boolean;
 }
-export class GridSortSettings {
+export declare class GridSortSettings {
     field: string;
     direction?: GridSortDirectionEnum;
 }
-export class GridGroupByItem {
+export declare class GridGroupByItem {
     field: string;
     displayField?: string;
     groupNameIfEmpty?: string;
@@ -4639,13 +4688,13 @@ export class GridGroupByItem {
     onExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
     onEditClick?: (e: GridGroupEditClickEvent) => void;
 }
-export class GridGroupDisplayValueEvent {
+export declare class GridGroupDisplayValueEvent {
     sender: Grid;
     dataItem: any;
     field: string;
     displayField?: string;
 }
-export class GridGroupExpandCollapseEvent {
+export declare class GridGroupExpandCollapseEvent {
     sender: Grid;
     groupByField: string;
     childrenItems: any[];
@@ -4655,7 +4704,7 @@ export class GridGroupExpandCollapseEvent {
     childrenRows: HTMLElement[];
     displayValue: any;
 }
-export class GridGroupEditClickEvent {
+export declare class GridGroupEditClickEvent {
     sender: Grid;
     groupByField: string;
     childrenItems: any[];
@@ -4665,24 +4714,24 @@ export class GridGroupEditClickEvent {
     displayValue: any;
     dataItem: any;
 }
-export class GridPageSelectedEvent extends VrControlsEvent {
+export declare class GridPageSelectedEvent extends VrControlsEvent {
     sender: Grid;
     pageSelected: number;
 }
-export class GridScrollEvent extends VrControlsEvent {
+export declare class GridScrollEvent extends VrControlsEvent {
     sender: Grid;
     target: HTMLElement;
     scrollLeft: number;
     scrollTop: number;
 }
-export class GridExcelExportEvent extends VrControlsEvent {
+declare class GridExcelExportEvent extends VrControlsEvent {
     sender: Grid;
 }
-export class GridBeforeExcelExportEvent extends GridExcelExportEvent {
+export declare class GridBeforeExcelExportEvent extends GridExcelExportEvent {
     fileName: string;
     exportHiddenColumns: boolean;
 }
-export class GridAfterExcelExportEvent extends GridExcelExportEvent {
+export declare class GridAfterExcelExportEvent extends GridExcelExportEvent {
     headerRow: GridExcelRow;
     contentRows: GridExcelRow[];
     footerRow: GridExcelRow;
@@ -4690,16 +4739,16 @@ export class GridAfterExcelExportEvent extends GridExcelExportEvent {
     groupBy: string[] | null;
     exportHiddenColumns: boolean;
 }
-export class GridGroupCheckEvent extends VrControlsEvent {
+declare class GridGroupCheckEvent extends VrControlsEvent {
     sender: Grid;
     checked: boolean;
     childrenIdList: string[];
 }
-export class GridBeforeGroupCheckEvent extends GridGroupCheckEvent {
+export declare class GridBeforeGroupCheckEvent extends GridGroupCheckEvent {
 }
-export class GridAfterGroupCheckEvent extends GridGroupCheckEvent {
+export declare class GridAfterGroupCheckEvent extends GridGroupCheckEvent {
 }
-export class GridColumn {
+export declare class GridColumn {
     field: string;
     title?: string;
     width?: number;
@@ -4735,7 +4784,7 @@ export class GridColumn {
     imageSettings?: (templateEvent: GridTemplateEvent) => GridImageSettings;
     labelSettings?: (templateEvent: GridTemplateEvent) => GridLabelSettings;
 }
-export class GridButtonSettings extends GridControlsSettings {
+export declare class GridButtonSettings extends GridControlsSettings {
     text?: string;
     icon?: IconClass;
     imageUrl?: string;
@@ -4743,7 +4792,7 @@ export class GridButtonSettings extends GridControlsSettings {
     color?: string;
     backgroundColor?: string;
 }
-export class GridToolbarItem {
+export declare class GridToolbarItem {
     type?: GridToolbarItemType;
     text?: string;
     icon?: IconClass;
@@ -4771,24 +4820,24 @@ export class GridToolbarItem {
     onClick?: (e: GridToolbarClickEvent) => void;
     onBeforeClick?: (e: GridToolbarClickEvent) => void;
 }
-export enum PdfViewerToolbarAreaEnum {
+export declare enum PdfViewerToolbarAreaEnum {
     Left = 0,
     Center = 1,
     Right = 2
 }
-export class OnContentRenderedEvent {
+export declare class OnContentRenderedEvent {
     sender: PdfViewer;
     pdf: any;
     base64bytes: string;
 }
-export class PdfViewerToolbarSettings {
+export declare class PdfViewerToolbarSettings {
     navigation?: boolean;
     zoom?: boolean;
     print?: boolean;
     download?: boolean;
     items?: PdfViewerToolbarItem[];
 }
-export class PdfViewerToolbarItem {
+export declare class PdfViewerToolbarItem {
     text?: string;
     icon?: IconClass;
     value?: string;
@@ -4797,26 +4846,26 @@ export class PdfViewerToolbarItem {
     cssContainer?: string;
     onClick?: (e: ToolbarItemOnClickEvent) => void;
 }
-export class ToolbarItemOnClickEvent {
+export declare class ToolbarItemOnClickEvent {
     sender: PdfViewer;
     text?: string;
     value?: string;
 }
-export enum SplitterDirectionEnum {
+export declare enum SplitterDirectionEnum {
     Horizontal = "horizontal",
     Vertical = "vertical"
 }
-export enum SplitterCollapseDirectionEnum {
+export declare enum SplitterCollapseDirectionEnum {
     Left = 0,
     Right = 1,
     Up = 2,
     Down = 3
 }
-export class SplitterCollapsableSettings {
+export declare class SplitterCollapsableSettings {
     direction: SplitterCollapseDirectionEnum;
     color?: string;
 }
-export class SwitchLabelSettings {
+export declare class SwitchLabelSettings {
     text: string;
     tooltip?: string;
     color?: string;
@@ -4825,11 +4874,11 @@ export class SwitchLabelSettings {
     badgeSettings?: BadgeSettings;
     onClick?: (e: SwitchLabelSettingsOnClickEvent) => void;
 }
-export class SwitchLabelSettingsOnClickEvent extends VrControlsEvent {
+export declare class SwitchLabelSettingsOnClickEvent extends VrControlsEvent {
     sender: Switch;
     checked: boolean;
 }
-export class BadgeSettings {
+export declare class BadgeSettings {
     text?: string | number;
     color?: string;
     backgroundColor?: string;
@@ -4837,65 +4886,65 @@ export class BadgeSettings {
     css?: string;
     click?: (e: BadgeClickEvent) => void;
 }
-export class BadgeClickEvent {
+export declare class BadgeClickEvent {
     sender: VrControl;
     text: string;
     leftButton?: boolean;
     middleButton?: boolean;
     rightButton?: boolean;
 }
-export class SchedulerSaturationInfo {
+export declare class SchedulerSaturationInfo {
     manual?: boolean;
     dayMode?: SchedulerSaturationDay[];
     weekMode?: SchedulerSaturationWeek;
     fourWeeksMode?: SchedulerSaturationFourWeeks[];
 }
-export class SchedulerSaturationDay {
+export declare class SchedulerSaturationDay {
     resourceId: number;
     date?: Date;
     percentageValue?: number;
     color?: string;
     borderColor?: string;
 }
-export class SchedulerSaturationWeek {
+export declare class SchedulerSaturationWeek {
     groupedByResource?: SchedulerSaturationWeekByResource[];
     groupedByDate?: SchedulerSaturationWeekByDate[];
 }
-export class SchedulerSaturationWeekByResource {
+export declare class SchedulerSaturationWeekByResource {
     resourceId: number;
     percentageValue?: number;
     dateList?: SaturationDate[];
     color?: string;
     titleColor?: string;
 }
-export class SaturationDate {
+export declare class SaturationDate {
     date: Date;
     percentageValue?: number;
     color?: string;
     borderColor?: string;
 }
-export class SchedulerSaturationWeekByDate {
+export declare class SchedulerSaturationWeekByDate {
     date: Date;
     resourceList?: SaturationResource[];
 }
-export class SaturationResource {
+export declare class SaturationResource {
     id: number;
     percentageValue?: number;
     color?: string;
     borderColor?: string;
 }
-export class SchedulerSaturationFourWeeks {
+export declare class SchedulerSaturationFourWeeks {
     resourceId: number;
     percentageValue?: number;
     dateList?: SaturationDate[];
     color?: string;
     titleColor?: string;
 }
-export class SchedulerResource {
+export declare class SchedulerResource {
     text: string;
     value: string;
 }
-export enum DayOfWeekEnum {
+export declare enum DayOfWeekEnum {
     Sunday = 0,
     Monday = 1,
     Tuesday = 2,
@@ -4904,16 +4953,16 @@ export enum DayOfWeekEnum {
     Friday = 5,
     Saturday = 6
 }
-export class SchedulerView {
+export declare class SchedulerView {
     type: SchedulerViewEnum;
     selected?: boolean;
 }
-export enum SchedulerViewEnum {
+export declare enum SchedulerViewEnum {
     Day = 0,
     Week = 1,
     FourWeeks = 2
 }
-export class SchedulerSlotElement {
+export declare class SchedulerSlotElement {
     resourceId: string;
     start: Date;
     end: Date;
@@ -4922,7 +4971,7 @@ export class SchedulerSlotElement {
     columnIndex: number;
     rowIndex: number;
 }
-export class SchedulerData {
+export declare class SchedulerData {
     id: string;
     resourceId: string;
     start: Date;
@@ -4936,17 +4985,17 @@ export class SchedulerData {
     attributes?: SchedulerAttribute[];
     get duration(): number;
 }
-export class SchedulerAttribute {
+export declare class SchedulerAttribute {
     key: string;
     value: string;
 }
-export enum SchedulerNavigateActionEnum {
+export declare enum SchedulerNavigateActionEnum {
     NextDate = 0,
     PrevDate = 1,
     Today = 2,
     ChangeDate = 4
 }
-export class NotifierOptions {
+export declare class NotifierOptions {
     target?: HTMLElement | JQuery | string;
     type?: NotifierTypeEnum;
     position?: NotifierPositionEnum;
@@ -4963,14 +5012,14 @@ export class NotifierOptions {
     customHtml?: string | ((e: NotifierCustomHtmlEvent) => void);
     onClick?: (e: NotifierOnClickEvent) => void;
 }
-export enum NotifierTypeEnum {
+export declare enum NotifierTypeEnum {
     Default = 0,
     Success = 1,
     Info = 2,
     Warning = 3,
     Error = 4
 }
-export enum NotifierPositionEnum {
+export declare enum NotifierPositionEnum {
     TopLeft = "TopLeft",
     TopCenter = "TopCenter",
     TopRight = "TopRight",
@@ -4985,39 +5034,39 @@ export enum NotifierPositionEnum {
     LeftMiddle = "LeftMiddle",
     MiddleScreen = "MiddleScreen"
 }
-export enum AnimationShowEnum {
+export declare enum AnimationShowEnum {
     None = 0,
     Default = 1,
     FadeIn = 2,
     SlideDown = 3
 }
-export enum AnimationHideEnum {
+export declare enum AnimationHideEnum {
     None = 0,
     Default = 1,
     FadeOut = 2,
     SlideUp = 3
 }
-export enum TooltipShowOnEnum {
+export declare enum TooltipShowOnEnum {
     Click = 0,
     Focus = 1,
     Hover = 2,
     Never = 3
 }
-export enum TooltipHideOnEnum {
+export declare enum TooltipHideOnEnum {
     Default = 0,
     Never = 1,
     Click = 2,
     Blur = 3,
     Leave = 4
 }
-export enum TooltipTypeEnum {
+export declare enum TooltipTypeEnum {
     Default = 0,
     Success = 1,
     Info = 2,
     Warning = 3,
     Error = 4
 }
-export enum TooltipPositionEnum {
+export declare enum TooltipPositionEnum {
     TopLeft = "TopLeft",
     TopCenter = "TopCenter",
     TopRight = "TopRight",
@@ -5032,7 +5081,7 @@ export enum TooltipPositionEnum {
     LeftMiddle = "LeftMiddle",
     MiddleScreen = "MiddleScreen"
 }
-export class TreeViewColumn {
+export declare class TreeViewColumn {
     field: string;
     title?: string;
     width?: number;
@@ -5047,7 +5096,7 @@ export class TreeViewColumn {
     headerSettings?: TreeViewHeaderSettings;
     cellSettings?: TreeViewCellSettings;
 }
-export class TreeViewToolbarItem {
+export declare class TreeViewToolbarItem {
     type?: TreeViewToolbarItemType;
     text?: string;
     icon?: IconClass;
@@ -5070,26 +5119,26 @@ export class TreeViewToolbarItem {
     value?: string;
     onClick?: (e: TreeViewToolbarClickEvent) => void;
 }
-export class TreeViewToolbarSwitchSettings {
+export declare class TreeViewToolbarSwitchSettings {
     labelOff?: string;
     labelOn?: string;
     checked?: boolean;
     onCheck?: (e: TreeViewToolbarSwitchEvent) => void;
 }
-export class TreeViewToolbarSwitchEvent {
+export declare class TreeViewToolbarSwitchEvent {
     checked: boolean;
 }
-export class TreeViewToolbarClickEvent {
+export declare class TreeViewToolbarClickEvent {
     sender: any;
     type: TreeViewToolbarItemType;
     isDefaultPrevented: boolean;
     deletedItems?: any[];
     preventDefault(): void;
 }
-export class UpdateRowRebindSettings {
+export declare class UpdateRowRebindSettings {
     onlyText: boolean;
 }
-export enum TreeViewToolbarItemType {
+export declare enum TreeViewToolbarItemType {
     Separator = 0,
     Excel = 1,
     Custom = 2,
@@ -5103,7 +5152,7 @@ export enum TreeViewToolbarItemType {
     Label = 10,
     TextBox = 11
 }
-export class TreeViewItem {
+export declare class TreeViewItem {
     text: string;
     value: string;
     icon?: IconClass;
@@ -5111,10 +5160,10 @@ export class TreeViewItem {
     numericValue?: number;
     bold?: boolean;
 }
-export class TreeViewItemExtraCell extends TreeViewColumn {
+export declare class TreeViewItemExtraCell extends TreeViewColumn {
     value?: string;
 }
-export class TreeViewContextMenuItem {
+export declare class TreeViewContextMenuItem {
     text?: string;
     value?: string;
     icon?: IconClass;
@@ -5122,17 +5171,17 @@ export class TreeViewContextMenuItem {
     confirmationMessage?: string;
     onClick?: (e: TreeViewContextMenuClickEvent) => void;
 }
-export enum TreeModeEnum {
+export declare enum TreeModeEnum {
     AllExpanded = 0,
     OnlyFirstLevelExpanded = 1,
     AllCollapsed = 2
 }
-export enum TreeViewNumericTypeEnum {
+export declare enum TreeViewNumericTypeEnum {
     Default = 0,
     Currency = 1,
     Percentage = 2
 }
-export enum TreeViewColumnTypeEnum {
+export declare enum TreeViewColumnTypeEnum {
     String = 0,
     Number = 1,
     Currency = 2,
@@ -5145,22 +5194,22 @@ export enum TreeViewColumnTypeEnum {
     Boolean = 9,
     Color = 21
 }
-export enum TreeViewAlignEnum {
+export declare enum TreeViewAlignEnum {
     Left = "left",
     Center = "center",
     Right = "right"
 }
-export class TreeViewFilterSettings {
+export declare class TreeViewFilterSettings {
     onlyParents?: boolean;
 }
-export class MapMarker {
+export declare class MapMarker {
     latitude: number;
     longitude: number;
     title: string;
     opacity: number;
     draggable: boolean;
 }
-export enum MapModeEnum {
+export declare enum MapModeEnum {
     Streets = "mapbox/streets-v11",
     Outdoors = "mapbox/outdoors-v11",
     Light = "mapbox/light-v10",
@@ -5170,22 +5219,22 @@ export enum MapModeEnum {
     NavigationDay = "mapbox/navigation-day-v1",
     NavigationNight = "mapbox/navigation-night-v1"
 }
-export class ColorPickerRgbaValue {
+export declare class ColorPickerRgbaValue {
     r: number;
     g: number;
     b: number;
     a?: number;
 }
-export enum ColorPickerModeEnum {
+export declare enum ColorPickerModeEnum {
     Hex = "hex",
     Rgba = "rgba"
 }
-export enum UploadValidationErrorTypeEnum {
+export declare enum UploadValidationErrorTypeEnum {
     MinSize = 0,
     MaxSize = 1,
     Extensions = 2
 }
-export enum Color {
+export declare enum Color {
     red = "#FF0000",
     red50 = "#ffebee",
     red100 = "#ffcdd2",
@@ -5451,46 +5500,46 @@ export enum Color {
     white = "#FFFFFF",
     black = "#000000"
 }
-export function pageError(callback?: (e: PageErrorEvent) => void): void;
-export class PageErrorEvent {
+export declare function pageError(callback?: (e: PageErrorEvent) => void): void;
+declare class PageErrorEvent {
     message: string | Event;
     url?: string;
     lineNumber?: number;
     columnNumber?: number;
     error?: Error;
 }
-export function filesToBase64(files: File[]): Promise<string[]>;
-export function isEquals(item1: any, item2: any): boolean;
-export function isLocalhost(): boolean;
-export function interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;
-export function addCssStyle(cssRules: string, id?: string): void;
-export function addCss(cssRules: string, id?: string): void;
-export function addJsScript(jsRules: string, id?: string): void;
-export function addCssFiles(...paths: string[]): Promise<unknown>;
-export function addJsFiles(...paths: string[]): Promise<unknown>;
-export function openUrl(url: string, name?: string, newTab?: boolean): void;
-export function openBrowserWindow(url: string, newTab?: boolean, size?: BrowserWindowSize, position?: BrowserWindowPosition): void;
-export class BrowserWindowSize {
+export declare function filesToBase64(files: File[]): Promise<string[]>;
+export declare function isEquals(item1: any, item2: any): boolean;
+export declare function isLocalhost(): boolean;
+export declare function interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;
+export declare function addCssStyle(cssRules: string, id?: string): void;
+export declare function addCss(cssRules: string, id?: string): void;
+export declare function addJsScript(jsRules: string, id?: string): void;
+export declare function addCssFiles(...paths: string[]): Promise<unknown>;
+export declare function addJsFiles(...paths: string[]): Promise<unknown>;
+export declare function openUrl(url: string, name?: string, newTab?: boolean): void;
+export declare function openBrowserWindow(url: string, newTab?: boolean, size?: BrowserWindowSize, position?: BrowserWindowPosition): void;
+export declare class BrowserWindowSize {
     height?: number;
     width?: number;
 }
-export class BrowserWindowPosition {
+export declare class BrowserWindowPosition {
     left?: number;
     top?: number;
 }
-export function isValidEmail(email: string): boolean;
-export function copyTextToClipboard(text: string): void;
-export function base64ToFile(base64: string, fileName: string, options?: FilePropertyBag): Promise<File>;
-export function base64ToBytes(base64: string): Uint8Array;
-export function bytesToBase64(bytes: Uint8Array): string;
-export function base64ToBlob(base64: string, contentType?: string, sliceSize?: number): Blob;
-export function shadowRoot(shadowRoot?: ShadowRoot): ShadowRoot | null | undefined;
-export function jqueryVariable(jqueryVariable?: any): any;
-export enum WebApiModeEnum {
+export declare function isValidEmail(email: string): boolean;
+export declare function copyTextToClipboard(text: string): void;
+export declare function base64ToFile(base64: string, fileName: string, options?: FilePropertyBag): Promise<File>;
+export declare function base64ToBytes(base64: string): Uint8Array<ArrayBuffer>;
+export declare function bytesToBase64(bytes: Uint8Array): string;
+export declare function base64ToBlob(base64: string, contentType?: string, sliceSize?: number): Blob;
+export declare function shadowRoot(shadowRoot?: ShadowRoot): ShadowRoot | null | undefined;
+export declare function jqueryVariable(jqueryVariable?: any): any;
+export declare enum WebApiModeEnum {
     Async = 0,
     Sync = 1
 }
-export enum DateModeEnum {
+export declare enum DateModeEnum {
     Date = 0,
     DateTime = 1,
     Time = 2,
@@ -5499,12 +5548,12 @@ export enum DateModeEnum {
     LongWeekDate = 5,
     ShortWeekDate = 6
 }
-export enum DateDepthEnum {
+export declare enum DateDepthEnum {
     Day = 0,
     Month = 1,
     Year = 2
 }
-export enum DateFormatEnum {
+export declare enum DateFormatEnum {
     LongDate = 0,
     ShortDate = 1,
     WeekDay = 2,
@@ -5517,7 +5566,7 @@ export enum DateFormatEnum {
     LongWeekRange = 9,
     LongFourWeeksRange = 10
 }
-export enum KeyEnum {
+export declare enum KeyEnum {
     ArrowLeft = "ArrowLeft",
     ArrowUp = "ArrowUp",
     ArrowRight = "ArrowRight",
@@ -5528,30 +5577,30 @@ export enum KeyEnum {
     Control = "Control",
     Shift = "Shift"
 }
-export class NumberFormatRoundingSettings {
+export declare class NumberFormatRoundingSettings {
     roundingMode?: RoundingModeEnum;
     minimumFractionDigits?: number;
     maximumFractionDigits?: number;
 }
-export class NumberFormatSettings extends NumberFormatRoundingSettings {
+export declare class NumberFormatSettings extends NumberFormatRoundingSettings {
     constructor(roundingSettings?: NumberFormatRoundingSettings);
     style?: NumberStyleEnum;
     currency?: string;
     useGrouping?: GroupingModeEnum | boolean;
 }
-export enum NumberStyleEnum {
+declare enum NumberStyleEnum {
     Default = "decimal",
     Decimal = "decimal",
     Currency = "currency",
     Percentage = "percent",
     Unit = "unit"
 }
-export enum GroupingModeEnum {
+export declare enum GroupingModeEnum {
     Always = "always",
     Auto = "auto",
     Min2 = "min2"
 }
-export enum RoundingModeEnum {
+export declare enum RoundingModeEnum {
     Default = "halfExpand",
     None = "none",
     Ceil = "ceil",
@@ -5566,7 +5615,7 @@ export enum RoundingModeEnum {
     HalfTrunc = "halfTrunc",
     HalfEven = "halfEven"
 }
-export class DateTime {
+export declare class DateTime {
     year: number;
     month: number;
     day: number;
@@ -5586,3724 +5635,108 @@ export class DateTime {
     static fromDate(source?: Date | null): DateTime;
     static equals(first: DateTime, second: DateTime, ignoreHours?: boolean): boolean;
 }
-export enum DateTimeTypeEnum {
+export declare enum DateTimeTypeEnum {
     Date = 0,
     DateTime = 1,
     String = 2
 }
-
-export function puma(element: any): any;
+declare global {
+    interface DateConstructor {
+        vrFixDateString(dateString?: Date | string | null): Date;
+        vrEquals(firstDate: Date, secondDate: Date): boolean;
+        vrGetFirstDayOfMonthByDate(dateToCheck: Date): Date;
+        vrGetLastDayOfMonthByDate(dateToCheck: Date): Date;
+        vrGetFirstDayOfWeekByDate(dateToCheck: Date): Date;
+        vrDifferenceBetweenDatesInMinutes(firstDate: Date, secondDate: Date): number;
+        vrIsValidDate(date: any): boolean;
+        vrConvertDateFromClient(dateFromClient?: Date | null): Date;
+        vrConvertDateFromServer(dateFromServer: Date): Date;
+        vrArePeriodsOverlapped(startA: Date, endA: Date, startB: Date, endB: Date, equal?: boolean): boolean;
+        vrToWebApiDateTime(date: Date): any;
+        vrGetDaysInMonth(date: Date): number;
+        vrDifferenceBetweenDatesInDays(firstDate: Date, secondDate: Date): number;
+        MIN_VALUE: Date;
+        MAX_VALUE: Date;
+    }
+    interface Date {
+        vrToItalyString(mode?: DateModeEnum, showSeconds?: boolean): string;
+        vrFormatString(options: Intl.DateTimeFormatOptions, language?: string[] | string): string;
+        vrToLongDateString(): string;
+        vrAddYears(years: number): Date;
+        vrAddMonths(months: number): Date;
+        vrAddDays(days: number): Date;
+        vrAddHours(hours: number): Date;
+        vrAddMinutes(minutes: number): Date;
+        vrAddSeconds(seconds: number): Date;
+        vrIsLessThan(date: Date, equals?: boolean, checkTime?: boolean): boolean;
+        vrIsGreaterThan(date: Date, equals?: boolean, checkTime?: boolean): boolean;
+        vrIsEqualsTo(date: Date, checkTime?: boolean): boolean;
+        vrIsBetween(firstDate: Date, secondDate: Date): boolean;
+    }
+    interface Number {
+        vrToNumberString(formatSettings?: NumberFormatSettings): string;
+        vrToCurrencyString(formatSettings?: NumberFormatSettings): string;
+        vrToPercentageString(formatSettings?: NumberFormatSettings): string;
+        vrRound(decimals: number): number;
+        vrFormatNumber(formatSettings: NumberFormatSettings): string;
+    }
+    interface String {
+        vrCapitalize(): string;
+        vrCamelCase(exceptFirst?: boolean): string;
+        vrKebabCase(): string;
+        vrSnakeCase(): string;
+        vrSwapCase(): string;
+        vrTitleCase(): string;
+        vrTrunc(index: number, useWordBoundary?: boolean): string;
+        vrGetNumericPart(): number;
+        getNumericPart(): number;
+        vrToBoolean(): boolean;
+        vrIsNotNullOrEmpty(): boolean;
+        vrIsNullOrEmpty(): boolean;
+        vrRemoveHtml(): string;
+        vrIndexOfAll(value: string): number[];
+        vrReplaceAt(index: number, replacement: string): string;
+    }
+    interface ArrayConstructor {
+        vrEquals(array1: any[], array2: any[]): boolean;
+    }
+    interface Array<T> {
+        vrFirst(): T;
+        vrLast(): T;
+        vrDelete(value: any): void;
+        vrDeleteItem(item: any, key: string): void;
+        vrDeleteAllBy<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): void;
+        vrToNumberArrayList(): number[];
+        vrToStringArrayList(): string[];
+        vrToCommaSeparatedList(addSpaceAfterComma?: boolean): string;
+        vrPushRange(arrayToAdd: any[]): void;
+        vrAll<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): boolean;
+        vrAny<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): boolean;
+        vrSum<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): number;
+        vrMax<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): number;
+        vrMin<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): number;
+        vrAvg<U>(callbackfn?: (value: T, index: number, array: T[]) => U, thisArg?: any): number;
+        vrDistinct(): T[];
+        vrDistinctBy<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): T[];
+        vrSortAsc(...properties: string[]): any[];
+        vrSortDesc(...properties: string[]): any[];
+        vrSortBy(properties: string[], ascending?: boolean): any[];
+        vrGroupBy<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): any[];
+        vrGroupByProperty(property: string): any[];
+    }
+    interface JQuery {
+        vrDrag(element?: HTMLElement | string | JQuery): void;
+        vrVisible(state?: boolean): boolean;
+        vrAppendToPuma(element: any): JQuery;
+        vrPrependToPuma(element: any): JQuery;
+        vrAppendPuma(element: any): JQuery;
+        vrPrependPuma(element: any): JQuery;
+        vrAfterPuma(element: any): JQuery;
+        vrBeforePuma(element: any): JQuery;
+        vrInsertAfterPuma(element: any): JQuery;
+        vrInsertBeforePuma(element: any): JQuery;
+        vrHasScrollBar(horizontal?: boolean): boolean;
+    }
+}
+export declare function puma(element: any): any;
 export {};
-export class VrControl {
-    private _element;
-    _options: VrControlOptions;
-    private _labelOutside;
-    private _typeEnum;
-    private _tag;
-    constructor(element?: HTMLElement | HTMLInputElement, options?: VrControlOptions, typeEnum?: ControlTypeEnum);
-    controlType(): ControlTypeEnum;
-    id(id?: string): string;
-    tag(tag?: any): any;
-    uniqueName(uniqueName?: string): any;
-    attribute(name: string, value: any, toContainer?: boolean): void;
-    tooltip(tooltip?: string, container?: boolean): any;
-    element<T extends HTMLElement>(): T;
-    container(): HTMLElement;
-    label(): Label | null;
-    options<T extends VrControlOptions>(): T;
-    settingPopup(popup: HTMLElement, popupSettings?: PopupSettings): void;
-    private fixWidthHeightValue;
-    width(value?: string | number): number;
-    height(value?: string | number): number;
-    enabled(state?: boolean): boolean;
-    enable(): void;
-    disable(): void;
-    visible(state?: boolean): boolean;
-    show(duration?: number): void;
-    hide(duration?: number): void;
-    focus(): void;
-    blur(): void;
-    cssContainer(value: string): void;
-    css(value: string): void;
-    class(className?: string): string[];
-    classContainer(className?: string): string[];
-    removeClass(className: string): void;
-}
-export class VrControlOptions {
-    width?: string | number;
-    height?: string | number;
-    id?: string;
-    css?: string;
-    cssContainer?: string;
-    class?: string;
-    classContainer?: string;
-    margin?: number | VrMarginSettings;
-    enable?: boolean;
-    visible?: boolean;
-    label?: string;
-    labelSettings?: LabelControlsSettings;
-    tag?: any;
-    uniqueName?: string;
-    attributes?: AttributeSettings[];
-    tabIndex?: number;
-    shadowRoot?: boolean;
-    addToControlList?: boolean;
-}
-export class LabelControlsSettings {
-    id?: string;
-    mode?: LabelModeEnum;
-    width?: number;
-    class?: string;
-    position?: PositionEnum;
-    fontSize?: number | string;
-    textAlign?: TextAlignEnum;
-    tooltip?: boolean | string;
-    bold?: boolean;
-    css?: string;
-    cssContainer?: string;
-    colorSettings?: ColorSettings;
-    underlineMode?: LabelUnderlineMode | undefined;
-    onClick?: (e: LabelClickEvent) => void;
-}
-export class AttributeSettings {
-    name: string;
-    value: any;
-    container?: boolean;
-}
-export class VrControlsEvent {
-    private _defaultPrevented;
-    preventDefault(): void;
-    isDefaultPrevented(): boolean;
-}
-export class WindowOptions extends VrControlOptions {
-    maximized?: boolean | WindowMaximizeSettings;
-    padding?: number;
-    modal?: boolean;
-    closeable?: boolean;
-    hideCloseIcon?: boolean;
-    removeOnClose?: boolean;
-    title?: string | boolean | WindowTitleSettings;
-    footer?: boolean | WindowFooterItem[];
-    draggable?: boolean;
-    position?: WindowPosition;
-    content?: string;
-    iframe?: boolean;
-    loader?: boolean;
-    autoSize?: boolean | WindowAutoSizeDirectionEnum;
-    cssHeader?: string;
-    scrollable?: boolean;
-    onOpen?(e: WindowOpenEvent): void;
-    onBeforeClose?(e: WindowBeforeCloseEvent): void;
-    onClose?(e: WindowCloseEvent): void;
-    onDragStart?(e: WindowDragStartEvent): void;
-    onDragEnd?(e: WindowDragEndEvent): void;
-    onContentLoaded?(e: WindowContentLoadEvent): void;
-}
-export class Window extends VrControl {
-    private _divHeader;
-    private _divFooter;
-    private _callbackFooterItems?;
-    private _openCloseCallback?;
-    private _additionalCloseCallbacks?;
-    private _additionalOpenCallbacks?;
-    private _additionalContentLoadedCallbacks;
-    private _background;
-    private _iframe;
-    private _animateAutosize;
-    constructor(element: HTMLElement, options?: WindowOptions | null);
-    open(callBackFooterItems?: CallBackFooterItem[] | null, center?: boolean, position?: WindowPosition): Promise<any>;
-    close(triggerEvents?: boolean): void;
-    remove(): void;
-    addCloseCallbacks(...callback: Function[]): void;
-    addOpenCallbacks(...callback: Function[]): void;
-    addContentLoadedCallbacks(...callback: Function[]): void;
-    closeIconVisible(state?: boolean): any;
-    title(text?: string): string;
-    maximize(padding?: boolean): void;
-    resize(width?: number | string, height?: number | string): void;
-    autoSize(direction?: WindowAutoSizeDirectionEnum, animate?: boolean, center?: boolean): void;
-    content(content: string, loader?: boolean | HTMLElement | JQuery | string, open?: boolean, triggerChange?: boolean): void;
-    private autoSizeIfRequired;
-    clear(): void;
-    background(): HTMLElement;
-    center(): void;
-    position(left?: number | string | null, top?: number | string | null, right?: number | string | null, bottom?: number | string | null): {
-        left: number;
-        top: number;
-    };
-    footerItem<T extends VrControl>(value: string | number): T;
-    hideFooterItem(value: string | number): void;
-    showFooterItem(value: string | number): void;
-    visibleFooterItem(value: string | number, state?: boolean): boolean;
-    enableFooterItem(value: string | number): void;
-    disableFooterItem(value: string | number): void;
-    addFooterItem(footerItem: WindowFooterItem): void;
-    footer(): HTMLElement;
-    header(): HTMLElement;
-    titleElement(): HTMLElement;
-    private getOptions;
-    private onContentLoaded;
-    height(height?: number | string, center?: boolean): number;
-    width(width?: number | string, center?: boolean): number;
-}
-export class WindowFooterItem {
-    value?: string;
-    type?: WindowFooterItemTypeEnum;
-    text?: string;
-    icon?: IconClass;
-    iconSettings?: IconSettings;
-    imageUrl?: string;
-    mode?: ButtonModeEnum;
-    colorSettings?: ColorSettings;
-    tooltip?: string;
-    confirmationMessage?: string;
-    align?: WindowFooterItemAlignEnum;
-    visible?: boolean;
-    enable?: boolean;
-    css?: string;
-    cssContainer?: string;
-    class?: string;
-    width?: string | number;
-    splitButtonItems?: SplitButtonItem[];
-    switchSettings?: SplitButtonSwitchSettings;
-    buttonGroupItems?: ButtonGroupItem[];
-    comboBoxOptions?: ComboBoxOptions;
-    datePickerOptions?: DatePickerOptions;
-    textBoxOptions?: TextBoxOptions;
-    onClick?(e: WindowFooterItemClickEvent): void;
-}
-export class CallBackFooterItem {
-    value: string;
-    callback: Function;
-}
-export class SplitButtonSwitchSettings {
-    labelOff?: string;
-    labelOn?: string;
-    checked?: boolean;
-    onCheck?: (e: SplitButtonSwitchEvent) => void;
-}
-export class SplitButtonSwitchEvent {
-    checked: boolean;
-}
-export class WindowPosition {
-    left?: number | string;
-    top?: number | string;
-    right?: number | string;
-    bottom?: number | string;
-}
-export class WindowMaximizeSettings {
-    padding: boolean;
-}
-export class WindowTitleSettings {
-    text?: string;
-    colorSettings?: ColorSettings;
-    fontSize?: number;
-    cssContainer?: string;
-    css?: string;
-    align?: TextAlignEnum;
-}
-export class WindowEvent extends VrControlsEvent {
-    sender: Window;
-}
-export class WindowFooterItemClickEvent extends WindowEvent {
-}
-export class WindowOpenEvent extends WindowEvent {
-}
-export class WindowBeforeCloseEvent extends WindowEvent {
-}
-export class WindowCloseEvent extends WindowEvent {
-}
-export class WindowDragStartEvent extends WindowEvent {
-    left: number;
-    top: number;
-}
-export class WindowDragEndEvent extends WindowEvent {
-    left: number;
-    top: number;
-}
-export class WindowContentLoadEvent extends WindowEvent {
-}
-export class UploadOptions extends VrControlOptions {
-    dropArea?: boolean | UploadDropAreaSettings;
-    webApiSettings?: UploadWebApiSettings;
-    multiple?: boolean;
-    progressBar?: boolean;
-    fileList?: boolean;
-    fileListMaxHeight?: number;
-    uploadButton?: boolean | string;
-    autoUpload?: boolean;
-    confirmToRemoveFile?: boolean;
-    canRemoveFile?: boolean;
-    validation?: UploadValidation;
-    async?: boolean;
-    onProgress?: (e: UploadProgressEvent) => void;
-    onError?: (e: UploadErrorEvent) => void;
-    onValidationError?: (e: UploadValidationErrorEvent) => void;
-    onSuccess?: (e: UploadSuccessEvent) => void;
-    onDragEnter?: (e: UploadDragEnterEvent) => void;
-    onDragOver?: (e: UploadDragOverEvent) => void;
-    onDragLeave?: (e: UploadDragLeaveEvent) => void;
-    onDrop?: (e: UploadDropEvent) => void;
-    onAbort?: (e: UploadAbortEvent) => void;
-    onStart?: (e: UploadStartEvent) => void;
-    onRemove?: (e: UploadRemoveEvent) => void;
-    onClick?: (e: UploadClickEvent) => void;
-    onFilesAdded?: (e: UploadFilesAdded) => void;
-}
-export class Upload extends VrControl {
-    private _uploadProgress;
-    private _divProgressBar;
-    private _divFileList;
-    private _divDropAreaList;
-    private _files;
-    private _inputFile;
-    private _dicFileXhr;
-    constructor(element: HTMLElement, options?: UploadOptions | null);
-    uploadFiles(): void;
-    addFile(file: File): void;
-    addFiles(files: File[]): void;
-    getFiles(): File[];
-    getBase64Files(files: File[]): Promise<string[]>;
-    removeFileAtIndex(index: number): void;
-    private manageLoadingFiles;
-    private drawFile;
-    private manageValidationError;
-    private removeFile;
-    private uploadFile;
-    private initializeProgress;
-    private updateProgress;
-    dropArea(): HTMLElement[];
-    divFileList(): HTMLElement;
-    progressBar(): HTMLProgressElement;
-    uploadButton(): HTMLInputElement;
-    private formatBytes;
-    private getFileInfo;
-    private getMimeTypeFromExtension;
-    clear(): void;
-    open(): void;
-    enable(): void;
-    disable(): void;
-    getOptions(): UploadOptions;
-}
-export class UploadWebApiSettings {
-    url?: string;
-    parameters?: UploadWebApiParameter[] | ((e: UploadParametersEvent) => UploadWebApiParameter[]);
-}
-export class UploadDropAreaSettings {
-    addDefault?: boolean;
-    list?: HTMLElement[] | string[];
-    text?: string | boolean;
-}
-export class UploadWebApiParameter {
-    key: string;
-    value: any;
-}
-export class UploadEvent extends VrControlsEvent {
-    sender: Upload;
-}
-export class UploadParametersEvent extends UploadEvent {
-    file: File;
-}
-export class UploadDragEvent extends UploadEvent {
-    element: HTMLElement;
-    event: any;
-}
-export class UploadDragEnterEvent extends UploadDragEvent {
-}
-export class UploadDragOverEvent extends UploadDragEvent {
-}
-export class UploadDragLeaveEvent extends UploadDragEvent {
-}
-export class UploadDropEvent extends UploadEvent {
-    files: File[];
-    event: any;
-}
-export class UploadProgressEvent extends UploadEvent {
-    loaded: number;
-    total: number;
-    event: any;
-}
-export class UploadLoadEvent extends UploadEvent {
-    event: Event;
-    status: number;
-    statusText: string;
-    xhr: XMLHttpRequest;
-    response: any;
-    file: File;
-}
-export class UploadErrorEvent extends UploadLoadEvent {
-}
-export class UploadSuccessEvent extends UploadLoadEvent {
-}
-export class UploadValidationErrorEvent extends UploadEvent {
-    file: File;
-    message: string;
-    type: UploadValidationErrorTypeEnum;
-}
-export class UploadAbortEvent extends UploadEvent {
-    file: File;
-    xhr: XMLHttpRequest;
-}
-export class UploadStartEvent extends UploadEvent {
-    files: File[];
-}
-export class UploadValidation {
-    minSize?: number;
-    minSizeErrorMessage?: string;
-    maxSize?: number;
-    maxSizeErrorMessage?: string;
-    extensions?: string[];
-    extensionsErrorMessage?: string;
-    checkMimeType?: boolean;
-    showFileIfError?: boolean;
-}
-export class UploadRemoveEvent extends UploadEvent {
-    file: File;
-    element: HTMLElement;
-    index: number;
-}
-export class UploadClickEvent extends UploadEvent {
-}
-export class UploadFilesAdded extends UploadEvent {
-    files: File[];
-}
-export class TreeViewOptions extends VrControlOptions {
-    checkboxes?: boolean;
-    treeMode?: TreeModeEnum;
-    datasource?: any[];
-    rebind?: TreeViewRebindRequest;
-    dataSourceFieldId?: string;
-    filter?: boolean | TreeViewFilterSettings;
-    showLink?: boolean;
-    title?: string;
-    rightClickForContextMenu?: boolean;
-    leftClickForContextMenu?: boolean;
-    parentClickable?: boolean;
-    contextMenuItems?: TreeViewContextMenuItem[];
-    showEditButton?: boolean;
-    draggable?: boolean;
-    selectable?: boolean;
-    alternateColor?: boolean;
-    spaceBetweenGroups?: boolean;
-    rowHeight?: number;
-    rowLine?: number;
-    export?: boolean | TreeViewExportSettings;
-    columns?: TreeViewColumn[];
-    toolbar?: TreeViewToolbarItem[];
-    template?: (e: TreeViewTemplateEvent) => void | string;
-    onBeforeSelect?(e: TreeViewChangingEvent): void;
-    onAfterSelect?(e: TreeViewChangeEvent): void;
-    onDoubleClick?(e: TreeViewDoubleClickEvent): void;
-    onEdit?(e: TreeViewEditEvent): void;
-    onDragStart?(e: TreeViewDragStartEvent): void;
-    onDragMove?(e: TreeViewDragMoveEvent): void;
-    onDragEnd?(e: TreeViewDragEndEvent): void;
-}
-export class TreeView extends VrControl {
-    private _items;
-    private _dictionaryValueLi;
-    private _dictionaryLiValue;
-    private _checkedValues;
-    private _isChecked;
-    private _tempCheckedValue;
-    private _value?;
-    private _divContextMenu;
-    private _dataItemContextMenu;
-    private _actualDraggedItem;
-    private _lblTitle;
-    private _tempRebindInfo;
-    private _divContent;
-    private _divHeaderSpace;
-    private _divTitle;
-    private _divToolbar;
-    private _timeoutClick;
-    private _txtSearchFilter;
-    constructor(element: HTMLElement, options?: TreeViewOptions | null);
-    datasource(items?: any[]): any[];
-    rebind(parameters?: any | null, loadingElement?: boolean | HTMLElement | JQuery | string): any;
-    update(): void;
-    private drawDataSource;
-    private manageScrollbar;
-    private drawItems;
-    private getOnlyChildrenItems;
-    getRootItems(): TreeViewItem[];
-    getRootValues(): string[];
-    private getAllChildrenItems;
-    private getAllChildrenValues;
-    private getDataChildrenItems;
-    private getChildrenCheckboxElements;
-    getCheckedItems(): TreeViewItem[];
-    getCheckedValues(): string[];
-    getSelectedItem<T extends TreeViewItem>(): T;
-    private getParentItem;
-    private manageCheckParent;
-    private limitInputByDataSource;
-    private getFilteredArrayByInputText;
-    private filter;
-    isParent(value: string): boolean;
-    focus(): void;
-    value<T extends string | string[] | number>(value?: TreeViewItem | string | number | string[] | number[] | null, triggerChange?: boolean): T | null;
-    title(title?: string): string;
-    clear(triggerChange?: boolean): void;
-    clearItems(): void;
-    excelExport(): void;
-    column(field: string): TreeViewColumn;
-    columnTitle(field: string, title?: string): string | undefined;
-    showColumns(fields: string[], update?: boolean): void;
-    showColumn(field: string, update?: boolean): void;
-    hideColumns(fields: string[], update?: boolean): void;
-    hideColumn(field: string, update?: boolean): void;
-    showOnlyThisColumns(fieldList: string[], update?: boolean): void;
-    private widthColumns;
-    checkAll(triggerChange?: boolean): void;
-    unCheckAll(triggerChange?: boolean): void;
-    private createContextMenu;
-    private clickOnContextMenuItem;
-    private showContextMenu;
-    private closeContextMenu;
-    updateRow(dataItem: any, rebind?: UpdateRowRebindSettings | boolean): void;
-    updateRows(dataItems: any[], rebind?: boolean): void;
-    addItem(item: TreeViewItem, rebind?: boolean): void;
-    updateItem(item: TreeViewItem, rebind?: boolean): void;
-    private manageAddUpdateItem;
-    deleteItem(value: number | string): void;
-    visibleToolbar(state?: boolean): any;
-    showToolbar(): void;
-    hideToolbar(): void;
-    toolbar(): HTMLElement;
-    toolbarItem<T extends VrControl>(value: string): T;
-    showToolbarItem<T extends VrControl>(value: string): void;
-    hideToolbarItem<T extends VrControl>(value: string): void;
-    enableToolbarItem<T extends VrControl>(value: string): void;
-    disableToolbarItem<T extends VrControl>(value: string): void;
-    removeToolbarItem(value: string): void;
-    addToolbarItem(toolbarItem: TreeViewToolbarItem): void;
-    private toolbarCustomLogic;
-    private doWebApiCall;
-    change(callBack?: Function): void;
-    getOptions(): TreeViewOptions;
-}
-export class TreeViewTemplateEvent {
-    sender: TreeView;
-    dataItem: any;
-    container: HTMLElement;
-}
-export class TreeViewEvent extends VrControlsEvent {
-    sender: TreeView;
-    value: any;
-    childrenValues: string[];
-    selectedItem?: TreeViewItem;
-    checked: boolean;
-    isParent?: boolean;
-}
-export class TreeViewChangeEvent extends TreeViewEvent {
-}
-export class TreeViewChangingEvent extends TreeViewEvent {
-    previousValue?: string | null;
-    previousCheckedValues?: string[] | null;
-}
-export class TreeViewContextMenuClickEvent extends VrControlsEvent {
-    sender: TreeView;
-    text?: string;
-    value?: string;
-    dataItem: any;
-    targets?: HTMLElement[];
-}
-export class TreeViewDoubleClickEvent extends VrControlsEvent {
-    sender: TreeView;
-    text?: string;
-    value?: string;
-    dataItem: any;
-}
-export class TreeViewEditEvent extends VrControlsEvent {
-    sender: TreeView;
-    text?: string;
-    value?: string;
-    dataItem: any;
-}
-export class TreeViewDragEvent extends VrControlsEvent {
-    sender: TreeView;
-    target: HTMLElement;
-    source: TreeViewItem;
-    destination?: TreeViewItem;
-}
-export class TreeViewDragStartEvent extends TreeViewDragEvent {
-}
-export class TreeViewDragMoveEvent extends TreeViewDragEvent {
-}
-export class TreeViewDragEndEvent extends TreeViewDragEvent {
-}
-export class TreeViewExportSettings {
-    fileName?: string;
-    sheetName?: string;
-    numericValueTypeEnum?: TreeViewNumericTypeEnum;
-    decimalDigits?: number;
-}
-export class TreeViewHeaderAndCellSettings {
-    textAlign?: TreeViewAlignEnum;
-    backgroundColor?: string;
-    color?: string;
-    css?: string;
-}
-export class TreeViewHeaderSettings extends TreeViewHeaderAndCellSettings {
-    icon?: IconClass;
-}
-export class TreeViewCellSettings extends TreeViewHeaderAndCellSettings {
-    zeroIfNull?: boolean;
-}
-export class TreeViewWebApiRequest {
-    authKey?: string;
-    method?: string;
-    successNotificationMessage?: boolean | string;
-    errorNotificationMessage?: boolean | string;
-    rebindGridAfterSave?: boolean;
-    rebindGridAfterError?: boolean;
-    closeWindowAfterError?: boolean;
-    otherParameters?: any;
-    loadingElement?: boolean | HTMLElement | JQuery | string;
-    callback?: (response?: any) => void;
-    callbackBeforeDatasourceChange?: (response?: any) => void;
-    errorCallback?: (message?: string) => void;
-    parameters?: () => any;
-}
-export class TreeViewRebindRequest extends TreeViewWebApiRequest {
-    itemsPropertyName?: string;
-    rebindAtStartup?: boolean;
-}
-export class TooltipOptions extends VrControlOptions {
-    target?: HTMLElement | JQuery | string;
-    elementToAppend?: HTMLElement | JQuery | string;
-    content?: string;
-    type?: TooltipTypeEnum;
-    position?: TooltipPositionEnum;
-    hideSettings?: TooltipHideSettings;
-    showSettings?: TooltipShowSettings;
-    colorSettings?: ColorSettings;
-    showOn?: TooltipShowOnEnum;
-    hideOn?: TooltipHideOnEnum;
-    icon?: IconClass;
-    onShow?: (e: TooltipShowEvent) => void;
-    onHide?: (e: TooltipHideEvent) => void;
-}
-export class Tooltip extends VrControl {
-    private _notifier;
-    constructor(element: HTMLElement, options?: TooltipOptions | null);
-    show(content?: any): void;
-    hide(): void;
-    visible(state?: boolean): any;
-    content(content?: string): string | undefined;
-    target(): HTMLElement;
-    getOptions(): TooltipOptions;
-}
-export class TooltipHideSettings {
-    clickToHide?: boolean;
-    hideAfter?: number;
-    animation?: AnimationHideEnum;
-}
-export class TooltipShowSettings {
-    showAfter?: number;
-    animation?: AnimationShowEnum;
-}
-export class TooltipShowEvent extends VrControlsEvent {
-    sender: Tooltip;
-    content: string;
-}
-export class TooltipHideEvent extends VrControlsEvent {
-    sender: Tooltip;
-    content: string;
-}
-export class TextBoxOptions extends VrControlOptions {
-    value?: string | number;
-    placeholder?: string;
-    readOnly?: boolean;
-    rows?: number;
-    decimals?: number;
-    zeros?: number;
-    align?: TextAlignEnum;
-    mode?: TextModeEnum;
-    inputMode?: TextTransformModeEnum;
-    icon?: IconClass;
-    imageUrl?: string;
-    bold?: boolean;
-    nullable?: boolean;
-    growWithContent?: boolean;
-    tooltip?: string;
-    roundingSettings?: NumberFormatRoundingSettings;
-    validation?: TextBoxValidationSettings;
-    autocomplete?: TextBoxAutoCompleteEnum | string;
-    onChanged?(e: TextBoxChangeEvent): void;
-    onKeyUp?(e: TextBoxKeyUpEvent): void;
-    onKeyDown?(e: TextBoxKeyDownEvent): void;
-    onEnterKey?(e: TextBoxEnterKeyEvent): void;
-    onFocus?(e: TextBoxFocusEvent): void;
-    onBlur?(e: TextBoxBlurEvent): void;
-    onPaste?(e: TextBoxPasteEvent): void;
-}
-export class TextBox extends VrControl {
-    private _numberValue;
-    private _hideErrorMode;
-    private _keyDownCanceled;
-    private _originalHeight;
-    private _oldValue;
-    private _originalMarginBottom;
-    private _passwordViewableIcon;
-    constructor(element: HTMLElement, options?: TextBoxOptions | null);
-    value<T extends string | number | null>(value?: string | number | null, triggerChange?: boolean): T;
-    private validate;
-    placeholder(value?: string): string;
-    type(type: TextModeEnum): void;
-    getOptions(): TextBoxOptions;
-    clear(triggerChange?: boolean): void;
-    isEmpty(): boolean;
-    private autoSize;
-    private isNumericTextBox;
-    viewPassword(state?: boolean): boolean;
-    caretPosition(): number;
-    insertTextAtCursor(text: string): void;
-    insertTextAtPosition(text: string, position: number): void;
-    appendText(text: string, position?: number): void;
-    error(text?: string, mode?: ErrorModeEnum, position?: ErrorPositionEnum, hideMode?: ErrorHideModeEnum): void;
-    hideError(): void;
-    hasError(): any;
-    private formatValue;
-    change(): void;
-}
-export class TextBoxMultiline extends TextBox {
-}
-export class TextBoxNumeric extends TextBox {
-}
-export class TextBoxPassword extends TextBox {
-}
-export class TextBoxCurrency extends TextBox {
-}
-export class TextBoxPercentage extends TextBox {
-}
-export class TextBoxEvent extends VrControlsEvent {
-    sender: TextBox;
-    value: string | number | null;
-}
-export class TextBoxChangeEvent extends TextBoxEvent {
-    oldValue: string | number | null;
-}
-export class TextBoxFocusEvent extends TextBoxEvent {
-}
-export class TextBoxBlurEvent extends TextBoxEvent {
-    target: HTMLElement;
-    relatedTarget?: EventTarget | null;
-}
-export class TextBoxPasteEvent extends TextBoxEvent {
-    pastedValue: string;
-}
-export class TextBoxKeyUpPressEvent extends TextBoxEvent {
-    key: string;
-    shiftKey: boolean;
-    altKey: boolean;
-    ctrlKey: boolean;
-    enterKey: boolean;
-    backSpaceKey: boolean;
-    tabKey: boolean;
-}
-export class TextBoxKeyUpEvent extends TextBoxKeyUpPressEvent {
-    validForNumeric: boolean;
-}
-export class TextBoxKeyDownEvent extends TextBoxKeyUpPressEvent {
-    validForNumeric: boolean;
-}
-export class TextBoxEnterKeyEvent extends TextBoxEvent {
-}
-export class TabStripOptions extends VrControlOptions {
-    items?: TabStripItem[];
-    backgroundColor?: string;
-    tooltip?: boolean;
-    onSelect?(e: TabStripSelectEvent): void;
-    onItemAdded?(e: TabStripItemAddedEvent): void;
-    onItemRemoved?(e: TabStripItemRemovedEvent): void;
-}
-export class TabStrip extends VrControl {
-    private _buttonGroup;
-    constructor(element: HTMLElement, options?: TabStripOptions | null);
-    items(items?: TabStripItem[]): TabStripItem[];
-    addItem(item: TabStripItem, show?: boolean): void;
-    item(value: string): TabStripItem;
-    removeItem(value: string): void;
-    removeAllItems(): void;
-    showItems(values: any[]): void;
-    showItem(value: any): void;
-    showAllItems(): void;
-    hideItems(values: any[]): void;
-    hideItem(value: any, hide?: boolean): void;
-    hideAllItems(hideElement?: boolean): void;
-    visibleItem(value: any, state?: boolean): boolean;
-    enableItem(value: any): void;
-    enableItems(values: any[]): void;
-    disableItem(value: any): void;
-    disableItems(values: any[]): void;
-    select(values: string[] | number[], triggerChange?: boolean): void;
-    selectIndex(index: number, triggerChange?: boolean): void;
-    value(): any;
-    getItemByValue(value: string): HTMLElement;
-    getItemByIndex(index: number): HTMLElement;
-    itemTooltip(value: string, tooltip?: string): string;
-    itemText(value: string, text?: string, updateTooltip?: boolean): string;
-    itemTextByIndex(index: number, text?: string): string;
-    enable(): void;
-    disable(): void;
-    getOptions(): TabStripOptions;
-}
-export class TabStripEvent extends VrControlsEvent {
-    sender: TabStrip;
-}
-export class TabStripSelectEvent extends TabStripEvent {
-    value?: string | null;
-    selectedValues: string[];
-    selected?: boolean;
-}
-export class TabStripItemAddedEvent extends TabStripEvent {
-}
-export class TabStripItemRemovedEvent extends TabStripEvent {
-}
-export class SwitchOptions extends VrControlOptions {
-    labelOff?: string | SwitchLabelSettings;
-    labelOn?: string | SwitchLabelSettings;
-    checked?: boolean;
-    onChange?(e: SwitchChangeEvent): void;
-}
-export class Switch extends VrControl {
-    private _badgeLabelOff;
-    private _badgeLabelOn;
-    constructor(element: HTMLElement, options?: SwitchOptions | null);
-    check(): boolean;
-    checked(state?: boolean, triggerChange?: boolean): boolean;
-    clear(triggerChange?: boolean): void;
-    labelOff(text?: string): string;
-    labelOn(text?: string): string;
-    badgeLabelOff(text?: string | number): any;
-    badgeBackgroundColorLabelOff(color: string): void;
-    badgeColorLabelOff(color: string): void;
-    showBadgeLabelOff(): void;
-    hideBadgeLabelOff(): void;
-    visibleBadgeLabelOff(state: boolean): void;
-    badgeLabelOn(text?: string | number): any;
-    badgeBackgroundColorLabelOn(color: string): void;
-    badgeColorLabelOn(color: string): void;
-    showBadgeLabelOn(): void;
-    hideBadgeLabelOn(): void;
-    visibleBadgeLabelOn(state: boolean): void;
-    getOptions(): SwitchOptions;
-    enable(): void;
-    disable(): void;
-}
-export class SwitchEvent extends VrControlsEvent {
-    sender: Switch;
-}
-export class SwitchChangeEvent extends SwitchEvent {
-    checked: boolean;
-}
-export class SplitterOptions extends VrControlOptions {
-    direction?: SplitterDirectionEnum;
-    collapsable?: boolean | SplitterCollapsableSettings;
-    resizable?: boolean;
-    onBeforeExpandCollapse?: (e: SplitterBeforeExpandCollapseEvent) => void;
-    onAfterExpandExpandCollapse?: (e: SplitterAfterExpandCollapseEvent) => void;
-    onBeforeResize?: (e: SplitterBeforeResizeEvent) => void;
-    onAfterResize?: (e: SplitterAfterResizeEvent) => void;
-}
-export class Splitter extends VrControl {
-    private _previousDiv;
-    private _nextDiv;
-    constructor(element: HTMLElement, options?: SplitterOptions | null);
-}
-export class SplitterEvent extends VrControlsEvent {
-    sender: Splitter;
-}
-export class SplitterExpandCollapseEvent extends SplitterEvent {
-    collapse: boolean;
-    previousDiv: HTMLElement;
-    nextDiv: HTMLElement;
-}
-export class SplitterBeforeExpandCollapseEvent extends SplitterExpandCollapseEvent {
-}
-export class SplitterAfterExpandCollapseEvent extends SplitterExpandCollapseEvent {
-}
-export class SplitterResizeEvent extends SplitterEvent {
-    previousDiv: HTMLElement;
-    nextDiv: HTMLElement;
-    direction: SplitterDirectionEnum;
-}
-export class SplitterBeforeResizeEvent extends SplitterResizeEvent {
-}
-export class SplitterAfterResizeEvent extends SplitterResizeEvent {
-}
-export class SplitButtonOptions extends VrControlOptions {
-    text?: string;
-    icon?: IconClass;
-    imageUrl?: string;
-    colorSettings?: ColorSettings;
-    popupSettings?: PopupSettings;
-    tooltip?: string;
-    items?: SplitButtonItem[];
-    hoverMode?: boolean;
-    modal?: boolean;
-    showDefault?: boolean;
-    separator?: boolean;
-    onClick?: (e: SplitButtonMainClickEvent) => void;
-    onSelect?: (e: SplitButtonSelectClickEvent) => void;
-}
-export class SplitButton extends VrControl {
-    private _popup;
-    private _btnMain;
-    private _items;
-    private _itemButtonList;
-    constructor(element: HTMLElement, options?: SplitButtonOptions | null);
-    open(): void;
-    close(): void;
-    items(items?: SplitButtonItem[]): SplitButtonItem[];
-    private drawItem;
-    addItem(item: SplitButtonItem): void;
-    removeItem(value: string | number): void;
-    clearItems(): void;
-    enable(): void;
-    disable(): void;
-    itemVisible(value: string | number, state?: boolean): boolean;
-    showItem(value: string | number): void;
-    showItems(values: string[] | number[]): void;
-    showOnlyThisItem(value: string | number): void;
-    hideItem(value: string | number): void;
-    hideItems(values: string[] | number[]): void;
-    hideOnlyThisItem(value: string | number): void;
-    itemEnable(value: string | number, state?: boolean): boolean;
-    enableAllItems(): void;
-    enableItems(values: string[] | number[]): void;
-    enableItem(value: string | number): void;
-    disableAllItems(): void;
-    disableItems(values: string[] | number[]): void;
-    disableItem(value: string | number): void;
-    item(value: string | number): Button | null;
-    mainItem(): Button;
-    private getOptions;
-    click(): void;
-}
-export class SplitButtonItem {
-    text?: string;
-    value?: string | number;
-    icon?: IconClass;
-    imageUrl?: string;
-    separator?: boolean;
-    mode?: ButtonModeEnum;
-    colorSettings?: ColorSettings;
-    confirmationMessage?: string;
-    visible?: boolean;
-    enable?: boolean;
-    tooltip?: string;
-    css?: string;
-    cssContainer?: string;
-    class?: string;
-    onClick?: (e: SplitButtonClickEvent) => void;
-}
-export class SplitButtonClickEvent {
-    sender: SplitButton;
-    item: SplitButtonItem;
-}
-export class SplitButtonMainClickEvent {
-    sender: SplitButton;
-    text?: string;
-    value?: string;
-    items?: SplitButtonItem[];
-}
-export class SplitButtonSelectClickEvent {
-    text?: string;
-    value?: string;
-    mainButton?: boolean;
-}
-export class SpeechRecognizer extends VrControl {
-    private _btnMicrophone;
-    private _recognition;
-    private _allTextFromStart;
-    constructor(element: HTMLElement, options?: SpeechRecognizerOptions | null);
-    start(): void;
-    stop(): void;
-    isRecording(): boolean;
-    getOptions(): SpeechRecognizerOptions;
-    enable(): void;
-    disable(): void;
-}
-export class SpeechRecognizerEvent extends VrControlsEvent {
-    sender: SpeechRecognizer;
-}
-export class SpeechRecognizerNoMatchEvent extends SpeechRecognizerEvent {
-}
-export class SpeechRecognizerClickEvent extends SpeechRecognizerEvent {
-}
-export class SpeechRecognizerErrorEvent extends SpeechRecognizerEvent {
-    error: string;
-    message: string;
-}
-export class SpeechRecognizerResultEvent extends SpeechRecognizerEvent {
-    results: any;
-    resultIndex: number;
-    interimResults: string;
-    finalResults: string;
-    allTextFromStart: string;
-}
-export class SpeechRecognizerStartEvent extends SpeechRecognizerEvent {
-}
-export class SpeechRecognizerEndEvent extends SpeechRecognizerEvent {
-}
-export class SpeechRecognizerSpeechStartEvent extends SpeechRecognizerEvent {
-}
-export class SpeechRecognizerSpeechEndEvent extends SpeechRecognizerEvent {
-}
-export class SpeechRecognizerAudioStartEvent extends SpeechRecognizerEvent {
-}
-export class SpeechRecognizerAudioEndEvent extends SpeechRecognizerEvent {
-}
-export class SpeechRecognizerSoundStartEvent extends SpeechRecognizerEvent {
-}
-export class SpeechRecognizerSoundEndEvent extends SpeechRecognizerEvent {
-}
-export class SeparatorOptions extends VrControlOptions {
-    size?: number;
-    orientation?: OrientationEnum;
-    color?: string;
-    marginSettings?: MarginSettings;
-}
-export class Separator extends VrControl {
-    constructor(element: HTMLElement, options?: SeparatorOptions | null);
-}
-export class MarginSettings {
-    top?: number;
-    right?: number;
-    bottom?: number;
-    left?: number;
-}
-export class SearchBarOptions extends VrControlOptions {
-    collapsed?: boolean;
-    icon?: IconClass | boolean;
-    placeholder?: string;
-    expandOnClick?: boolean;
-    collapseOnBlur?: boolean;
-    onClick?(e: SearchBarClickEvent): void;
-    onKeyUp?(e: SearchBarKeyUpEvent): void;
-    onEnterKey?(e: SearchBarEnterKeyEvent): void;
-    onBlur?(e: SearchBarBlurEvent): void;
-}
-export class SearchBar extends VrControl {
-    private _textBox;
-    private _previousValue;
-    constructor(element: HTMLElement, options?: SearchBarOptions | null);
-    value(text?: string): string;
-    clear(): void;
-    collapse(): void;
-    expand(): void;
-    isCollapsed(): boolean;
-    focus(): void;
-}
-export class SearchBarEvent extends VrControlsEvent {
-    sender: SearchBar;
-    value: string;
-}
-export class SearchBarKeyUpEvent extends SearchBarEvent {
-    previousValue: string;
-}
-export class SearchBarEnterKeyEvent extends SearchBarEvent {
-}
-export class SearchBarClickEvent extends SearchBarEvent {
-}
-export class SearchBarBlurEvent extends SearchBarEvent {
-}
-export class SchedulerOptions extends VrControlOptions {
-    date?: Date;
-    startTime?: Date;
-    endTime?: Date;
-    timeslotIntervalDuration?: number;
-    numberOfWorkDays?: number;
-    resources?: SchedulerResource[];
-    firstDayOfWeek?: DayOfWeekEnum;
-    views?: SchedulerView[];
-    daysOfWeekNames?: string[];
-    exportPdf?: boolean;
-    maxResourcesNumber?: SchedulerMaxResourceNumber;
-    availabilities?: SchedulerData[];
-    datasource?: SchedulerData[];
-    saturation?: SchedulerSaturationInfo;
-    editable?: SchedulerEditable;
-    timeColumn?: boolean;
-    showHeader?: boolean;
-    showToolbar?: boolean;
-    onNavigate?: (e: SchedulerNavigateEvent) => void;
-    onViewChange?: (e: SchedulerViewChangeEvent) => void;
-    onIntervalChange?: (e: SchedulerIntervalChangeEvent) => void;
-    onResourcesChange?: (e: SchedulerResourcesChangeEvent) => void;
-    onTimeslotClick?: (e: SchedulerTimeslotClickEvent) => void;
-    onAvailabilityClick?: (e: SchedulerAvailabilityClickEvent) => void;
-    onAppointmentClick?: (e: SchedulerAppointmentClickEvent) => void;
-    onMoveStart?: (e: SchedulerMoveStartEvent) => void;
-    onMoving?: (e: SchedulerMovingEvent) => void;
-    onMoveEnd?: (e: SchedulerMoveEndEvent) => void;
-    onExpand?: (e: SchedulerExpandEvent) => void;
-    onCollapse?: (e: SchedulerCollapseEvent) => void;
-    onResizeStart?: (e: SchedulerResizeStartEvent) => void;
-    onResizing?: (e: SchedulerResizingEvent) => void;
-    onResizeEnd?: (e: SchedulerResizeEndEvent) => void;
-}
-export class Scheduler extends VrControl {
-    private _dtpSchedulerDate;
-    private _swtGroupByDateResource;
-    private _btgMenuView;
-    private _btnExpand;
-    private _btnCollapse;
-    private _cmbInterval;
-    private _actualView;
-    private _actualNavigateAction;
-    private _isMoving;
-    private _isResizing;
-    private _timeColumnWidth;
-    private _saturationData?;
-    private _saturationVisible;
-    private _datasource;
-    private _slotElementList;
-    private _availabilities;
-    constructor(element: HTMLElement, options?: SchedulerOptions | null);
-    drawToolbar(): void;
-    private drawScheduler;
-    private drawHeader;
-    private createIntervalCombo;
-    private drawContent;
-    adaptHeight(): void;
-    height(value?: string | number): number;
-    view(view?: SchedulerViewEnum, drawScheduler?: boolean, triggerChange?: boolean): SchedulerViewEnum;
-    date(date?: Date, triggerChange?: boolean): Date | null;
-    resources(resources?: SchedulerResource[], drawScheduler?: boolean, triggerChange?: boolean): SchedulerResource[];
-    groupedByResource(): boolean;
-    private triggerResourceChangeEvent;
-    timeslotInterval(timeslotIntervalDuration?: number, drawScheduler?: boolean, triggerChange?: boolean): number;
-    daysOfWeekNames(names?: string[], drawScheduler?: boolean): string[] | undefined;
-    numberOfWorkDays(workDaysNumber?: number, drawScheduler?: boolean): number | undefined;
-    firstDayOfWeek(): DayOfWeekEnum;
-    startTime(time?: Date, drawScheduler?: boolean): Date;
-    endTime(time?: Date, drawScheduler?: boolean): Date;
-    maxResourcesNumber(maxNumber?: SchedulerMaxResourceNumber): SchedulerMaxResourceNumber | undefined;
-    groupWeekByDate(group?: boolean): boolean;
-    fullscreen(state?: boolean): boolean;
-    datasource<T extends SchedulerData>(datasource?: T[]): T[];
-    private setResizing;
-    availabilities<T extends SchedulerData>(availabilities?: T[]): T[];
-    private checkMandatorySchedulerDataFields;
-    private managePropertiesSchedulerData;
-    rebind(appointments?: boolean, availabilities?: boolean): void;
-    rebindAppointments(): void;
-    rebindAvailabilities(): void;
-    saturation(saturationData?: SchedulerSaturationInfo): SchedulerSaturationInfo | undefined;
-    private manageSaturationPercentage;
-    private manageWeekDateList;
-    clearSaturation(): void;
-    showSaturation(): void;
-    private internalShowSaturation;
-    hideSaturation(): void;
-    private internalHideSaturation;
-    saturationVisible(): boolean;
-    bounceAppointment(divElementId: string): void;
-    private manageSchedulerClick;
-    private getDivContent;
-    private findOverlappedAppointments;
-    private adaptDateToTimeslotDuration;
-    private getAppointmentSlots;
-    exportPdf(fileName?: string, onlyVisible?: boolean, autoPrint?: boolean, loader?: boolean): void;
-    getOptions(): SchedulerOptions;
-}
-export class SchedulerEvent extends VrControlsEvent {
-    sender: Scheduler;
-}
-export class SchedulerNavigateEvent extends SchedulerEvent {
-    action?: SchedulerNavigateActionEnum;
-    date?: Date;
-    view?: SchedulerViewEnum;
-    previousDate: Date | null;
-}
-export class SchedulerViewChangeEvent extends SchedulerEvent {
-    previousView: SchedulerViewEnum;
-    view: SchedulerViewEnum;
-}
-export class SchedulerIntervalChangeEvent extends SchedulerEvent {
-    value?: number;
-    view?: SchedulerViewEnum;
-    previousValue: number | undefined;
-}
-export class SchedulerResourcesChangeEvent extends SchedulerEvent {
-    resources: SchedulerResource[];
-    view?: SchedulerViewEnum;
-}
-export class SchedulerClickEvent extends SchedulerEvent {
-    start: Date;
-    end: Date;
-    resourceId: string;
-    element: HTMLElement;
-    slotElement: SchedulerSlotElement;
-}
-export class SchedulerTimeslotClickEvent extends SchedulerClickEvent {
-}
-export class SchedulerAppointmentClickEvent extends SchedulerClickEvent {
-    dataItem: SchedulerData;
-}
-export class SchedulerAvailabilityClickEvent extends SchedulerClickEvent {
-    dataItem: SchedulerData;
-}
-export class SchedulerMoveEvent extends SchedulerEvent {
-    start: Date;
-    end: Date;
-    resourceId: string;
-    divElement: HTMLDivElement;
-    dataItem: SchedulerData;
-}
-export class SchedulerMoveStartEvent extends SchedulerMoveEvent {
-}
-export class SchedulerMovingEvent extends SchedulerMoveEvent {
-}
-export class SchedulerMoveEndEvent extends SchedulerMoveEvent {
-}
-export class SchedulerResizeEvent extends SchedulerEvent {
-    start: Date;
-    end: Date;
-    resourceId: string;
-    divElement: HTMLDivElement;
-    dataItem: SchedulerData;
-}
-export class SchedulerResizeStartEvent extends SchedulerResizeEvent {
-}
-export class SchedulerResizingEvent extends SchedulerResizeEvent {
-}
-export class SchedulerResizeEndEvent extends SchedulerResizeEvent {
-}
-export class SchedulerMaxResourceNumber {
-    dayView?: number;
-    weekView?: number;
-    fourWeeksView?: number;
-}
-export class SchedulerExpandCollapseEvent extends SchedulerEvent {
-    buttonExpand: Button;
-    buttonCollpase: Button;
-}
-export class SchedulerExpandEvent extends SchedulerExpandCollapseEvent {
-}
-export class SchedulerCollapseEvent extends SchedulerExpandCollapseEvent {
-}
-export class SchedulerEditable {
-    move?: boolean;
-    resize?: boolean;
-}
-export class RepeaterOptions extends VrControlOptions {
-    toolbar?: GridToolbarItem[];
-    height?: string | number | GridHeightModeEnum;
-    dataSource?: any[];
-    rebind?: GridRebindRequest;
-    checkboxes?: boolean | GridCheckboxModeEnum;
-    dataSourceFieldId?: string;
-    rowHeight?: number;
-    hideEditButton?: boolean;
-    mode?: GridModeEnum;
-    filterable?: boolean;
-    pageSize?: number | boolean | GridPageSettings;
-    footer?: boolean | GridFooterSettings;
-    padding?: number | PaddingSettings;
-    alternateRowColors?: boolean | string;
-    hoverRowColor?: boolean;
-    customFilterProperties?: string[];
-    emptyMessage?: string;
-    groupBy?: string[] | GridGroupBySettings | null;
-    title?: string | boolean;
-    groupable?: boolean;
-    rowColorProperty?: string;
-    rowTextColorProperty?: string;
-    template?: (templateEvent: GridTemplateEvent) => string;
-    onDataSourceChanged?: () => void;
-    onDataBound?: (e: GridOnDataBoundEvent) => void;
-    onRowDataBound?: (e: RepeaterOnRowDataBoundEvent) => void | string;
-    onSelectRow?: (e: GridSelectRowEvent) => void;
-    onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
-    onPageSelected?: (e: GridPageSelectedEvent) => void;
-    onScroll?: (e: GridScrollEvent) => void;
-    onBeforeExcelExport?: (e: GridBeforeExcelExportEvent) => void;
-    onAfterExcelExport?: (e: GridAfterExcelExportEvent) => void;
-}
-export class Repeater extends VrControl {
-
-    constructor(element: HTMLElement, options?: RepeaterOptions | null);
-    rebind(parameters?: any | null, keepInfo?: boolean): any;
-    rebindSpecificRows(itemIdList: number[], update?: boolean): void;
-    clear(): void;
-    originalDataSource(): any[];
-    dataSource(dataItems?: any[], clearFilters?: boolean): any[];
-    update(triggerDataBound?: boolean, keepInfo?: boolean): void;
-    updateRow(dataItem: any, rebind?: boolean): void;
-    updateRows(dataItems: any[], rebind?: boolean): void;
-    addRow(dataItem: any, rebind?: boolean): void;
-    addRows(dataItems: any[], rebind?: boolean): void;
-    deleteRow(dataItemId: any, rebind?: boolean): void;
-    deleteRows(dataItemIdList: any[], rebind?: boolean): void;
-    rows(): GridRow[];
-    getAllItems(): any[];
-    getCheckedItems(): any[];
-    getCheckedValues(): string[];
-    getCheckedNumberValues(): number[];
-    getDeletedItems(): any[];
-    getDeletedItemValues(key?: string): any[];
-    clearSelection(triggerChange?: boolean): void;
-    checkAllRows(triggerChange?: boolean): void;
-    unCheckAllRows(triggerChange?: boolean): void;
-    selectRowsByIndexes(indexes: number[], triggerChange?: boolean): void;
-    selectRowByIndex(index: number, triggerChange?: boolean): void;
-    selectRows(itemIdList: string[], property?: string, triggerChange?: boolean): void;
-    selectRow(itemId: string, triggerChange?: boolean): void;
-    unselectRows(itemIdList: string[], property?: string, triggerChange?: boolean): void;
-    unselectRow(itemId: string): void;
-    hasGroup(): boolean;
-    removeGroup(field: string, updateDataSource?: boolean): void;
-    removeGroups(fields: string[], updateDataSource?: boolean): void;
-    removeAllGroups(updateDataSource?: boolean): void;
-    addGroup(field: string | GridGroupByItem, updateDataSource?: boolean, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings): void;
-    addGroups(fields: (string | GridGroupByItem)[], updateDataSource?: boolean, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings): void;
-    removeSort(updateDataSource?: boolean): void;
-    sort(field: string, tableSortModeEnum?: GridSortDirectionEnum): void;
-    clearFilters(updateDataSource?: boolean): void;
-    addFilter(field: string, filterCondition: GridFilterSettings, applyFilters?: boolean): void;
-    removeFilter(field: string, applyFilters?: boolean): void;
-    updateFilter(field: string, filterCondition: GridFilterSettings, applyFilters?: boolean): void;
-    pageSelected(page?: number, update?: boolean): number;
-    height(height?: number | string): any;
-    recalculateHeight(afterFilter?: boolean): void;
-    recalculateWidth(): void;
-    visibleFooter(state?: boolean): any;
-    showFooter(): void;
-    hideFooter(): void;
-    footer(): HTMLElement;
-    visibleToolbar(state?: boolean): any;
-    showToolbar(): void;
-    hideToolbar(): void;
-    toolbar(): HTMLElement;
-    toolbarItem<T extends VrControl>(value: string): T;
-    showToolbarItem(value: string): void;
-    hideToolbarItem(value: string): void;
-    enableToolbarItem<T extends VrControl>(value: string): void;
-    disableToolbarItem<T extends VrControl>(value: string): void;
-    removeToolbarItem(value: string): void;
-    addToolbarItem(toolbarItem: GridToolbarItem): void;
-    hideCheckboxColumn(updateDataSource?: boolean): void;
-    showCheckboxColumn(updateDataSource?: boolean): void;
-    pageSize(pageSize?: number | boolean, update?: boolean, triggerDataBound?: boolean): number;
-}
-export class PaddingSettings {
-    left?: number;
-    top?: number;
-    right?: number;
-    bottom?: number;
-}
-export class RepeaterOnRowDataBoundEvent extends GridOnRowDataBoundEvent {
-    cell: HTMLElement;
-    index: number;
-}
-export class RatingOptions extends VrControlOptions {
-    value?: number;
-    max?: number;
-    size?: string | number;
-    precision?: RatingPrecisionEnum;
-    tooltip?: boolean;
-    colorSettings?: RatingColorSettings;
-    total?: number;
-    readonly?: boolean;
-    onSelect?: (e: RatingSelectEvent) => void;
-}
-export class Rating extends VrControl {
-    private _value?;
-    private _lblTotal;
-    constructor(element: HTMLElement, options?: RatingOptions | null);
-    value(value?: number, triggerChange?: boolean): any;
-    clear(): void;
-    color(colorSettings?: RatingColorSettings): RatingColorSettings | undefined;
-    size(size?: string | number): number;
-    total(total?: number): number;
-    enable(): void;
-    disable(): void;
-    getOptions(): RatingOptions;
-}
-export class RatingSelectEvent {
-    sender: Rating;
-    value: number;
-    oldValue?: number | null;
-}
-export class RatingColorSettings {
-    selected?: string;
-    hover?: string;
-    notSelected?: string;
-}
-export class RadioButtonListOptions extends VrControlOptions {
-    items?: RadioButtonItem[];
-    orientation?: OrientationEnum;
-    listName?: string;
-    onBeforeSelect?(e: RadioButtonListSelectEvent): void;
-    onSelect?(e: RadioButtonListSelectEvent): void;
-}
-export class RadioButtonList extends VrControl {
-    private _radioControls;
-    private _items;
-    constructor(element: HTMLElement, options?: RadioButtonListOptions | null);
-    items(items?: RadioButtonItem[]): RadioButtonItem[];
-    value(value?: string | number, triggerChange?: boolean): string;
-    valueTag(tag?: any, triggerChange?: boolean): any;
-    text(value: string, text?: string): string;
-    clear(triggerChange?: boolean): void;
-    clearItems(): void;
-    getOptions(): RadioButtonListOptions;
-    enable(): void;
-    disable(): void;
-}
-export class RadioButtonItem {
-    text?: string;
-    value?: string | number;
-    checked?: boolean;
-    tag?: any;
-    onCheck?: (e: RadioButtonCheckEvent) => void;
-}
-export class RadioButtonListSelectEvent extends VrControlsEvent {
-    sender: RadioButtonList;
-    value?: string;
-}
-export class RadioButtonOptions extends VrControlOptions {
-    text?: string;
-    value?: string;
-    checked?: boolean;
-    name?: string;
-    onCheck?(e: RadioButtonCheckEvent): void;
-}
-export class RadioButton extends VrControl {
-    constructor(element: HTMLElement, options?: RadioButtonOptions | null);
-    checked(state?: boolean, triggerChange?: boolean): boolean;
-    text(text?: string): string;
-    clear(triggerChange?: boolean): void;
-    getOptions(): RadioButtonOptions;
-    enable(): void;
-    disable(): void;
-}
-export class RadioButtonEvent {
-    sender: RadioButton;
-}
-export class RadioButtonCheckEvent extends RadioButtonEvent {
-    checked: boolean;
-}
-export class QrCodeOptions extends VrControlOptions {
-    value?: string | number;
-    color?: string;
-    border?: boolean | QrCodeBorderSettings;
-    wrap?: boolean;
-    onClick?: (e: QrCodeClickEvent) => void;
-}
-export class QrCode extends VrControl {
-    private _value;
-    private _svg;
-    constructor(element: HTMLElement, options?: QrCodeOptions | null);
-    value(value?: string | number): string;
-    svg(): SVGElement;
-    clear(): void;
-    getOptions(): QrCodeOptions;
-}
-export class QrCodeBorderSettings {
-    size?: number;
-    color?: string;
-    style?: string | BorderStyleEnum;
-}
-export class QrCodeClickEvent extends VrControlsEvent {
-    sender: QrCode;
-    value: string;
-}
-export class PromptOptions {
-    textOkButton?: string;
-    textCancelButton?: string;
-    content?: string;
-    title?: string;
-    defaultValue?: string;
-    textboxSettings?: TextBoxOptions;
-    width?: number | string;
-    height?: number | string;
-    css?: string;
-    cssContainer?: string;
-    onContentLoaded?(e: ContentPromptLoadedEvent): void;
-}
-export class Prompt {
-    private _window;
-    private _options;
-    private _textBox;
-    constructor(text?: string | null, options?: PromptOptions | null);
-    open(): Promise<string>;
-    close(): void;
-    private getOptions;
-    private onContentLoaded;
-}
-export class ContentPromptLoadedEvent extends VrControlsEvent {
-    sender: Prompt;
-    contentElement: HTMLElement;
-}
-export class PdfViewerOptions extends VrControlOptions {
-    content?: string;
-    base64?: boolean;
-    popup?: boolean | PdfViewerWindowSettings;
-    scale?: number;
-    textSelection?: boolean;
-    toolbar?: boolean | PdfViewerToolbarSettings;
-    fileName?: string;
-    onContentRendered?: (e: OnContentRenderedEvent) => void;
-}
-export class PdfViewer extends VrControl {
-    private _state;
-    private _window;
-    private _currentPage;
-    private _pdfViewerCanvasContainer;
-    private _divToolbar;
-    private _txtCurrentPage;
-    private _lblPagesNumber;
-    constructor(element: HTMLElement, options?: PdfViewerOptions | null);
-    private createToolbar;
-    addToolbarItems(toolbarItems: PdfViewerToolbarItem[]): void;
-    toolbar(): HTMLElement;
-    toolbarLeftArea(): any;
-    toolbarCenterArea(): any;
-    toolbarRightArea(): any;
-    toolbarArea(area: PdfViewerToolbarAreaEnum): any;
-    content(content?: string): Promise<unknown>;
-    private internalRenderRecursive;
-    page(page?: number): number;
-    fileName(name?: string): string | undefined;
-    download(): void;
-    print(): void;
-    getData(): Promise<string>;
-    open(content?: string): Promise<unknown>;
-    close(): void;
-    window(): Window;
-    windowTitle(title: string): void;
-    windowCloseCallback(callback: Function): void;
-    getOptions(): PdfViewerOptions;
-    private canvasContainer;
-}
-export class PdfViewerWindowSettings {
-    maximize?: boolean;
-    width?: number;
-    height?: number;
-    title?: string;
-    closeable?: boolean;
-    onOpen?(e: WindowOpenEvent): void;
-}
-export class PaypalButtonOptions extends VrControlOptions {
-    setupUrl?: PaypalSetupUrl;
-    style?: PaypalStyle;
-    intent?: string;
-    createOrderRequest?: SetupPaymentRequest;
-    approveRequest?: ExecutePaymentRequest;
-    enableStandardCardFields?: boolean;
-    onRendered?: (e: OnPaypalRenderedEvent) => void;
-    onCancel?: (e: OnPaypalCancelEvent) => void;
-    onBeforePayment?: (e: OnPaypalBeforePaymentEvent) => void;
-}
-export class PaypalButton extends VrControl {
-    constructor(element: HTMLElement, options?: PaypalButtonOptions | null);
-    private renderButton;
-    private prepareWebApiCall;
-    private manageError;
-    getOptions(): PaypalButtonOptions;
-}
-export class PaypalSetupUrl {
-    clientId?: string;
-    locale?: string;
-    currency?: string;
-    intent?: string;
-    commit?: boolean;
-}
-export class PaypalStyle {
-    size?: PaypalStyleSizeEnum;
-    color?: PaypalStyleColorEnum;
-    shape?: PaypalStyleShapeEnum;
-    height?: number;
-    tagline?: boolean;
-    layout?: PaypalStyleLayoutEnum;
-    fundingicons?: boolean;
-}
-export class PaypalWebApiRequest {
-    authKey?: string;
-    method?: string;
-    successNotificationMessage?: boolean | string;
-    errorNotificationMessage?: boolean | string;
-    otherParameters?: any;
-    loader?: HTMLElement | JQuery | string;
-    callback?: (response?: any) => void;
-    errorCallback?: (message?: string) => void;
-    parameters?: () => any;
-}
-export class SetupPaymentRequest extends PaypalWebApiRequest {
-    cancelUrl?: string;
-    returnUrl?: string;
-}
-export class ExecutePaymentRequest extends PaypalWebApiRequest {
-    paymentIdPropertyName?: string;
-    payerIdPropertyName?: string;
-}
-export class OnPaypalCancelEvent extends VrControlsEvent {
-    sender: PaypalButton;
-    data: any;
-    actions: any;
-}
-export class OnPaypalBeforePaymentEvent extends VrControlsEvent {
-    sender: PaypalButton;
-}
-export class OnPaypalRenderedEvent extends VrControlsEvent {
-    sender: PaypalButton;
-}
-export class PainterOptions extends VrControlOptions {
-    imagePath?: string;
-    size?: number;
-    color?: string;
-    saveSettings?: PainterSaveSettings;
-    onMouseDown?: (e: PainterMouseDownEvent) => void;
-    onMouseMove?: (e: PainterMouseMoveEvent) => void;
-    onMouseUp?: (e: PainterMouseUpEvent) => void;
-}
-export class Painter extends VrControl {
-    private _color;
-    private _size;
-    private _points;
-    private _ctx;
-    private _image;
-    private _isMoving;
-    private _pointTag?;
-    constructor(element: HTMLElement, options?: PainterOptions | null);
-    color(color?: string): string;
-    size(size?: number): number;
-    image(imagePath?: string): any;
-    pointTag(tag?: any): any;
-    points(points?: [Point[]]): [Point[]];
-    draw(): any;
-    private getPoint;
-    clear(imagePath?: string): void;
-    clearLastRoute(): void;
-    clearRoute(tag: any): void;
-    save(legendItems?: LegendItem[]): string;
-    enable(): void;
-    disable(): void;
-    getOptions(): PainterOptions;
-}
-export class Point {
-    x: number;
-    y: number;
-    color: string;
-    size: number;
-    tag?: any;
-}
-export class LegendItem {
-    color?: string;
-    text: string;
-}
-export class PainterSaveSettings {
-    legendWidth?: number;
-    legendHeight?: number;
-}
-export class PainterEvent extends VrControlsEvent {
-    sender: Painter;
-    event: any;
-    points: [Point[]];
-}
-export class PainterMouseDownEvent extends PainterEvent {
-}
-export class PainterMouseMoveEvent extends PainterEvent {
-}
-export class PainterMouseUpEvent extends PainterEvent {
-}
-export class Notifier {
-    private _options;
-    private _container;
-    private _arrow;
-    private _element;
-    constructor(text: string, options?: NotifierOptions | null);
-    private prepareNotification;
-    private getContainerToAdd;
-    container(): HTMLElement;
-    visible(state?: boolean): any;
-    show(text?: string): void;
-    open(text?: string): void;
-    hide(): void;
-    close(): void;
-    isOnTarget(): boolean;
-    target(): HTMLElement;
-    targetOptions(): TargetOptions;
-    element(): HTMLElement;
-    getOptions(): NotifierOptions;
-}
-export class NotifierShowSettings {
-    duration: number;
-    animation?: AnimationShowEnum;
-}
-export class NotifierCustomHtmlEvent {
-    sender: Notifier;
-    divContainer: HTMLElement;
-}
-export class TargetOptions {
-    height: number;
-    width: number;
-    marginLeft: number;
-    marginRight: number;
-    marginTop: number;
-    marginBottom: number;
-    offsetLeft: number;
-    offsetTop: number;
-}
-export class NotifierOnClickEvent {
-    sender: Notifier;
-    text?: string;
-}
-export class NotifierHideSettings {
-    autoHide?: boolean | number;
-    clickToHide?: boolean;
-    duration?: number;
-    animation?: AnimationHideEnum;
-}
-export class MultiSchedulerOptions extends VrControlOptions {
-    resources?: SchedulerResource[];
-    datasource?: SchedulerData[];
-    dates?: Date[];
-    startTime?: Date;
-    endTime?: Date;
-    timeslotIntervalDuration?: number;
-    exportPdf?: boolean;
-    showNavigateButtons?: boolean;
-    maxDatesNumber?: number;
-    onTimeslotClick?: (e: SchedulerTimeslotClickEvent) => void;
-    onAvailabilityClick?: (e: SchedulerAvailabilityClickEvent) => void;
-    onAppointmentClick?: (e: SchedulerAppointmentClickEvent) => void;
-    onNavigate?: (e: MultiSchedulerNavigateEvent) => void;
-}
-export class MultiScheduler extends VrControl {
-    private _resources?;
-    private _datasource;
-    private _availabilities;
-    private _dates;
-    private _dictionaryDateScheduler;
-    private _cmbTimeslotIntervalDuration;
-    constructor(element: HTMLElement, options?: MultiSchedulerOptions | null);
-    dates(dates?: Date[]): Date[];
-    datasource<T extends SchedulerData>(datasource?: T[]): T[];
-    availabilities<T extends SchedulerData>(availabilities?: T[]): T[];
-    private drawData;
-    resources(resources?: SchedulerResource[]): SchedulerResource[] | undefined;
-    startTime(): Date;
-    endTime(): Date;
-    timeslotInterval(timeslotIntervalDuration?: number): number;
-    rebind(): void;
-    private adaptHeight;
-    private fixWidth;
-    getOptions(): MultiSchedulerOptions;
-}
-export class MultiSchedulerNavigateEvent extends VrControlsEvent {
-    sender: MultiScheduler;
-    action?: MultiSchedulerNavigateActionEnum;
-    dates?: Date[];
-}
-export enum MultiSchedulerNavigateActionEnum {
-    NextDate = 0,
-    PrevDate = 1
-}
-export class MenuOptions extends VrControlOptions {
-    items?: MenuItem[];
-    showValueInDom?: boolean;
-    showParentValueInDom?: boolean;
-    onClick?: (onClickEvent: MenuOnClickEvent) => void;
-}
-export class Menu extends VrControl {
-    private _items;
-    private _value;
-    constructor(element: HTMLElement, options?: MenuOptions | null);
-    clear(): void;
-    items(items?: MenuItem[]): MenuItem[];
-    private itemsMap;
-    value(value?: string | number): string | number;
-    private openParents;
-    private drawItems;
-    private getChildrenBlocks;
-    private getOnlyChildrenItems;
-    getOptions(): MenuOptions;
-}
-export class MenuOnClickEvent extends VrControlsEvent {
-    sender: Menu;
-    dataItem: MenuItem;
-}
-export class MapsOptions extends VrControlOptions {
-    latitude?: number;
-    longitude?: number;
-    zoom?: number;
-    maxZoom?: number;
-    credits?: boolean | string;
-    marker?: boolean | MapMarker[];
-    mode?: MapModeEnum;
-    onClick?: (e: MapClickEvent) => void;
-    onPinClick?: (e: MapPinClickEvent) => void;
-    onHover?: (e: MapPinHoverEvent) => void;
-}
-export class Maps extends VrControl {
-    private _map;
-    private _internalMarkerList;
-    constructor(element: HTMLElement, options?: MapsOptions | null);
-    map(): any;
-    locate(latitude: number, longitude: number): void;
-    marker(markers?: MapMarker[]): MapMarker[];
-    clear(): void;
-    disable(): void;
-    enable(): void;
-    invalidateSize(): void;
-    getOptions(): MapsOptions;
-}
-export class MapEvent extends VrControlsEvent {
-    sender: Maps;
-    coordinate: MapCoordinate;
-    point: MapPoint;
-    color: string;
-    dataItem: any;
-    element: any;
-}
-export class MapPinClickEvent extends MapEvent {
-}
-export class MapPinHoverEvent extends MapEvent {
-}
-export class MapClickEvent extends VrControlsEvent {
-    sender: Maps;
-}
-export class MapCoordinate {
-    latitude: number;
-    longitude: number;
-}
-export class MapPoint {
-    x: number;
-    y: number;
-}
-export class LegendOptions extends VrControlOptions {
-    title?: string;
-    fontSize?: number | string;
-    fontFamily?: string;
-    bold?: boolean;
-}
-export class Legend extends VrControl {
-    constructor(element: HTMLElement, options?: LegendOptions | null);
-}
-export class LabelOptions extends VrControlOptions {
-    text?: string | number | Date;
-    value?: string | number | Date;
-    key?: string;
-    tooltip?: boolean | string;
-    colorSettings?: ColorSettings;
-    fontSize?: number | string;
-    fontFamily?: string;
-    bold?: boolean;
-    noBr?: boolean | number;
-    mode?: LabelModeEnum;
-    align?: TextAlignEnum;
-    linkCss?: string;
-    underlineMode?: LabelUnderlineMode;
-    icon?: IconClass;
-    onClick?: (e: LabelClickEvent) => void;
-    onHover?: (e: LabelHoverEvent) => void;
-}
-export class Label extends VrControl {
-    constructor(element: HTMLElement, options?: LabelOptions | null);
-    value(value?: string | number | Date): string;
-    appendText(value: string | number): void;
-    tooltip(value?: string | number | Date): string;
-    toTel(phoneNumber: string, customText?: string): void;
-    toMail(mail: string, customText?: string): void;
-    toLink(url: string, customText?: string): void;
-    private formatLinkLabel;
-    color(value?: string): string;
-    backgroundColor(value?: string): string;
-    borderColor(value?: string): string;
-    icon(iconClass?: IconClass): IconClass;
-    isEmpty(): boolean;
-    clear(): void;
-    getOptions(): LabelOptions;
-    click(): void;
-}
-export class LabelClickEvent extends VrControlsEvent {
-    sender: Label;
-    text: string;
-}
-export class LabelHoverEvent extends VrControlsEvent {
-    sender: Label;
-    text: string;
-}
-export class ImageOptions extends VrControlOptions {
-    value?: string;
-    base64?: boolean;
-    tooltip?: string;
-    position?: ImagePositionTypeEnum;
-    toolbarItems?: ImageToolbarItem[];
-    overlayDescription?: boolean | string;
-    onHover?(): void;
-    onLeave?(): void;
-    onClick?(e: ImageClickEvent): void;
-}
-export class Image extends VrControl {
-    constructor(element: HTMLElement, options?: ImageOptions | null);
-    value(pathOrBytes?: string, fileName?: string, mimeType?: string): string;
-    overlayDescription(description?: string): string;
-    toolbar(): any;
-    clear(): void;
-    enable(): void;
-    disable(): void;
-    getOptions(): ImageOptions;
-}
-export class ImageToolbarItem {
-    type?: ImageToolbarTypeEnum;
-    icon?: IconClass;
-    confirmationMessage?: string;
-    onClick?(e: ImageToolbarClickEvent): void;
-}
-export class ImageToolbarClickEvent {
-    sender: Image;
-}
-export class ImageClickEvent {
-    sender: Image;
-}
-export class IconOptions extends VrControlOptions {
-    value?: string | IconClassicLight;
-    color?: string;
-    fontSize?: number | string;
-    cursorPointer?: boolean;
-    confirmationMessage?: string;
-    tooltip?: string;
-    onClick?: (e: VrIconClickEvent) => void;
-    onMouseDown?: (e: VrIconClickEvent) => void;
-    onRejectedConfirm?: () => void;
-}
-export class Icon extends VrControl {
-    constructor(element: HTMLElement, options?: IconOptions | null);
-    value(value?: string | IconClassicLight): string | undefined;
-    fontSize(fontSize?: number | string): string | number | undefined;
-    color(color?: string): string | undefined;
-    click(): void;
-    private internalClick;
-    mouseDown(): void;
-    private internalMouseDown;
-    private rejectedConfirm;
-    getOptions(): IconOptions;
-}
-export class VrIconClickEvent extends VrControlsEvent {
-    sender: Icon;
-    value?: string | IconClassicLight;
-}
-export class GroupBoxOptions extends VrControlOptions {
-    title?: string;
-    content?: string | HTMLElement | JQuery;
-    collapsable?: boolean;
-    checkbox?: boolean | string;
-    startingCollapsed?: boolean;
-    startingChecked?: boolean;
-    items?: GroupBoxItem[];
-    scrollable?: boolean;
-    onCheckboxClick?: (e: GroupBoxOnCheckboxClickEvent) => void;
-    onCollapse?: (e: GroupBoxOnCollapseEvent) => void;
-    onExpand?: (e: GroupBoxOnExpandEvent) => void;
-}
-export class GroupBox extends VrControl {
-    private _contentContainer;
-    private _btnCollapse;
-    private _chkCheckbox;
-    constructor(element: HTMLElement, options?: GroupBoxOptions | null);
-    content(content?: string | JQuery | HTMLElement): HTMLElement;
-    title(title?: string): any;
-    collapse(): void;
-    expand(): void;
-    collapsed(state?: boolean): boolean;
-    item(value: string): Button | null;
-    enableItem(value: string): void;
-    disableItem(value: string): void;
-    showItem(value: string): void;
-    hideItem(value: string): void;
-    check(triggerChange?: boolean): void;
-    unCheck(triggerChange?: boolean): void;
-    checked(state?: boolean, triggerChange?: boolean): boolean | null;
-    getOptions(): GroupBoxOptions;
-}
-export class GroupBoxOnCheckboxClickEvent {
-    sender: GroupBox;
-    checked: boolean;
-}
-export class GroupBoxOnCollapseEvent {
-    sender: GroupBox;
-}
-export class GroupBoxOnExpandEvent {
-    sender: GroupBox;
-}
-export class GroupBoxItem extends ButtonOptions {
-}
-export class GridOptions extends VrControlOptions {
-    columns?: GridColumn[];
-    toolbar?: GridToolbarItem[];
-    height?: string | number | GridHeightModeEnum;
-    dataSource?: any[];
-    rebind?: GridRebindRequest;
-    excel?: GridExcelRequest;
-    tooltip?: boolean;
-    checkboxes?: boolean | GridCheckboxModeEnum;
-    dataSourceFieldId?: string;
-    rowHeight?: number;
-    multilineRows?: boolean;
-    multilineHeader?: boolean;
-    hideEditButton?: boolean;
-    autoWindowSettings?: GridAutoWindowSettings;
-    mode?: GridModeEnum;
-    filterable?: boolean;
-    alternateRowColors?: boolean | string;
-    hoverRowColor?: boolean;
-    rowColorProperty?: string;
-    rowTextColorProperty?: string;
-    pageSize?: number | boolean | GridPageSettings;
-    footer?: boolean | GridFooterSettings;
-    header?: boolean;
-    resizable?: boolean;
-    reorderable?: boolean;
-    lockable?: boolean;
-    groupBy?: string[] | GridGroupBySettings | null;
-    groupable?: boolean;
-    sortable?: boolean;
-    sortBy?: string | GridSortSettings | null;
-    serverBinding?: boolean | GridServerBindSettings;
-    roundingSettings?: NumberFormatRoundingSettings;
-    sticker?: string | GridStickerSettings;
-    fixDatasourceWithDate?: boolean;
-    layoutSettings?: GridLayoutSettings | boolean;
-    onDataSourceChanged?: () => void;
-    onDataBound?: (e: GridOnDataBoundEvent) => void;
-    onRowDataBound?: (e: GridOnRowDataBoundEvent) => void | string;
-    onSelectRow?: (e: GridSelectRowEvent) => void;
-    onSelectAllRows?: (e: GridSelectAllRowsEvent) => void;
-    onGroupExpandCollapse?: (e: GridGroupExpandCollapseEvent) => void;
-    onGroupEditClick?: (e: GridGroupEditClickEvent) => void;
-    onPageSelected?: (e: GridPageSelectedEvent) => void;
-    onScroll?: (e: GridScrollEvent) => void;
-    onBeforeExcelExport?: (e: GridBeforeExcelExportEvent) => void;
-    onAfterExcelExport?: (e: GridAfterExcelExportEvent) => void;
-    onBeforeGroupCheck?: (e: GridBeforeGroupCheckEvent) => void;
-    onAfterGroupCheck?: (e: GridAfterGroupCheckEvent) => void;
-}
-export class Grid extends VrControl {
-    private _fitSpaceColumnPercentage;
-    private _showTotals;
-    private _isResizing;
-    private _isDragging;
-    private _actualSortingInfo;
-    private _columnOptions;
-    private _actualPageSize;
-    private _actualPageSelected;
-    private _internalOptions;
-    private _tempRebindInfo;
-    private _pageSizeUnlimited;
-    private _rowCheckedIdList;
-    private _timeoutFilterText;
-    private _firstDraw;
-    private _dataSource;
-    private _originalDataSource;
-    private _deletedItems;
-    private _actualEditedItem;
-    private _lastIndexAdded;
-    private _responseForServerBinding;
-    private _serverBindingPagination;
-    private _wndFiltering;
-    private _dictionaryDataValues;
-    private _dictionaryFilterConditions;
-    private _wndCart;
-    private _grdCart;
-    private _wndActions;
-    private _groupByActualValue;
-    private _originalHiddenColumnFields;
-    private _wndAutoWindow;
-    private _wndLayout;
-    private _grdLayout;
-    private _actualLayout;
-    private _originalOptionsForLayout;
-    private _customLayouts;
-    private _cellButtons;
-    private _cellIcons;
-    private _cellCustoms;
-    private _cellLabels;
-    private _cellImages;
-    private _elementId;
-    private _elementLocked;
-    private _lblSticker;
-    private _divToolbar;
-    private _divHeaderContainer;
-    private _divHeader;
-    private _divHeaderLocked;
-    private _divFilters;
-    private _divFiltersLocked;
-    private _divBody;
-    private _divBodyLocked;
-    private _divTotals;
-    private _divTotalsLocked;
-    private _divFooter;
-    private _spanFitHeaderSpace;
-    private _spanFitFilterSpace;
-    private _spanFitTotalsSpace;
-    private _vrDateTimeFields;
-    constructor(element: HTMLElement, options?: GridOptions | null);
-    rebind(parameters?: any | null, filterWithWebService?: boolean, keepInfo?: boolean, loadingElement?: boolean | HTMLElement | JQuery | string): any;
-    rebindSpecificRows(itemIdList: number[], update?: boolean, keepInfo?: boolean, loadingElement?: boolean | HTMLElement | JQuery | string): void;
-    clear(triggerChange?: boolean, clearFilters?: boolean): void;
-    private manageDataSourceControls;
-    private manageControls;
-    originalDataSource(): any[];
-    dataSource(dataItems?: any[], clearFilters?: boolean, keepInfo?: boolean): any[];
-    update(triggerDataBound?: boolean, keepInfo?: boolean): void;
-    private setDataSource;
-    private drawTable;
-    private createTotals;
-    private writeTotals;
-    private formatValue;
-    updateRow(dataItem: any, rebind?: boolean): void;
-    updateRows(dataItems: any[], rebind?: boolean): void;
-    addRow(dataItem: any, rebind?: boolean): void;
-    addRows(dataItems: any[], rebind?: boolean): void;
-    deleteRow(dataItemId: number | string, rebind?: boolean): void;
-    deleteRows(dataItemIdList: (number | string)[], rebind?: boolean): void;
-    rows(): GridRow[];
-    getAllItems(toSavePurpose?: boolean): any[];
-    getCheckedItems(): any[];
-    getCheckedValues(): string[];
-    getCheckedNumberValues(): number[];
-    getDeletedItems(): any[];
-    getDeletedItemValues(key?: string): any[];
-    clearSelection(triggerChange?: boolean): void;
-    checkAllRows(triggerChange?: boolean): void;
-    unCheckAllRows(triggerChange?: boolean): void;
-    selectRowsByIndexes(indexes: number[], triggerChange?: boolean): void;
-    selectRowByIndex(index: number, triggerChange?: boolean): void;
-    selectRows(itemIdList: string[], property?: string, triggerChange?: boolean): void;
-    selectRow(itemId: string, triggerChange?: boolean): void;
-    private selectRangeShiftKey;
-    private selectRowInternal;
-    private manageGroupCheckParent;
-    unselectRows(itemIdList: string[], property?: string, triggerChange?: boolean): void;
-    unselectRow(itemId: string, triggerChange?: boolean): void;
-    private updateCart;
-    private openWindowCart;
-    private createWindowCart;
-    private applySorting;
-    removeSort(updateDataSource?: boolean): void;
-    sort(field: string, gridSortModeEnum?: GridSortDirectionEnum, rebind?: boolean): void;
-    private sortInternal;
-    private sortingGroupFields;
-    column(field: string): GridColumn;
-    columnTitle(field: string, title?: string): string | undefined;
-    hideColumns(fields: string[], update?: boolean): void;
-    hideColumn(field: string, updateDataSource?: boolean): void;
-    hideCheckboxColumn(updateDataSource?: boolean): void;
-    hideEditButtonColumn(updateDataSource?: boolean): void;
-    hideOnlyThisColumns(fieldList: string[], updateDataSource?: boolean): void;
-    showColumns(fields: string[], update?: boolean): void;
-    showColumn(field: string, updateDataSource?: boolean): void;
-    showCheckboxColumn(updateDataSource?: boolean): void;
-    showEditButtonColumn(updateDataSource?: boolean): void;
-    showOnlyThisColumns(fieldList: string[], updateDataSource?: boolean): void;
-    columnVisible(value: string, state: boolean, updateDataSource?: boolean): void;
-    columnCheckboxVisible(state: boolean, updateDataSource?: boolean): void;
-    lockColumns(fields: string[], update?: boolean): void;
-    lockColumn(field: string, update?: boolean): void;
-    unlockColumns(fields: string[], update?: boolean): void;
-    unlockColumn(field: string, update?: boolean): void;
-    lockedColumns(): GridColumn[];
-    thereAreLockedColumns(): boolean | undefined;
-    hasGroup(): boolean;
-    removeGroup(field: string, updateDataSource?: boolean): void;
-    removeGroups(fields: string[], updateDataSource?: boolean): void;
-    removeAllGroups(updateDataSource?: boolean): void;
-    addGroup(field: string | GridGroupByItem, updateDataSource?: boolean, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings): void;
-    addGroups(fields: (string | GridGroupByItem)[], updateDataSource?: boolean, sortBy?: GridSortSettings, internalSortBy?: GridSortSettings): void;
-    private getChildrenGroupRows;
-    private getCheckedChildrenGroupRows;
-    private createWindowActions;
-    private openWindowActions;
-    private clearWindowActions;
-    private manageFilterTextByColumn;
-    clearFilters(updateDataSource?: boolean, rebind?: boolean): void;
-    private getFilteredArrayByInputText;
-    private createWindowFiltering;
-    private openWindowFiltering;
-    private saveWindowFiltering;
-    private clearWindowFiltering;
-    addFilter(field: string, filterCondition: GridFilterSettings, applyFilters?: boolean): void;
-    removeFilters(fields: string[], applyFilters?: boolean): void;
-    removeFilter(field: string, applyFilters?: boolean): void;
-    updateFilter(field: string, filterCondition: GridFilterSettings, applyFilters?: boolean): void;
-    private applyFilters;
-    private resizable;
-    private setResizingEvents;
-    private updateColumnPositions;
-    private draggableColumns;
-    drag(element: HTMLElement | JQuery | string, dragEvent?: DragSupportEvent): void;
-    sticker(text?: string): Label;
-    stickerVisible(state?: boolean): boolean;
-    showSticker(): void;
-    hideSticker(): void;
-    getTotals(dataItems: any[]): TotalsResult[];
-    fixDatasourceWithVrDatetime(items: any[]): any[];
-    fixDatasourceWithDate(items: any[]): void;
-    pageSize(pageSize?: number | boolean, update?: boolean, triggerDataBound?: boolean): number;
-    pageSelected(page?: number, update?: boolean): number;
-    checkboxesMode(mode?: GridCheckboxModeEnum): boolean | GridCheckboxModeEnum | undefined;
-    focus(field?: string): void;
-    scrollTo(rowIndex: number): void;
-    private isRepeater;
-    private fixValueWithoutSpecialChars;
-    getOptions(): GridOptions;
-    private recalculateHeightWidth;
-    recalculateWidth(): void;
-    private recalculateFitSpacePercentage;
-    height(height?: number | string): any;
-    recalculateHeight(afterFilter?: boolean): void;
-    private adjustTrHeight;
-    private doWebApiCall;
-    enable(state?: boolean | string): void;
-    private toolbarCustomLogic;
-    excelExport(fileName?: string, exportHiddenColumns?: boolean, download?: boolean): Promise<ExcelExportPromise>;
-    visibleFooter(state?: boolean): any;
-    showFooter(): void;
-    hideFooter(): void;
-    footer(): HTMLElement;
-    visibleToolbar(state?: boolean): any;
-    showToolbar(): void;
-    hideToolbar(): void;
-    toolbar(): HTMLElement;
-    toolbarItem<T extends VrControl>(value: string): T;
-    visibleToolbarItem(value: string, state?: boolean): boolean;
-    showToolbarItem<T extends VrControl>(value: string): void;
-    hideToolbarItem<T extends VrControl>(value: string): void;
-    enabledToolbarItem(value: string, state?: boolean): boolean;
-    enableToolbarItem<T extends VrControl>(value: string): void;
-    disableToolbarItem<T extends VrControl>(value: string): void;
-    removeToolbarItem(value: string): void;
-    addToolbarItems(toolbarItems: GridToolbarItem[]): void;
-    addToolbarItem(toolbarItem: GridToolbarItem): void;
-    private createAutoWindow;
-    private createControlsAutoWindow;
-    openAutoWindow(dataItem?: any): void;
-    private saveAutoWindow;
-    private createWindowLayout;
-    private openWindowLayout;
-    private doWebApiCallLayout;
-    saveLayout(layoutName: string, callBack?: Function): void;
-    private clearLayout;
-    customLayouts(): GridLayout[];
-    activeLayout(): GridLayout | null;
-    private loadLayout;
-    private changeLayout;
-}
-export class GridWebApiRequest {
-    authKey?: string;
-    method?: string;
-    successNotificationMessage?: boolean | string;
-    errorNotificationMessage?: boolean | string;
-    rebindGridAfterSave?: boolean;
-    rebindGridAfterError?: boolean;
-    closeWindowAfterError?: boolean;
-    otherParameters?: any;
-    loadingElement?: boolean | HTMLElement | JQuery | string;
-    callback?: (response?: any) => void;
-    callbackBeforeDatasourceChange?: (response?: any) => void;
-    errorCallback?: (message?: string) => void;
-    parameters?: () => any;
-}
-export class GridHeaderAndCellSettings {
-    textAlign?: GridAlignEnum;
-    backgroundColor?: string;
-    color?: string;
-    tooltip?: boolean | string | ((e: GridTooltipEvent) => string);
-    css?: string;
-}
-export class GridHeaderSettings extends GridHeaderAndCellSettings {
-    icon?: IconClass;
-}
-export class GridCellSettings extends GridHeaderAndCellSettings {
-    zeroIfNull?: boolean;
-}
-export class GridControlsSettings {
-    onClick?: (e: GridControlsClickEvent) => void;
-    confirmationMessage?: string;
-    value?: string;
-    css?: string;
-    class?: string;
-    visible?: boolean;
-    enabled?: boolean;
-    tooltip?: string;
-}
-export class GridCustomSettings extends GridControlsSettings {
-    template: string;
-    filterFields?: string[];
-}
-export class GridIconSettings extends GridControlsSettings {
-    icon?: IconClass;
-    imageUrl?: string;
-    color?: string;
-}
-export class GridImageSettings extends GridControlsSettings {
-    imageUrl?: string;
-    base64Bytes?: string;
-}
-export class GridLabelSettings extends GridControlsSettings {
-    text?: string;
-    underlineMode?: GridLabelUnderlineMode;
-    bold?: boolean;
-    color?: string;
-    noBr?: boolean | number;
-    icon?: IconClass;
-}
-export class GridRebindRequest extends GridWebApiRequest {
-    itemsPropertyName?: string;
-    rebindAtStartup?: boolean;
-    clearFilters?: boolean;
-    specificItemIdListPropertyName?: string;
-}
-export class GridExcelRequest extends GridWebApiRequest {
-    fileName?: string;
-}
-export class GridControlsClickEvent {
-    dataItem: any;
-}
-export class GridTemplateEvent {
-    dataItem: any;
-    className?: string;
-    element?: HTMLTableCellElement;
-    empty?: boolean;
-    field: string;
-    sender: Grid;
-}
-export class GridTooltipEvent {
-    dataItem: any;
-    element?: HTMLTableCellElement;
-    empty: boolean;
-}
-export class GridOnDataBoundEvent {
-    sender: Grid;
-}
-export class GridOnRowDataBoundEvent {
-    sender: Grid;
-    rowElement: HTMLTableRowElement;
-    dataItem: any;
-    realDataItem: any;
-    empty?: boolean;
-}
-export class GridSelectRowEvent {
-    sender: Grid;
-    rowElement: HTMLTableRowElement;
-    dataItem: any;
-    checked: boolean;
-    empty: boolean;
-    index: number;
-    shiftKey: boolean;
-    fromCheckbox: boolean;
-}
-export class GridSelectAllRowsEvent {
-    sender: Grid;
-    checked: boolean;
-}
-export class GridUnselectRowEvent {
-    sender: Grid;
-    rowElement: HTMLTableRowElement;
-    dataItem: any;
-}
-export class GridUnselectAllRowsEvent {
-    sender: Grid;
-}
-export class GridToolbarClickEvent {
-    sender: any;
-    type: GridToolbarItemType;
-    isDefaultPrevented: boolean;
-    deletedItems?: any[];
-    preventDefault(): void;
-}
-export class GridToolbarSwitchSettings {
-    labelOff?: string;
-    labelOn?: string;
-    checked?: boolean;
-    onCheck?: (e: GridToolbarSwitchEvent) => void;
-}
-export class GridToolbarSwitchEvent {
-    checked: boolean;
-}
-export class GridToolbarDeleteRequest extends GridWebApiRequest {
-    deletedValuesPropertyName?: string;
-    valuePropertyName?: string;
-}
-export class GridFooterSettings {
-    maxVisiblePages?: number;
-    totalElements?: boolean | ((e: GridTotalElementTemplateEvent) => string | number);
-    showPagination?: boolean;
-    showPageSize?: boolean;
-    showSettings?: boolean;
-    cartSettings?: GridCartSettings;
-}
-export class GridTotalElementTemplateEvent {
-    firstIndex?: number;
-    lastIndex?: number;
-    dataItems: any[];
-    pageSelected: number;
-    numberOfPages: number;
-}
-export class GridPageSettings {
-    value?: number;
-    otherValues: number[];
-}
-export class TotalsResult {
-    field: string;
-    total: number;
-    decimalDigits?: number;
-    roundingSettings?: NumberFormatRoundingSettings;
-    type: GridColumnTypeEnum;
-    milesSeparator?: boolean;
-}
-export class GridExcelRow {
-    cells: GridExcelCell[];
-}
-export class ExcelExportPromise {
-    fileName: string;
-    headerRow: GridExcelRow;
-    contentRows: GridExcelRow[];
-    footerRow: GridExcelRow;
-    groupByFields: GridGroupByItem[];
-}
-export class GridExcelCell {
-    title: string | undefined;
-    field: string;
-    text?: string;
-    bold?: boolean;
-    type?: GridColumnTypeEnum;
-    width?: number;
-    cellSettings?: GridHeaderAndCellSettings;
-    aggregate?: GridAggregateMode;
-    decimalDigits?: number;
-    hidden?: boolean;
-    locked?: boolean;
-    backgroundColor: string;
-    color: string;
-    roundingSettings?: NumberFormatRoundingSettings;
-}
-export class GridAutoWindowSettings {
-    save?: GridSaveRequest;
-    options?: GridAutoWindowOption;
-    onBeforeOpen?: (e: AutowindowBeforeOpenEvent) => void;
-    onAfterOpen?: (e: AutowindowAfterOpenEvent) => void;
-    onBeforeSave?: (e: AutowindowBeforeSaveEvent) => void;
-    onAfterSave?: (e: AutowindowAfterSaveEvent) => void;
-    onBeforeClose?: (e: AutowindowBeforeCloseEvent) => void;
-    onAfterClose?: (e: AutowindowAfterCloseEvent) => void;
-}
-export class GridAutoWindowOption {
-    titleNew?: string;
-    titleEdit?: string;
-    height?: number | string;
-    width?: number | string;
-    showSaveButton?: boolean;
-    showCancelButton?: boolean;
-    textSaveButton?: string;
-    textCancelButton?: string;
-    confirmationMessage?: string;
-}
-export class GridSaveRequest extends GridWebApiRequest {
-    itemPropertyName?: string;
-}
-export class AutoWindowEvent extends VrControlsEvent {
-    sender: Grid;
-    window: Window;
-    dataItem: any;
-    columns?: GridColumn[];
-}
-export class AutowindowBeforeOpenEvent extends AutoWindowEvent {
-}
-export class AutowindowAfterOpenEvent extends AutoWindowEvent {
-}
-export class AutowindowBeforeSaveEvent extends AutoWindowEvent {
-}
-export class AutowindowAfterSaveEvent extends AutoWindowEvent {
-}
-export class AutowindowBeforeCloseEvent extends AutoWindowEvent {
-}
-export class AutowindowAfterCloseEvent extends AutoWindowEvent {
-}
-export class GridFilterSettings {
-    type: GridColumnTypeEnum;
-    dateFilterSettings?: GridDateFilterSettings | null;
-    numberFilterSettings?: GridNumberFilterSettings | null;
-    checkboxFilterSettings?: GridCheckboxFilterSettings | null;
-    stringFilterSettings?: GridStringFilterSettings | null;
-}
-export class GridDateFilterSettings {
-    filterTypeEnum: GridDateFilterTypeEnum;
-    dateFrom: Date;
-    dateTo?: Date | null;
-    specificValues: any[];
-}
-export class GridNumberFilterSettings {
-    filterTypeEnum: GridNumberFilterTypeEnum;
-    numberFrom: number;
-    numberTo?: number | null;
-    specificValues: any[];
-}
-export class GridCheckboxFilterSettings {
-    value: boolean;
-}
-export class GridStringFilterSettings {
-    text: string;
-    filterTypeEnum: GridStringFilterTypeEnum;
-    specificValues: any[];
-}
-export class DragSupportEvent {
-    onDragged?: null | ((e: DragEveryEvent) => void);
-    onDragging?: null | ((e: DragEveryEvent) => void);
-}
-export class DragEveryEvent {
-    left: number;
-    top: number;
-    element: HTMLElement;
-}
-export class GridLayoutSettings {
-    name?: string;
-    get?: GetLayoutListRequest;
-    save?: SaveLayoutRequest;
-    load?: LoadLayoutRequest;
-}
-export class SaveLayoutRequest {
-    method: string;
-    authKey?: string;
-    layoutJson?: string;
-    pageName?: string;
-    gridName?: string;
-    layoutName?: string;
-    layoutPropertyName?: string;
-}
-export class LoadLayoutRequest {
-    method: string;
-    authKey?: string;
-    pageName?: string;
-    gridName?: string;
-    layoutName?: string;
-    layoutPropertyName?: string;
-}
-export class GetLayoutListRequest {
-    method: string;
-    authKey?: string;
-    pageName?: string;
-    gridName?: string;
-    layoutsPropertyName?: string;
-}
-export class GridLayout {
-    layoutName: string;
-    layoutLastEditDate: Date;
-    id: number;
-    layoutJson: string;
-}
-export class GridRow {
-    element: HTMLElement;
-    cells: HTMLElement[];
-    index: number;
-    dataItemId: string;
-    id: string;
-    findControl<T extends VrControl>(uniqueName: string): T | null;
-}
-export class EditorOptions extends VrControlOptions {
-    text?: string;
-    placeholder?: string;
-    resizable?: boolean;
-    language?: string;
-    pasteImages?: boolean;
-    toolbarMode?: vrEditorToolbarModeEnum;
-    menu?: boolean | vrEditorMenu;
-    toolbar?: boolean | vrEditorItemEnum[] | string;
-    plugins?: string;
-    customToolItems?: vrEditorCustomItem[];
-    customMenuItems?: vrEditorCustomMenuItem[];
-    baseUrl?: string;
-    speechRecognizer?: vrEditorSpeechRecognizerSettings | boolean;
-    fontSize?: vrEditorFontSizeSettings;
-    browserSpellCheck?: boolean;
-    pasteAsText?: boolean;
-    replacePtagWithDiv?: boolean;
-    statusbar?: boolean;
-    onFocus?: (e: EditorOnFocusEvent) => void;
-    onBlur?: (e: EditorOnBlurEvent) => void;
-    onCommand?: (e: EditorOnCommandEvent) => void;
-    onSetContent?: (e: EditorSetContentEvent) => void;
-    onBeforeResize?: (e: EditorOnResizingEvent) => void;
-    onAfterResize?: (e: EditorOnResizedEvent) => void;
-    onKeyUp?: (e: EditorOnKeyUpEvent) => void;
-    onKeyDown?: (e: EditorOnKeyDownEvent) => void;
-    onInit?: (e: EditorOnInitEvent) => void;
-    onDrop?: (e: EditorDropEvent) => void;
-    onDragEnter?: (e: EditorDragEnterEvent) => void;
-    onDragOver?: (e: EditorDragOverEvent) => void;
-    onDragLeave?: (e: EditorDragLeaveEvent) => void;
-}
-export class Editor extends VrControl {
-    private _settings;
-    private _tinyMceControl;
-    private _divMenuItem;
-    private _finalTextSpeeched;
-    private _value;
-    private _speechRecognizer;
-    private _divDragFile;
-    private _initialized;
-    private _wndCommands;
-    private _wndTempMessage;
-    private _txtTempMessage;
-    constructor(element: HTMLElement, options?: EditorOptions | null);
-    settings(): TinyMceSettings;
-    private openWindowTempMessage;
-    private createWindowTempMessage;
-    private openWindowCommands;
-    private createWindowCommands;
-    private parseInput;
-    private replaceAll;
-    private manageDragLeave;
-    private manageDrop;
-    tinyMceControl(): any;
-    value(text?: string | null, html?: boolean): string;
-    insertTextAtCursor(text: string): void;
-    appendText(text: string, html?: boolean): string;
-    body(): HTMLBodyElement;
-    speechRecognizer(): SpeechRecognizer;
-    clear(): void;
-    focus(): void;
-    addMenuItem(item: vrEditorCustomMenuItem): void;
-    getOptions(): EditorOptions;
-    enable(): void;
-    disable(): void;
-}
-export class TinyMceSettings {
-    readonly?: boolean;
-    placeholder?: string;
-    resize?: boolean;
-    elements?: string;
-    toolbar_mode?: vrEditorToolbarModeEnum;
-    paste_data_images?: boolean;
-    language?: string;
-    toolbar?: string;
-    plugins?: string;
-    paste_enable_default_filters?: boolean;
-    paste_word_valid_elements?: string;
-    paste_retain_style_properties?: string;
-    menubar?: boolean;
-    menu?: any;
-}
-export class vrEditorMenu {
-    file?: boolean | vrEditorMenuItem;
-    edit?: boolean | vrEditorMenuItem;
-    view?: boolean | vrEditorMenuItem;
-    insert?: boolean | vrEditorMenuItem;
-    format?: boolean | vrEditorMenuItem;
-    tools?: boolean | vrEditorMenuItem;
-    table?: boolean | vrEditorMenuItem;
-}
-export class vrEditorMenuItem {
-    items?: vrEditorItemEnum[] | string;
-    title?: string;
-}
-export class EditorEvent extends VrControlsEvent {
-    sender: Editor;
-    realEvent: any;
-}
-export class EditorItemClickEvent extends EditorEvent {
-}
-export class EditorOnFocusEvent extends EditorEvent {
-}
-export class EditorOnBlurEvent extends EditorEvent {
-}
-export class EditorOnCommandEvent extends EditorEvent {
-    command: string;
-    type: string;
-    value: any;
-}
-export class EditorSetContentEvent extends EditorEvent {
-    content: string;
-    element: HTMLElement;
-    format: string;
-    type: string;
-}
-export class EditorOnResizingEvent extends EditorEvent {
-    height: number;
-    width: number;
-    target: HTMLElement;
-    type: string;
-}
-export class EditorOnResizedEvent extends EditorEvent {
-    height: number;
-    width: number;
-    target: HTMLElement;
-    type: string;
-}
-export class EditorOnKeyUpEvent extends EditorEvent {
-    key: string;
-    keyCode: string;
-}
-export class EditorOnKeyDownEvent extends EditorEvent {
-    key: string;
-    keyCode: string;
-}
-export class EditorOnInitEvent extends EditorEvent {
-    event: any;
-}
-export class EditorDragDropEvent extends EditorEvent {
-    event: any;
-    element: HTMLElement;
-}
-export class EditorDropEvent extends EditorDragDropEvent {
-    files: File[];
-}
-export class EditorDragEnterEvent extends EditorDragDropEvent {
-}
-export class EditorDragOverEvent extends EditorDragDropEvent {
-}
-export class EditorDragLeaveEvent extends EditorDragDropEvent {
-}
-export class DivOptions extends VrControlOptions {
-    text?: string;
-    fontSize?: number;
-    tooltip?: string;
-    inline?: boolean;
-    colorSettings?: DivColorSettings;
-    border?: DivBorderSettings | boolean;
-}
-export class Div extends VrControl {
-    constructor(element: HTMLElement, options?: DivOptions | null);
-    text(text?: string): string;
-    appendText(text: string): void;
-    private setBorderTop;
-    getOptions(): DivOptions;
-}
-export class DialogOptions {
-    content?: string;
-    title?: string;
-    width?: number;
-    height?: number;
-    textAlign?: TextAlignEnum;
-    footerItems?: WindowFooterItem[];
-    css?: string;
-    cssContainer?: string;
-    hideCloseIcon?: boolean;
-    onContentLoaded?(e: ContentDialogLoadedEvent): void;
-    onClose?: () => void;
-}
-export class Dialog {
-    private _window;
-    private _options;
-    constructor(text?: string | null, options?: DialogOptions | null);
-    open(): void;
-    close(): void;
-    window(): Window;
-    private getOptions;
-    private onContentLoaded;
-}
-export class ContentDialogLoadedEvent extends VrControlsEvent {
-    sender: Dialog;
-    contentElement: HTMLElement;
-}
-export class DatePickerOptions extends VrControlOptions {
-    defaultDay?: DefaultDayEnum;
-    mode?: DateModeEnum;
-    value?: Date;
-    min?: Date;
-    max?: Date;
-    timeInterval?: number;
-    format?: DateFormatEnum | Intl.DateTimeFormatOptions;
-    todayLabel?: boolean;
-    otherMonthDays?: boolean;
-    tooltip?: string;
-    depth?: DateDepthEnum;
-    nullable?: boolean;
-    popupSettings?: PopupSettings;
-    placeholder?: string;
-    onBeforeChange?(e: DatePickerChangingEvent): void;
-    onAfterChange?(e: DatePickerChangeEvent): void;
-    onKeyUp?(e: DatePickerKeyUpEvent): void;
-    onKeyDown?(e: DatePickerKeyDownEvent): void;
-    onEnterKey?(): void;
-    onFocus?(e: DatePickerFocusEvent): void;
-    onBlur?(e: DatePickerBlurEvent): void;
-}
-export class DatePicker extends VrControl {
-    private _value;
-    private _currentCursorPosition;
-    private _popup;
-    private _justOpened;
-    constructor(element: HTMLElement, options?: DatePickerOptions | null);
-    close(): void;
-    open(): void;
-    private formatDateInput;
-    placeholder(value?: string): string;
-    private openPopupDatePicker;
-    private formatInputDatePicker;
-    private openPopupTimePicker;
-    private createTimeLabel;
-    private formatInputTimePicker;
-    private formatInputDateTimePicker;
-    private getFinalYear;
-    private updateCursorPosition;
-    value(date?: Date | null, triggerChange?: boolean): Date | null;
-    private formatValue;
-    mode(mode?: DateModeEnum): DateModeEnum | undefined;
-    min(min?: Date): Date | undefined;
-    max(max?: Date): Date | undefined;
-    format(format?: DateFormatEnum, changeText?: boolean): DateFormatEnum | Intl.DateTimeFormatOptions | undefined;
-    clear(triggerChange?: boolean): void;
-    isEmpty(): boolean;
-    error(): void;
-    hideError(): void;
-    private getOptions;
-    enable(): void;
-    disable(): void;
-    change(): void;
-}
-export class TimePicker extends DatePicker {
-}
-export class DateTimePicker extends DatePicker {
-}
-export class MonthPicker extends DatePicker {
-}
-export class YearPicker extends DatePicker {
-}
-export class DatePickerEvent extends VrControlsEvent {
-    sender: DatePicker;
-    value: Date | null;
-}
-export class DatePickerChangeEvent extends DatePickerEvent {
-}
-export class DatePickerChangingEvent extends DatePickerEvent {
-    previousValue?: Date | null;
-}
-export enum ActualViewEnum {
-    Day = 0,
-    Month = 1,
-    Year = 2,
-    Decade = 3
-}
-export class DatePickerFocusEvent extends DatePickerEvent {
-}
-export class DatePickerBlurEvent extends DatePickerEvent {
-}
-export class DatePickerKeyUpPressEvent extends VrControlsEvent {
-    sender: DatePicker;
-    text: string;
-    key: string;
-    shiftKey: boolean;
-    altKey: boolean;
-    ctrlKey: boolean;
-    enterKey: boolean;
-    backSpaceKey: boolean;
-    tabKey: boolean;
-}
-export class DatePickerKeyUpEvent extends DatePickerKeyUpPressEvent {
-}
-export class DatePickerKeyDownEvent extends DatePickerKeyUpPressEvent {
-}
-export class ConfirmOptions {
-    textOkButton?: string;
-    textCancelButton?: string;
-    content?: string;
-    title?: string;
-    width?: number | string;
-    height?: number | string;
-    textAlign?: TextAlignEnum;
-    css?: string;
-    cssContainer?: string;
-    onContentLoaded?(e: ContentConfirmLoadedEvent): void;
-}
-export class Confirm {
-    private _window;
-    private _options;
-    constructor(text?: string | null, options?: ConfirmOptions | null);
-    open(): Promise<any>;
-    close(): void;
-    private getOptions;
-    private onContentLoaded;
-}
-export class ContentConfirmLoadedEvent extends VrControlsEvent {
-    sender: Confirm;
-    contentElement: HTMLElement;
-}
-export class ComboBoxOptions extends VrControlOptions {
-    mode?: ComboBoxTypeEnum;
-    checkboxes?: boolean;
-    freeText?: boolean;
-    filter?: boolean;
-    treeMode?: ComboBoxTreeModeEnum;
-    value?: string | number | string[] | number[];
-    webService?: ComboBoxWebServiceSettings;
-    items?: ComboBoxItem[];
-    clearButton?: boolean;
-    addButton?: boolean | ButtonOptions;
-    nullable?: boolean | ComboBoxNullableItem;
-    textAlign?: TextAlignEnum;
-    placeholder?: string;
-    popupSettings?: PopupSettings;
-    allSelectedMessage?: string;
-    textEllipsis?: boolean;
-    noBr?: boolean;
-    onlyIcon?: boolean;
-    icon?: IconClass;
-    imageUrl?: string;
-    checkAll?: boolean;
-    showCheckAll?: boolean | CheckAllSettings;
-    tooltip?: string;
-    template?: (e: ComboBoxTemplateEvent) => string;
-    onBeforeChange?(e: ComboBoxChangingEvent): void;
-    onAfterChange?(e: ComboBoxChangeEvent): void;
-    onKeyDown?(e: ComboBoxKeyDownEvent): void;
-    onKeyUp?(e: ComboBoxKeyUpEvent): void;
-    onEnterKey?(e: ComboBoxEnterKeyEvent): void;
-    onBeforeOpen?(e: ComboBoxOpenEvent): void;
-    onAfterOpen?(e: ComboBoxOpenEvent): void;
-    onClose?(e: ComboBoxCloseEvent): void;
-    onItemDataBound?(e: ComboBoxItemDataBoundEvent): void;
-    onFocus?(e: ComboBoxFocusEvent): void;
-    onBlur?(e: ComboBoxBlurEvent): void;
-    onClear?(e: ComboBoxClearEvent): void;
-    onPaste?(e: ComboBoxPasteEvent): void;
-}
-export class ComboBox extends VrControl {
-    private _items;
-    private _popup;
-    private _isDivElement;
-    private _value?;
-    private _tempValueWebService?;
-    private _txtSearchFilter;
-    private _chkCheckAll;
-    private _typedTextWebService;
-    private _isChecked;
-    private _tempCheckedValue;
-    private _openPopupAfterFocus;
-    private _btnCombo;
-    private _divPickerIcon;
-    private _allCheckedOnlyIcon;
-    private _iconCombo;
-    private _dictionaryValueLi;
-    private _checkedValues;
-    private _openedValue;
-    private _lastAjaxCallGuid;
-    private _focusWithArrows;
-    private _callbackAfterValue?;
-    constructor(element: HTMLElement, options?: ComboBoxOptions | null);
-    close(): void;
-    open(): void;
-    private limitInputByDataSource;
-    private filter;
-    private drawDataSource;
-    private drawItems;
-    private getFilteredArrayByInputText;
-    datasource(items?: ComboBoxItem[], triggerChange?: boolean): ComboBoxItem[];
-    items(items?: ComboBoxItem[], triggerChange?: boolean): ComboBoxItem[];
-    values(): any[];
-    getCheckedItems(onlyChildren?: boolean): ComboBoxItem[];
-    getCheckedValues(onlyChildren?: boolean): string[];
-    getSelectedItem<T extends ComboBoxItem>(): T;
-    addItem(item: ComboBoxItem, reloadCombo?: boolean, triggerChange?: boolean, sortBy?: SortByComboSettings): void;
-    addItems(items: ComboBoxItem[], reloadCombo?: boolean, triggerChange?: boolean): void;
-    removeItem(itemOrId: ComboBoxItem | string | number, reloadCombo?: boolean): void;
-    removeItems(items: ComboBoxItem[] | string[] | number[], reloadCombo?: boolean): void;
-    getItemByValue(value: string): ComboBoxItem;
-    getItemByText(text: string): ComboBoxItem;
-    getElementsByValue(value: string): HTMLElement[] | undefined;
-    getRootItems(): ComboBoxItem[];
-    getRootValues(): string[];
-    private getRootTexts;
-    getLeafItems(): ComboBoxItem[];
-    getLeafValues(): string[];
-    private getLeafTexts;
-    getChildrenItems(): ComboBoxItem[];
-    getChildrenValues(): string[];
-    private getChildrenTexts;
-    private getOnlyChildrenItems;
-    private getAllChildrenItems;
-    private getAllChildrenValues;
-    private getDataChildrenItems;
-    private getChildrenCheckboxElements;
-    private getParentItem;
-    private manageCheckParent;
-    text(text?: string): string;
-    placeholder(text?: string): string;
-    private valueInternal;
-    value<T extends string | string[] | number>(value?: ComboBoxItem | string | number | string[] | number[] | null, triggerChange?: boolean, callback?: null | ((e: ComboBoxChangeEvent) => void)): T | null;
-    private manageCallbackAfterValue;
-    private writeTextByValue;
-    select(index?: number, triggerChange?: boolean): void;
-    index(index?: number, triggerChange?: boolean): void;
-    icon(icon?: IconClass | string | null): HTMLElement | null;
-    isEmpty(): boolean;
-    error(): void;
-    hideError(): void;
-    treeMode(mode: ComboBoxTreeModeEnum, triggerChange?: boolean): void;
-    checkAll(triggerChange?: boolean): void;
-    unCheckAll(triggerChange?: boolean): void;
-    check(value: string, triggerChange?: boolean): void;
-    unCheck(value: string, triggerChange?: boolean): void;
-    allChecked(): boolean;
-    clear(triggerChange?: boolean): void;
-    clearItems(): void;
-    popup(): any;
-    focus(open?: boolean): void;
-    private getOptions;
-    private doAjaxCall;
-    showClearButton(): void;
-    hideClearButton(): void;
-    button(): Button;
-    buttonVisible(state?: boolean): boolean;
-    showButton(): void;
-    hideButton(): void;
-    buttonEnabled(state?: boolean): boolean;
-    enableButton(): void;
-    disableButton(): void;
-    enable(): void;
-    disable(): void;
-    change(callBack?: Function): void;
-}
-export class DropDown extends ComboBox {
-}
-export class ComboBoxNullableItem {
-    text?: string;
-    value?: string;
-}
-export class CheckAllSettings {
-    triggerChange?: boolean;
-}
-export class ComboBoxKeyDownEvent extends VrControlsEvent {
-    sender: ComboBox;
-    event: any;
-}
-export class ComboBoxKeyUpEvent extends VrControlsEvent {
-    sender: ComboBox;
-    event: any;
-}
-export class ComboBoxPasteEvent extends VrControlsEvent {
-    sender: ComboBox;
-    event: any;
-    pastedValue: string;
-    value: string;
-}
-export class ComboBoxEnterKeyEvent extends VrControlsEvent {
-    sender: ComboBox;
-    value: any;
-}
-export class ComboBoxCloseEvent extends VrControlsEvent {
-    sender: ComboBox;
-    beforeValue: any;
-    afterValue: any;
-}
-export class ComboBoxOpenEvent extends VrControlsEvent {
-    sender: ComboBox;
-    value: any;
-}
-export class ComboBoxItemDataBoundEvent extends VrControlsEvent {
-    sender: ComboBox;
-    element: HTMLElement;
-    dataItem: any;
-}
-export class ComboBoxBlurEvent extends VrControlsEvent {
-    sender: ComboBox;
-    value: any;
-}
-export class ComboBoxFocusEvent extends VrControlsEvent {
-    sender: ComboBox;
-    value: any;
-}
-export class ColorPickerOptions extends VrControlOptions {
-    showInput?: boolean;
-    mode?: ColorPickerModeEnum;
-    palette?: boolean | string[];
-    closeButton?: boolean | string;
-    alphaChannel?: boolean;
-    value?: string | ColorPickerRgbaValue;
-    hexUppercase?: boolean;
-    clearButton?: boolean;
-    hideOnPaletteClick?: boolean;
-    emptyMessage?: string;
-    onChange?: (e: ColorPickerChangeEvent) => void;
-}
-export class ColorPicker extends VrControl {
-    private _picker;
-    private _value;
-    constructor(element: HTMLElement, options?: ColorPickerOptions | null);
-    value(value?: string | ColorPickerRgbaValue, triggerChange?: boolean): string | null;
-    valueHex(value?: string, triggerChange?: boolean): any;
-    valueRgba(value?: ColorPickerRgbaValue, triggerChange?: boolean): any;
-    randomize(triggerChange?: boolean): string | null;
-    open(): void;
-    close(): void;
-    mode(): ColorPickerModeEnum;
-    triggerChange(): void;
-    clear(triggerChange?: boolean): void;
-    enable(): void;
-    disable(): void;
-    getOptions(): ColorPickerOptions;
-}
-export class ColorPickerEvent extends VrControlsEvent {
-    sender: ColorPicker;
-}
-export class ColorPickerChangeEvent extends ColorPickerEvent {
-    value: string | null;
-    valueHex: string;
-    valueRgba: string;
-}
-export class CheckBoxListOptions extends VrControlOptions {
-    items?: CheckBoxItem[];
-    orientation?: OrientationEnum;
-    allChecked?: boolean;
-    listName?: string;
-    marginBetween?: number;
-    onBeforeSelect?(e: CheckBoxListSelectEvent): void;
-    onSelect?(e: CheckBoxListSelectEvent): void;
-}
-export class CheckBoxList extends VrControl {
-    private _checkboxControls;
-    private _items;
-    constructor(element: HTMLElement, options?: CheckBoxListOptions | null);
-    items(items?: CheckBoxItem[]): CheckBoxItem[];
-    checkAll(triggerChange?: boolean): void;
-    unCheckAll(triggerChange?: boolean): void;
-    value(values?: string[], state?: boolean, triggerChange?: boolean): string[];
-    valueTag(tagList?: any[], state?: boolean, triggerChange?: boolean): any[];
-    isChecked(value: string): boolean;
-    text(value: string, text?: string): string;
-    clear(checkAll?: boolean, triggerChange?: boolean): void;
-    clearItems(): void;
-    getOptions(): CheckBoxListOptions;
-    enable(): void;
-    disable(): void;
-}
-export class CheckBoxListSelectEvent extends VrControlsEvent {
-    sender: CheckBoxList;
-    checkedValues?: string[];
-    value?: string;
-    checked?: boolean;
-}
-export class CheckBoxOptions extends VrControlOptions {
-    text?: string;
-    value?: string;
-    threeState?: boolean;
-    checked?: boolean;
-    name?: string;
-    tooltip?: string;
-    onCheck?(e: CheckBoxCheckEvent): void;
-}
-export class CheckBox extends VrControl {
-    constructor(element: HTMLElement, options?: CheckBoxOptions | null);
-    checked<T extends boolean | null>(state?: CheckboxStateEnum | boolean, triggerChange?: boolean): T;
-    check(): void;
-    text(text?: string): string;
-    clear(triggerChange?: boolean): void;
-    getOptions(): CheckBoxOptions;
-    error(text?: string, position?: ErrorPositionEnum, showIcon?: boolean): void;
-    hideError(): void;
-}
-export class CheckBoxEvent {
-    sender: CheckBox;
-}
-export class CheckBoxCheckEvent extends CheckBoxEvent {
-    stateEnum: CheckboxStateEnum;
-    checked: boolean;
-    shiftKey: boolean;
-    ctrlKey: boolean;
-}
-export class ChartVr extends VrControl {
-    private _chart;
-    private _plugins;
-    private _datasource;
-    constructor(element: HTMLElement, options?: ChartOptions | null);
-    base64Data(): string;
-    datasource(datasource?: ChartDataSource[]): ChartDataSource[];
-    private createChart;
-    getOptions(): ChartOptions;
-}
-export class BarChart extends ChartVr {
-}
-export class HorizontalBarChart extends ChartVr {
-}
-export class LineChart extends ChartVr {
-}
-export class DonutChart extends ChartVr {
-}
-export class PieChart extends ChartVr {
-}
-export class AreaChart extends ChartVr {
-}
-export class StackedBarChart extends ChartVr {
-}
-export class CalendarOptions extends VrControlOptions {
-    value?: Date;
-    selectedColor?: string;
-    todayLabel?: boolean;
-    otherMonthDays?: boolean;
-    disabledDates?: Date[];
-    highlightedDates?: Date[];
-    dateSlotWidth?: number;
-    depth?: DateDepthEnum;
-    availableFrom?: Date;
-    availableTo?: Date;
-    onBeforeChange?(e: CalendarChangingEvent): void;
-    onAfterChange?(e: CalendarChangeEvent): void;
-    onDisableDate?(e: CalendarDisableDateEvent): boolean;
-    onDayDraw?(e: CalendarDayDrawEvent): void;
-    onFinishedDraw?(e: CalendarFinishedDrawEvent): void;
-}
-export class Calendar extends VrControl {
-    private _value;
-    private _actualView;
-    private _tempNavigationDate;
-    private _lblNavigation;
-    constructor(element: HTMLElement, options?: CalendarOptions | null);
-    private draw;
-    private drawDays;
-    private createTdDay;
-    private checkAvailability;
-    disabledDates(dates?: Date[]): Date[] | undefined;
-    highlightedDates(dates?: Date[]): Date[] | undefined;
-    private drawMonths;
-    private drawYears;
-    private drawDecades;
-    getOptions(): CalendarOptions;
-    depth(): DateDepthEnum;
-    value(date?: Date | null, triggerChange?: boolean): Date | null;
-    clear(triggerChange?: boolean): void;
-    change(): void;
-}
-export class CalendarEvent extends VrControlsEvent {
-    sender: Calendar;
-    value: Date | null;
-}
-export class CalendarChangeEvent extends CalendarEvent {
-}
-export class CalendarChangingEvent extends CalendarEvent {
-    previousValue?: Date | null;
-}
-export class CalendarDayDrawEvent extends VrControlsEvent {
-    sender: Calendar;
-    day: Date;
-    element: HTMLElement;
-}
-export class CalendarFinishedDrawEvent extends VrControlsEvent {
-    sender: Calendar;
-}
-export class CalendarDisableDateEvent extends VrControlsEvent {
-    sender: Calendar;
-    day: Date;
-}
-export class ButtonGroupOptions extends VrControlOptions {
-    items?: ButtonGroupItem[];
-    selectionMode?: SelectionModeEnum;
-    checkboxes?: boolean;
-    tooltip?: boolean;
-    onSelect?(e: ButtonGroupSelectEvent): void;
-    onItemAdded?(e: ButtonGroupItemAddedEvent): void;
-    onItemRemoved?(e: ButtonGroupItemRemovedEvent): void;
-}
-export class ButtonGroup extends VrControl {
-    private _items;
-    private _btnScrollBack;
-    private _btnScrollForward;
-    private _populating;
-    constructor(element: HTMLElement, options?: ButtonGroupOptions | null);
-    items(items?: ButtonGroupItem[]): ButtonGroupItem[];
-    addItem(item: ButtonGroupItem): void;
-    manageScrolling(): void;
-    scrollBack(interval?: number): void;
-    scrollForward(interval?: number): void;
-    item(value: string): ButtonGroupItem;
-    clearItems(): void;
-    removeItem(value: string, triggerChange?: boolean): void;
-    showItems(values: any[]): void;
-    showItem(value: any): void;
-    showAllItems(): void;
-    hideItems(values: any[]): void;
-    hideItem(value: any): void;
-    hideAllItems(): void;
-    visibleItem(value: any, state?: boolean): boolean;
-    select(values: string[] | number[], triggerChange?: boolean): void;
-    selectIndex(index: number, triggerChange?: boolean): void;
-    private changeGlobal;
-    private changeItem;
-    getSelectedValues(): string[];
-    value(): any;
-    clear(): void;
-    selectionMode(): SelectionModeEnum | undefined;
-    getItemByValue(value: string): HTMLElement;
-    getItemByIndex(index: number): HTMLElement;
-    itemTooltip(value: string, tooltip?: string): string;
-    itemText(value: string, text?: string, updateTooltip?: boolean): string;
-    itemTextByIndex(index: number, text?: string): string;
-    enableItem(value: any): void;
-    disableItem(value: any): void;
-    enable(): void;
-    disable(): void;
-    getOptions(): ButtonGroupOptions;
-}
-export class ButtonGroupEvent extends VrControlsEvent {
-    sender: ButtonGroup;
-    value?: string | null;
-}
-export class ButtonGroupSelectEvent extends ButtonGroupEvent {
-    selectedValues: string[];
-    selected?: boolean;
-}
-export class ButtonGroupItemAddedEvent extends ButtonGroupEvent {
-}
-export class ButtonGroupItemRemovedEvent extends ButtonGroupEvent {
-}
-export class ButtonGroupClickEvent extends ButtonGroupEvent {
-    selected: boolean;
-}
-export class ButtonGroupIconClickEvent extends ButtonGroupEvent {
-    selected: boolean;
-}
-export class ButtonOptions extends VrControlOptions {
-    text?: string;
-    value?: string;
-    mode?: ButtonModeEnum;
-    tooltip?: string;
-    colorSettings?: ColorSettings;
-    icon?: IconClass;
-    onlyIcon?: boolean;
-    imageUrl?: string;
-    iconSettings?: IconSettings;
-    confirmationMessage?: string;
-    badgeSettings?: BadgeSettings;
-    onContextMenu?: boolean | ((e: ContextMenuEvent) => void);
-    onClick?: (e: ButtonClickEvent) => void;
-    onRightClick?: (e: ButtonRightClickEvent) => void;
-    onMiddleClick?: (e: ButtonMiddleClickEvent) => void;
-    onHover?: (e: ButtonHoverEvent) => void;
-    onBlur?: (e: ButtonBlurEvent) => void;
-    onRejectedConfirm?: () => void;
-    onMouseDown?: (e: ButtonMouseDownEvent) => void;
-    onMouseUp?: (e: ButtonMouseUpEvent) => void;
-}
-export class Button extends VrControl {
-    private _mouseDownEvent;
-    constructor(element: HTMLElement, options?: ButtonOptions | null);
-    text(value?: string): string;
-    value(value?: string): string;
-    tooltip(value?: string | number): string;
-    badge(text?: string | number): string;
-    badgeBackgroundColor(color: string): void;
-    badgeColor(color: string): void;
-    showBadge(): void;
-    hideBadge(): void;
-    visibleBadge(state: boolean): void;
-    hide(): void;
-    mode(mode?: ButtonModeEnum): ButtonModeEnum;
-    colorSettings(settings?: ColorSettings): ColorSettings | undefined;
-    color(value?: string): string;
-    backgroundColor(value?: string): string;
-    borderColor(value?: string): string;
-    icon(icon?: IconClass, iconPosition?: PositionEnum | null, iconTooltip?: string): HTMLElement | null;
-    imageUrl(imageUrl?: string, imagePosition?: PositionEnum): HTMLElement | null;
-    getOptions(): ButtonOptions;
-    click(callback?: (e: ButtonClickEvent) => void): void;
-    private internalClick;
-    private rejectedConfirm;
-}
-export class ButtonEvent extends VrControlsEvent {
-    sender: Button;
-}
-export class ButtonClickEvent extends ButtonEvent {
-    text: string;
-}
-export class ButtonRightClickEvent extends ButtonEvent {
-    text: string;
-    leftButton?: boolean;
-    middleButton?: boolean;
-    rightButton?: boolean;
-}
-export class ButtonMiddleClickEvent extends ButtonEvent {
-    text: string;
-    leftButton?: boolean;
-    middleButton?: boolean;
-    rightButton?: boolean;
-}
-export class ButtonHoverEvent extends ButtonEvent {
-}
-export class ButtonBlurEvent extends ButtonEvent {
-}
-export class ContextMenuEvent extends ButtonEvent {
-}
-export class ButtonMouseDownEvent extends ButtonEvent {
-}
-export class ButtonMouseUpEvent extends ButtonEvent {
-}
-export class AutoCompleteBoxOptions extends VrControlOptions {
-    value?: string[] | AutoCompleteBoxItem[];
-    rows?: number;
-    placeholder?: string;
-    border?: boolean;
-    itemSettings?: AutoCompleteBoxItemSettings;
-    comboSettings?: AutoCompleteBoxComboSettings;
-    tooltip?: boolean;
-    onItemClick?: (e: AutoCompleteBoxItemClickEvent) => void;
-    onItemAdded?: (e: AutoCompleteBoxItemAddedEvent) => void;
-    onItemRemoved?: (e: AutoCompleteBoxItemRemovedEvent) => void;
-    onFocus?: (e: AutoCompleteBoxFocusEvent) => void;
-    onBlur?: (e: AutoCompleteBoxBlurEvent) => void;
-}
-export class AutoCompleteBox extends VrControl {
-    private _txtInput;
-    private _spanForWidth;
-    private _items;
-    private _comboItems;
-    private _popup;
-    private _lastAjaxCallGuid;
-    private _typedTextWebService;
-    private _dictionaryValueLi;
-    private _dictionaryLiValue;
-    constructor(element: HTMLElement, options?: AutoCompleteBoxOptions | null);
-    private manageInput;
-    private manageInputWidth;
-    items(items?: string[] | AutoCompleteBoxItem[]): AutoCompleteBoxItem[];
-    addItem(item: string | AutoCompleteBoxItem): void;
-    removeItem(value: string): void;
-    item(value: string): AutoCompleteBoxItemInfo;
-    color(value: string, settings: AutoCompleteBoxItemSettings): void;
-    text(): string[];
-    value(items?: string[] | AutoCompleteBoxItem[]): (string | undefined)[];
-    placeholder(value?: string): string;
-    private textWidth;
-    focus(): void;
-    private focusEvent;
-    private blurEvent;
-    clear(): void;
-    private close;
-    private open;
-    private doAjaxCall;
-    private comboItems;
-    private getOnlyChildrenItems;
-    private getRootItems;
-    private getRootValues;
-    private drawDataSource;
-    private drawItems;
-    private valueCombo;
-    private filter;
-    private getFilteredArrayByInputText;
-    getOptions(): AutoCompleteBoxOptions;
-}
-export class AutoCompleteBoxEvent extends VrControlsEvent {
-    sender: AutoCompleteBox;
-}
-export class AutoCompleteBoxItemClickEvent extends AutoCompleteBoxEvent {
-    item: AutoCompleteBoxItemInfo;
-    text: string;
-}
-export class AutoCompleteBoxItemAddedEvent extends AutoCompleteBoxEvent {
-    item: AutoCompleteBoxItemInfo;
-}
-export class AutoCompleteBoxItemRemovedEvent extends AutoCompleteBoxEvent {
-    item: AutoCompleteBoxItemInfo;
-}
-export class AutoCompleteBoxItemInfo {
-    item: AutoCompleteBoxItem;
-    element: HTMLElement;
-}
-export class AutoCompleteBoxFocusEvent extends AutoCompleteBoxEvent {
-    element: HTMLElement;
-}
-export class AutoCompleteBoxBlurEvent extends AutoCompleteBoxEvent {
-    element: HTMLElement;
-}
-export class AlertOptions {
-    textOkButton?: string;
-    content?: string;
-    title?: string;
-    width?: number | string;
-    height?: number | string;
-    textAlign?: TextAlignEnum;
-    css?: string;
-    cssContainer?: string;
-    onContentLoaded?(e: ContentAlertLoadedEvent): void;
-}
-export class Alert {
-    private _window;
-    private _options;
-    constructor(text?: string | null, options?: AlertOptions | null);
-    open(): Promise<any>;
-    close(): void;
-    private getOptions;
-    private onContentLoaded;
-}
-export class ContentAlertLoadedEvent extends VrControlsEvent {
-    sender: Alert;
-    contentElement: HTMLElement;
-}
-export class UtilityManager {
-    static createGuid(): string;
-    static currentSequence: number;
-    static getCurrentSequence(): number;
-    static interval(callback: Function, each: number, timeout?: number, timeoutCallback?: Function): void;
-    static createIcon(icon: IconClass): HTMLElement;
-    static duplicate(element: any): any;
-    static equals(item1: any, item2: any): boolean;
-    static getMonthNumberByName(monthName: string): MonthEnum | -1;
-    static doAjaxCall<T>(settings: AjaxCallSettings, callBack?: (response: T) => void, errorCallback?: () => void): null;
-    static htmlDecode(text: string): string;
-    static textWidth(object: HTMLElement | string, outerWidth?: boolean): number;
-    static objectWidth(object: HTMLElement | string, outerWidth?: boolean): number;
-    static downloadPdfBytes(base64Bytes: string, name?: string): void;
-    private static base64ToArrayBuffer;
-    static openUrl(url: string, name?: string, newTab?: boolean): void;
-    static isValidEmail(email: string): boolean;
-    static addCssStyle(cssRules: string, id?: string): void;
-    static addCssFiles(...pathList: string[]): Promise<unknown>;
-    static addJsScript(jsRules: string, id?: string): void;
-    static addJsFiles(...pathList: string[]): Promise<unknown>;
-    static bytesToBase64(bytes: Uint8Array): string;
-    static base64ToBytes(base64: any): Uint8Array;
-    private static getBase64Code;
-    static base64ToFile(base64: string, fileName: string, options?: FilePropertyBag): Promise<File>;
-    static base64ToBlob(base64: string, contentType?: string, sliceSize?: number): Blob;
-    static enterFullScreen(target: HTMLElement, errorCallback?: Function): void;
-    static exitFullScreen(): void;
-    static drag(element: HTMLElement | JQuery | string, dragEvent?: VrDragSupportEvent): void;
-}
-export class AjaxCallSettings {
-    mode: WebApiModeEnum;
-    authKey: string;
-    method: string;
-    request?: any;
-    headerParameters?: any;
-    file?: string | Blob | File;
-}
-export enum MonthEnum {
-    January = 0,
-    February = 1,
-    March = 2,
-    April = 3,
-    May = 4,
-    June = 5,
-    July = 6,
-    August = 7,
-    September = 8,
-    October = 9,
-    November = 10,
-    December = 11
-}
-export class VrDragSupportEvent {
-    sensibility?: number;
-    typeEnum?: VrDragSupportTypeEnum;
-    dragLeft?: null | (() => void);
-    dragRight?: null | (() => void);
-    dragUp?: null | (() => void);
-    dragDown?: null | (() => void);
-    dragged?: null | ((e: VrDragEveryEvent) => void);
-    dragging?: null | ((e: VrDragEveryEvent) => void);
-}
-export class VrDragEveryEvent {
-    left: number;
-    top: number;
-    element: HTMLElement;
-}
-export enum VrDragSupportTypeEnum {
-    Vertical = 0,
-    Horizontal = 1,
-    Both = 2
-}
-export type bit = number;
-export type byte = number;
-export type int = number;
-export class QrCodeManager {
-    readonly version: int;
-    readonly errorCorrectionLevel: Ecc;
-    readonly mask: int;
-    static encodeText(text: string, ecl: Ecc): QrCodeManager;
-    static encodeBinary(data: Array<byte>, ecl: Ecc): QrCodeManager;
-    static encodeSegments(segs: Array<QrSegment>, ecl: Ecc, minVersion?: int, maxVersion?: int, mask?: int, boostEcl?: boolean): QrCodeManager;
-    readonly size: int;
-    private readonly modules;
-    private readonly isFunction;
-    constructor(version: int, errorCorrectionLevel: Ecc, dataCodewords: Array<byte>, mask: int);
-    getModule(x: int, y: int): boolean;
-    drawCanvas(scale: int, border: int, canvas: HTMLCanvasElement): void;
-    toSvgString(border: int, color: string): string;
-    private drawFunctionPatterns;
-    private drawFormatBits;
-    private drawVersion;
-    private drawFinderPattern;
-    private drawAlignmentPattern;
-    private setFunctionModule;
-    private addEccAndInterleave;
-    private drawCodewords;
-    private applyMask;
-    private getPenaltyScore;
-    private getAlignmentPatternPositions;
-    private static getNumRawDataModules;
-    private static getNumDataCodewords;
-    private static reedSolomonComputeDivisor;
-    private static reedSolomonComputeRemainder;
-    private static reedSolomonMultiply;
-    private finderPenaltyCountPatterns;
-    private finderPenaltyTerminateAndCount;
-    private finderPenaltyAddHistory;
-    static readonly MIN_VERSION: int;
-    static readonly MAX_VERSION: int;
-    private static readonly PENALTY_N1;
-    private static readonly PENALTY_N2;
-    private static readonly PENALTY_N3;
-    private static readonly PENALTY_N4;
-    private static readonly ECC_CODEWORDS_PER_BLOCK;
-    private static readonly NUM_ERROR_CORRECTION_BLOCKS;
-}
-export class QrSegment {
-    readonly mode: Mode;
-    readonly numChars: int;
-    private readonly bitData;
-    static makeBytes(data: Array<byte>): QrSegment;
-    static makeNumeric(digits: string): QrSegment;
-    static makeAlphanumeric(text: string): QrSegment;
-    static makeSegments(text: string): Array<QrSegment>;
-    static makeEci(assignVal: int): QrSegment;
-    constructor(mode: Mode, numChars: int, bitData: Array<bit>);
-    getData(): Array<bit>;
-    static getTotalBits(segs: Array<QrSegment>, version: int): number;
-    private static toUtf8ByteArray;
-    static readonly NUMERIC_REGEX: RegExp;
-    static readonly ALPHANUMERIC_REGEX: RegExp;
-    private static readonly ALPHANUMERIC_CHARSET;
-}
-export class Ecc {
-    readonly ordinal: int;
-    readonly formatBits: int;
-    static readonly LOW: Ecc;
-    static readonly MEDIUM: Ecc;
-    static readonly QUARTILE: Ecc;
-    static readonly HIGH: Ecc;
-    private constructor();
-}
-export class Mode {
-    readonly modeBits: int;
-    private readonly numBitsCharCount;
-    static readonly NUMERIC: Mode;
-    static readonly ALPHANUMERIC: Mode;
-    static readonly BYTE: Mode;
-    static readonly KANJI: Mode;
-    static readonly ECI: Mode;
-    private constructor();
-    numCharCountBits(ver: int): int;
-}
-export class PrintManager {
-    static printBytes(base64Bytes: string, options?: PrintFileOptions): void;
-    static printPdf(path: string, options?: PrintFileOptions): void;
-    static printImage(path: string, options?: PrintFileOptions): void;
-    static printHtml(elementId: string, options?: PrintFileOptions): void;
-    static printElement(element: string | HTMLElement | JQuery, options?: PrintHtmlOptions): void;
-    private static printBytesFileImageOrHtml;
-    static printGrid(jsonData: any, options?: PrintGridOptions): void;
-    private static print;
-}
-export enum PrintTypeEnum {
-    Pdf = "pdf",
-    Image = "image"
-}
-export class PrintFileOptions {
-    type?: PrintTypeEnum;
-    loadingMessage?: string;
-    headerTitle?: string;
-    documentTitle?: string;
-    customCss?: string;
-}
-export class PrintHtmlOptions {
-    pageTitle?: string;
-    removeInlineStyles?: boolean;
-    printDelay?: number;
-    header?: string | HTMLElement | JQuery;
-    footer?: string | HTMLElement | JQuery;
-    removeScripts?: boolean;
-    debug?: boolean;
-    beforePrint?: Function;
-    afterPrint?: Function;
-}
-export class PrintGridOptions {
-    headerCss?: string;
-    contentCss?: string;
-    properties?: string[];
-    loadingMessage?: string;
-    headerTitle?: string;
-    repeatHeaderOnEveryPages?: boolean;
-    documentTitle?: string;
-}
-export class LoaderManager {
-    static show(element?: string | HTMLElement | JQuery, transparency?: boolean, tag?: any | null, text?: string | null): void;
-    static hide(tag?: any): void;
-    private static addCss;
-    private static addCssBase;
-}
-export class KeyValuePair<K, V> {
-    key: K;
-    value: V;
-}
-export class Dictionary<K, V> {
-    items: KeyValuePair<K, V>[];
-    private _map;
-    private get map();
-    constructor();
-    asMap(): Map<K, V>;
-    static fromMap<K, V>(map: Map<K, V>): Dictionary<K, V>;
-    static parse<K, V>(dict: Dictionary<K, V>): Dictionary<K, V>;
-    get(key: K): V | undefined;
-    set(key: K, value: V): void;
-    has(key: K): boolean;
-    delete(key: K): void;
-    changeKey(oldKey: K, newKey: K): void;
-    keys(): K[];
-}
-export class DeviceManager {
-    static getScreenResolution(): ScreenResolution;
-    static isSmartphone(): boolean;
-    static isTablet(): boolean;
-    static isDesktop(): boolean;
-    static isMobile(): any;
-    static isIphoneX(): boolean;
-    static isIphone(): RegExpMatchArray | null;
-    static browser(): BrowserTypeEnum | "Unknown";
-    private static agentHas;
-    static isInternetExplorer(): boolean;
-    static isSafari(): boolean;
-    static isChrome(): boolean;
-    static isFirefox(): boolean;
-    static isEdge(): boolean;
-    static isOpera(): boolean;
-    static isVivaldi(): boolean;
-    static isSeamonkey(): boolean;
-}
-export class ScreenResolution {
-    width: number;
-    height: number;
-}
-export class CookieManager {
-    private static setCookieInternal;
-    static setCookie(cookieName: string, cookieValue: any, expireDays?: number, options?: CookieOptions): void;
-    static setCookieHours(cookieName: string, cookieValue: any, expireHours?: number, options?: CookieOptions): void;
-    static setCookieMinutes(cookieName: string, cookieValue: any, expireMinutes?: number, options?: CookieOptions): void;
-    static setCookieSeconds(cookieName: string, cookieValue: any, seconds?: number, options?: CookieOptions): void;
-    static deleteCookie(name: string): void;
-    static getCookie(cookieName: string): string;
-}
-export class CookieOptions {
-    secured?: boolean;
-    sameSite?: CookieSameSiteEnum;
-    httpOnly?: boolean;
-}
-export enum CookieSameSiteEnum {
-    Lax = "Lax",
-    Strict = "Strict",
-    None = "None"
-}
-export class ControlManager {
-    private static _dictionaryControls;
-    static add(control: VrControl): void;
-    static get<T extends VrControl>(controlId: string): T;
-    static remove(controlId: string): void;
-}
-export class ColorPickerManager {
-    constructor();
-}
-}

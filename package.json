@@ -3,7 +3,7 @@
   "name": "pscontrols",
   "scripts": {
     "compodoc": "npx compodoc src -p tsconfig.json --output ./dist/documentation --disableSourceCode --disablePrivate --disableProtected --disableInternal --disableLifeCycleHooks --disableRoutesGraph --disableDependencies",
-    "build:legacy": "vite build && cp dist/vrcontrols.all.min.d.ts dist/vrcontrols.d.ts",
+    "build:legacy": "vite build && node create-unified-dts.js && node fix-dts.js",
     "build:react": "vite build --mode react",
     "build:esm": "vite build --mode esm",
     "build:combined": "vite build --mode combined",
@@ -20,6 +20,7 @@
     "@vitejs/plugin-legacy": "^7.2.1",
     "@vitejs/plugin-react": "^5.0.2",
     "autoprefixer": "^10.4.16",
+    "glob": "^11.0.3",
     "javascript-obfuscator": "^4.1.1",
     "lodash": "^4.17.21",
     "postcss": "^8.4.31",
