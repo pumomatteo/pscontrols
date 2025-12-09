@@ -7198,7 +7198,9 @@ export class Grid extends VrControl
                 }
 
                 let colGroupList = puma(this._divBody).find("colgroup"); // Col group 
-                colGroupList.find("col[field='" + column.field + "']")[0].style.cssText += "width: " + (currentColumnWidth! + diffX) + "px";
+                const colGroupField = colGroupList.find("col[field='" + column.field + "']")[0];
+                if (colGroupField != null)
+                    colGroupField.style.cssText += "width: " + (currentColumnWidth! + diffX) + "px";
             }
         });
 
