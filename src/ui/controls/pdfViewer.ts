@@ -67,7 +67,7 @@ export class PdfViewer extends VrControl
 
 			if (options.toolbar.navigation == null) options.toolbar.navigation = true;
 			if (options.toolbar.print == null) options.toolbar.print = true;
-			if (options.toolbar.zoom == null) options.toolbar.zoom = true;
+			if (options.toolbar.zoom == null) options.toolbar.zoom = false;
 			if (options.toolbar.download == null) options.toolbar.download = true;
 			if (options.toolbar.items == null) options.toolbar.items = [];
 		}
@@ -185,33 +185,33 @@ export class PdfViewer extends VrControl
 		//#endregion
 
 		//#region Zoom
-		let spanCenterArea = span(this.toolbar(), { css: "justify-content: center;", class: "vrPdfViewer_toolbarCenterArea" });
-		if (options.toolbar.zoom)
-		{
-			createButton({
-				icon: IconClassicLight.MagnifyingGlassMinus,
-				css: "border: none; background: none; font-size: 16px;",
-				cssContainer: "margin-right: 5px;",
-				tooltip: "Togli zoom",
-				onClick: (e) => 
-				{
-					this._state.scale -= 0.2;
-					this.content();
-				}
-			}, spanCenterArea);
+		// let spanCenterArea = span(this.toolbar(), { css: "justify-content: center;", class: "vrPdfViewer_toolbarCenterArea" });
+		// if (options.toolbar.zoom)
+		// {
+		// 	createButton({
+		// 		icon: IconClassicLight.MagnifyingGlassMinus,
+		// 		css: "border: none; background: none; font-size: 16px;",
+		// 		cssContainer: "margin-right: 5px;",
+		// 		tooltip: "Togli zoom",
+		// 		onClick: (e) => 
+		// 		{
+		// 			this._state.scale -= 0.2;
+		// 			this.content();
+		// 		}
+		// 	}, spanCenterArea);
 
-			createButton({
-				icon: IconClassicLight.MagnifyingGlassPlus,
-				css: "border: none; background: none; font-size: 16px;",
-				cssContainer: "margin-right: 5px;",
-				tooltip: "Aumenta zoom",
-				onClick: (e) => 
-				{
-					this._state.scale += 0.2;
-					this.content();
-				}
-			}, spanCenterArea);
-		}
+		// 	createButton({
+		// 		icon: IconClassicLight.MagnifyingGlassPlus,
+		// 		css: "border: none; background: none; font-size: 16px;",
+		// 		cssContainer: "margin-right: 5px;",
+		// 		tooltip: "Aumenta zoom",
+		// 		onClick: (e) => 
+		// 		{
+		// 			this._state.scale += 0.2;
+		// 			this.content();
+		// 		}
+		// 	}, spanCenterArea);
+		// }
 		//#endregion
 
 		//#region Buttons

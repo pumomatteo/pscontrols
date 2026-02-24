@@ -186,7 +186,7 @@ export class Painter extends VrControl
 
     draw(): any
     {
-        this._ctx.clearRect(0, 0, (this._ctx as any).width, (this._ctx as any).height);
+        this._ctx.clearRect(0, 0, this._ctx.canvas.width, this._ctx.canvas.height);
         this._ctx.drawImage(this.image(), 0, 0);
 
         for (let i = 0; i < this._points.length; ++i)
@@ -222,7 +222,7 @@ export class Painter extends VrControl
 
     clear(imagePath?: string)
     {
-        (this._points as any) = [];
+        this._points = [[]];
         if (imagePath != null)
             this.image(imagePath);
 
