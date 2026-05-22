@@ -2242,7 +2242,10 @@ export class TreeView extends VrControl
 			if (request.method!.startsWith("/"))
 				request.method!.substring(1);
 
-			request.method = "/api/" + request.method;
+			if (request.method!.startsWith("/"))
+				request.method = "/api" + request.method;
+			else
+				request.method = "/api/" + request.method;
 		}
 		//#endregion
 
