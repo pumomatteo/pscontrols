@@ -449,6 +449,7 @@ export class Window extends VrControl
             {
                 puma(this.element()).load(content, () => 
                 {
+                    LoaderManager.hide();
                     if (triggerChange)
                         this.onContentLoaded();
 
@@ -466,6 +467,7 @@ export class Window extends VrControl
                     let iframeContentDocument = this._iframe!.contentDocument;
                     puma(iframeContentDocument).find("body").css("margin", "0px");
 
+                    LoaderManager.hide();
                     if (triggerChange)
                         this.onContentLoaded();
 

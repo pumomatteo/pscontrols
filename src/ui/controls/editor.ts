@@ -72,7 +72,7 @@ export class Editor extends VrControl
         if (options.toolbar == null) options.toolbar = true;
         if (options.menu == null) options.menu = true;
         if (options.customMenuItems != null && options.menu !== false) options.menu = true;
-        if (options.baseUrl == null) options.baseUrl = "/scripts/tinymce/";
+        if (options.baseUrl == null) options.baseUrl = "scripts/tinymce/";
         if (options.toolbarMode == null) options.toolbarMode = vrEditorToolbarModeEnum.Floating;
         if (options.plugins == null) options.plugins = "image,link,searchreplace,fullscreen,preview,emoticons,media,lists,pagebreak,table,charmap,code,wordcount";
         if (options.browserSpellCheck == null) options.browserSpellCheck = true;

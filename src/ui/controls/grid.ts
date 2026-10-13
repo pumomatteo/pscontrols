@@ -6392,8 +6392,9 @@ export class Grid extends VrControl
                                 {
                                     for (let checkbox of Array.from<HTMLInputElement>(puma(this._wndFiltering.element()).find(".vrGrid_divSearchSpecificValues input")))
                                     {
-                                        let tag = new Date(JSON.parse(checkbox.getAttribute("tag")!));
-                                        if (Date.vrEquals(new Date(value), tag))
+                                        let tagValue = JSON.parse(checkbox.getAttribute("tag")!);
+                                        let isTagEmpty = (tagValue == null || tagValue === "");
+                                        if ((value == null && isTagEmpty) || (value != null && !isTagEmpty && Date.vrEquals(new Date(value), new Date(tagValue))))
                                         {
                                             checkbox.checked = true;
                                             break;
@@ -6601,7 +6602,10 @@ export class Grid extends VrControl
                         filterSettings.dateFilterSettings = new GridDateFilterSettings();
                         filterSettings.dateFilterSettings.specificValues = [];
                         for (let checkbox of checkboxCheckedList)
-                            filterSettings.dateFilterSettings.specificValues.push(new Date(JSON.parse(checkbox.getAttribute("tag")!)));
+                        {
+                            let tag = JSON.parse(checkbox.getAttribute("tag")!);
+                            filterSettings.dateFilterSettings.specificValues.push((tag == null || tag === "") ? null : new Date(tag));
+                        }
 
                         if (checkboxCheckedList.length == 0 || checkboxAllList.length == checkboxCheckedList.length)
                         {
@@ -6840,6 +6844,14 @@ export class Grid extends VrControl
                     {
                         for (let specificValue of valueFilterSettings.dateFilterSettings.specificValues)
                         {
+                            let isValueEmpty = (filterValue[columnField] == null || filterValue[columnField] === "");
+                            if (specificValue == null || isValueEmpty)
+                            {
+                                if (specificValue == null && isValueEmpty)
+                                    dateFilteredArray.push(filterValue);
+                                continue;
+                            }
+
                             let date = new Date(filterValue[columnField]);
                             if (column.type == GridColumnTypeEnum.Date || column.type == GridColumnTypeEnum.LongDate || column.type == GridColumnTypeEnum.LongWeekDate || column.type == GridColumnTypeEnum.ShortWeekDate)
                                 date.setHours(0, 0, 0);
@@ -6861,7 +6873,7 @@ export class Grid extends VrControl
                     else if (column.type == GridColumnTypeEnum.LongWeekDate) dateModeEnum = DateModeEnum.LongWeekDate;
                     else if (column.type == GridColumnTypeEnum.ShortWeekDate) dateModeEnum = DateModeEnum.ShortWeekDate;
 
-                    tooltipValues = valueFilterSettings.dateFilterSettings.specificValues.map(k => { return new Date(k).vrToItalyString(dateModeEnum, column.showSeconds) });
+                    tooltipValues = valueFilterSettings.dateFilterSettings.specificValues.map(k => { return (k == null) ? "(Vuoto)" : new Date(k).vrToItalyString(dateModeEnum, column.showSeconds) });
                     filterButton.tooltip("Ricerca specifica su questi valori: " + tooltipValues.join(" - "));
                     //#endregion
                 }
