@@ -12,6 +12,8 @@ export class MapsOptions extends VrControlOptions
     credits?: boolean | string;
     marker?: boolean | MapMarker[];
     mode?: MapModeEnum;
+    /** Mapbox public access token. Without it no tile layer is added. */
+    accessToken?: string;
 
     onClick?: (e: MapClickEvent) => void;
     onPinClick?: (e: MapPinClickEvent) => void;
@@ -57,15 +59,19 @@ export class Maps extends VrControl
         this._internalMarkerList = [];
         puma(this.element()).height("100%");
 
-        let accessToken = "pk.eyJ1IjoibWF0dGV1enppc3RlZmFubyIsImEiOiJja3I3aHp2bzIwNHNpMnBtYzVndGN5YzFxIn0.tEqLhXaDn9FC9Mrqu8o-lQ";
         this._map = L.map(this.element(), { preferCanvas: true }).setView([options.latitude, options.longitude], options.zoom);
-        L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=" + accessToken, {
-            maxZoom: options.maxZoom,
-            attribution: options.credits,
-            id: options.mode,
-            tileSize: 512,
-            zoomOffset: -1
-        }).addTo(this._map);
+        if (options.accessToken)
+        {
+            L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=" + encodeURIComponent(options.accessToken), {
+                maxZoom: options.maxZoom,
+                attribution: options.credits,
+                id: options.mode,
+                tileSize: 512,
+                zoomOffset: -1
+            }).addTo(this._map);
+        }
+        else
+            console.warn("Maps: no accessToken in MapsOptions, map tiles are not loaded.");
 
         //#region Click
         if (options!.onClick != null)
