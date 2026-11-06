@@ -7338,6 +7338,7 @@ export class MapsOptions extends VrControlOptions {
     credits?: boolean | string;
     marker?: boolean | MapMarker[];
     mode?: MapModeEnum;
+    accessToken?: string;
     onClick?: (e: MapClickEvent) => void;
     onPinClick?: (e: MapPinClickEvent) => void;
     onHover?: (e: MapPinHoverEvent) => void;
